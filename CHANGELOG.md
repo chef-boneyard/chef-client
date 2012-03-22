@@ -1,3 +1,7 @@
+## v1.1.4:
+
+* [COOK-599] - don't break folder permissions if chef-server recipe is present
+
 ## v1.1.2:
 
 * [COOK-1039] - support mac_os_x_server
