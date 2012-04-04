@@ -23,11 +23,14 @@ require 'rbconfig'
 default["chef_client"]["interval"]    = "1800"
 default["chef_client"]["splay"]       = "20"
 default["chef_client"]["log_dir"]     = "/var/log/chef"
+default["chef_client"]["log_file"]    = nil
+default["chef_client"]["log_level"]   = :info
 default["chef_client"]["conf_dir"]    = "/etc/chef"
 default["chef_client"]["bin"]         = "/usr/bin/chef-client"
 default["chef_client"]["server_url"]  = "http://localhost:4000"
 default["chef_client"]["validation_client_name"] = "chef-validator"
 default["chef_client"]["cron"] = { "minute" => "0", "hour" => "*/4", "path" => nil}
+default["chef_client"]["environment"] = nil
 
 case platform
 when "arch"

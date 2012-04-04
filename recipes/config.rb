@@ -26,6 +26,15 @@ root_group = value_for_platform(
 )
 
 chef_node_name = Chef::Config[:node_name] == node["fqdn"] ? false : Chef::Config[:node_name]
+log_path = case node["chef_client"]["log_file"]
+  when IO
+    node["chef_client"]["log_file"]
+  when String
+    File.join(node["chef_client"]["log_dir"], node["chef_client"]["log_file"])
+  else
+    STDOUT
+  end
+
 
 %w{run_path cache_path backup_path log_dir}.each do |key|
   directory node['chef_client'][key] do
@@ -46,7 +55,12 @@ template "#{node["chef_client"]["conf_dir"]}/client.rb" do
   owner "root"
   group root_group
   mode 0644
-  variables :chef_node_name => chef_node_name
+  variables(
+    :chef_node_name => chef_node_name,
+    :chef_log_location => log_path,
+    :chef_log_level => node["chef_client"]["log_level"] || :info,
+    :chef_environment => node["chef_client"]["environment"]
+  )
   notifies :create, "ruby_block[reload_client_config]"
 end
 
