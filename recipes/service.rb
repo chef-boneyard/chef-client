@@ -1,8 +1,8 @@
 #
 # Author:: Joshua Timberman (<joshua@opscode.com>)
 # Author:: Seth Chisamore (<schisamo@opscode.com>)
-# Cookbook Name:: chef
-# Recipe:: bootstrap_client
+# Cookbook Name:: chef-client
+# Recipe:: service
 #
 # Copyright 2009-2011, Opscode, Inc.
 #
@@ -41,14 +41,19 @@ end
 %w{run_path cache_path backup_path log_dir}.each do |key|
   directory node["chef_client"][key] do
     recursive true
-    # Work-around for CHEF-2633
-    unless node["platform"] == "windows"
-      owner "root"
-      group root_group
-    end
     mode 0755
+    unless node["platform"] == "windows"
+      if node.recipe?("chef-server")
+        owner "chef"
+        group "chef"
+      else
+        owner "root"
+        group root_group
+      end
+    end
   end
 end
+
 
 case node["chef_client"]["init_style"]
 when "init"
