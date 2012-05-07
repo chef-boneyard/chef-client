@@ -60,6 +60,7 @@ when "windows"
   default["chef_client"]["run_path"]    = "C:/var/run/chef"
   default["chef_client"]["cache_path"]  = "C:/var/chef/cache"
   default["chef_client"]["backup_path"] = "C:/var/chef/backup"
+  default["chef_client"]["log_dir"]     = "C:/var/log/chef"
   default["chef_client"]["conf_dir"]    = "C:/chef"
   default["chef_client"]["bin"]         = File.join(Gem.bindir, "chef-client")
   #Required for minsw wrapper
