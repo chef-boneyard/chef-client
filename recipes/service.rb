@@ -30,7 +30,7 @@ if node["platform"] == "windows"
 # *.bat). We don't want the batch file wrapper, but the actual script.
     which = 'set PATHEXT= & where'
 else
-    existence_check = :executable
+    existence_check = :executable?
     which = 'which'
 end
 
