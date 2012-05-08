@@ -24,19 +24,30 @@ root_group = value_for_platform(
   "default" => "root"
 )
 
+if node["platform"] == "windows"
+    existence_check = :exists?
+# Where will also return files that have extensions matching PATHEXT (e.g.
+# *.bat). We don't want the batch file wrapper, but the actual script.
+    which = 'set PATHEXT= & where'
+else
+    existence_check = :executable?
+    which = 'which'
+end
+
 # COOK-635 account for alternate gem paths
 # try to use the bin provided by the node attribute
-if ::File.executable?(node["chef_client"]["bin"])
+if ::File.send(existence_check, node["chef_client"]["bin"])
   client_bin = node["chef_client"]["bin"]
 # search for the bin in some sane paths
-elsif Chef::Client.const_defined?('SANE_PATHS') && (chef_in_sane_path=Chef::Client::SANE_PATHS.map{|p| p="#{p}/chef-client";p if ::File.executable?(p)}.compact.first) && chef_in_sane_path
+elsif Chef::Client.const_defined?('SANE_PATHS') && (chef_in_sane_path=Chef::Client::SANE_PATHS.map{|p| p="#{p}/chef-client";p if ::File.send(existence_check, p)}.compact.first) && chef_in_sane_path
   client_bin = chef_in_sane_path
 # last ditch search for a bin in PATH
-elsif (chef_in_path=%x{which chef-client}.chomp) && ::File.executable?(chef_in_path)
+elsif (chef_in_path=%x{#{which} chef-client}.chomp) && ::File.send(existence_check, chef_in_path)
   client_bin = chef_in_path
 else
   raise "Could not locate the chef-client bin in any known path. Please set the proper path by overriding node['chef_client']['bin'] in a role."
 end
+
 
 %w{run_path cache_path backup_path log_dir}.each do |key|
   directory node["chef_client"][key] do
