@@ -19,10 +19,15 @@
 # limitations under the License.
 #
 
+require 'rubygems' #in case we're on 1.8
+
 root_group = value_for_platform(
   ["openbsd", "freebsd", "mac_os_x", "mac_os_x_server"] => { "default" => "wheel" },
   "default" => "root"
 )
+
+CURRENT_CHEF_VERSION = Gem::Version.create(Chef::VERSION)
+CHEF_10_10 = Gem::Version.create('0.10.10')
 
 if node["platform"] == "windows"
     existence_check = :exists?
@@ -62,7 +67,10 @@ end
       owner "root"
       group root_group
     end
-    mode 0755
+
+    unless node["platform"] == "windows" and CURRENT_CHEF_VERSION >= CHEF_10_10
+      mode 0755
+    end
   end
 end
 
