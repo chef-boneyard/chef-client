@@ -58,11 +58,12 @@ when "windows"
   default["chef_client"]["run_path"]    = "C:/var/run/chef"
   default["chef_client"]["cache_path"]  = "C:/var/chef/cache"
   default["chef_client"]["backup_path"] = "C:/var/chef/backup"
+  default["chef_client"]["log_dir"]     = "C:/var/log/chef"
   default["chef_client"]["conf_dir"]    = "C:/chef"
   default["chef_client"]["bin"]         = File.join(Gem.bindir, "chef-client")
   #Required for minsw wrapper
   default["chef_client"]["ruby_bin"]    = File.join(RbConfig::CONFIG['bindir'], "ruby.exe")
-  default["chef_client"]["winsw_url"]   = "http://maven.dyndns.org/2/com/sun/winsw/winsw/1.8/winsw-1.8-bin.exe"
+  default["chef_client"]["winsw_url"]   = "http://repo1.maven.org/maven2/com/sun/winsw/winsw/1.9/winsw-1.9-bin.exe"
   default["chef_client"]["winsw_dir"]   = "C:/chef/bin"
   default["chef_client"]["winsw_exe"]   = "chef-client.exe"
 else

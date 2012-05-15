@@ -19,24 +19,45 @@
 # limitations under the License.
 #
 
+require 'rubygems' #in case we're on 1.8
+
 root_group = value_for_platform(
   ["openbsd", "freebsd", "mac_os_x", "mac_os_x_server"] => { "default" => "wheel" },
   "default" => "root"
 )
 
+CURRENT_CHEF_VERSION = Gem::Version.create(Chef::VERSION)
+CHEF_10_10 = Gem::Version.create('0.10.10')
+
+if node["platform"] == "windows"
+    existence_check = :exists?
+# Where will also return files that have extensions matching PATHEXT (e.g.
+# *.bat). We don't want the batch file wrapper, but the actual script.
+    which = 'set PATHEXT=.exe & where'
+    Chef::Log.debug "Using exists? and 'where', since we're on Windows"
+else
+    existence_check = :executable?
+    which = 'which'
+    Chef::Log.debug "Using executable? and 'which' since we're on Linux"
+end
+
 # COOK-635 account for alternate gem paths
 # try to use the bin provided by the node attribute
-if ::File.executable?(node["chef_client"]["bin"])
+if ::File.send(existence_check, node["chef_client"]["bin"])
   client_bin = node["chef_client"]["bin"]
+  Chef::Log.debug "Using chef-client bin from node attributes: #{client_bin}"
 # search for the bin in some sane paths
-elsif Chef::Client.const_defined?('SANE_PATHS') && (chef_in_sane_path=Chef::Client::SANE_PATHS.map{|p| p="#{p}/chef-client";p if ::File.executable?(p)}.compact.first) && chef_in_sane_path
+elsif Chef::Client.const_defined?('SANE_PATHS') && (chef_in_sane_path=Chef::Client::SANE_PATHS.map{|p| p="#{p}/chef-client";p if ::File.send(existence_check, p)}.compact.first) && chef_in_sane_path
   client_bin = chef_in_sane_path
+  Chef::Log.debug "Using chef-client bin from sane path: #{client_bin}"
 # last ditch search for a bin in PATH
-elsif (chef_in_path=%x{which chef-client}.chomp) && ::File.executable?(chef_in_path)
+elsif (chef_in_path=%x{#{which} chef-client}.chomp) && ::File.send(existence_check, chef_in_path)
   client_bin = chef_in_path
+  Chef::Log.debug "Using chef-client bin from system path: #{client_bin}"
 else
   raise "Could not locate the chef-client bin in any known path. Please set the proper path by overriding node['chef_client']['bin'] in a role."
 end
+
 
 %w{run_path cache_path backup_path log_dir}.each do |key|
   directory node["chef_client"][key] do
@@ -46,7 +67,10 @@ end
       owner "root"
       group root_group
     end
-    mode 0755
+
+    unless node["platform"] == "windows" and CURRENT_CHEF_VERSION >= CHEF_10_10
+      mode 0755
+    end
   end
 end
 
