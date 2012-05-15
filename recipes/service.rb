@@ -28,7 +28,7 @@ if node["platform"] == "windows"
     existence_check = :exists?
 # Where will also return files that have extensions matching PATHEXT (e.g.
 # *.bat). We don't want the batch file wrapper, but the actual script.
-    which = 'set PATHEXT= & where'
+    which = 'set PATHEXT=.exe & where'
     Chef::Log.debug "Using exists? and 'where', since we're on Windows"
 else
     existence_check = :executable?
