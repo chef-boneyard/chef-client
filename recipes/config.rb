@@ -27,12 +27,10 @@ root_group = value_for_platform(
 
 chef_node_name = Chef::Config[:node_name] == node["fqdn"] ? false : Chef::Config[:node_name]
 log_path = case node["chef_client"]["log_file"]
-  when IO
-    node["chef_client"]["log_file"]
   when String
-    File.join(node["chef_client"]["log_dir"], node["chef_client"]["log_file"])
+    "'#{File.join(node["chef_client"]["log_dir"], node["chef_client"]["log_file"])}'"
   else
-    STDOUT
+    'STDOUT'
   end
 
 

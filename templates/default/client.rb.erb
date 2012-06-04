@@ -1,9 +1,5 @@
 log_level        :<%= @chef_log_level.to_s %>
-<% if @chef_log_location.is_a?(String) %>
-log_location     "<%= @chef_log_location %>"
-<% else %>
 log_location     <%= @chef_log_location %>
-<% end %>
 
 <% if Chef::Config.has_key?(:chef_server_url) -%>
 chef_server_url  "<%= Chef::Config[:chef_server_url] %>"
