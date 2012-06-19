@@ -234,9 +234,12 @@ when "winsw"
     action :start
   end
 
-when "macosx"
+when "launchd"
 
-
+  service "com.opscode.chef-client" do
+    directory "/Library/LaunchDaemons"
+    template "com.opscode.chef-client.plist.erb"
+  end
 
 when "bsd"
   log "You specified service style 'bsd'. You will need to set up your rc.local file."
