@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>ProgramArguments</key>
+    <array>
+      <string>/System/Library/CoreServices/logind</string>
+    </array>
+    <key>Label</key>
+    <string>com.opscode.chef-client</string>
+    <key>MachServices</key>
+    <dict>
+      <key>com.apple.logind</key>
+      <dict>
+        <key>HideUntilCheckIn</key>
+        <false/>
+        <key>ResetAtClose</key>
+        <false/>
+      </dict>
+    </dict>
+  </dict>
+</plist>
