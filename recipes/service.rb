@@ -236,9 +236,15 @@ when "winsw"
 
 when "launchd"
 
-  service "com.opscode.chef-client" do
-    directory "/Library/LaunchDaemons"
-    template "com.opscode.chef-client.plist.erb"
+  template "/Library/LaunchDaemons/com.opscode.chef-client.plist" do
+    source "com.opscode.chef-client.plist.erb"
+    mode 0644
+  end
+
+  service "chef-client" do
+    service_name "com.opscode.chef-client"
+    provider Chef::Provider::Service::Macosx
+    action :start
   end
 
 when "bsd"
