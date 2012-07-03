@@ -22,6 +22,7 @@
 
 root_group = value_for_platform(
   ["openbsd", "freebsd", "mac_os_x", "mac_os_x_server"] => { "default" => "wheel" },
+  ["windows"] => { "default" => "Administrators" },
   "default" => "root"
 )
 
@@ -42,7 +43,7 @@ log_path = case node["chef_client"]["log_file"]
       group "chef"
     else
       owner "root"
-     group root_group
+      group root_group
     end
     mode 0755
   end
