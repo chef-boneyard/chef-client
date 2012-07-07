@@ -18,6 +18,7 @@ The following platforms are supported by this cookbook, meaning that the recipes
 * Red Hat
 * CentOS
 * Fedora
+* SUSE distributions (OpenSUSE, SLES, etc)
 * ArchLinux
 * FreeBSD
 * Mac OS X
