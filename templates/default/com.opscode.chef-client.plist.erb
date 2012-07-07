@@ -22,6 +22,8 @@
 <%- end %>
   <key>UserName</key>
   <string>root</string>
+  <key>StandardOutPath</key>
+  <string><%= node["chef_client"]["log_dir"] %>/client.log</string>
 </dict>
 
 </plist>
