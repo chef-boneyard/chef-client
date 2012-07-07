@@ -5,12 +5,21 @@
 <dict>
   <key>Label</key>
   <string>com.opscode.chef-client</string>
+<%- if @launchd_mode == "interval" %>
   <key>Program</key>
   <string>/usr/bin/chef-client</string>
   <key>StartInterval</key>
   <integer><%= node["chef_client"]["interval"] %></integer>
   <key>RunAtLoad</key>
   <true/>
+<%- else %>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/bin/chef-client</string>
+    <string>-i <%= node["chef_client"]["interval"] %></string>
+    <string>-s <%= node["chef_client"]["splay"] %></string>
+  </array>
+<%- end %>
   <key>UserName</key>
   <string>root</string>
 </dict>
