@@ -1,3 +1,13 @@
+<% unless @chef_requires.empty? %>
+<%= @chef_requires.inspect %>.each do |lib|
+  begin
+    require lib
+  rescue LoadError
+    Chef::Log.warn "Failed to load #{lib}. This should be resolved after a chef run."
+  end
+end
+<% end %>
+
 log_level        :<%= @chef_log_level.to_s %>
 log_location     <%= @chef_log_location %>
 
