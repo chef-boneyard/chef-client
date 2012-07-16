@@ -1,3 +1,7 @@
+## [COOK-1463]
+
+* [COOK-1463] - Add verbose_logging knob for config recipe, client.rb template
+
 ## v1.1.4:
 
 * [COOK-599] - don't break folder permissions if chef-server recipe is present
