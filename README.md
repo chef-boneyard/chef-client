@@ -51,6 +51,7 @@ Attributes
 * `node["chef_client"]["backup_path"]` - Directory location for `Chef::Config[:file_backup_path]` where chef-client will backup templates and cookbook files. Default is based on platform, falls back to "/var/chef/backup".
 * `node["chef_client"]["cron"]["minute"]` - The hour that chef-client will run as a cron task, only applicable if the you set "cron" as the "init_style"
 * `node["chef_client"]["cron"]["hour"]` - The hour that chef-client will run as a cron task, only applicable if the you set "cron" as the "init_style"
+* `node["chef_client"]["launchd_mode"]` - (Only for Mac OS X) if set to "daemon", runs chef-client with `-d` and `-s` options; defaults to "interval"
 
 
 
@@ -233,7 +234,7 @@ The `chef-client` recipe will create the chef-client service configured under da
 On Mac OS X and Mac OS X Server, the default service implementation is "launchd". Launchd support for the service resource is only supported from Chef 0.10.10 onwards.
 An error message will be logged if you try to use the launchd service for chef-client on a Chef version that does not contain this launchd support.
 
-Since launchd can run a service in interval mode, chef-client is not started in daemon mode like on Debian or Ubuntu. Keep this in mind when you look at your process list and check for a running chef process!
+Since launchd can run a service in interval mode, by default chef-client is not started in daemon mode like on Debian or Ubuntu. Keep this in mind when you look at your process list and check for a running chef process! If you wish to run chef-client in daemon mode, set attribute `chef_client.launchd_mode` to "daemon".
 
 Templates
 =========

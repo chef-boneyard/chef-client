@@ -246,6 +246,9 @@ when "launchd"
     template "/Library/LaunchDaemons/com.opscode.chef-client.plist" do
       source "com.opscode.chef-client.plist.erb"
       mode 0644
+      variables(
+        :launchd_mode => node["chef_client"]["launchd_mode"]
+      )
     end
 
     service "chef-client" do
