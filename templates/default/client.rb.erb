@@ -10,6 +10,7 @@ end
 
 log_level        :<%= @chef_log_level.to_s %>
 log_location     <%= @chef_log_location %>
+verbose_logging <%= @chef_verbose_logging %>
 
 <% if Chef::Config.has_key?(:chef_server_url) -%>
 chef_server_url  "<%= Chef::Config[:chef_server_url] %>"
