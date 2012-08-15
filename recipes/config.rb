@@ -2,8 +2,8 @@
 # Author:: Joshua Timberman (<joshua@opscode.com>)
 # Author:: Joshua Sierles (<joshua@37signals.com>)
 # Author:: Seth Chisamore (<schisamo@opscode.com>)
-# Cookbook Name:: chef
-# Recipe:: client
+# Cookbook Name:: chef-client
+# Recipe:: config
 #
 # Copyright 2008-2011, Opscode, Inc
 # Copyright 2009, 37signals
@@ -33,18 +33,19 @@ log_path = case node["chef_client"]["log_file"]
     'STDOUT'
   end
 
-
 %w{run_path cache_path backup_path log_dir}.each do |key|
-  directory node['chef_client'][key] do
+  directory node["chef_client"][key] do
     recursive true
-    if node.recipe?("chef-server")
-      owner "chef"
-      group "chef"
-    else
-      owner "root"
-     group root_group
-    end
     mode 0755
+    unless node["platform"] == "windows"
+      if node.recipe?("chef-server")
+        owner "chef"
+        group "chef"
+      else
+        owner "root"
+        group root_group
+      end
+    end
   end
 end
 
