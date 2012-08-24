@@ -98,8 +98,16 @@ when "init"
   end
 
 when "smf"
+  directory node['chef_client']['method_dir'] do
+    action :create
+    owner "root"
+    group "bin"
+    mode "0644"
+    recursive true
+  end
+  
   local_path = ::File.join(Chef::Config[:file_cache_path], "/")
-  template "/lib/svc/method/chef-client" do
+  template "#{node['chef_client']['method_dir']}/chef-client" do
     source "solaris/chef-client.erb"
     owner "root"
     group "root"
