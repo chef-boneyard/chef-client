@@ -218,39 +218,37 @@ when "daemontools"
     log true
   end
 
-when "winsw"
+when "win-service"
+  chef_gems_path = Gem.path.map {|g| g if g =~ /chef\/embedded/ }.compact.first.strip
+  win_service_manager = File.join(chef_gems_path,"gems","chef-#{Chef::VERSION}","distro","windows","service_manager.rb")
 
-  directory node["chef_client"]["winsw_dir"] do
-    action :create
+  Chef::Log.debug "Using \"#{win_service_manager}\" to install chef-client Windows Service"
+
+  execute "uninstall chef-client Windows Service" do
+    command "#{node["chef_client"]["ruby_bin"]} \"#{win_service_manager}\" --action uninstall"
+    notifies :run, "execute[install chef-client Windows Service]", :immediately
+    only_if do
+        require 'win32/service'
+        Win32::Service.exists?('chef-client')
+    end
   end
 
-  template "#{node["chef_client"]["winsw_dir"]}/chef-client.xml" do
-    source "chef-client.xml.erb"
-    notifies :run, "execute[restart chef-client using winsw wrapper]", :delayed
-  end
-
-  winsw_path = File.join(node["chef_client"]["winsw_dir"], node["chef_client"]["winsw_exe"])
-  remote_file winsw_path do
-    source node["chef_client"]["winsw_url"]
-    not_if { File.exists?(winsw_path) }
-  end
-
-  # Work-around for CHEF-2541
-  # Should be replaced by a service :restart action
-  # in Chef 0.10.6
-  execute "restart chef-client using winsw wrapper" do
-    command "#{winsw_path} restart"
-    not_if { WMI::Win32_Service.find(:first, :conditions => {:name => "chef-client"}).nil? }
-    action :nothing
-  end
-
-  execute "Install chef-client service using winsw" do
-    command "#{winsw_path} install"
-    only_if { WMI::Win32_Service.find(:first, :conditions => {:name => "chef-client"}).nil? }
+  execute "install chef-client Windows Service" do
+    command "#{node["chef_client"]["ruby_bin"]} \"#{win_service_manager}\" --action install -i #{node["chef_client"]["interval"]} -s #{node["chef_client"]["splay"]}"
+    notifies :start, "service[chef-client]"
+    not_if do
+        require 'win32/service'
+        Win32::Service.exists?('chef-client')
+    end
   end
 
   service "chef-client" do
-    action :start
+    supports :restart => true
+    action [ :enable, :start ]
+    provider Chef::Provider::Service::Windows
+    start_command "#{node["chef_client"]["ruby_bin"]} \"#{win_service_manager}\" --action start"
+    stop_command "#{node["chef_client"]["ruby_bin"]} \"#{win_service_manager}\" --action stop"
+    restart_command "#{node["chef_client"]["ruby_bin"]} \"#{win_service_manager}\" --action restart"
   end
 
 when "bsd"
