@@ -1,0 +1,3 @@
+cookbook "chef-client" do
+  runtimes []
+end
