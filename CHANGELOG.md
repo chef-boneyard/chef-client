@@ -1,6 +1,23 @@
-## [COOK-1463]
+## v1.2.0:
 
-* [COOK-1463] - Add verbose_logging knob for config recipe, client.rb template
+This version of the cookbook also adds minitest and test-kitchen
+support.
+
+* [COOK-599] - chef-client::config recipe breaks folder permissions of
+  chef-server::rubygems-install recipe on same node
+* [COOK-1111] - doesn't work out of the box with knife bootstrap
+  windows
+* [COOK-1161] - allow setting log file and environment in client.rb
+* [COOK-1203] - allow PATH setting for cron
+* [COOK-1254] - service silently fails on ubuntu 12.04 with ruby 1.9.3
+* [COOK-1309] - cron recipe expects SANE_PATHS constant
+* [COOK-1345] - preformat log location before sending to template
+* [COOK-1377] - allow client.rb to require gems
+* [COOK-1419] - add init script for SUSE
+* [COOK-1463] - Add verbose_logging knob for config recipe, client.rb
+  template
+* [COOK-1506] - set an attribute for server_url
+* [COOK-1566] - remove random splay for unique sleep number
 
 ## v1.1.4:
 
