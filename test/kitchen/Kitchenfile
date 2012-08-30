@@ -1,3 +1,7 @@
 cookbook "chef-client" do
+  configuration("config") { runtimes [] }
+  configuration("service") { runtimes [] }
+  configuration("delete_validation") { runtimes [] }
+  configuration("cron") { runtimes [] }
   runtimes []
 end
