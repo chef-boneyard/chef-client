@@ -35,7 +35,7 @@ log_path = case node["chef_client"]["log_file"]
   end
 
 
-%w{run_path cache_path backup_path log_dir}.each do |key|
+%w{run_path cache_path backup_path log_dir conf_dir}.each do |key|
   directory node['chef_client'][key] do
     recursive true
     if node.recipe?("chef-server")
