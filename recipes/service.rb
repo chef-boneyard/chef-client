@@ -1,6 +1,7 @@
 #
 # Author:: Joshua Timberman (<joshua@opscode.com>)
 # Author:: Seth Chisamore (<schisamo@opscode.com>)
+# Contributor: Dang Nguyen (<haidangwa@gmail.com>)
 # Cookbook Name:: chef
 # Recipe:: bootstrap_client
 #
@@ -227,7 +228,6 @@ when "win-service"
   # install a patched windows_service.rb for CHEF-3301 NameError issue. This should get fixed in chef 10.14.0
   cookbook_file windows_service_file do
     source "windows_service.rb"
-    backup 5
     inherits true
     only_if { Chef::VERSION == '10.12.0' }
     notifies :restart, "service[chef-client]"
