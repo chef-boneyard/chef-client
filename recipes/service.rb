@@ -229,7 +229,20 @@ when "win-service"
     notifies :run, "execute[install chef-client Windows Service]", :immediately
     only_if do
         require 'win32/service'
-        Win32::Service.exists?('chef-client')
+
+        expected_svc_config = {
+            "start_type" => "auto start",
+            "binary_path_name" => "-i #{node["chef_client"]["interval"]} -s #{node["chef_client"]["splay"]}",
+            "service_start_name" => "LocalSystem",
+            "display_name" => "chef-client"
+            }
+
+        actual = Win32::Service.config_info('chef-client')
+
+        expected_svc_config.each_pair do |name, value|
+            exit 1 unless value =~ /#{actual[name]}/
+        end
+        exit 0
     end
   end
 
