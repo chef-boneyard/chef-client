@@ -224,6 +224,15 @@ when "win-service"
 
   Chef::Log.debug "Using \"#{win_service_manager}\" to install chef-client Windows Service"
 
+  # install a patched windows_service.rb for CHEF-3301 NameError issue. This should get fixed in chef 10.14.0
+  cookbook_file windows_service_file do
+    source "windows_service.rb"
+    backup 5
+    inherits true
+    only_if { Chef::VERSION == '10.12.0' }
+    notifies :restart, "service[chef-client]"
+  end
+
   execute "uninstall chef-client Windows Service" do
     command "#{node["chef_client"]["ruby_bin"]} \"#{win_service_manager}\" --action uninstall"
     notifies :run, "execute[install chef-client Windows Service]", :immediately
