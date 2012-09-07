@@ -73,7 +73,7 @@ when "init"
 
   dist_dir, conf_dir = value_for_platform(
     ["ubuntu", "debian"] => { "default" => ["debian", "default"] },
-    ["redhat", "centos", "fedora", "scientific", "amazon"] => { "default" => ["redhat", "sysconfig"]},
+    ["redhat", "centos", "fedora", "scientific", "amazon","oracle"] => { "default" => ["redhat", "sysconfig"]},
     ["suse"] => { "default" => ["suse", "sysconfig"] }
   )
 
