@@ -34,13 +34,13 @@ default["chef_client"]["cron"] = { "minute" => "0", "hour" => "*/4", "path" => n
 default["chef_client"]["environment"] = nil
 default["chef_client"]["load_gems"] = {}
 
-case platform
+case platform_family
 when "arch"
   default["chef_client"]["init_style"]  = "arch"
   default["chef_client"]["run_path"]    = "/var/run/chef"
   default["chef_client"]["cache_path"]  = "/var/cache/chef"
   default["chef_client"]["backup_path"] = "/var/lib/chef"
-when "debian","ubuntu","redhat","centos","fedora","suse","oracle"
+when "debian","rhel","fedora","suse"
   default["chef_client"]["init_style"]  = "init"
   default["chef_client"]["run_path"]    = "/var/run/chef"
   default["chef_client"]["cache_path"]  = "/var/cache/chef"

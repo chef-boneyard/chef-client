@@ -19,7 +19,7 @@
 # limitations under the License.
 #
 
-root_group = value_for_platform(
+root_group = value_for_platform_family(
   ["openbsd", "freebsd", "mac_os_x", "mac_os_x_server"] => { "default" => "wheel" },
   "default" => "root"
 )
@@ -71,9 +71,9 @@ end
 case node["chef_client"]["init_style"]
 when "init"
 
-  dist_dir, conf_dir = value_for_platform(
-    ["ubuntu", "debian"] => { "default" => ["debian", "default"] },
-    ["redhat", "centos", "fedora", "scientific", "amazon","oracle"] => { "default" => ["redhat", "sysconfig"]},
+  dist_dir, conf_dir = value_for_platform_family(
+    ["debian"] => { "default" => ["debian", "default"] },
+    ["rhel"] => { "default" => ["redhat", "sysconfig"]},
     ["suse"] => { "default" => ["suse", "sysconfig"] }
   )
 
