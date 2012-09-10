@@ -22,8 +22,8 @@
 require 'chef/version_constraint'
 require 'chef/exceptions'
 
-root_group = value_for_platform(
-  ["openbsd", "freebsd", "mac_os_x", "mac_os_x_server"] => { "default" => "wheel" },
+root_group = value_for_platform_family(
+  ["openbsd", "freebsd", "mac_os_x"] => { "default" => "wheel" },
   "default" => "root"
 )
 
@@ -74,9 +74,9 @@ end
 case node["chef_client"]["init_style"]
 when "init"
 
-  dist_dir, conf_dir = value_for_platform(
-    ["ubuntu", "debian"] => { "default" => ["debian", "default"] },
-    ["redhat", "centos", "fedora", "scientific", "amazon","oracle"] => { "default" => ["redhat", "sysconfig"]},
+  dist_dir, conf_dir = value_for_platform_family(
+    ["debian"] => { "default" => ["debian", "default"] },
+    ["rhel"] => { "default" => ["redhat", "sysconfig"]},
     ["suse"] => { "default" => ["suse", "sysconfig"] }
   )
 
@@ -108,7 +108,7 @@ when "smf"
     mode "0644"
     recursive true
   end
-  
+
   local_path = ::File.join(Chef::Config[:file_cache_path], "/")
   template "#{node['chef_client']['method_dir']}/chef-client" do
     source "solaris/chef-client.erb"
@@ -117,7 +117,7 @@ when "smf"
     mode "0777"
     notifies :restart, "service[chef-client]"
   end
-  
+
   template (local_path + "chef-client.xml") do
     source "solaris/manifest.xml.erb"
     owner "root"
@@ -125,13 +125,13 @@ when "smf"
     mode "0644"
     notifies :run, "execute[load chef-client manifest]", :immediately
   end
-  
+
   execute "load chef-client manifest" do
     action :nothing
     command "svccfg import #{local_path}chef-client.xml"
     notifies :restart, "service[chef-client]"
   end
-  
+
   service "chef-client" do
     action [:enable, :start]
     provider Chef::Provider::Service::Solaris
