@@ -252,7 +252,7 @@ when "win-service"
             :service_type => "own process, interactive",
             :start_type => "auto start",
             :error_control => "normal",
-            :binary_path_name => "\"#{node["twdc"]["cookbook"]["twdc_chef_client"]["ruby_bin"].gsub(File::SEPARATOR, File::ALT_SEPARATOR).gsub(".exe", "")}\" \"#{windows_service_file.gsub(File::SEPARATOR, File::ALT_SEPARATOR)}\"  -c #{chef_client_conf_file.gsub(File::SEPARATOR, File::ALT_SEPARATOR)} -L #{chef_client_log.gsub(File::SEPARATOR, File::ALT_SEPARATOR)} -i #{node["twdc"]["cookbook"]["twdc_chef_client"]["interval"]} -s #{node["twdc"]["cookbook"]["twdc_chef_client"]["splay"]}",
+            :binary_path_name => "\"#{node["chef_client"]["ruby_bin"].gsub(File::SEPARATOR, File::ALT_SEPARATOR).gsub(".exe", "")}\" \"#{windows_service_file.gsub(File::SEPARATOR, File::ALT_SEPARATOR)}\"  -c #{chef_client_conf_file.gsub(File::SEPARATOR, File::ALT_SEPARATOR)} -L #{chef_client_log.gsub(File::SEPARATOR, File::ALT_SEPARATOR)} -i #{node["chef_client"]["interval"]} -s #{node["chef_client"]["splay"]}",
             :load_order_group => "",
             :tag_id => 0,
             :dependencies => [],
