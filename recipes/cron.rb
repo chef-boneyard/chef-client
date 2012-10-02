@@ -23,7 +23,7 @@
 require "digest/md5"
 
 root_group = value_for_platform_family(
-                                ["openbsd", "freebsd", "mac_os_x"] => { "default" => "wheel" },
+                                ["openbsd", "freebsd", "mac_os_x"] => [ "wheel" ],
                                 "default" => "root"
                                 )
 
@@ -51,8 +51,8 @@ end
 end
 
 dist_dir, conf_dir = value_for_platform_family(
-                                        ["debian"] => { "default" => ["debian", "default"] },
-                                        ["rhel"] => { "default" => ["redhat", "sysconfig"]}
+                                        ["debian"] => ["debian", "default"],
+                                        ["rhel"] => ["redhat", "sysconfig"]
                                         )
 
 # let's create the service file so the :disable action doesn't fail

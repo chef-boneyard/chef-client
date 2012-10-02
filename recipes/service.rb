@@ -74,10 +74,11 @@ end
 case node["chef_client"]["init_style"]
 when "init"
 
+  #argh?
   dist_dir, conf_dir = value_for_platform_family(
-    ["debian"] => { "default" => ["debian", "default"] },
-    ["rhel"] => { "default" => ["redhat", "sysconfig"]},
-    ["suse"] => { "default" => ["suse", "sysconfig"] }
+    ["debian"] => ["debian", "default"],
+    ["rhel"] => ["redhat", "sysconfig"],
+    ["suse"] => ["suse", "sysconfig"],
   )
 
   template "/etc/init.d/chef-client" do
