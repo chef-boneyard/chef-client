@@ -15,7 +15,8 @@ Platforms
 The following platforms are supported by this cookbook, meaning that the recipes run on these platforms without error.
 
 * Debian family (Debian, Ubuntu etc)
-* Red Hat family (Redhat, Fedora, CentOS, Oracle etc)
+* Red Hat family (Redhat, CentOS, Oracle etc)
+* Fedora family
 * SUSE distributions (OpenSUSE, SLES, etc)
 * ArchLinux
 * FreeBSD
