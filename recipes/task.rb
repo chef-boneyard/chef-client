@@ -19,7 +19,7 @@
 #
 
 unless node["platform"] == "windows"
-  raise "#{node['platform']} is not supported by the chef-client::task recipe"
+  return "#{node['platform']} is not supported by the #{cookbook_name}::#{recipe_name} recipe"
 end
 
 # COOK-635 account for alternate gem paths
