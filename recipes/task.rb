@@ -57,7 +57,7 @@ end
 
 windows_task "chef-client" do
   run_level :highest
-  command "#{node['chef-client']['ruby_bin']} #{node['chef_client']['bin']} \
+  command "#{node['chef_client']['ruby_bin']} #{node['chef_client']['bin']} \
   -L #{File.join(node['chef_client']['log_dir'], 'client.log')} \
   -c #{File.join(node['chef_client']['conf_dir'], 'client.rb')} -s #{node['chef_client']['splay']}"
   frequency :minute
