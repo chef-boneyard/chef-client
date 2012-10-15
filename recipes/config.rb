@@ -20,6 +20,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+root_user = value_for_platform(
+  ["windows"] => { "default" => "Administrator" },
+  "default" => "root"
+)
+
 root_group = value_for_platform(
   ["openbsd", "freebsd", "mac_os_x", "mac_os_x_server"] => { "default" => "wheel" },
   ["windows"] => { "default" => "Administrators" },
@@ -43,7 +48,7 @@ log_path = case node["chef_client"]["log_file"]
         owner "chef"
         group "chef"
       else
-        owner "root"
+        owner root_user
         group root_group
       end
     end
@@ -62,7 +67,7 @@ end
 
 template "#{node["chef_client"]["conf_dir"]}/client.rb" do
   source "client.rb.erb"
-  owner "root"
+  owner root_user
   group root_group
   mode 00644
   variables(
