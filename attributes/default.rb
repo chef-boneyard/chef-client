@@ -77,18 +77,15 @@ when "smartos"
   default["chef_client"]["method_dir"] = "/opt/local/lib/svc/method"
   default["chef_client"]["bin_dir"] = "/opt/local/bin"
 when "windows"
-  default["chef_client"]["init_style"]  = "winsw"
+  default["chef_client"]["init_style"]  = "win-service"
   default["chef_client"]["conf_dir"]    = "C:/chef"
   default["chef_client"]["run_path"]    = "#{node["chef_client"]["conf_dir"]}/run"
   default["chef_client"]["cache_path"]  = "#{node["chef_client"]["conf_dir"]}/cache"
   default["chef_client"]["backup_path"] = "#{node["chef_client"]["conf_dir"]}/backup"
   default["chef_client"]["log_dir"]     = "#{node["chef_client"]["conf_dir"]}/log"
   default["chef_client"]["bin"]         = "C:/opscode/chef/bin/chef-client"
-  #Required for minsw wrapper
+  #Required for service_manager.rb
   default["chef_client"]["ruby_bin"]    = File.join(RbConfig::CONFIG['bindir'], "ruby.exe")
-  default["chef_client"]["winsw_url"]   = "http://repo1.maven.org/maven2/com/sun/winsw/winsw/1.9/winsw-1.9-bin.exe"
-  default["chef_client"]["winsw_dir"]   = "C:/chef/bin"
-  default["chef_client"]["winsw_exe"]   = "chef-client.exe"
 else
   default["chef_client"]["init_style"]  = "none"
   default["chef_client"]["run_path"]    = "/var/run"

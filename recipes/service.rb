@@ -1,8 +1,9 @@
 #
 # Author:: Joshua Timberman (<joshua@opscode.com>)
 # Author:: Seth Chisamore (<schisamo@opscode.com>)
+# Contributor: Dang Nguyen (<haidangwa@gmail.com>)
 # Cookbook Name:: chef
-# Recipe:: bootstrap_client
+# Recipe:: service
 #
 # Copyright 2009-2011, Opscode, Inc.
 #
@@ -229,39 +230,68 @@ when "daemontools"
     log true
   end
 
-when "winsw"
+when "win-service"
+  chef_gems_path = Gem.path.map {|g| g if g =~ /chef\/embedded/ }.compact.first.strip
+  win_service_manager = File.join(chef_gems_path,"gems","chef-#{Chef::VERSION}","distro","windows","service_manager.rb")
+  windows_service_file = File.join("#{chef_gems_path}","gems","chef-#{Chef::VERSION}","lib","chef","application","windows_service.rb")
+  chef_client_conf_file = File.join(node['chef_client']['conf_dir'], "client.rb")
+  chef_client_log = File.join(node['chef_client']['log_dir'], "client.log")
 
-  directory node["chef_client"]["winsw_dir"] do
-    action :create
+
+  # install a patched windows_service.rb for CHEF-3301 NameError issue. This should get fixed in chef 10.14.0
+  cookbook_file windows_service_file do
+    source "windows_service.rb"
+    inherits true
+    only_if { Chef::VERSION == '10.12.0' }
+    notifies :restart, "service[chef-client]"
   end
 
-  template "#{node["chef_client"]["winsw_dir"]}/chef-client.xml" do
-    source "chef-client.xml.erb"
-    notifies :run, "execute[restart chef-client using winsw wrapper]", :delayed
+  execute "install chef-client Windows Service" do
+    command "#{node["chef_client"]["ruby_bin"]} \"#{win_service_manager}\" --action install -c #{chef_client_conf_file} -L #{chef_client_log} -i #{node["chef_client"]["interval"]} -s #{node["chef_client"]["splay"]}"
+    notifies :restart, "service[chef-client]"
+	action :nothing
   end
 
-  winsw_path = File.join(node["chef_client"]["winsw_dir"], node["chef_client"]["winsw_exe"])
-  remote_file winsw_path do
-    source node["chef_client"]["winsw_url"]
-    not_if { File.exists?(winsw_path) }
-  end
+  execute "uninstall chef-client Windows Service" do
+    command "#{node["chef_client"]["ruby_bin"]} \"#{win_service_manager}\" --action uninstall"
+    notifies :run, "execute[install chef-client Windows Service]", :immediately
+    not_if do
+        require 'win32/service'
 
-  # Work-around for CHEF-2541
-  # Should be replaced by a service :restart action
-  # in Chef 0.10.6
-  execute "restart chef-client using winsw wrapper" do
-    command "#{winsw_path} restart"
-    not_if { WMI::Win32_Service.find(:first, :conditions => {:name => "chef-client"}).nil? }
-    action :nothing
-  end
+        actual = {}
+        expected_svc_config = {
+            :service_type => "own process, interactive",
+            :start_type => "auto start",
+            :error_control => "normal",
+            :binary_path_name => "\"#{node["chef_client"]["ruby_bin"].gsub(File::SEPARATOR, File::ALT_SEPARATOR).gsub(".exe", "")}\" \"#{windows_service_file.gsub(File::SEPARATOR, File::ALT_SEPARATOR)}\"  -c #{chef_client_conf_file.gsub(File::SEPARATOR, File::ALT_SEPARATOR)} -L #{chef_client_log.gsub(File::SEPARATOR, File::ALT_SEPARATOR)} -i #{node["chef_client"]["interval"]} -s #{node["chef_client"]["splay"]}",
+            :load_order_group => "",
+            :tag_id => 0,
+            :dependencies => [],
+            :service_start_name => "LocalSystem",
+            :display_name => "chef-client"
+            }
 
-  execute "Install chef-client service using winsw" do
-    command "#{winsw_path} install"
-    only_if { WMI::Win32_Service.find(:first, :conditions => {:name => "chef-client"}).nil? }
+        begin
+            # convert the service config_info from a Struct to a Hash so we can compare with our expected config
+            actual = Hash[Win32::Service.config_info('chef-client').each_pair.to_a]
+        rescue Win32::Service::Error
+            # catch the exception and do nothing, since this means the service doesn't exist
+        end
+
+        Chef::Log.debug("actual: #{actual}")
+        Chef::Log.debug("expected: #{expected_svc_config}")
+
+        expected_svc_config.eql?(actual)
+    end
   end
 
   service "chef-client" do
-    action :start
+    supports :restart => true
+    action [ :enable, :start ]
+    provider Chef::Provider::Service::Windows
+    start_command "#{node["chef_client"]["ruby_bin"]} \"#{win_service_manager}\" --action start"
+    stop_command "#{node["chef_client"]["ruby_bin"]} \"#{win_service_manager}\" --action stop"
+    restart_command "#{node["chef_client"]["ruby_bin"]} \"#{win_service_manager}\" --action restart"
   end
 
 when "launchd"
