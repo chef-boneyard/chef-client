@@ -153,6 +153,7 @@ when "upstart"
     if (8.04..9.04).include?(node["platform_version"].to_f)
       upstart_job_dir = "/etc/event.d"
       upstart_job_suffix = ""
+    end
   end
 
   template "#{upstart_job_dir}/chef-client#{upstart_job_suffix}" do
