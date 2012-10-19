@@ -145,15 +145,14 @@ when "smf"
 
 when "upstart"
 
+  upstart_job_dir = "/etc/init"
+  upstart_job_suffix = ".conf"
+
   case node["platform"]
   when "ubuntu"
     if (8.04..9.04).include?(node["platform_version"].to_f)
       upstart_job_dir = "/etc/event.d"
       upstart_job_suffix = ""
-    else
-      upstart_job_dir = "/etc/init"
-      upstart_job_suffix = ".conf"
-    end
   end
 
   template "#{upstart_job_dir}/chef-client#{upstart_job_suffix}" do
