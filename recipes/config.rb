@@ -73,6 +73,7 @@ template "#{node["chef_client"]["conf_dir"]}/client.rb" do
     :chef_verbose_logging => node["chef_client"]["verbose_logging"]
   )
   notifies :create, "ruby_block[reload_client_config]"
+  notifies :restart, "service[chef-client]"
 end
 
 ruby_block "reload_client_config" do
