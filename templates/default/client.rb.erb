@@ -49,3 +49,7 @@ Ohai::Config[:plugin_path] << "<%= node["ohai"]["plugin_path"] %>"
 <% if @chef_environment %>
 environment "<%= @chef_environment %>"
 <% end %>  
+
+<% if @chef_encrypted_data_bag_secret %>
+encrypted_data_bag_secret "<%= @chef_encrypted_data_bag_secret %>"
+<% end %>
