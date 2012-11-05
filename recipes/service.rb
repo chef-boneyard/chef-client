@@ -83,7 +83,7 @@ when "init"
   dist_dir, conf_dir = value_for_platform_family(
     ["debian"] => ["debian", "default"],
     ["rhel"] => ["redhat", "sysconfig"],
-    ["suse"] => ["suse", "sysconfig"],
+    ["suse"] => ["suse", "sysconfig"]
   )
 
   template "/etc/init.d/chef-client" do
