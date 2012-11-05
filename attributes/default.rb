@@ -23,6 +23,8 @@ require 'rbconfig'
 default["chef_client"]["interval"]    = "1800"
 default["chef_client"]["splay"]       = "20"
 default["chef_client"]["log_dir"]     = "/var/log/chef"
+default["chef_client"]["dir_owner"]   = "root"
+default["chef_client"]["dir_group"]   = "root"
 default["chef_client"]["log_file"]    = nil
 default["chef_client"]["log_level"]   = :info
 default["chef_client"]["verbose_logging"] = true
