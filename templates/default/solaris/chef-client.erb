@@ -36,7 +36,7 @@
 . /lib/svc/share/smf_include.sh
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-DAEMON=<%= node['chef_client']['bin_dir'] %>/chef-client
+DAEMON=<%= node["chef_client"]["bin_dir"] %>/chef-client
 NAME=chef-client
 DESC=chef-client
 PIDFILE=<%= node["chef_client"]["run_path"] %>/client.pid
