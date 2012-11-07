@@ -46,7 +46,7 @@ else
   raise "Could not locate the chef-client bin in any known path. Please set the proper path by overriding node['chef_client']['bin'] in a role."
 end
 
-node["chef_client"]["bin"] = client_bin
+node.set["chef_client"]["bin"] = client_bin
 
 ['run_path', 'cache_path', 'backup_path', 'log_dir'].each do |key|
   directory node["chef_client"][key] do
@@ -61,6 +61,6 @@ windows_task "chef-client" do
   -L #{File.join(node['chef_client']['log_dir'], 'client.log')} \
   -c #{File.join(node['chef_client']['conf_dir'], 'client.rb')} -s #{node['chef_client']['splay']}"
   frequency :minute
-  frequency_modifier (node['chef_client']['interval'].to_i / 60)
+  frequency_modifier(node['chef_client']['interval'].to_i / 60)
 end
 

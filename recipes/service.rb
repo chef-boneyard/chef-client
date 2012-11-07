@@ -56,7 +56,7 @@ else
   raise "Could not locate the chef-client bin in any known path. Please set the proper path by overriding node['chef_client']['bin'] in a role."
 end
 
-node["chef_client"]["bin"] = client_bin
+node.set["chef_client"]["bin"] = client_bin
 
 
 %w{run_path cache_path backup_path log_dir}.each do |key|
@@ -124,7 +124,7 @@ when "smf"
     notifies :restart, "service[chef-client]"
   end
 
-  template (local_path + "chef-client.xml") do
+  template(local_path + "chef-client.xml") do
     source "solaris/manifest.xml.erb"
     owner "root"
     group "root"
