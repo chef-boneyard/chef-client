@@ -44,9 +44,16 @@ end
 %w{run_path cache_path backup_path log_dir}.each do |key|
   directory node["chef_client"][key] do
     recursive true
-    owner "root"
-    group root_group
     mode 0755
+    unless node["platform"] == "windows"
+      if node.recipe?("chef-server")
+        owner "chef"
+        group "chef"
+      else
+        owner "root"
+        group root_group
+      end
+    end
   end
 end
 
