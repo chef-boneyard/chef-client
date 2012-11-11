@@ -96,7 +96,7 @@ else
   default["chef_client"]["backup_path"] = "/var/chef/backup"
 end
 
-if node['chef_packages']['chef'] >= "10.14"
+if node['chef_packages']['chef']['version'] >= "10.14"
   default['chef_client']['fork'] = true
 else
   default['chef_client']['fork'] = false
