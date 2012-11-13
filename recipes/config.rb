@@ -76,7 +76,9 @@ template "#{node["chef_client"]["conf_dir"]}/client.rb" do
     :chef_log_level => node["chef_client"]["log_level"] || :info,
     :chef_environment => node["chef_client"]["environment"],
     :chef_requires => chef_requires,
-    :chef_verbose_logging => node["chef_client"]["verbose_logging"]
+    :chef_verbose_logging => node["chef_client"]["verbose_logging"],
+    :chef_report_handlers => node["chef_client"]["report_handlers"],
+    :chef_exception_handlers => node["chef_client"]["exception_handlers"]
   )
   notifies :create, "ruby_block[reload_client_config]"
 end
