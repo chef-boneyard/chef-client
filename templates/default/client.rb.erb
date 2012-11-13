@@ -13,14 +13,14 @@ log_location     <%= @chef_log_location %>
 verbose_logging <%= @chef_verbose_logging %>
 
 <% unless @chef_report_handlers.empty? %>
-  <% @chef_report_handlers.each do |handler, parameters| %>
-    report_handlers << <%= handler %>.new(<%= parameters %>)
+  <% @chef_report_handlers.each do |handler| %>
+    report_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
   <% end %>
 <% end %>
 
 <% unless @chef_exception_handlers.empty? %>
-  <% @chef_exception_handlers.each do |handler, parameters| %>
-    exception_handlers << <%= handler %>.new(<%= parameters %>)
+  <% @chef_exception_handlers.each do |handler| %>
+    exception_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
   <% end %>
 <% end %>
 
