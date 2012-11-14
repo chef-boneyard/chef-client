@@ -12,18 +12,6 @@ log_level        :<%= @chef_log_level.to_s %>
 log_location     <%= @chef_log_location %>
 verbose_logging <%= @chef_verbose_logging %>
 
-<% unless @chef_report_handlers.empty? %>
-  <% @chef_report_handlers.each do |handler| %>
-    report_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
-  <% end %>
-<% end %>
-
-<% unless @chef_exception_handlers.empty? %>
-  <% @chef_exception_handlers.each do |handler| %>
-    exception_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
-  <% end %>
-<% end %>
-
 <% if node.attribute?("chef_client") && node["chef_client"]["server_url"] -%>
 chef_server_url  "<%= node["chef_client"]["server_url"] %>"
 <% else -%>
@@ -62,3 +50,15 @@ Ohai::Config[:plugin_path] << "<%= node["ohai"]["plugin_path"] %>"
 <% if @chef_environment %>
 environment "<%= @chef_environment %>"
 <% end %>  
+
+<% unless @chef_report_handlers.empty? %>
+  <% @chef_report_handlers.each do |handler| %>
+    report_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
+  <% end %>
+<% end %>
+
+<% unless @chef_exception_handlers.empty? %>
+  <% @chef_exception_handlers.each do |handler| %>
+    exception_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
+  <% end %>
+<% end %>
