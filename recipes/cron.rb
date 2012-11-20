@@ -63,22 +63,33 @@ dist_dir, conf_dir = value_for_platform_family(
                                         )
 
 # let's create the service file so the :disable action doesn't fail
-template "/etc/init.d/chef-client" do
-  source "#{dist_dir}/init.d/chef-client.erb"
-  mode 0755
-  variables(
-            :client_bin => client_bin
-            )
-end
+case node['platform_family']
+when "arch","debian","rhel","fedora","suse","openbsd","freebsd"
+  template "/etc/init.d/chef-client" do
+    source "#{dist_dir}/init.d/chef-client.erb"
+    mode 0755
+    variables(
+              :client_bin => client_bin
+              )
+  end
+  
+  template "/etc/#{conf_dir}/chef-client" do
+    source "#{dist_dir}/#{conf_dir}/chef-client.erb"
+    mode 0644
+  end
 
-template "/etc/#{conf_dir}/chef-client" do
-  source "#{dist_dir}/#{conf_dir}/chef-client.erb"
-  mode 0644
-end
+  service "chef-client" do
+    supports :status => true, :restart => true
+    action [:disable, :stop]
+  end
 
-service "chef-client" do
-  supports :status => true, :restart => true
-  action [:disable, :stop]
+when "openindiana","opensolaris","nexentacore","solaris2","smartos"
+  service "chef-client" do
+    supports :status => true, :restart => true
+    action [:disable, :stop]
+    provider Chef::Provider::Service::Solaris
+    ignore_failure true
+  end
 end
 
 cron "chef-client" do
