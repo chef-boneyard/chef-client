@@ -34,13 +34,14 @@ default["chef_client"]["cron"] = { "minute" => "0", "hour" => "*/4", "path" => n
 default["chef_client"]["environment"] = nil
 default["chef_client"]["load_gems"] = {}
 default["chef_client"]["encrypted_data_bag_secret"] = nil
-case platform
+
+case node['platform_family']
 when "arch"
   default["chef_client"]["init_style"]  = "arch"
   default["chef_client"]["run_path"]    = "/var/run/chef"
   default["chef_client"]["cache_path"]  = "/var/cache/chef"
   default["chef_client"]["backup_path"] = "/var/lib/chef"
-when "debian","ubuntu","redhat","centos","fedora","suse","scientific","amazon"
+when "debian","rhel","fedora","suse"
   default["chef_client"]["init_style"]  = "init"
   default["chef_client"]["run_path"]    = "/var/run/chef"
   default["chef_client"]["cache_path"]  = "/var/cache/chef"
@@ -50,6 +51,7 @@ when "openbsd","freebsd"
   default["chef_client"]["run_path"]    = "/var/run"
   default["chef_client"]["cache_path"]  = "/var/chef/cache"
   default["chef_client"]["backup_path"] = "/var/chef/backup"
+# don't use bsd paths per COOK-1379
 when "mac_os_x","mac_os_x_server"
   default["chef_client"]["init_style"]  = "launchd"
   default["chef_client"]["log_dir"]     = "/Library/Logs/Chef"

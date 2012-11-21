@@ -22,8 +22,8 @@
 
 require "digest/md5"
 
-root_group = value_for_platform(
-                                ["openbsd", "freebsd", "mac_os_x"] => { "default" => "wheel" },
+root_group = value_for_platform_family(
+                                ["openbsd", "freebsd", "mac_os_x"] => [ "wheel" ],
                                 "default" => "root"
                                 )
 
@@ -44,15 +44,22 @@ end
 %w{run_path cache_path backup_path log_dir}.each do |key|
   directory node["chef_client"][key] do
     recursive true
-    owner "root"
-    group root_group
     mode 0755
+    unless node["platform"] == "windows"
+      if node.recipe?("chef-server")
+        owner "chef"
+        group "chef"
+      else
+        owner "root"
+        group root_group
+      end
+    end
   end
 end
 
-dist_dir, conf_dir = value_for_platform(
-                                        ["ubuntu", "debian"] => { "default" => ["debian", "default"] },
-                                        ["redhat", "centos", "fedora", "scientific", "amazon"] => { "default" => ["redhat", "sysconfig"]}
+dist_dir, conf_dir = value_for_platform_family(
+                                        ["debian"] => ["debian", "default"],
+                                        ["rhel"] => ["redhat", "sysconfig"]
                                         )
 
 # let's create the service file so the :disable action doesn't fail

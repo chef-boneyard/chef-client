@@ -35,7 +35,7 @@ start() {
     [ -x $exec ] || exit 5
     [ -f $config ] || exit 6
     echo -n $"Starting $prog: "
-    daemon chef-client -d -c "$config" -L "$logfile" -P "$pidfile" -i "$interval" -s "$splay" "$options"
+    daemon $exec -d -c "$config" -L "$logfile" -P "$pidfile" -i "$interval" -s "$splay" "$options"
     retval=$?
     echo
     [ $retval -eq 0 ] && touch $lockfile
@@ -44,7 +44,7 @@ start() {
 
 stop() {
     echo -n $"Stopping $prog: "
-    killproc -p $pidfile chef-client
+    killproc -p $pidfile $exec
     retval=$?
     echo
     [ $retval -eq 0 ] && rm -f $lockfile
@@ -58,7 +58,7 @@ restart () {
 
 reload() {
     echo -n $"Reloading $prog: "
-    killproc -p $pidfile chef-client -HUP
+    killproc -p $pidfile $exec -HUP
     retval=$?
     echo
     return $retval 

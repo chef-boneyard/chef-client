@@ -1,3 +1,21 @@
+## v2.0.0:
+
+This version uses platform_family attribute, making the cookbook incompatible
+with older versions of Chef/Ohai, hence the major version bump.
+
+* [COOK-635] - Allow configuration of path to chef-client binary in init script
+* [COOK-985] - set correct permissions on run and log directory for chef-servers using this cookbook
+* [COOK-1379] - Register chef-client as a launchd service on Mac OS X (Server)
+* [COOK-1574] - config recipe doesn't work on Windows
+* [COOK-1586] - add SmartOS support
+* [COOK-1633] - chef-client doesn't recognise Oracle Linux, a Redhat family member
+* [COOK-1634] - chef-client init is missing for Scientific Linux
+* [COOK-1664] - corrected permissions in cron recipe (related to COOK-985)
+* [COOK-1729] - support windows task
+* [COOK-1788] - `init_style` upstart only works on Ubuntu
+* [COOK-1861] - Minor styling fix for consistency in chef-client
+* [COOK-1862] - add `name` attribute to metadata.rb
+
 ## v1.2.0:
 
 This version of the cookbook also adds minitest and test-kitchen

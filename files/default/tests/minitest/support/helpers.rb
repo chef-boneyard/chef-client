@@ -14,11 +14,10 @@
 # limitations under the License.
 #
 
-require File.expand_path('../support/helpers', __FILE__)
-
-describe 'chef-client::service' do
-  include Helpers::ChefClient
-  it "starts the chef-client service" do
-    service("chef-client").must_be_running
+module Helpers
+  module ChefClient
+    include MiniTest::Chef::Assertions
+    include MiniTest::Chef::Context
+    include MiniTest::Chef::Resources
   end
 end
