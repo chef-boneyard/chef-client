@@ -64,7 +64,7 @@ node.set["chef_client"]["bin"] = client_bin
     recursive true
     mode 0755
     unless node["platform"] == "windows"
-      if node.recipe?("chef-server")
+      if node.recipes().include?("chef-server")
         owner "chef"
         group "chef"
       else
@@ -83,7 +83,7 @@ when "init"
   dist_dir, conf_dir = value_for_platform_family(
     ["debian"] => ["debian", "default"],
     ["rhel"] => ["redhat", "sysconfig"],
-    ["suse"] => ["suse", "sysconfig"],
+    ["suse"] => ["suse", "sysconfig"]
   )
 
   template "/etc/init.d/chef-client" do

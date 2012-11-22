@@ -44,7 +44,7 @@ log_path = case node["chef_client"]["log_file"]
     recursive true
     mode 00755
     unless node["platform"] == "windows"
-      if node.recipe?("chef-server")
+      if node.recipes().include? "chef-server"
         owner "chef"
         group "chef"
       else
