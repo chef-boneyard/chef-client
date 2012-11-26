@@ -1,3 +1,7 @@
+## v2.0.2:
+
+* Remove a stray comma that caused syntax error on some versions of Ruby.
+
 ## v2.0.0:
 
 This version uses platform_family attribute, making the cookbook incompatible
