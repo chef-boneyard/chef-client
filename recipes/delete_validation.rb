@@ -17,7 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-unless node['recipes'].include?("chef-server")
+unless system('which chef-server')
   file Chef::Config[:validation_key] do
     action :delete
     backup false
