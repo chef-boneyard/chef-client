@@ -90,7 +90,8 @@ when "init"
     source "#{dist_dir}/init.d/chef-client.erb"
     mode 0755
     variables(
-      :client_bin => client_bin
+      :client_bin => client_bin,
+      :fork => node['chef_client']['fork']
     )
     notifies :restart, "service[chef-client]", :delayed
   end
@@ -160,7 +161,8 @@ when "upstart"
     source "debian/init/chef-client.conf.erb"
     mode 0644
     variables(
-      :client_bin => client_bin
+      :client_bin => client_bin,
+      :fork => node['chef_client']['fork']
     )
     notifies :restart, "service[chef-client]", :delayed
   end
