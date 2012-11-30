@@ -52,6 +52,7 @@ Attributes
 * `node["chef_client"]["cron"]["hour"]` - The hour that chef-client will run as a cron task, only applicable if the you set "cron" as the "init_style"
 * `node["chef_client"]["load_gems"]` - Hash of gems to load into chef via the client.rb file
 * `node["chef_client"]["launchd_mode"]` - (Only for Mac OS X) if set to "daemon", runs chef-client with `-d` and `-s` options; defaults to "interval"
+* `node["chef_client"]["daemon_options"]` - An array of additional options to pass to the chef-client service, empty by default, and must be an array if specified.
 
 Recipes
 =======
