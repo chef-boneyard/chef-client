@@ -90,7 +90,7 @@ cron "chef-client" do
 
   # Generate a uniformly distributed unique number to sleep.
   checksum = Digest::MD5.hexdigest "#{node['fqdn'] or 'unknown-hostname'}"
-  sleep_time = checksum.to_s.hex % 90
+  sleep_time = checksum.to_s.hex % node['chef_client']['splay'].to_i
 
   command "/bin/sleep #{sleep_time}; #{client_bin} &> /dev/null"
 end
