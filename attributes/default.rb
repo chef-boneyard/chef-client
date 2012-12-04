@@ -33,6 +33,9 @@ default["chef_client"]["validation_client_name"] = "chef-validator"
 default["chef_client"]["cron"] = { "minute" => "0", "hour" => "*/4", "path" => nil}
 default["chef_client"]["environment"] = nil
 default["chef_client"]["load_gems"] = {}
+default["chef_client"]["report_handlers"] = []
+default["chef_client"]["exception_handlers"] = []
+default["chef_client"]["checksum_cache_skip_expires"] = true
 
 case node['platform_family']
 when "arch"
@@ -96,3 +99,5 @@ else
   default["chef_client"]["cache_path"]  = "/var/chef/cache"
   default["chef_client"]["backup_path"] = "/var/chef/backup"
 end
+
+default["chef_client"]["checksum_cache_path"] = "#{node["chef_client"]["cache_path"]}/checksums"
