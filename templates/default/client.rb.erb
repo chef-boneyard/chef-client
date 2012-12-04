@@ -26,6 +26,7 @@ node_name "<%= @chef_node_name %>"
 
 file_backup_path   "<%= node["chef_client"]["backup_path"] %>"
 file_cache_path    "<%= node["chef_client"]["cache_path"] %>"
+cache_options({ :path => "<%= node["chef_client"]["checksum_cache_path"] %>", :skip_expires => <%= node["chef_client"]["checksum_cache_skip_expires"] %> })
 <% unless %w{ runit bluepill daemontools }.include?(node["chef_client"]["init_style"]) -%>
 
 pid_file           "<%= node["chef_client"]["run_path"] %>/client.pid"
@@ -49,3 +50,15 @@ Ohai::Config[:plugin_path] << "<%= node["ohai"]["plugin_path"] %>"
 <% if @chef_environment %>
 environment "<%= @chef_environment %>"
 <% end %>  
+
+<% unless @chef_report_handlers.empty? %>
+  <% @chef_report_handlers.each do |handler| %>
+    report_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
+  <% end %>
+<% end %>
+
+<% unless @chef_exception_handlers.empty? %>
+  <% @chef_exception_handlers.each do |handler| %>
+    exception_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
+  <% end %>
+<% end %>
