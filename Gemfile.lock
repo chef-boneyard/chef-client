@@ -2,6 +2,7 @@ GEM
   remote: http://rubygems.org/
   specs:
     archive-tar-minitar (0.5.2)
+    builder (3.1.4)
     bunny (0.7.9)
     chef (10.16.2)
       bunny (>= 0.6.0, < 0.8.0)
@@ -25,7 +26,18 @@ GEM
       ffi (~> 1.0, >= 1.0.6)
     coderay (1.0.8)
     erubis (2.7.0)
+    excon (0.14.3)
     ffi (1.1.5)
+    fog (1.4.0)
+      builder
+      excon (~> 0.14.0)
+      formatador (~> 0.2.0)
+      mime-types
+      multi_json (~> 1.0)
+      net-scp (~> 1.0.4)
+      net-ssh (>= 2.1.3)
+      nokogiri (~> 1.5.0)
+      ruby-hmac
     foodcritic (1.6.1)
       erubis
       gherkin (~> 2.11.1)
@@ -35,6 +47,7 @@ GEM
       rak (~> 1.4)
       treetop (~> 1.4.10)
       yajl-ruby (~> 1.1.0)
+    formatador (0.2.3)
     gherkin (2.11.5)
       json (>= 1.4.6)
     gist (3.1.0)
@@ -58,6 +71,7 @@ GEM
     mixlib-log (1.4.1)
     mixlib-shellout (1.1.0)
     moneta (0.6.0)
+    multi_json (1.3.6)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-ssh (2.2.2)
@@ -82,10 +96,12 @@ GEM
     rak (1.4)
     rest-client (1.6.7)
       mime-types (>= 1.16)
+    ruby-hmac (0.4.0)
     slop (2.4.4)
     systemu (2.5.2)
-    test-kitchen (0.5.4)
-      foodcritic (~> 1.4)
+    test-kitchen (0.7.0)
+      fog
+      foodcritic (>= 1.4.0)
       hashr (~> 0.0.20)
       highline (>= 1.6.9)
       librarian (~> 0.0.20)
@@ -112,4 +128,4 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  test-kitchen
+  test-kitchen (~> 0.7.0)
