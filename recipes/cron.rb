@@ -91,6 +91,7 @@ cron "chef-client" do
   # Generate a uniformly distributed unique number to sleep.
   checksum = Digest::MD5.hexdigest node['fqdn']
   sleep_time = checksum.to_s.hex % 90
+  redirection = node["chef_client"]["cron"]["redirection"]
 
-  command "/bin/sleep #{sleep_time}; #{client_bin} &> /dev/null"
+  command "/bin/sleep #{sleep_time}; #{client_bin} #{redirection}"
 end
