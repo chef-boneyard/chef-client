@@ -36,6 +36,7 @@ default["chef_client"]["cron"] = {
   "path" => nil,
   "environment_variables" => nil
 }
+default["chef_client"]["cron"]["redirection"] = "&> /dev/null"
 default["chef_client"]["environment"] = nil
 default["chef_client"]["load_gems"] = {}
 default["chef_client"]["report_handlers"] = []

@@ -89,6 +89,7 @@ cron "chef-client" do
   checksum = Digest::MD5.hexdigest "#{node['fqdn'] or 'unknown-hostname'}"
   sleep_time = checksum.to_s.hex % node['chef_client']['splay'].to_i
   env = node['chef_client']['cron']['environment_variables']
+  redirection = node["chef_client"]["cron"]["redirection"]
 
-  command "/bin/sleep #{sleep_time}; #{env} #{client_bin} &> /dev/null"
+  command "/bin/sleep #{sleep_time}; #{client_bin} #{redirection}"
 end
