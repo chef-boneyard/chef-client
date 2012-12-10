@@ -82,6 +82,7 @@ when "init"
   #argh?
   dist_dir, conf_dir = value_for_platform_family(
     ["debian"] => ["debian", "default"],
+    ["fedora"] => ["redhat", "sysconfig"],
     ["rhel"] => ["redhat", "sysconfig"],
     ["suse"] => ["suse", "sysconfig"]
   )
