@@ -59,6 +59,10 @@ log_path = case node["chef_client"]["log_file"]
   end
 end
 
+file log_path do
+  mode 00640
+end
+
 chef_requires = []
 node["chef_client"]["load_gems"].each do |gem_name, gem_info_hash|
   gem_info_hash ||= {}
