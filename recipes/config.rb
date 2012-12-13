@@ -42,7 +42,11 @@ log_path = case node["chef_client"]["log_file"]
 %w{run_path cache_path backup_path log_dir conf_dir}.each do |key|
   directory node["chef_client"][key] do
     recursive true
-    mode 00755
+    if key == "log_dir"
+      mode 00640
+    else
+      mode 00755
+    end
     unless node["platform"] == "windows"
       if node.recipe?("chef-server")
         owner "chef"
@@ -53,6 +57,10 @@ log_path = case node["chef_client"]["log_file"]
       end
     end
   end
+end
+
+file log_path do
+  mode 00640
 end
 
 chef_requires = []
