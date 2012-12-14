@@ -43,7 +43,7 @@ log_path = case node["chef_client"]["log_file"]
   directory node["chef_client"][key] do
     recursive true
     if key == "log_dir"
-      mode 00640
+      mode 00750
     else
       mode 00755
     end
