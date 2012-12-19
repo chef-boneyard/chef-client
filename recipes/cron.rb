@@ -35,7 +35,7 @@ if ::File.executable?(node["chef_client"]["bin"])
 elsif Chef::Client.const_defined?('SANE_PATHS') && (chef_in_sane_path=Chef::Client::SANE_PATHS.map{|p| p="#{p}/chef-client";p if ::File.executable?(p)}.compact.first) && chef_in_sane_path
   client_bin = chef_in_sane_path
   # last ditch search for a bin in PATH
-elsif (chef_in_path=%x{which chef-client}.chomp) && ::File.executable?(chef_in_path)
+elsif (chef_in_path=%x{which chef_client}.chomp) && ::File.executable?(chef_in_path)
   client_bin = chef_in_path
 else
   raise "Could not locate the chef-client bin in any known path. Please set the proper path by overriding node['chef_client']['bin'] in a role."
@@ -102,6 +102,7 @@ cron "chef-client" do
   # Generate a uniformly distributed unique number to sleep.
   checksum = Digest::MD5.hexdigest "#{node['fqdn'] or 'unknown-hostname'}"
   sleep_time = checksum.to_s.hex % node['chef_client']['splay'].to_i
+  env = node['chef_client']['cron']['environment_variables']
 
-  command "/bin/sleep #{sleep_time}; #{client_bin} &> /dev/null"
+  command "/bin/sleep #{sleep_time}; #{env} #{client_bin} &> /dev/null"
 end
