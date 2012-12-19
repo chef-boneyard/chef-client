@@ -59,7 +59,7 @@ when "mac_os_x","mac_os_x_server"
   default["chef_client"]["init_style"]  = "launchd"
   default["chef_client"]["log_dir"]     = "/Library/Logs/Chef"
   # Launchd doesn't use pid files
-  default["chef_client"]["run_path"]    = nil
+  default["chef_client"]["run_path"]    = "/var/run/chef"
   default["chef_client"]["cache_path"]  = "/Library/Caches/Chef"
   default["chef_client"]["backup_path"] = "/Library/Caches/Chef/Backup"
   # Set to "daemon" if you want chef-client to run
