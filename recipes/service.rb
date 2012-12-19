@@ -23,7 +23,7 @@ require 'chef/version_constraint'
 require 'chef/exceptions'
 
 root_group = value_for_platform_family(
-  ["openbsd", "freebsd", "mac_os_x"] => { "default" => "wheel" },
+  ["openbsd", "freebsd", "mac_os_x"] => "wheel",
   "default" => "root"
 )
 
