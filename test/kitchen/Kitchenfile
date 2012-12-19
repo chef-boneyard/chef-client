@@ -3,4 +3,5 @@ cookbook "chef-client" do
   configuration "service"
   configuration "delete_validation"
   configuration "cron"
+  configuration "cron_environment_variables" # chef-client_test cookbook
 end

@@ -14,16 +14,10 @@
 # limitations under the License.
 #
 
-require File.expand_path('../support/helpers', __FILE__)
-
-describe 'chef-client::cron' do
-  include Helpers::ChefClient
-  it 'creates the cron job for chef-client' do
-    cron("chef-client").must_exist
-  end
-
-  it 'creates the cron command' do
-    cron("chef-client").command.
-      must_match %r{/bin/sleep \d+;  /usr/bin/chef-client &> /dev/null}
+module Helpers
+  module ChefClient
+    include MiniTest::Chef::Assertions
+    include MiniTest::Chef::Context
+    include MiniTest::Chef::Resources
   end
 end
