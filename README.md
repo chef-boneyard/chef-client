@@ -50,7 +50,7 @@ Attributes
 * `node["chef_client"]["backup_path"]` - Directory location for `Chef::Config[:file_backup_path]` where chef-client will backup templates and cookbook files. Default is based on platform, falls back to "/var/chef/backup".
 * `node["chef_client"]["cron"]["minute"]` - The hour that chef-client will run as a cron task, only applicable if the you set "cron" as the "init_style".
 * `node["chef_client"]["cron"]["hour"]` - The hour that chef-client will run as a cron task, only applicable if the you set "cron" as the "init_style".
-* `node["chef_client"]["cron"]["redirection"]` - Capture the output, and send it elsewhere.
+* `node["chef_client"]["cron"]["log_file"]` - Location to capture the chef-client output.
 * `node["chef_client"]["load_gems"]` - Hash of gems to load into chef via the client.rb file.
 * `node["chef_client"]["launchd_mode"]` - (Only for Mac OS X) if set to "daemon", runs chef-client with `-d` and `-s` options; defaults to "interval".
 
