@@ -1,3 +1,21 @@
+## v2.1.0:
+
+* [COOK-1755] - Don't delete the validation key on systems that have a
+  'chef-server' binary in the default $PATH
+* [COOK-1898] - Support Handlers and Cache Options with Attributes
+* [COOK-1923] - support chef-client::cron on Solaris/SmartOS
+* [COOK-1924] - use splay for size of random offset in
+  chef-client::cron
+* [COOK-1927] - unknown node[:fqdn] prevents bootstrap if
+  chef-client::cron is in runlist
+* [COOK-1951] - Add an attribute for additional daemon options to pass
+  to the chef-client service
+* [COOK-2004] - in attributes, "init" style claims to handle fedora,
+  but service.rb missing a clause
+* [COOK-2017] - Support alternate chef-client locations in Mac OS X
+  Launchd service plist
+* [COOK-2052] - Log files are set to insecure default
+
 ## v2.0.2:
 
 * Remove a stray comma that caused syntax error on some versions of Ruby.
