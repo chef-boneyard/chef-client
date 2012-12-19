@@ -34,7 +34,7 @@ root_group = value_for_platform(
 chef_node_name = Chef::Config[:node_name] == node["fqdn"] ? false : Chef::Config[:node_name]
 log_path = case node["chef_client"]["log_file"]
   when String
-    "'#{File.join(node["chef_client"]["log_dir"], node["chef_client"]["log_file"])}'"
+    File.join(node["chef_client"]["log_dir"], node["chef_client"]["log_file"])
   else
     'STDOUT'
   end
@@ -59,8 +59,10 @@ log_path = case node["chef_client"]["log_file"]
   end
 end
 
-file log_path do
-  mode 00640
+if log_path != "STDOUT"
+  file log_path do
+    mode 00640
+  end
 end
 
 chef_requires = []
@@ -80,7 +82,7 @@ template "#{node["chef_client"]["conf_dir"]}/client.rb" do
   mode 00644
   variables(
     :chef_node_name => chef_node_name,
-    :chef_log_location => log_path,
+    :chef_log_location => log_path == "STDOUT" ? "STDOUT" : "'#{log_path}'",
     :chef_log_level => node["chef_client"]["log_level"] || :info,
     :chef_environment => node["chef_client"]["environment"],
     :chef_requires => chef_requires,
