@@ -1,3 +1,14 @@
+## v2.1.2:
+
+* [COOK-2071] - chef-client breaks on value_for_platform_family b/c of
+  unneeded version
+* [COOK-2072] - chef-client on mac should not attempt to create
+  directory nil
+* [COOK-2086] - Allow the passing of an enviornment variables to
+  node['chef-client']['bin']
+* [COOK-2092] - chef-client run fails because quotes in log_path cause
+  File resource to fail
+
 ## v2.1.0:
 
 * [COOK-1755] - Don't delete the validation key on systems that have a
