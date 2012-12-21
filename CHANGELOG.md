@@ -1,3 +1,7 @@
+## v2.1.4:
+
+* [COOK-2108] - corrected Chef and Ohai version requirements in README
+
 ## v2.1.2:
 
 * [COOK-2071] - chef-client breaks on value_for_platform_family b/c of
