@@ -7,7 +7,7 @@ Requirements
 ============
 
 Chef 0.9.12 or higher is required.
-Chef 0.10.10 or higher is required for init_style "launchd".
+Chef 0.10.8 and Ohai 0.6.12 is required due to the use of platform_family
 
 Platforms
 ---------
