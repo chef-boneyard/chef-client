@@ -4,5 +4,5 @@ cookbook "chef-client" do
   configuration "delete_validation"
   configuration "cron"
   configuration "cook-2092"
-  configuration "cron_environment_variables"
+  configuration "cook-2086"
 end
