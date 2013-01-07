@@ -18,6 +18,10 @@
 # limitations under the License.
 #
 
+class ::Chef::Recipe
+  include ::Opscode::ChefClient::Helpers
+end
+
 unless node["platform"] == "windows"
   return "#{node['platform']} is not supported by the #{cookbook_name}::#{recipe_name} recipe"
 end
@@ -48,12 +52,8 @@ end
 
 node.set["chef_client"]["bin"] = client_bin
 
-['run_path', 'cache_path', 'backup_path', 'log_dir'].each do |key|
-  directory node["chef_client"][key] do
-    recursive true
-    mode 0755
-  end
-end
+# libraries/helpers.rb method to DRY directory creation resources
+create_directories
 
 windows_task "chef-client" do
   run_level :highest
