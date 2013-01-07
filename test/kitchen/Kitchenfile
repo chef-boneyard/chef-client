@@ -6,5 +6,5 @@ cookbook "chef-client" do
   configuration "cook-2092"
   configuration "cook-2169-root"
   configuration "cook-2169-chef"
-  configuration "cron_environment_variables"
+  configuration "cook-2086"
 end
