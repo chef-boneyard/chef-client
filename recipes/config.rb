@@ -43,6 +43,7 @@ log_path = case node["chef_client"]["log_file"]
     'STDOUT'
   end
 
+# libraries/helpers.rb method to DRY directory creation resources
 create_directories
 
 if log_path != "STDOUT"

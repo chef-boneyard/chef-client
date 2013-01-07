@@ -40,6 +40,7 @@ else
   raise "Could not locate the chef-client bin in any known path. Please set the proper path by overriding node['chef_client']['bin'] in a role."
 end
 
+# libraries/helpers.rb method to DRY directory creation resources
 create_directories
 
 dist_dir, conf_dir = value_for_platform_family(

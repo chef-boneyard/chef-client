@@ -62,6 +62,7 @@ end
 
 node.set["chef_client"]["bin"] = client_bin
 
+# libraries/helpers.rb method to DRY directory creation resources
 create_directories
 
 case node["chef_client"]["init_style"]
