@@ -14,3 +14,7 @@ recipe            "chef-client::cron", "Runs chef-client as a cron job rather th
 %w{ ubuntu debian redhat centos fedora oracle suse freebsd openbsd mac_os_x mac_os_x_server windows }.each do |os|
   supports os
 end
+
+suggests "bluepill"
+suggests "daemontools"
+suggests "runit"
