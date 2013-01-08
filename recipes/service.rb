@@ -19,11 +19,15 @@
 # limitations under the License.
 #
 
+class ::Chef::Recipe
+  include ::Opscode::ChefClient::Helpers
+end
+
 require 'chef/version_constraint'
 require 'chef/exceptions'
 
 root_group = value_for_platform_family(
-  ["openbsd", "freebsd", "mac_os_x"] => { "default" => "wheel" },
+  ["openbsd", "freebsd", "mac_os_x"] => "wheel",
   "default" => "root"
 )
 
@@ -58,23 +62,8 @@ end
 
 node.set["chef_client"]["bin"] = client_bin
 
-
-%w{run_path cache_path backup_path log_dir}.each do |key|
-  directory node["chef_client"][key] do
-    recursive true
-    mode 0755
-    unless node["platform"] == "windows"
-      if node.recipes().include?("chef-server")
-        owner "chef"
-        group "chef"
-      else
-        owner "root"
-        group root_group
-      end
-    end
-  end
-end
-
+# libraries/helpers.rb method to DRY directory creation resources
+create_directories
 
 case node["chef_client"]["init_style"]
 when "init"
@@ -82,6 +71,7 @@ when "init"
   #argh?
   dist_dir, conf_dir = value_for_platform_family(
     ["debian"] => ["debian", "default"],
+    ["fedora"] => ["redhat", "sysconfig"],
     ["rhel"] => ["redhat", "sysconfig"],
     ["suse"] => ["suse", "sysconfig"]
   )
@@ -280,7 +270,8 @@ when "launchd"
       source "com.opscode.chef-client.plist.erb"
       mode 0644
       variables(
-        :launchd_mode => node["chef_client"]["launchd_mode"]
+        :launchd_mode => node["chef_client"]["launchd_mode"],
+        :client_bin => client_bin
       )
     end
 

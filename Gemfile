@@ -1,3 +1,3 @@
 source :rubygems
 
-gem 'test-kitchen'
+gem "test-kitchen", ">= 0.7.0"

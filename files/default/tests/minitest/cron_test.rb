@@ -21,4 +21,9 @@ describe 'chef-client::cron' do
   it 'creates the cron job for chef-client' do
     cron("chef-client").must_exist
   end
+
+  it 'creates the cron command' do
+    cron("chef-client").command.
+      must_match %r{/bin/sleep \d+;  /usr/bin/chef-client &> /dev/null}
+  end
 end

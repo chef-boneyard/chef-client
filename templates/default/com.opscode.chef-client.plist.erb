@@ -7,7 +7,7 @@
   <string>com.opscode.chef-client</string>
 <%- if @launchd_mode == "interval" %>
   <key>Program</key>
-  <string>/usr/bin/chef-client</string>
+  <string><%= @client_bin %></string>
   <key>StartInterval</key>
   <integer><%= node["chef_client"]["interval"] %></integer>
   <key>RunAtLoad</key>
@@ -15,9 +15,12 @@
 <%- else %>
   <key>ProgramArguments</key>
   <array>
-    <string>/usr/bin/chef-client</string>
+    <string><%= @client_bin %></string>
     <string>-i <%= node["chef_client"]["interval"] %></string>
     <string>-s <%= node["chef_client"]["splay"] %></string>
+    <% node["chef_client"]["daemon_options"].each do |option| -%>
+    <string><%= option %></string>
+    <% end -%>
   </array>
 <%- end %>
   <key>UserName</key>

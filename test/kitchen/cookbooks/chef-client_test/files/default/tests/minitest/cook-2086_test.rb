@@ -1,9 +1,9 @@
 #
-# Author:: Joshua Timberman <joshua@opscode.com>
-# Cookbook Name:: chef
-# Recipe:: delete_validation
+# Author:: John Dewey (<john@dewey.ws>)
+# Cookbook Name:: chef-client
+# Recipe:: cron_environment_variables
 #
-# Copyright 2010, Opscode, Inc
+# Copyright 2012, John Dewey
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,15 +16,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-class ::Chef::Recipe
-  include ::Opscode::ChefClient::Helpers
-end
+require File.expand_path('../support/helpers', __FILE__)
 
-unless chef_server?
-  file Chef::Config[:validation_key] do
-    action :delete
-    backup false
-    only_if { ::File.exists?(Chef::Config[:client_key]) }
+describe 'chef-client::cron' do
+  include Helpers::ChefClient
+  it 'adds environment variables to the cron command' do
+    cron("chef-client").command.
+      must_match %r{/bin/sleep \d+; FOO=BAR /usr/bin/chef-client &> /dev/null}
   end
 end

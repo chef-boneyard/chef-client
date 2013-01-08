@@ -32,7 +32,7 @@ THE SOFTWARE.
   <name>Chef-client Service for Windows</name>
   <description>This service runs chef-client. Configuration of this service is managed by the chef-client cookbook.</description>
   <executable><%= node["chef_client"]["ruby_bin"] %></executable>
-  <arguments><%= node["chef_client"]["bin"] %> -L "<%= File.join(node["chef_client"]["log_dir"], "client.log") %>" -c "<%= File.join(node["chef_client"]["conf_dir"], "client.rb") %>" -i <%= node["chef_client"]["interval"] %> -s <%= node["chef_client"]["splay"] %></arguments>
+  <arguments><%= node["chef_client"]["bin"] %> -L "<%= File.join(node["chef_client"]["log_dir"], "client.log") %>" -c "<%= File.join(node["chef_client"]["conf_dir"], "client.rb") %>" -i <%= node["chef_client"]["interval"] %> -s <%= node["chef_client"]["splay"] %> <%= node["chef_client"]["daemon_options"].join(' ') %></arguments>
   <logmode>rotate</logmode>
   <logpath><%= node["chef_client"]["log_dir"] %></logpath>
 </service>

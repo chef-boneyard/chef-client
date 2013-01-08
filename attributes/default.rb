@@ -30,10 +30,19 @@ default["chef_client"]["conf_dir"]    = "/etc/chef"
 default["chef_client"]["bin"]         = "/usr/bin/chef-client"
 default["chef_client"]["server_url"]  = "http://localhost:4000"
 default["chef_client"]["validation_client_name"] = "chef-validator"
-default["chef_client"]["cron"] = { "minute" => "0", "hour" => "*/4", "path" => nil}
+default["chef_client"]["cron"] = {
+  "minute" => "0",
+  "hour" => "*/4",
+  "path" => nil,
+  "environment_variables" => nil,
+  "log_file" => "/dev/null"
+}
 default["chef_client"]["environment"] = nil
 default["chef_client"]["load_gems"] = {}
-default["chef_client"]["encrypted_data_bag_secret"] = nil
+default["chef_client"]["report_handlers"] = []
+default["chef_client"]["exception_handlers"] = []
+default["chef_client"]["checksum_cache_skip_expires"] = true
+default["chef_client"]["daemon_options"] = []
 
 case node['platform_family']
 when "arch"
@@ -56,7 +65,7 @@ when "mac_os_x","mac_os_x_server"
   default["chef_client"]["init_style"]  = "launchd"
   default["chef_client"]["log_dir"]     = "/Library/Logs/Chef"
   # Launchd doesn't use pid files
-  default["chef_client"]["run_path"]    = nil
+  default["chef_client"]["run_path"]    = "/var/run/chef"
   default["chef_client"]["cache_path"]  = "/Library/Caches/Chef"
   default["chef_client"]["backup_path"] = "/Library/Caches/Chef/Backup"
   # Set to "daemon" if you want chef-client to run
@@ -97,3 +106,5 @@ else
   default["chef_client"]["cache_path"]  = "/var/chef/cache"
   default["chef_client"]["backup_path"] = "/var/chef/backup"
 end
+
+default["chef_client"]["checksum_cache_path"] = "#{node["chef_client"]["cache_path"]}/checksums"
