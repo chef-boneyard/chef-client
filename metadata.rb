@@ -15,6 +15,6 @@ recipe            "chef-client::cron", "Runs chef-client as a cron job rather th
   supports os
 end
 
-depends "bluepill"
-depends "daemontools"
-depends "runit"
+suggests "bluepill"
+suggests "daemontools"
+suggests "runit"
