@@ -18,4 +18,4 @@ end
 suggests "bluepill"
 suggests "daemontools"
 suggests "runit"
-suggests "cron"
+depends "cron"
