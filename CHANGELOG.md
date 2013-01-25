@@ -1,3 +1,8 @@
+## v2.1.8:
+
+* [COOK-2192] - Add option to use cron_d resource for cron management
+* [COOK-2261] - pin runit dependency
+
 ## v2.1.6:
 
 * [COOK-1978] - make cron output location configurable
