@@ -26,6 +26,8 @@ The following platforms are supported by this cookbook, meaning that the recipes
 Opscode Cookbooks
 -----------------
 
+The `chef-client::cron` recipe requires the `cron_d` LWRP from Opscode's cron cookbook, so that is a dependency, otherwise the cron recipe will fail to converge.
+
 Other cookbooks can be used with this cookbook but they are not explicitly required. The default settings in this cookbook do not require their use. The other cookbooks (on community.opsocde.com) are:
 
 * bluepill
@@ -52,6 +54,7 @@ Attributes
 * `node["chef_client"]["cron"]["hour"]` - The hour that chef-client will run as a cron task, only applicable if the you set "cron" as the "init_style"
 * `node["chef_client"]["cron"]["environment_variables"]` - Environment variables to pass to chef-client's execution (e.g. SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt chef-client)
 * `node["chef_client"]["cron"]["log_file"]` - Location to capture the chef-client output.
+* `node["chef_client"]["cron"]["use_cron_d"]` - If true, use the "cron_d" LWRP (https://github.com/opscode-cookbooks/cron). If false (default), use the cron resource built-in to Chef.
 * `node["chef_client"]["load_gems"]` - Hash of gems to load into chef via the client.rb file
 * `node["chef_client"]["report_handlers"]` - Array of Hashes that contain a class and arguments element appended in the client.rb file. ex: `{:class => "MyHandler", :arguments => [true]}
 * `node["chef_client"]["exception_handlers"]` - Array of Hashes that contain a class and arguments element appended in the client.rb file. ex: `{:class => "MyHandler", :arguments => [true]}

@@ -78,18 +78,39 @@ when "openindiana","opensolaris","nexentacore","solaris2","smartos"
   end
 end
 
-cron "chef-client" do
-  minute  node['chef_client']['cron']['minute']
-  hour    node['chef_client']['cron']['hour']
-  path    node['chef_client']['cron']['path'] if node['chef_client']['cron']['path']
-  user    "root"
-  shell   "/bin/bash"
 
-  # Generate a uniformly distributed unique number to sleep.
-  checksum = Digest::MD5.hexdigest "#{node['fqdn'] or 'unknown-hostname'}"
-  sleep_time = checksum.to_s.hex % node['chef_client']['splay'].to_i
-  env = node['chef_client']['cron']['environment_variables']
-  log_file = node["chef_client"]["cron"]["log_file"]
+# Generate a uniformly distributed unique number to sleep.
+checksum   = Digest::MD5.hexdigest "#{node['fqdn'] or 'unknown-hostname'}"
+sleep_time = checksum.to_s.hex % node['chef_client']['splay'].to_i
+env        = node['chef_client']['cron']['environment_variables']
+log_file   = node["chef_client"]["cron"]["log_file"]
 
-  command "/bin/sleep #{sleep_time}; #{env} #{client_bin} &> #{log_file}"
+# If "use_cron_d" is set to true, delete the cron entry that uses the cron
+# resource built in to Chef and instead use the cron_d LWRP.
+if node['chef_client']['cron']['use_cron_d']
+  cron "chef-client" do
+    action :delete
+  end
+
+  cron_d "chef-client" do
+    minute  node['chef_client']['cron']['minute']
+    hour    node['chef_client']['cron']['hour']
+    path    node['chef_client']['cron']['path'] if node['chef_client']['cron']['path']
+    user    "root"
+    shell   "/bin/bash"
+    command "/bin/sleep #{sleep_time}; #{env} #{client_bin} &> #{log_file}"
+  end
+else
+  cron_d "chef-client" do
+    action :delete
+  end
+
+  cron "chef-client" do
+    minute  node['chef_client']['cron']['minute']
+    hour    node['chef_client']['cron']['hour']
+    path    node['chef_client']['cron']['path'] if node['chef_client']['cron']['path']
+    user    "root"
+    shell   "/bin/bash"
+    command "/bin/sleep #{sleep_time}; #{env} #{client_bin} &> #{log_file}"
+  end
 end

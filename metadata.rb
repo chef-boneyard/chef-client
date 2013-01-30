@@ -4,7 +4,7 @@ maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Manages aspects of only chef-client"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version           "2.1.6"
+version           "2.1.8"
 recipe            "chef-client", "Includes the service recipe by default."
 recipe            "chef-client::config", "Configures the client.rb from a template."
 recipe            "chef-client::service", "Sets up a client daemon to run periodically"
@@ -17,4 +17,5 @@ end
 
 suggests "bluepill"
 suggests "daemontools"
-suggests "runit"
+suggests "runit", "<= 0.16.2"
+depends "cron"
