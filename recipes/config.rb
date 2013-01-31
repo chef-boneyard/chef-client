@@ -75,7 +75,8 @@ template "#{node["chef_client"]["conf_dir"]}/client.rb" do
     :chef_requires => chef_requires,
     :chef_verbose_logging => node["chef_client"]["verbose_logging"],
     :chef_report_handlers => node["chef_client"]["report_handlers"],
-    :chef_exception_handlers => node["chef_client"]["exception_handlers"]
+    :chef_exception_handlers => node["chef_client"]["exception_handlers"],
+    :ohai_disabled_plugins => node['ohai']['disabled_plugins']
   )
   notifies :create, "ruby_block[reload_client_config]"
 end
