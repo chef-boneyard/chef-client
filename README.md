@@ -26,13 +26,12 @@ The following platforms are supported by this cookbook, meaning that the recipes
 Opscode Cookbooks
 -----------------
 
-The `chef-client::cron` recipe requires the `cron_d` LWRP from Opscode's cron cookbook, so that is a dependency, otherwise the cron recipe will fail to converge.
-
-Other cookbooks can be used with this cookbook but they are not explicitly required. The default settings in this cookbook do not require their use. The other cookbooks (on community.opsocde.com) are:
+Some cookbooks can be used with this cookbook but they are not explicitly required. The default settings in this cookbook do not require their use.  The cron cookbook is only needed for the cron recipe if `node["chef_client"]["cron"]["use_cron_d"]` is set to true (it's false by default). The other cookbooks (on community.opsocde.com) are:
 
 * bluepill
 * daemontools
 * runit
+* cron
 
 See __USAGE__ below.
 
@@ -111,8 +110,6 @@ seconds to ensure that the chef-clients don't attempt to connect to
 the chef-server at the exact same time. You should set
 node["chef_client"]["init_style"] = "none" when you use this mode but
 it is not required.
-
-
 
 USAGE
 =====
