@@ -62,6 +62,8 @@ node["chef_client"]["load_gems"].each do |gem_name, gem_info_hash|
   chef_requires.push(gem_info_hash[:require_name] || gem_name)
 end
 
+ohai_disabled_plugins = node['ohai']['disabled_plugins'].inspect
+
 template "#{node["chef_client"]["conf_dir"]}/client.rb" do
   source "client.rb.erb"
   owner root_user
@@ -76,7 +78,7 @@ template "#{node["chef_client"]["conf_dir"]}/client.rb" do
     :chef_verbose_logging => node["chef_client"]["verbose_logging"],
     :chef_report_handlers => node["chef_client"]["report_handlers"],
     :chef_exception_handlers => node["chef_client"]["exception_handlers"],
-    :ohai_disabled_plugins => node['ohai']['disabled_plugins']
+    :ohai_disabled_plugins => ohai_disabled_plugins
   )
   notifies :create, "ruby_block[reload_client_config]"
 end
