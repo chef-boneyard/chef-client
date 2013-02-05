@@ -1,3 +1,7 @@
+## v2.1.10:
+
+* [COOK-2316] - Permissions for SMF init type break Solaris 10
+
 ## v2.1.8:
 
 * [COOK-2192] - Add option to use cron_d resource for cron management
