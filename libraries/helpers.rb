@@ -30,7 +30,8 @@ module Opscode
 				end
       end
 
-      def create_directories
+      def create_directories(args={})
+        args = Mash.new(args)
         return if node["platform"] == "windows"
         server = chef_server?
 
@@ -43,8 +44,8 @@ module Opscode
               mode 00755
             end
             if server
-              owner "chef"
-              group "chef"
+              owner args[:owner] || "chef"
+              group args[:group] || "chef"
             else
               owner value_for_platform(
                 ["windows"] => { "default" => "Administrator" },

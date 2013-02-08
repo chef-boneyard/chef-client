@@ -53,7 +53,10 @@ end
 node.set["chef_client"]["bin"] = client_bin
 
 # libraries/helpers.rb method to DRY directory creation resources
-create_directories
+create_directories(
+  :owner => node['chef_client']['server_owner'], 
+  :group => node['chef_client']['server_group']
+)
 
 windows_task "chef-client" do
   run_level :highest
