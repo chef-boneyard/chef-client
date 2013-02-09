@@ -44,6 +44,7 @@ default["chef_client"]["report_handlers"] = []
 default["chef_client"]["exception_handlers"] = []
 default["chef_client"]["checksum_cache_skip_expires"] = true
 default["chef_client"]["daemon_options"] = []
+default["ohai"]["disabled_plugins"] = [] #Sets disabled_plugins to empty array
 
 case node['platform_family']
 when "arch"
