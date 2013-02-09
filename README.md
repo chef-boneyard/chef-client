@@ -62,6 +62,7 @@ Attributes
 * `node["chef_client"]["checksum_cache_path"]` -  file system path used in the `cache_options` section of the client.rb file.
 * `node["chef_client"]["launchd_mode"]` - (Only for Mac OS X) if set to "daemon", runs chef-client with `-d` and `-s` options; defaults to "interval"
 * `node["chef_client"]["daemon_options"]` - An array of additional options to pass to the chef-client service, empty by default, and must be an array if specified.
+* `node["ohai"]["disabled_plugins"]` - An array of ohai plugins to disable, empty by default, and must be an array if specified.
 
 Recipes
 =======
