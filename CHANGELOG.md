@@ -1,3 +1,9 @@
+## v2.2.0:
+
+* [COOK-2317] - Provide the ability to add disabled ohai plugins in a
+  managed chef config
+* [COOK-2255] - Chef-Client Cookbook init.d script under ubuntu
+
 ## v2.1.10:
 
 * [COOK-2316] - Permissions for SMF init type break Solaris 10
