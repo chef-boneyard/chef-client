@@ -37,8 +37,6 @@ running_pid() {
   name=$2
   [ -z "$pid" ] && return 1
   [ ! -d /proc/$pid ] &&  return 1
-  cmd=`awk '/Name:/ {print $2}' /proc/$pid/status`
-  [ "$cmd" != "$name" ] &&  return 1
   return 0
 }
 
