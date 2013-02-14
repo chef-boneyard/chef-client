@@ -7,4 +7,5 @@ cookbook "chef-client" do
   configuration "cook-2169-root"
   configuration "cook-2169-chef"
   configuration "cook-2086"
+  configuration "cook-2317"
 end
