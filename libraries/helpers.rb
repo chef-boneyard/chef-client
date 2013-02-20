@@ -20,7 +20,7 @@
 module Opscode
   module ChefClient
     module Helpers
-      include Chef::Mixin::Language
+      include Chef::DSL::PlatformIntrospection
 
       def chef_server?
 				if node["platform"] == "windows"
