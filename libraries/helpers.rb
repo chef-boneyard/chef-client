@@ -20,7 +20,11 @@
 module Opscode
   module ChefClient
     module Helpers
-      include Chef::Mixin::Language
+      if Chef::VERSION >= '11.0.0'
+        include Chef::DSL::PlatformIntrospection
+      else
+        include Chef::Mixin::Language
+      end
 
       def chef_server?
         if node["platform"] == "windows"
