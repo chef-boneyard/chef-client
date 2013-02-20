@@ -20,14 +20,18 @@
 module Opscode
   module ChefClient
     module Helpers
-      include Chef::Mixin::Language
+      if Chef::VERSION >= '11.0.0'
+        include Chef::DSL::PlatformIntrospection
+      else
+        include Chef::Mixin::Language
+      end
 
       def chef_server?
-				if node["platform"] == "windows"
-					node.recipe?("chef-server")
-				else
-					node.recipe?("chef-server") || system("which chef-server &> /dev/null ") || system("which chef-server-ctl &> /dev/null")
-				end
+        if node["platform"] == "windows"
+          node.recipe?("chef-server")
+        else
+          node.recipe?("chef-server") || system("which chef-server &> /dev/null ") || system("which chef-server-ctl &> /dev/null")
+        end
       end
 
       def create_directories
