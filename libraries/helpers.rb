@@ -23,11 +23,11 @@ module Opscode
       include Chef::Mixin::Language
 
       def chef_server?
-				if node["platform"] == "windows"
-					node.recipe?("chef-server")
-				else
-					node.recipe?("chef-server") || system("which chef-server &> /dev/null ") || system("which chef-server-ctl &> /dev/null")
-				end
+        if node["platform"] == "windows"
+          node.recipe?("chef-server")
+        else
+          node.recipe?("chef-server") || system("which chef-server") || system("which chef-server-ctl")
+        end
       end
 
       def create_directories
