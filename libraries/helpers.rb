@@ -25,6 +25,11 @@ module Opscode
       def chef_server?
 				if node["platform"] == "windows"
 					node.recipe?("chef-server")
+        elsif node["chef_client"]["disable_server_detection"]
+          false
+        elsif File.exists?('/opt/chef-server/manifest.txt')
+          current_version = File.readlines('/opt/chef-server/manifest.txt').first.split(' ').strip
+          Chef::Version.new('11.0.0') > Chef::Version.new(current_version)
 				else
 					node.recipe?("chef-server") || system("which chef-server &> /dev/null ") || system("which chef-server-ctl &> /dev/null")
 				end
