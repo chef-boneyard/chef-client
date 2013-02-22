@@ -81,16 +81,4 @@ cron "chef-client" do
   command "/bin/sleep `/usr/bin/expr $RANDOM \\% 90` &> /dev/null ; #{client_bin} &> /dev/null "
 end
 
-cron "chef-client-reboot" do
-  minute "@reboot"
-  hour ""
-  day ""
-  month ""
-  weekday ""
-  path node['chef_client']['cron']['path'] if node['chef_client']['cron']['path']
-  user  "root"
-  shell "/bin/bash"
-  command "/bin/sleep `/usr/bin/expr $RANDOM \\% 90` &> /dev/null ; #{client_bin} &> /dev/null "
-end
-
 

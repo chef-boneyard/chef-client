@@ -1,0 +1,9 @@
+#chef-client - Chef Configuration Management Client
+#
+# This script should run on server startup.
+
+description "Chef Client Upstart"
+
+start on runlevel [2345]
+
+exec <%= @client_bin %> -L <%= node["chef_client"]["log_dir"] %>/client-upstart.log
