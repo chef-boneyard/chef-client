@@ -41,7 +41,10 @@ else
 end
 
 # libraries/helpers.rb method to DRY directory creation resources
-create_directories
+create_directories(
+  :owner => node['chef_client']['server_owner'], 
+  :group => node['chef_client']['server_group']
+)
 
 dist_dir, conf_dir = value_for_platform_family(
                                         ["debian"] => ["debian", "default"],

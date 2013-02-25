@@ -110,3 +110,6 @@ else
 end
 
 default["chef_client"]["checksum_cache_path"] = "#{node["chef_client"]["cache_path"]}/checksums"
+default["chef_client"]["server_owner"] = "chef"
+default["chef_client"]["server_group"] = "chef"
+default["chef_client"]["disable_server_detection"] = false

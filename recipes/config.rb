@@ -44,7 +44,10 @@ log_path = case node["chef_client"]["log_file"]
   end
 
 # libraries/helpers.rb method to DRY directory creation resources
-create_directories
+create_directories(
+  :owner => node['chef_client']['server_owner'], 
+  :group => node['chef_client']['server_group']
+)
 
 if log_path != "STDOUT"
   file log_path do
