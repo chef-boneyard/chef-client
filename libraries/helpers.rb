@@ -51,7 +51,7 @@ module Opscode
                 "default" => "root"
               )
               group value_for_platform_family(
-                ["openbsd", "freebsd", "mac_os_x"] => [ "wheel" ],
+                ["openbsd", "freebsd", "mac_os_x"] => "wheel",
                 "default" => "root"
               )
             end
