@@ -110,3 +110,9 @@ else
 end
 
 default["chef_client"]["checksum_cache_path"] = "#{node["chef_client"]["cache_path"]}/checksums"
+
+# Setting client_fork to true is the same as passing "--fork" to the
+# chef-client binary. It was added in Chef 10.14.
+if Chef::VersionConstraint.new(">= 10.14").include?(node['chef_packages']['chef']['version'])
+  default["chef_client"]["client_fork"] = false
+end
