@@ -1,3 +1,17 @@
+## v2.2.2:
+
+* [COOK-2393] - chef-client::delete_validation checks for chef-server
+  in the path, on chef 11, needs to check for chef-server-ctl
+* [COOK-2410] - chef-client::service doesn't always start the
+  chef-client daemon
+* [COOK-2413] - Deprecation warning when using Chef::Mixin::Language
+  in chef-client cookbook under chef 11.x
+* [COOK-2446] - Typo: the chef-client executable has a hyphen
+* [COOK-2492] - Ruby System("") call that includes an '&' on Ubuntu
+  has odd behavior.
+* [COOK-2536] - On Freebsd - chef-client group values in helper
+  library should be set to "wheel" vs [ "wheel" ]
+
 ## v2.2.0:
 
 * [COOK-2317] - Provide the ability to add disabled ohai plugins in a
