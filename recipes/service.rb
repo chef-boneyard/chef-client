@@ -227,8 +227,10 @@ when "daemontools"
 
 when "winsw"
 
-  directory node["chef_client"]["winsw_dir"] do
-    action :create
+  %w( winsw_dir log_dir run_dir cache_dir ).each do |dir|
+    directory node["chef_client"][dir] do
+      action :create
+    end
   end
 
   template "#{node["chef_client"]["winsw_dir"]}/chef-client.xml" do
