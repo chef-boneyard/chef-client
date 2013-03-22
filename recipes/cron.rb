@@ -65,6 +65,9 @@ when "arch","debian","rhel","fedora","suse","openbsd","freebsd"
   end
 
   service "chef-client" do
+    if "upstart" == node["chef_client"]["init_style"]
+      provider Chef::Provider::Service::Upstart
+    end
     supports :status => true, :restart => true
     action [:disable, :stop]
   end
