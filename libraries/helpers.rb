@@ -52,8 +52,8 @@ module Opscode
               mode 00755
             end
             if server
-              owner "chef"
-              group "chef"
+              owner "chef_server"
+              group "chef_server"
             else
               owner value_for_platform(
                 ["windows"] => { "default" => "Administrator" },
