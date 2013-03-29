@@ -1,0 +1,76 @@
+---
+driver_plugin: vagrant
+platforms:
+- name: ubuntu-12.04
+  driver_config:
+    box: canonical-ubuntu-12.04
+    box_url: http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box
+    require_chef_omnibus: 11.4.0
+- name: ubuntu-10.04
+  driver_config:
+    box: opscode-ubuntu-10.04
+    box_url: http://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04_chef-11.2.0.box
+    require_chef_omnibus: 11.4.0
+- name: centos-6.3
+  driver_config:
+    box: opscode-centos-6.3
+    box_url: http://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-6.3_chef-11.2.0.box
+    require_chef_omnibus: 11.4.0
+- name: centos-5.8
+  driver_config:
+    box: opscode-centos-5.8
+    box_url: http://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-5.8_chef-11.2.0.box
+    require_chef_omnibus: 11.4.0
+
+suites:
+- name: config
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[chef-client::config]
+  attributes: {}
+- name: service_init
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[chef-client::service]
+  - recipe[chef-client_test::service_init]
+  attributes: { chef_client: { init_style: "init" } }
+- name: service_runit
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[runit]
+  - recipe[chef-client::service]
+  - recipe[chef-client_test::service_runit]
+  attributes: { chef_client: { init_style: "runit" } }
+- name: cron
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[chef-client::cron]
+  attributes: {}
+- name: delete_validation
+  run_list:
+  - recipe[chef-client::delete_validation]
+- name: cook-2092
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[chef-client_test::cook-2092]
+  attributes: {}
+- name: cook-2169-root
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[chef-client_test::cook-2169-root]
+  attributes: {}
+- name: cook-2169-chef
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[chef-client_test::cook-2169-chef]
+  attributes: {}
+- name: cook-2086
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[chef-client_test::cook-2086]
+  attributes: {}
+- name: cook-2317
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[chef-client_test::cook-2317]
+  attributes: {}
