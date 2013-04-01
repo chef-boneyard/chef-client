@@ -243,8 +243,8 @@ when "winsw"
   end
 
   # Chef client service fails to start if the logs folder is not already created. 
-  directory default["chef_client"]["log_dir"] do    
-    action :create
+  directory node["chef_client"]["log_dir"] do    
+    action :create  
   end
 
   # Work-around for CHEF-2541
