@@ -40,6 +40,7 @@ default["chef_client"]["cron"] = {
 }
 default["chef_client"]["environment"] = nil
 default["chef_client"]["load_gems"] = {}
+default["chef_client"]["encrypted_data_bag_secret"] = nil
 default["chef_client"]["report_handlers"] = []
 default["chef_client"]["exception_handlers"] = []
 default["chef_client"]["checksum_cache_skip_expires"] = true
