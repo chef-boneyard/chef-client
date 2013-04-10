@@ -52,8 +52,8 @@ module Opscode
               mode 00755
             end
             if server
-              owner "chef"
-              group "chef"
+              owner node["chef_client"]["chef_server_user"]
+              group node["chef_client"]["chef_server_group"]
             else
               owner value_for_platform(
                 ["windows"] => { "default" => "Administrator" },
