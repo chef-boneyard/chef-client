@@ -31,9 +31,9 @@ module Opscode
           node.recipe?("chef-server")
         else
           Chef::Log.debug("Node has Chef Server Recipe? #{node.recipe?("chef-server")}")
-          Chef::Log.debug("Node has Chef Server Executable? #{system("which chef-server 2>&1 > /dev/null ")}")
-          Chef::Log.debug("Node has Chef Server Ctl Executable? #{system("which chef-server-ctl 2>&1 > /dev/null")}")
-          node.recipe?("chef-server") || system("which chef-server 2>&1 > /dev/null ") || system("which chef-server-ctl 2>&1 > /dev/null")
+          Chef::Log.debug("Node has Chef Server Executable? #{system("which chef-server > /dev/null 2>&1")}")
+          Chef::Log.debug("Node has Chef Server Ctl Executable? #{system("which chef-server-ctl > /dev/null 2>&1")}")
+          node.recipe?("chef-server") || system("which chef-server > /dev/null 2>&1") || system("which chef-server-ctl > /dev/null 2>&1")
         end
       end
 
