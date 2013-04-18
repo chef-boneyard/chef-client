@@ -242,6 +242,11 @@ when "winsw"
     not_if { File.exists?(winsw_path) }
   end
 
+  # Chef client service fails to start if the logs folder is not already created. 
+  directory node["chef_client"]["log_dir"] do    
+    action :create  
+  end
+
   # Work-around for CHEF-2541
   # Should be replaced by a service :restart action
   # in Chef 0.10.6
