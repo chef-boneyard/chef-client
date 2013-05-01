@@ -37,6 +37,16 @@ module Opscode
         end
       end
 
+      def chef_user_exists?
+        # encapsulates this exception so we don't have to use it for control flow.
+        begin
+          Etc.getpwnam("chef")
+          true
+        rescue ArgumentError
+          false
+        end
+      end
+
       def create_directories
         return if node["platform"] == "windows"
 
@@ -51,11 +61,10 @@ module Opscode
               mode 00755
             end
             if chef_server?
-              begin
-                Etc.getpwnam("chef")
+              if chef_user_exists?
                 owner "chef"
                 group "chef"
-              rescue ArgumentError => e
+              else
                 Chef::Log.debug("chef user does not exist")
               end
             else
