@@ -60,7 +60,7 @@ module Opscode
             else
               mode 00755
             end
-            if chef_server? || chef_user_exists?
+            if chef_server? && chef_user_exists?
               owner "chef"
               group "chef"
             else
