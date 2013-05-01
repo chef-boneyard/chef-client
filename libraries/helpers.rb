@@ -60,25 +60,29 @@ module Opscode
             else
               mode 00755
             end
-            if chef_server?
-              if chef_user_exists?
-                owner "chef"
-                group "chef"
-              else
-                Chef::Log.debug("chef user does not exist")
-              end
+            if chef_server? || chef_user_exists?
+              owner "chef"
+              group "chef"
             else
-              owner value_for_platform(
-                ["windows"] => { "default" => "Administrator" },
-                "default" => "root"
-              )
-              group value_for_platform_family(
-                ["openbsd", "freebsd", "mac_os_x"] => "wheel",
-                "default" => "root"
-              )
+              owner root_user
+              group root_group
             end
           end
         end
+      end
+
+      def root_user
+        value_for_platform(
+          ["windows"] => { "default" => "Administrator" },
+          "default" => "root"
+        )
+      end
+
+      def root_group
+        value_for_platform_family(
+          ["openbsd", "freebsd", "mac_os_x"] => "wheel",
+          "default" => "root"
+        )
       end
     end
   end
