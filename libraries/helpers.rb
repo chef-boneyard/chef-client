@@ -50,8 +50,6 @@ module Opscode
       def create_directories
         return if node["platform"] == "windows"
 
-        Chef::Log.debug("Chef Server? #{server}")
-
         %w{run_path cache_path backup_path log_dir conf_dir}.each do |key|
           directory node["chef_client"][key] do
             recursive true
