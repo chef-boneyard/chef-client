@@ -40,7 +40,6 @@ module Opscode
       def create_directories
         return if node["platform"] == "windows"
 
-        server = chef_server?
         Chef::Log.debug("Chef Server? #{server}")
 
         %w{run_path cache_path backup_path log_dir conf_dir}.each do |key|
@@ -51,7 +50,7 @@ module Opscode
             else
               mode 00755
             end
-            if server
+            if chef_server?
               begin
                 Etc.getpwnam("chef")
                 owner "chef"
