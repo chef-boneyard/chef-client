@@ -259,6 +259,12 @@ when "winsw"
   execute "Install chef-client service using winsw" do
     command "#{winsw_path} install"
     only_if { WMI::Win32_Service.find(:first, :conditions => {:name => "chef-client"}).nil? }
+    notifies :run, "execute[set chef-client to delayed start]", :immediately
+  end
+
+  execute "set chef-client to delayed start" do
+    command "sc config chef-client start= delayed-auto"
+    action :nothing
   end
 
   service "chef-client" do
