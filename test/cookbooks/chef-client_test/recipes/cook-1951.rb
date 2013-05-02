@@ -1,5 +1,8 @@
 #
-# Copyright 2012, Opscode, Inc.
+# Cookbook Name:: chef-client_test
+# Recipe:: cook-1951
+#
+# Copyright 2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,12 +17,4 @@
 # limitations under the License.
 #
 
-module Helpers
-  module ChefClient
-    require 'chef/mixin/shell_out'
-    include Chef::Mixin::ShellOut
-    include MiniTest::Chef::Assertions
-    include MiniTest::Chef::Context
-    include MiniTest::Chef::Resources
-  end
-end
+include_recipe "chef-client::service"

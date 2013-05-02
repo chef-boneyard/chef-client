@@ -52,25 +52,39 @@ suites:
 - name: cook-2092
   run_list:
   - recipe[minitest-handler]
+  - recipe[chef-client::config]
   - recipe[chef-client_test::cook-2092]
   attributes: {}
 - name: cook-2169-root
   run_list:
   - recipe[minitest-handler]
+  - recipe[chef-client::cron]
   - recipe[chef-client_test::cook-2169-root]
   attributes: {}
 - name: cook-2169-chef
   run_list:
   - recipe[minitest-handler]
+  - recipe[chef-client::cron]
   - recipe[chef-client_test::cook-2169-chef]
   attributes: {}
 - name: cook-2086
   run_list:
   - recipe[minitest-handler]
+  - recipe[chef-client::cron]
   - recipe[chef-client_test::cook-2086]
   attributes: {}
 - name: cook-2317
   run_list:
   - recipe[minitest-handler]
+  - recipe[chef-client::config]
   - recipe[chef-client_test::cook-2317]
   attributes: {}
+- name: cook-1951
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[chef-client::service]
+  - recipe[chef-client_test::cook-1951]
+  attributes:
+    chef_client:
+      init_style: "init"
+      daemon_options: ["-E cook-1951"]

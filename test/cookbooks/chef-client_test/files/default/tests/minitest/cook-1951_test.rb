@@ -1,5 +1,7 @@
 #
-# Copyright 2012, Opscode, Inc.
+# Author:: Joshua Timberman (<joshua@opscode.com>)
+#
+# Copyright 2013, Opscode, Inc <legal@opscode.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,12 +16,12 @@
 # limitations under the License.
 #
 
-module Helpers
-  module ChefClient
-    require 'chef/mixin/shell_out'
-    include Chef::Mixin::ShellOut
-    include MiniTest::Chef::Assertions
-    include MiniTest::Chef::Context
-    include MiniTest::Chef::Resources
+require File.expand_path('../support/helpers', __FILE__)
+
+describe 'chef-client::cook-1951' do
+  include Helpers::ChefClient
+  it 'applies daemon options to the service' do
+    ps = shell_out(node['command']['ps'])
+    assert ps.stdout.match(/chef-client.*-E cook-1951/)
   end
 end
