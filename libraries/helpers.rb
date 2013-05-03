@@ -51,7 +51,7 @@ module Opscode
             else
               mode 00755
             end
-            if server
+            if server && node["etc"]["passwd"]["chef"]
               owner "chef"
               group "chef"
             else
