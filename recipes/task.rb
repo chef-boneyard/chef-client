@@ -50,7 +50,7 @@ else
   raise "Could not locate the chef-client bin in any known path. Please set the proper path by overriding node['chef_client']['bin'] in a role."
 end
 
-node.set["chef_client"]["bin"] = client_bin
+node.override["chef_client"]["bin"] = client_bin
 
 # libraries/helpers.rb method to DRY directory creation resources
 create_directories
