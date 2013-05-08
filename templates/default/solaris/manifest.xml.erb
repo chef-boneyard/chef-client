@@ -59,6 +59,12 @@
                 name='start'
                 exec='<%= node['chef_client']['method_dir'] %>/chef-client %m'
                 timeout_seconds='60'>
+                <method_context>
+                        <method_environment>
+                                <envvar name="LANG" value="en_US.UTF-8"/>
+                                <envvar name="LC_ALL" value="en_US.UTF-8"/>
+                        </method_environment>
+                </method_context>
         </exec_method>
 
         <exec_method
