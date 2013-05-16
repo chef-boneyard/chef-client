@@ -80,7 +80,7 @@ end
 
 
 # Generate a uniformly distributed unique number to sleep.
-checksum   = Digest::MD5.hexdigest "#{node['fqdn'] or 'unknown-hostname'}"
+checksum   = Digest::MD5.hexdigest(node['fqdn'] or 'unknown-hostname')
 sleep_time = checksum.to_s.hex % node['chef_client']['splay'].to_i
 env        = node['chef_client']['cron']['environment_variables']
 log_file   = node["chef_client"]["cron"]["log_file"]
