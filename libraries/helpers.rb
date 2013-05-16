@@ -52,8 +52,13 @@ module Opscode
               mode 00755
             end
             if server
-              owner "chef"
-              group "chef"
+              begin
+                Etc.getpwnam("chef")
+                owner "chef"
+                group "chef"
+              rescue ArgumentError => e
+                Chef::Log.debug("chef user does not exist")
+              end
             else
               owner value_for_platform(
                 ["windows"] => { "default" => "Administrator" },
