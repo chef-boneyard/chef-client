@@ -1,3 +1,16 @@
+## v2.2.4
+
+### Bug
+
+- [COOK-2687]: chef-client::service doesn't work on SLES 11
+- [COOK-2689]: chef-client service recipe on windows fails to start
+- [COOK-2700]: chef-client cookbook should have more splay
+- [COOK-2952]: chef-client cookbook has foodcritic failures
+
+### Sub-task
+
+- [COOK-2823]: Chef-client SMF manifest should set locale to UTF-8
+
 ## v2.2.2:
 
 * [COOK-2393] - chef-client::delete_validation checks for chef-server
