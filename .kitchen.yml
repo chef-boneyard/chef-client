@@ -31,6 +31,7 @@ suites:
 - name: service_init
   run_list:
   - recipe[minitest-handler]
+  - recipe[chef-client::config]
   - recipe[chef-client::service]
   - recipe[chef-client_test::service_init]
   attributes: { chef_client: { init_style: "init" } }
