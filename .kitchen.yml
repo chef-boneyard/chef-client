@@ -25,24 +25,24 @@ platforms:
 suites:
 - name: config
   run_list:
-  - recipe[minitest-handler]
   - recipe[chef-client::config]
   attributes: {}
 - name: service_init
   run_list:
   - recipe[minitest-handler]
   - recipe[chef-client::config]
+  - recipe[chef-client_test::service_init]
   - recipe[chef-client::service]
   attributes: { chef_client: { init_style: "init" } }
 - name: service_runit
   run_list:
   - recipe[minitest-handler]
   - recipe[runit]
+  - recipe[chef-client_test::service_runit]
   - recipe[chef-client::service]
   attributes: { chef_client: { init_style: "runit" } }
 - name: cron
   run_list:
-  - recipe[minitest-handler]
   - recipe[chef-client::cron]
   attributes: {}
 - name: delete_validation
@@ -51,6 +51,7 @@ suites:
 - name: cook-2092
   run_list:
   - recipe[minitest-handler]
+  - recipe[chef-client_test::cook-2092]
   - recipe[chef-client::config]
   attributes:
     chef_client:
@@ -70,6 +71,7 @@ suites:
 - name: cook-2086
   run_list:
   - recipe[minitest-handler]
+  - recipe[chef-client_test::cook-2086]
   - recipe[chef-client::cron]
   attributes:
     chef_client:
@@ -78,7 +80,6 @@ suites:
   run_list:
   - recipe[minitest-handler]
   - recipe[chef-client_test::cook-2317]
-  - recipe[chef-client::config]
   attributes:
     ohai:
       disabled_plugins: ["passwd"]
@@ -86,7 +87,7 @@ suites:
   run_list:
   - recipe[minitest-handler]
   - recipe[chef-client::config]
-  - recipe[chef-client::service]
+  - recipe[chef-client_test::cook-1951]
   attributes:
     chef_client:
       init_style: "init"
