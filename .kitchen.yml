@@ -33,14 +33,12 @@ suites:
   - recipe[minitest-handler]
   - recipe[chef-client::config]
   - recipe[chef-client::service]
-  - recipe[chef-client_test::service_init]
   attributes: { chef_client: { init_style: "init" } }
 - name: service_runit
   run_list:
   - recipe[minitest-handler]
   - recipe[runit]
   - recipe[chef-client::service]
-  - recipe[chef-client_test::service_runit]
   attributes: { chef_client: { init_style: "runit" } }
 - name: cron
   run_list:
@@ -54,37 +52,41 @@ suites:
   run_list:
   - recipe[minitest-handler]
   - recipe[chef-client::config]
-  - recipe[chef-client_test::cook-2092]
-  attributes: {}
+  attributes:
+    chef_client:
+      log_file: "client.log"
 - name: cook-2169-root
   run_list:
   - recipe[minitest-handler]
-  - recipe[chef-client::cron]
   - recipe[chef-client_test::cook-2169-root]
+  - recipe[chef-client::cron]
   attributes: {}
 - name: cook-2169-chef
   run_list:
   - recipe[minitest-handler]
-  - recipe[chef-client::cron]
   - recipe[chef-client_test::cook-2169-chef]
+  - recipe[chef-client::cron]
   attributes: {}
 - name: cook-2086
   run_list:
   - recipe[minitest-handler]
   - recipe[chef-client::cron]
-  - recipe[chef-client_test::cook-2086]
-  attributes: {}
+  attributes:
+    chef_client:
+      environment_variables: "FOO=BAR"
 - name: cook-2317
   run_list:
   - recipe[minitest-handler]
-  - recipe[chef-client::config]
   - recipe[chef-client_test::cook-2317]
-  attributes: {}
+  - recipe[chef-client::config]
+  attributes:
+    ohai:
+      disabled_plugins: ["passwd"]
 - name: cook-1951
   run_list:
   - recipe[minitest-handler]
+  - recipe[chef-client::config]
   - recipe[chef-client::service]
-  - recipe[chef-client_test::cook-1951]
   attributes:
     chef_client:
       init_style: "init"
