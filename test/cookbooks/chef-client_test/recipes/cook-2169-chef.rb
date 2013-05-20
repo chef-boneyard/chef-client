@@ -35,8 +35,8 @@ end
 
 execute "touch chef-server" do
   command <<-EOF
-  touch /usr/local/bin/chef-server
-  chmod u+x /usr/local/bin/chef-server
+  touch /usr/bin/chef-server
+  chmod u+x /usr/bin/chef-server
   EOF
   action :nothing
 end.run_action(:run)
