@@ -37,11 +37,18 @@ module Opscode
         end
       end
 
+      def chef_user_exists?
+        # encapsulates this exception so we don't have to use it for control flow.
+        begin
+          Etc.getpwnam("chef")
+          true
+        rescue ArgumentError
+          false
+        end
+      end
+
       def create_directories
         return if node["platform"] == "windows"
-
-        server = chef_server?
-        Chef::Log.debug("Chef Server? #{server}")
 
         %w{run_path cache_path backup_path log_dir conf_dir}.each do |key|
           directory node["chef_client"][key] do
@@ -51,21 +58,29 @@ module Opscode
             else
               mode 00755
             end
-            if server
+            if chef_server? && chef_user_exists?
               owner "chef"
               group "chef"
             else
-              owner value_for_platform(
-                ["windows"] => { "default" => "Administrator" },
-                "default" => "root"
-              )
-              group value_for_platform_family(
-                ["openbsd", "freebsd", "mac_os_x"] => "wheel",
-                "default" => "root"
-              )
+              owner root_user
+              group root_group
             end
           end
         end
+      end
+
+      def root_user
+        value_for_platform(
+          ["windows"] => { "default" => "Administrator" },
+          "default" => "root"
+        )
+      end
+
+      def root_group
+        value_for_platform_family(
+          ["openbsd", "freebsd", "mac_os_x"] => "wheel",
+          "default" => "root"
+        )
       end
     end
   end
