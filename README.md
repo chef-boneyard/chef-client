@@ -56,6 +56,7 @@ Attributes
 * `node["chef_client"]["cron"]["log_file"]` - Location to capture the chef-client output.
 * `node["chef_client"]["cron"]["use_cron_d"]` - If true, use the "cron_d" LWRP (https://github.com/opscode-cookbooks/cron). If false (default), use the cron resource built-in to Chef.
 * `node["chef_client"]["load_gems"]` - Hash of gems to load into chef via the client.rb file
+* `node["chef_client"]["start_handlers"]` - Array of Hashes that contain a class and arguments element appended in the client.rb file. ex: `{:class => "MyHandler", :arguments => [true]}
 * `node["chef_client"]["report_handlers"]` - Array of Hashes that contain a class and arguments element appended in the client.rb file. ex: `{:class => "MyHandler", :arguments => [true]}
 * `node["chef_client"]["exception_handlers"]` - Array of Hashes that contain a class and arguments element appended in the client.rb file. ex: `{:class => "MyHandler", :arguments => [true]}
 * `node["chef_client"]["checksum_cache_skip_expires"]` - true or false value used in the `cache_options` section of the client.rb file.
