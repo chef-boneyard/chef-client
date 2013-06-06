@@ -40,7 +40,7 @@ module Opscode
       def chef_user_exists?
         # encapsulates this exception so we don't have to use it for control flow.
         begin
-          Etc.getpwnam("chef")
+          Etc.getpwnam(node["chef_client"]["chef_server_user"])
           true
         rescue ArgumentError
           false
@@ -58,7 +58,7 @@ module Opscode
             else
               mode 00755
             end
-            if server
+            if chef_server? && chef_user_exists?
               owner node["chef_client"]["chef_server_user"]
               group node["chef_client"]["chef_server_group"]
             else
