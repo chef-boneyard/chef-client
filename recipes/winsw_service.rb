@@ -2,9 +2,6 @@ class ::Chef::Recipe
   include ::Opscode::ChefClient::Helpers
 end
 
-require 'chef/version_constraint'
-require 'chef/exceptions'
-
 # libraries/helpers.rb method to DRY directory creation resources
 client_bin = find_chef_client
 log "Found chef-client in #{client_bin}"
@@ -20,10 +17,10 @@ template "#{node["chef_client"]["winsw_dir"]}/chef-client.xml" do
   notifies :run, "execute[restart chef-client using winsw wrapper]", :delayed
 end
 
-winsw_path = File.join(node["chef_client"]["winsw_dir"], node["chef_client"]["winsw_exe"])
+winsw_path = ::File.join(node["chef_client"]["winsw_dir"], node["chef_client"]["winsw_exe"])
 remote_file winsw_path do
   source node["chef_client"]["winsw_url"]
-  not_if { File.exists?(winsw_path) }
+  not_if { ::File.exists?(winsw_path) }
 end
 
 # Work-around for CHEF-2541

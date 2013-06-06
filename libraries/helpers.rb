@@ -22,8 +22,10 @@ module Opscode
     module Helpers
       if Chef::VERSION >= '11.0.0'
         include Chef::DSL::PlatformIntrospection
+        CHEF_SERVER_USER = 'chef_server'
       else
         include Chef::Mixin::Language
+        CHEF_SERVER_USER = 'chef'
       end
 
       def chef_server?
@@ -39,7 +41,7 @@ module Opscode
 
       def dir_owner
         if chef_server?
-          'chef'
+          CHEF_SERVER_USER
         else
           ['windows'].include?(node['platform']) ? 'Administrator' : 'root'
         end
@@ -51,7 +53,7 @@ module Opscode
 
       def dir_group
         if chef_server?
-          'chef'
+          CHEF_SERVER_USER
         else
           root_group
         end
@@ -59,14 +61,15 @@ module Opscode
 
       def create_directories
         return if ['windows'].include?(node['platform'])
-
-        Chef::Log.debug("Chef Server? #{server}")
+        # dir_owner and dir_group are not found in the block below.
+        o = dir_owner
+        g = dir_group
         %w{run_path cache_path backup_path log_dir conf_dir}.each do |dir|
           directory node["chef_client"][dir] do
             recursive true
             mode 00750 if dir == "log_dir"
-            owner dir_owner
-            group dir_group
+            owner o
+            group g
           end
         end
       end
