@@ -26,21 +26,9 @@ class ::Chef::Recipe
   include ::Opscode::ChefClient::Helpers
 end
 
-# COOK-635 account for alternate gem paths
-# try to use the bin provided by the node attribute
-if ::File.executable?(node["chef_client"]["bin"])
-  client_bin = node["chef_client"]["bin"]
-  # search for the bin in some sane paths
-elsif Chef::Client.const_defined?('SANE_PATHS') && (chef_in_sane_path=Chef::Client::SANE_PATHS.map{|p| p="#{p}/chef-client";p if ::File.executable?(p)}.compact.first) && chef_in_sane_path
-  client_bin = chef_in_sane_path
-  # last ditch search for a bin in PATH
-elsif (chef_in_path=%x{which chef-client}.chomp) && ::File.executable?(chef_in_path)
-  client_bin = chef_in_path
-else
-  raise "Could not locate the chef-client bin in any known path. Please set the proper path by overriding node['chef_client']['bin'] in a role."
-end
-
 # libraries/helpers.rb method to DRY directory creation resources
+client_bin = find_chef_client
+node.set["chef_client"]["bin"] = client_bin
 create_directories
 
 dist_dir, conf_dir = value_for_platform_family(
@@ -54,9 +42,7 @@ when "arch","debian","rhel","fedora","suse","openbsd","freebsd"
   template "/etc/init.d/chef-client" do
     source "#{dist_dir}/init.d/chef-client.erb"
     mode 0755
-    variables(
-              :client_bin => client_bin
-              )
+    variables( :client_bin => client_bin )
   end
 
   template "/etc/#{conf_dir}/chef-client" do
@@ -66,6 +52,9 @@ when "arch","debian","rhel","fedora","suse","openbsd","freebsd"
 
   service "chef-client" do
     supports :status => true, :restart => true
+    if node['chef_client']['init_style'] == 'upstart'
+      provider Chef::Provider::Service::Upstart
+    end
     action [:disable, :stop]
   end
 
@@ -77,7 +66,6 @@ when "openindiana","opensolaris","nexentacore","solaris2","smartos"
     ignore_failure true
   end
 end
-
 
 # Generate a uniformly distributed unique number to sleep.
 checksum   = Digest::MD5.hexdigest(node['fqdn'] || 'unknown-hostname')
