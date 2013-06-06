@@ -2,9 +2,6 @@ class ::Chef::Recipe
   include ::Opscode::ChefClient::Helpers
 end
 
-require 'chef/version_constraint'
-require 'chef/exceptions'
-
 # libraries/helpers.rb method to DRY directory creation resources
 client_bin = find_chef_client
 log "Found chef-client in #{client_bin}"
