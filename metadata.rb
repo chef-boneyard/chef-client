@@ -17,5 +17,5 @@ end
 
 suggests "bluepill"
 suggests "daemontools"
-suggests "runit", "<= 0.16.2"
-depends "cron"
+suggests "runit"
+depends "cron", ">= 1.2.0"
