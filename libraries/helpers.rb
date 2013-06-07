@@ -39,11 +39,15 @@ module Opscode
         end
       end
 
+      def root_owner
+        ['windows'].include?(node['platform']) ? 'Administrator' : 'root'
+      end
+
       def dir_owner
         if chef_server?
           CHEF_SERVER_USER
         else
-          ['windows'].include?(node['platform']) ? 'Administrator' : 'root'
+          root_owner
         end
       end
 
