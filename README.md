@@ -48,6 +48,7 @@ Attributes
 * `node["chef_client"]["init_style"]` - Sets up the client service based on the style of init system to use. Default is based on platform and falls back to "none". See __USAGE__.
 * `node["chef_client"]["run_path"]` - Directory location where chef-client should write the PID file. Default based on platform, falls back to "/var/run".
 * `node["chef_client"]["cache_path"]` - Directory location for `Chef::Config[:file_cache_path]` where chef-client will cache various files. Default is based on platform, falls back to "/var/chef/cache".
+* `node["chef_client"]["no_lazy_load"]` - Set to false by default. Set to true to disable lazy loading of files and templates in cookbooks
 * `node["chef_client"]["backup_path"]` - Directory location for `Chef::Config[:file_backup_path]` where chef-client will backup templates and cookbook files. Default is based on platform, falls back to "/var/chef/backup".
 * `node["chef_client"]["cron"]["minute"]` - The hour that chef-client will run as a cron task, only applicable if the you set "cron" as the "init_style"
 * `node["chef_client"]["cron"]["hour"]` - The hour that chef-client will run as a cron task, only applicable if the you set "cron" as the "init_style"

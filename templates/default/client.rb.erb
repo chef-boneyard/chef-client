@@ -11,6 +11,7 @@ end
 log_level        :<%= @chef_log_level.to_s %>
 log_location     <%= @chef_log_location %>
 verbose_logging <%= @chef_verbose_logging %>
+no_lazy_load <%= @chef_no_lazy_load %>
 
 <% if node.attribute?("chef_client") && node["chef_client"]["server_url"] -%>
 chef_server_url  "<%= node["chef_client"]["server_url"] %>"
