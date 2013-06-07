@@ -18,7 +18,11 @@
 # limitations under the License.
 #
 
-user "chef" do
+class Chef::Recipe
+  include ::Opscode::ChefClient::Helpers
+end
+
+user CHEF_SERVER_USER do
   action :nothing
 end.run_action(:create)
 

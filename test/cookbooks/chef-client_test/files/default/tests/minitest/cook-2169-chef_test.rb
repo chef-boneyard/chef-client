@@ -23,23 +23,24 @@ require File.expand_path('../support/helpers', __FILE__)
 describe 'chef-client::cron' do
   include Helpers::ChefClient
 
+  chef_server_user = Chef::VERSION >= '11.0.0' ? 'chef_server' : 'chef'
   it { directory(node["chef_client"]["run_path"]).must_exist.with(:mode, "755").
-    with(:owner, "chef").and(:group, "chef")
+    with(:owner, chef_server_user).and(:group, chef_server_user)
   }
 
   it { directory(node["chef_client"]["cache_path"]).must_exist.with(:mode, "755").
-    with(:owner, "chef").and(:group, "chef")
+    with(:owner, chef_server_user).and(:group, chef_server_user)
   }
 
   it { directory(node["chef_client"]["backup_path"]).must_exist.with(:mode, "755").
-    with(:owner, "chef").and(:group, "chef")
+    with(:owner, chef_server_user).and(:group, chef_server_user)
   }
 
   it { directory(node["chef_client"]["log_dir"]).must_exist.with(:mode, "750").
-    with(:owner, "chef").and(:group, "chef")
+    with(:owner, chef_server_user).and(:group, chef_server_user)
   }
 
   it { directory(node["chef_client"]["conf_dir"]).must_exist.with(:mode, "755").
-    with(:owner, "chef").and(:group, "chef")
+    with(:owner, chef_server_user).and(:group, chef_server_user)
   }
 end
