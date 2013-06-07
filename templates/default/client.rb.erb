@@ -53,7 +53,13 @@ Ohai::Config[:disabled_plugins] =  <%= @ohai_disabled_plugins %>
 
 <% if @chef_environment %>
 environment "<%= @chef_environment %>"
-<% end %>  
+<% end %>
+
+<% unless @chef_start_handlers.empty? %>
+  <% @chef_start_handlers.each do |handler| %>
+    start_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
+  <% end %>
+<% end %>
 
 <% unless @chef_report_handlers.empty? %>
   <% @chef_report_handlers.each do |handler| %>

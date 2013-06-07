@@ -76,6 +76,7 @@ template "#{node["chef_client"]["conf_dir"]}/client.rb" do
     :chef_environment => node["chef_client"]["environment"],
     :chef_requires => chef_requires,
     :chef_verbose_logging => node["chef_client"]["verbose_logging"],
+    :chef_start_handlers => node["chef_client"]["start_handlers"],
     :chef_report_handlers => node["chef_client"]["report_handlers"],
     :chef_exception_handlers => node["chef_client"]["exception_handlers"],
     :ohai_disabled_plugins => ohai_disabled_plugins
