@@ -71,6 +71,13 @@ template "#{node["chef_client"]["conf_dir"]}/client.rb" do
   notifies :create, "ruby_block[reload_client_config]"
 end
 
+directory ::File.join(node['chef_client']['conf_dir'], 'client.d') do
+  recursive true
+  owner o
+  group g
+  mode 00755
+end
+
 ruby_block "reload_client_config" do
   block do
     Chef::Config.from_file("#{node["chef_client"]["conf_dir"]}/client.rb")

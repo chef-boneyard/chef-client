@@ -53,3 +53,7 @@ report_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(','
 exception_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
   <% end -%>
 <% end -%>
+
+Dir.glob(File.join(<%= node['chef_client']['conf_dir'].inspect %>, "client.d", "*.rb")).each do |conf|
+  Chef::Config.from_file(conf)
+end

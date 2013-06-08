@@ -23,38 +23,42 @@ describe 'chef-client::config' do
   include Helpers::ChefClient
 
   it 'contains the default config settings' do
-    file("/etc/chef/client.rb").must_match('^chef_server_url')
-    file("/etc/chef/client.rb").must_match('^validation_client_name')
+    file(File.join(node['chef_client']['conf_dir'], 'client.rb')).must_match('^chef_server_url')
+    file(File.join(node['chef_client']['conf_dir'], 'client.rb')).must_match('^validation_client_name')
   end
 
   it 'disables ohai plugins' do
     regexp = 'Ohai::Config\[:disabled_plugins\] =\s+\["passwd"\]'
-    file("/etc/chef/client.rb").must_match(/#{regexp}/)
+    file(File.join(node['chef_client']['conf_dir'], 'client.rb')).must_match(/#{regexp}/)
   end
 
   it 'converts log_level to a symbol' do
-    file("/etc/chef/client.rb").must_match('^log_level :debug')
+    file(File.join(node['chef_client']['conf_dir'], 'client.rb')).must_match('^log_level :debug')
   end
 
   it 'converts ssl_verify_mode to a symbol' do
-    file("/etc/chef/client.rb").must_match('^ssl_verify_mode :verify_peer')
+    file(File.join(node['chef_client']['conf_dir'], 'client.rb')).must_match('^ssl_verify_mode :verify_peer')
   end
 
   it 'enables start_handlers' do
-    file("/etc/chef/client.rb").must_match(
+    file(File.join(node['chef_client']['conf_dir'], 'client.rb')).must_match(
       '^start_handlers << SimpleReport::UpdatedResources.new'
       )
   end
 
   it 'enables report_handlers' do
-    file("/etc/chef/client.rb").must_match(
+    file(File.join(node['chef_client']['conf_dir'], 'client.rb')).must_match(
       '^report_handlers << SimpleReport::UpdatedResources.new'
     )
   end
 
   it 'enables exception_handlers' do
-    file("/etc/chef/client.rb").must_match(
+    file(File.join(node['chef_client']['conf_dir'], 'client.rb')).must_match(
       '^exception_handlers << SimpleReport::UpdatedResources.new'
       )
+  end
+
+  it 'creates a directory for including config' do
+    directory(File.join(node['chef_client']['conf_dir'], 'client.d')).must_exist
   end
 end
