@@ -79,6 +79,7 @@ suites:
 - name: cook-2317
   run_list:
   - recipe[minitest-handler]
+  - recipe[chef-client::config]
   - recipe[chef-client_test::cook-2317]
   attributes:
     ohai:
