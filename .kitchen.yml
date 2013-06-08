@@ -30,31 +30,51 @@ platforms:
 
 
 suites:
+# This suite tests that the configuration is applied correctly (via attributes)
 - name: config
   run_list:
   - recipe[chef-client::config]
-  attributes: {}
+  attributes:
+    chef_client:
+
+    ohai:
+      disabled_plugins: ["passwd"]
+
 - name: service_init
   run_list:
   - recipe[minitest-handler]
   - recipe[chef-client::config]
   - recipe[chef-client_test::service_init]
-  - recipe[chef-client::service]
-  attributes: { chef_client: { init_style: "init" } }
+  - recipe[chef-client::init_service]
+  attributes: {}
+
 - name: service_runit
   run_list:
   - recipe[minitest-handler]
   - recipe[runit]
   - recipe[chef-client_test::service_runit]
-  - recipe[chef-client::service]
-  attributes: { chef_client: { init_style: "runit" } }
+  - recipe[chef-client::runit_service]
+  attributes: {}
+
+- name: service_upstart
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[chef-client_test::service_upstart]
+  - recipe[chef-client::upstart_service]
+  excludes: ["centos-5.9", "centos-6.4"]
+  attributes: {}
+
 - name: cron
   run_list:
   - recipe[chef-client::cron]
   attributes: {}
+
 - name: delete_validation
   run_list:
   - recipe[chef-client::delete_validation]
+  attributes: {}
+
+# Probably needs to be moved up to config and tested there
 - name: cook-2092
   run_list:
   - recipe[minitest-handler]
@@ -63,18 +83,24 @@ suites:
   attributes:
     chef_client:
       log_file: "client.log"
+
+# Tests that the root user is set correctly for the cron recipe.
 - name: cook-2169-root
   run_list:
   - recipe[minitest-handler]
   - recipe[chef-client_test::cook-2169-root]
   - recipe[chef-client::cron]
   attributes: {}
+
+# Tests that the "chef server" user is set correctly with the cron recipe.
 - name: cook-2169-chef
   run_list:
   - recipe[minitest-handler]
   - recipe[chef-client_test::cook-2169-chef]
   - recipe[chef-client::cron]
   attributes: {}
+
+# Test that the environment variables are rendered correctly
 - name: cook-2086
   run_list:
   - recipe[minitest-handler]
@@ -83,14 +109,18 @@ suites:
   attributes:
     chef_client:
       environment_variables: "FOO=BAR"
-- name: cook-2317
-  run_list:
-  - recipe[minitest-handler]
-  - recipe[chef-client::config]
-  - recipe[chef-client_test::cook-2317]
-  attributes:
-    ohai:
-      disabled_plugins: ["passwd"]
+
+# No longer necessary w/ COOK-2856
+# - name: cook-2317
+#   run_list:
+#   - recipe[minitest-handler]
+#   - recipe[chef-client::config]
+#   - recipe[chef-client_test::cook-2317]
+#   attributes:
+#     ohai:
+#       disabled_plugins: ["passwd"]
+
+# Test that the running process includes command-line "daemon" options
 - name: cook-1951
   run_list:
   - recipe[minitest-handler]
