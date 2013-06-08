@@ -41,6 +41,8 @@ pid_file           "<%= node["chef_client"]["run_path"] %>/client.pid"
 # set the proxy env variable so rubygems works correctly
 ENV['http_proxy'] = "<%= node["chef_client"]["http_proxy"] %>"
 ENV['HTTP_PROXY'] = "<%= node["chef_client"]["http_proxy"] %>"
+ENV['https_proxy'] = "<%= node["chef_client"]["https_proxy"] %>"
+ENV['HTTPS_PROXY'] = "<%= node["chef_client"]["https_proxy"] %>"
 <% end -%>
 <% if node.attribute?("ohai") && node["ohai"].attribute?("plugin_path") -%>
 
