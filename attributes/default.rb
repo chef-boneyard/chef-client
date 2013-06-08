@@ -31,6 +31,7 @@ default['chef_client']['config'] = {
   'node_name' => Chef::Config[:node_name] == node['fqdn'] ? false : Chef::Config[:node_name]
 }
 
+# By default, we don't have a log file, as we log to STDOUT
 default["chef-client"]["log_file"]    = nil
 default["chef_client"]["interval"]    = "1800"
 default["chef_client"]["splay"]       = "300"

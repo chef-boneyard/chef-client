@@ -10,7 +10,10 @@ end
 <% end -%>
 <% @chef_config.each_key do |option| -%>
   <% next if %w{ node_name exception_handlers report_handlers start_handlers }.include?(option) -%>
-  <% if option == 'log_location' -%>
+  <% case option -%>
+  <% when 'log_level', 'ssl_verify_mode' -%>
+<%= option %> <%= @chef_config[option].gsub(/^:/, '').to_sym.inspect %>
+  <% when 'log_location' -%>
 <%= option %> <%= @chef_config[option] %>
   <% else -%>
 <%= option %> <%= @chef_config[option].inspect %>
