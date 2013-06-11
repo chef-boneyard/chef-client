@@ -1,3 +1,38 @@
+## v3.0.0:
+
+### Sub-task
+
+- [COOK-1002]: chef-client service is not started for `init_style` =
+  init
+- [COOK-1191]: chef-client cookbook doesn't log to
+  /var/log/chef/client.log when using `init_style` runit
+- [COOK-2319]: The service recipe has too many lines of code
+- [COOK-2344]: chef-client config should preserve log settings
+- [COOK-2651]: The cron task fails to disable and stop service if the
+  init_style is set to upstart
+- [COOK-2709]: chef-client needs explicit dependancy on cron >= 1.2.0
+- [COOK-2856]: Use attribute/data driven configuration for
+  /etc/chef/client.rb
+- [COOK-2857]: Update chef-client to use runit v1.0+
+- [COOK-2858]: support "inclusion" of other Chef Config files in
+  client.rb
+- [COOK-3110]: kitchen.yml missing chef-client::config in cook-2317
+  runlist
+- [COOK-3112]: `chef_client` test cook-1951 fails as provided
+
+### Bug
+
+- [COOK-2607]: detect if node is a chef-server and set user/group file
+  ownership correctly
+- [COOK-3104]: kitchen.yml file for chef-client doesn't properly set
+  `environment_variables`
+
+### Improvement
+
+- [COOK-2637]: Silence expected errors from which based chef-server
+  checks
+- [COOK-2825]: SMF for chef-client should use :kill to stop service
+
 ## v2.2.4
 
 ### Bug
