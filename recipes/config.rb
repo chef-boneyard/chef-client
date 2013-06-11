@@ -52,13 +52,15 @@ node["chef_client"]["load_gems"].each do |gem_name, gem_info_hash|
   chef_requires.push(gem_info_hash[:require_name] || gem_name)
 end
 
-o = dir_owner
-g = dir_group
+# We need to set these local variables because the methods aren't
+# available in the Chef::Resource scope
+d_owner = dir_owner
+d_group = dir_group
 
 template "#{node["chef_client"]["conf_dir"]}/client.rb" do
   source "client.rb.erb"
-  owner o
-  group g
+  owner d_owner
+  group d_group
   mode 00644
   variables(
     :chef_config => node['chef_client']['config'],
@@ -73,8 +75,8 @@ end
 
 directory ::File.join(node['chef_client']['conf_dir'], 'client.d') do
   recursive true
-  owner o
-  group g
+  owner d_owner
+  group d_group
   mode 00755
 end
 

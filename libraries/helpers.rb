@@ -66,14 +66,14 @@ module Opscode
       def create_directories
         return if ['windows'].include?(node['platform'])
         # dir_owner and dir_group are not found in the block below.
-        o = dir_owner
-        g = dir_group
+        d_owner = dir_owner
+        d_group = dir_group
         %w{run_path cache_path backup_path log_dir conf_dir}.each do |dir|
           directory node["chef_client"][dir] do
             recursive true
             mode 00750 if dir == "log_dir"
-            owner o
-            group g
+            owner d_owner
+            group d_group
           end
         end
       end

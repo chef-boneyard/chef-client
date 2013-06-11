@@ -124,9 +124,11 @@ attribute. See __USAGE__ for examples.
 * `node["ohai"]["disabled_plugins"]` - An array of ohai plugins to
   disable, empty by default, and must be an array if specified.
 
-## DEPRECATED
+## Deprecated / Replaced
 
-The following attributes are deprecated.
+The following attributes are deprecated at the `['chef_client']`
+attribute level. Set them using the indicated
+`['chef_client']['config']` attribute.
 
 * `node['chef_client']['environment']` - Set the node's environment
   directly (e.g., `knife bootstrap -E`), as it makes it easier to move
@@ -141,12 +143,18 @@ The following attributes are deprecated.
   set handlers with the `config` attribute.
 * `node['chef_client']['exception_handlers']` - See __USAGE__ for how
   to set handlers with the `config` attribute.
-* `node['chef_client']['checksum_cache_skip_expires']` - No longer
-  required in Chef 11.
 * `node['chef_client']['checksum_cache_path']` - Use
   `node['chef_client']['config']['cache_options']['path']`.
-* `node['chef_client']['verbose_logging']` - Not set anymore, use the
-  default log level and output formatting from Chef 11.
+* `node['chef_client']['verbose_logging']` - Not set anymore, we
+  recommend using the default log level and output formatting from
+  Chef 11. This can still be set using
+  `node['chef_client']['config']['verbose_logging']` if required.
+
+The following attributes are deprecated entirely.
+
+* `node['chef_client']['checksum_cache_skip_expires']` - No longer
+  required in Chef 11.
+
 
 Recipes
 =======
