@@ -20,16 +20,29 @@
 
 require 'rbconfig'
 
+# We only set these by default because this is what comes from `knife
+# bootstrap` (the best way to install Chef Client on managed nodes).
+#
+# Users can add other configuration options through attributes in
+# their favorite way (role, "site" cookbooks, etc).
+default['chef_client']['config'] = {
+  'chef_server_url' => Chef::Config[:chef_server_url],
+  'validation_client_name' => Chef::Config[:validation_client_name],
+  'node_name' => Chef::Config[:node_name] == node['fqdn'] ? false : Chef::Config[:node_name]
+}
+
+# By default, we don't have a log file, as we log to STDOUT
+default["chef-client"]["log_file"]    = nil
 default["chef_client"]["interval"]    = "1800"
 default["chef_client"]["splay"]       = "300"
-default["chef_client"]["log_dir"]     = "/var/log/chef"
-default["chef_client"]["log_file"]    = nil
-default["chef_client"]["log_level"]   = :info
-default["chef_client"]["verbose_logging"] = true
 default["chef_client"]["conf_dir"]    = "/etc/chef"
 default["chef_client"]["bin"]         = "/usr/bin/chef-client"
-default["chef_client"]["server_url"]  = "http://localhost:4000"
-default["chef_client"]["validation_client_name"] = "chef-validator"
+
+# Set a sane default log directory location, overriden by specific
+# platforms below.
+default["chef_client"]["log_dir"]     = "/var/log/chef"
+
+# Configuration for chef-client::cron recipe.
 default["chef_client"]["cron"] = {
   "minute" => "0",
   "hour" => "*/4",
@@ -38,13 +51,16 @@ default["chef_client"]["cron"] = {
   "log_file" => "/dev/null",
   "use_cron_d" => false
 }
-default["chef_client"]["environment"] = nil
+
 default["chef_client"]["load_gems"] = {}
-default["chef_client"]["report_handlers"] = []
-default["chef_client"]["exception_handlers"] = []
-default["chef_client"]["checksum_cache_skip_expires"] = true
+
+# Any additional daemon options can be set as an array. This will be
+# join'ed in the relevant service configuration.
 default["chef_client"]["daemon_options"] = []
-default["ohai"]["disabled_plugins"] = [] #Sets disabled_plugins to empty array
+
+# Ohai plugins to be disabled are configured in /etc/chef/client.rb,
+# so they can be set as an array in this attribute.
+default["ohai"]["disabled_plugins"] = []
 
 case node['platform_family']
 when "arch"
@@ -108,5 +124,3 @@ else
   default["chef_client"]["cache_path"]  = "/var/chef/cache"
   default["chef_client"]["backup_path"] = "/var/chef/backup"
 end
-
-default["chef_client"]["checksum_cache_path"] = "#{node["chef_client"]["cache_path"]}/checksums"
