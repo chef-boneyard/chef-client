@@ -118,7 +118,8 @@ suites:
   - recipe[chef-client::cron]
   attributes:
     chef_client:
-      environment_variables: "FOO=BAR"
+      cron:
+        environment_variables: "FOO=BAR"
 
 # No longer necessary w/ COOK-2856
 # - name: cook-2317

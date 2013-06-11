@@ -24,6 +24,6 @@ describe 'chef-client::cron' do
 
   it 'creates the cron command' do
     cron("chef-client").command.
-      must_match %r{/bin/sleep \d+;  /usr/bin/chef-client &> /dev/null}
+      must_match %r{/bin/sleep \d+; ([A-Za-z]+=.*) /usr/bin/chef-client &> /dev/null}
   end
 end
