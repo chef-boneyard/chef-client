@@ -33,10 +33,20 @@ suites:
 # This suite tests that the configuration is applied correctly (via attributes)
 - name: config
   run_list:
+  - recipe[minitest-handler]
+  - recipe[chef-client_test::config]
   - recipe[chef-client::config]
   attributes:
     chef_client:
-
+      load_gems:
+        chef-handler-updated-resources:
+          require_name: "chef/handler/updated_resources"
+      config:
+        log_level: ":debug"
+        ssl_verify_mode: ":verify_peer"
+        start_handlers: [{class: "SimpleReport::UpdatedResources", arguments: []}]
+        report_handlers: [{class: "SimpleReport::UpdatedResources", arguments: []}]
+        exception_handlers: [{class: "SimpleReport::UpdatedResources", arguments: []}]
     ohai:
       disabled_plugins: ["passwd"]
 

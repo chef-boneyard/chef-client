@@ -39,11 +39,15 @@ module Opscode
         end
       end
 
+      def root_owner
+        ['windows'].include?(node['platform']) ? 'Administrator' : 'root'
+      end
+
       def dir_owner
         if chef_server?
           CHEF_SERVER_USER
         else
-          ['windows'].include?(node['platform']) ? 'Administrator' : 'root'
+          root_owner
         end
       end
 
@@ -62,14 +66,14 @@ module Opscode
       def create_directories
         return if ['windows'].include?(node['platform'])
         # dir_owner and dir_group are not found in the block below.
-        o = dir_owner
-        g = dir_group
+        d_owner = dir_owner
+        d_group = dir_group
         %w{run_path cache_path backup_path log_dir conf_dir}.each do |dir|
           directory node["chef_client"][dir] do
             recursive true
             mode 00750 if dir == "log_dir"
-            owner o
-            group g
+            owner d_owner
+            group d_group
           end
         end
       end
