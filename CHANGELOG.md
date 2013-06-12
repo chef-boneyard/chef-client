@@ -1,3 +1,9 @@
+## v3.0.4:
+
+### Bug
+
+- [COOK-3159]: don't skip directory creation on Windows
+
 ## v3.0.2:
 
 ### Bug
