@@ -1,3 +1,9 @@
+## v3.0.2:
+
+### Bug
+
+- [COOK-3157]: correct root group detection for Windows
+
 ## v3.0.0:
 
 ### Sub-task
