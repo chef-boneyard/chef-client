@@ -70,7 +70,6 @@ module Opscode
       end
 
       def create_directories
-        return if ['windows'].include?(node['platform'])
         # dir_owner and dir_group are not found in the block below.
         d_owner = dir_owner
         d_group = dir_group
