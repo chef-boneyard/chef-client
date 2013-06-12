@@ -52,7 +52,13 @@ module Opscode
       end
 
       def root_group
-        ["openbsd", "freebsd", "mac_os_x"].include?(node['platform']) ? "wheel" : "root"
+        if ['openbsd', 'freebsd', 'mac_os_x', 'mac_os_x_server'].include?(node['platform'])
+          'wheel'
+        elsif ['windows'].include?(node['platform'])
+          'Administrators'
+        else
+          'root'
+        end
       end
 
       def dir_group
