@@ -32,7 +32,7 @@ default['chef_client']['config'] = {
 }
 
 # By default, we don't have a log file, as we log to STDOUT
-default["chef-client"]["log_file"]    = nil
+default["chef_client"]["log_file"]    = nil
 default["chef_client"]["interval"]    = "1800"
 default["chef_client"]["splay"]       = "300"
 default["chef_client"]["conf_dir"]    = "/etc/chef"
