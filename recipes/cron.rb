@@ -57,7 +57,7 @@ when 'arch', 'debian', 'rhel', 'fedora', 'suse', 'openbsd', 'freebsd'
     action [:disable, :stop]
   end
 
-when 'openindiana', 'opensolaris', 'nexentacore', 'solaris2', 'smartos'
+when 'openindiana', 'opensolaris', 'nexentacore', 'solaris2', 'smartos', 'omnios'
   service 'chef-client' do
     supports :status => true, :restart => true
     action [:disable, :stop]
