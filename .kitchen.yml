@@ -8,15 +8,16 @@ platforms:
   driver_config:
     box: opscode-ubuntu-12.04
     box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box
-  run_list:
-  - recipe[apt]
 
 - name: ubuntu-10.04
   driver_config:
     box: opscode-ubuntu-10.04
     box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04_provisionerless.box
-  run_list:
-  - recipe[apt]
+
+- name: debian-6
+  driver_config:
+    box: opscode-debian-6
+    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_debian-6.0.7_chef-11.2.0.box
 
 - name: centos-6.4
   driver_config:
@@ -28,6 +29,14 @@ platforms:
     box: opscode-centos-5.9
     box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-5.9_provisionerless.box
 
+- name: sles-11
+  driver_config:
+    box: opscode-sles-11-sp2
+
+- name: omnios-r151006c
+  driver_config:
+    box: omnios-r151006c
+    box_url: http://omnios.omniti.com/media/OmniOS_r151006c-r1.box
 
 suites:
 # This suite tests that the configuration is applied correctly (via attributes)
@@ -72,6 +81,21 @@ suites:
   - recipe[chef-client_test::service_upstart]
   - recipe[chef-client::upstart_service]
   excludes: ["centos-5.9"]
+  attributes: {}
+
+- name: service_smf
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[chef-client::config]
+  - recipe[chef-client_test::service_smf]
+  - recipe[chef-client::smf_service]
+  excludes:
+  - ubuntu-12.04
+  - ubuntu-10.04
+  - debian-6
+  - centos-6.4
+  - centos-5.9
+  - sles-11
   attributes: {}
 
 - name: cron
