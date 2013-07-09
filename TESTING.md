@@ -41,3 +41,13 @@ as the path to `pkgadd` (`/usr/sbin`) is not in the default `vagrant`
 user's path when logging in without a TTY.
 
 https://github.com/opscode/test-kitchen/pull/164
+
+If your local version of Vagrant is 1.2.0 or higher, you may need to
+install the `vagrant-guest-omnios` plugin to get OS detection for
+OmniOS to work properly.
+
+https://github.com/clintoncwolfe/vagrant-guest-omnios
+
+TL;DR:
+
+    vagrant plugin install vagrant-guest-omnios
