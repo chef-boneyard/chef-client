@@ -76,6 +76,7 @@ suites:
 
 - name: cron
   run_list:
+  - recipe[minitest-handler]
   - recipe[chef-client::cron]
   attributes: {}
 
