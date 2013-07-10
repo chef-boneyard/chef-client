@@ -81,13 +81,18 @@ suites:
   excludes: ["sles-11", "omnios-r151006c"]
   attributes: {}
 
-# Exclude centos, sles, and omnios as they don't use runit
+# Exclude debian 6, centos, sles, and omnios as they don't use upstart
 - name: service_upstart
   run_list:
   - recipe[minitest-handler]
   - recipe[chef-client_test::service_upstart]
   - recipe[chef-client::upstart_service]
-  excludes: ["centos-5.9", "centos-6.4", "sles-11", "omnios-r151006c"]
+  excludes:
+  - debian-6
+  - centos-5.9
+  - centos-6.4
+  - sles-11
+  - omnios-r151006c
   attributes: {}
 
 # SMF is only relevant for IllumOS/Solaris, and we're using omnios for that
