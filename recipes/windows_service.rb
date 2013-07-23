@@ -23,18 +23,20 @@ class ::Chef::Recipe
   include ::Opscode::ChefClient::Helpers
 end
 
-# libraries/helpers.rb method to DRY directory creation resources
-create_directories
+# Fall back to winsw on older Chef Clients without the service manager
+if ::Chef::VERSION < "11.6."
+  include_recipe "chef-client::winsw_service"
+else
+  # libraries/helpers.rb method to DRY directory creation resources
+  create_directories
 
-# Will also avoid touching any winsw service if it exists
-execute "register-chef-service" do
-  command "chef-service-manager -a install"
-  only_if { WMI::Win32_Service.find(:first, :conditions => {:name => 'chef-client'}).nil? }
-  # Previous versions of Chef (< 11.6.x) had a windows_service library but no manager.
-  # However, they were also broken, so only try this on versions that have the manager 
-  only_if "chef-service-manager -v"
-end
+  # Will also avoid touching any winsw service if it exists
+  execute "register-chef-service" do
+    command "chef-service-manager -a install"
+    only_if { WMI::Win32_Service.find(:first, :conditions => {:name => 'chef-client'}).nil? }
+  end
 
-service "chef-client" do
-  action [:enable, :start]
+  service "chef-client" do
+    action [:enable, :start]
+  end
 end
