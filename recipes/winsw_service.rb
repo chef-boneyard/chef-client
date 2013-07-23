@@ -8,6 +8,11 @@ log "Found chef-client in #{client_bin}"
 node.default["chef_client"]["bin"] = client_bin
 create_directories
 
+log "Using winsw_service on this Chef version is deprecated; use windows_service" do
+  level :warn
+  only_if { ::Chef::VERSION > "11.6." }
+end
+
 directory node["chef_client"]["winsw_dir"] do
   action :create
 end
