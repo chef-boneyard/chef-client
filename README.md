@@ -299,23 +299,29 @@ simply render a file resource with `file` (and the `content` parameter),
 own cookbook that requires custom Chef client configuration, create
 the following `cookbook_file` resource:
 
+    chef_gem 'syslog-logger'
+    
     cookbook_file "/etc/chef/client.d/myconfig.rb" do
       source "myconfig.rb"
       mode 00644
-      notifies :create, "ruby_block[reload_chef_config]"
+      notifies :create, "ruby_block[reload_client_config]"
     end
 
+    include 'chef-client::config'
+    
 Then create `files/default/myconfig.rb` with the configuration content
 you want. For example, if you wish to create a configuration to log to
 syslog:
 
+    require 'rubygems'
     require 'syslog-logger'
+    require 'syslog'
 
     Logger::Syslog.class_eval do
       attr_accessor :sync, :formatter
     end
 
-    log_location Logger::Syslog.new("chef-client")
+    log_location Logger::Syslog.new('chef-client', Syslog::LOG_DAEMON)
 
 (Hat tip to Joseph Holsten for this in
 [COOK-2326](http://tickets.opscode.com/browse/COOK-2326)
