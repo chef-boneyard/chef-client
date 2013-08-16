@@ -57,6 +57,15 @@ suites:
   excludes: ["centos-5.9"]
   attributes: {}
 
+- name: service_systemd
+  run_list:
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[chef-client_test::service_systemd]
+  - recipe[chef-client::systemd_service]
+  excludes: ["centos-5.9", "centos-6.4", "ubuntu-10.04", "ubuntu-12.04"]
+  attributes: {}
+
 - name: cron
   run_list:
   - recipe[minitest-handler]
