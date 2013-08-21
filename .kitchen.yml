@@ -71,7 +71,7 @@ suites:
   - recipe[minitest-handler]
   - recipe[chef-client_test::service_upstart]
   - recipe[chef-client::upstart_service]
-  excludes: ["centos-5.9", "centos-6.4"]
+  excludes: ["centos-5.9"]
   attributes: {}
 
 - name: cron
