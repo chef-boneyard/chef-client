@@ -70,7 +70,7 @@ template "#{node["chef_client"]["conf_dir"]}/client.rb" do
     :report_handlers => node['chef_client']['config']['report_handlers'],
     :exception_handlers => node['chef_client']['config']['exception_handlers']
   )
-  notifies :create, "ruby_block[reload_client_config]"
+  notifies :create, "ruby_block[reload_client_config]", :immediately
 end
 
 directory ::File.join(node['chef_client']['conf_dir'], 'client.d') do
