@@ -19,11 +19,19 @@ require File.expand_path('../support/helpers', __FILE__)
 describe 'chef-client::cron' do
   include Helpers::ChefClient
   it 'creates the cron job for chef-client' do
-    cron("chef-client").must_exist
+    if node['chef_client']['cron']['use_cron_d']
+      file("/etc/cron.d/chef-client").must_exist
+    else
+      cron("chef-client").must_exist
+    end
   end
 
   it 'creates the cron command' do
-    cron("chef-client").command.
-      must_match %r{/bin/sleep \d+; ([A-Za-z]+=.*)|[\s] /usr/bin/chef-client &> /dev/null}
+    if node['chef_client']['cron']['use_cron_d']
+      file("/etc/cron.d/chef-client").must_match %r{/bin/sleep \d+; (([A-Za-z]+=.*)?) /usr/bin/chef-client &> /dev/null}
+    else
+      cron("chef-client").command.
+        must_match %r{/bin/sleep \d+; (([A-Za-z]+=.*)?)|[\s] /usr/bin/chef-client &> /dev/null}
+    end
   end
 end
