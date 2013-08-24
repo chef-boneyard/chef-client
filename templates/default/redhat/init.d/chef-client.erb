@@ -61,7 +61,7 @@ reload() {
     killproc -p $pidfile $exec -HUP
     retval=$?
     echo
-    return $retval 
+    return $retval
 }
 
 force_reload() {

@@ -300,7 +300,7 @@ own cookbook that requires custom Chef client configuration, create
 the following `cookbook_file` resource:
 
     chef_gem 'syslog-logger'
-    
+
     cookbook_file "/etc/chef/client.d/myconfig.rb" do
       source "myconfig.rb"
       mode 00644
@@ -308,7 +308,7 @@ the following `cookbook_file` resource:
     end
 
     include 'chef-client::config'
-    
+
 Then create `files/default/myconfig.rb` with the configuration content
 you want. For example, if you wish to create a configuration to log to
 syslog:
