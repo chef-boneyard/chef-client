@@ -1,62 +1,49 @@
-Description
-===========
-
+chef-client Cookbook
+====================
 This cookbook is used to configure a system as a Chef Client.
 
+
 Requirements
-============
+------------
+- Chef 0.10.10+
+- Ohai 0.6.12+
 
-Chef 0.10.10 or greater and Ohai 0.6.12 or greater are required due to
-the use of `platform_family`.
+### Platforms
+The following platforms are tested directly under test-kitchen; see .kitchen.yml and TESTING.md for details.
 
-## Platforms
-
-The following platforms are tested directly under test-kitchen; see
-.kitchen.yml and TESTING.md for details.
-
-* Ubuntu 10.04, 12.04
-* CentOS 5.9, 6.4
+- Ubuntu 10.04, 12.04
+- CentOS 5.9, 6.4
 
 The following platforms are known to work:
 
-* Debian family (Debian, Ubuntu etc)
-* Red Hat family (Redhat, CentOS, Oracle etc)
-* Fedora family
-* SUSE distributions (OpenSUSE, SLES, etc)
-* ArchLinux
-* FreeBSD
-* Mac OS X
-* Mac OS X Server
+- Debian family (Debian, Ubuntu etc)
+- Red Hat family (Redhat, CentOS, Oracle etc)
+- Fedora family
+- SUSE distributions (OpenSUSE, SLES, etc)
+- ArchLinux
+- FreeBSD
+- Mac OS X
+- Mac OS X Server
 
-Other platforms may work with or without modification. Most notably,
-attribute modification may be required.
+Other platforms may work with or without modification. Most notably, attribute modification may be required.
 
-## Opscode Cookbooks
+### Opscode Cookbooks
+Some cookbooks can be used with this cookbook but they are not explicitly required. The default settings in this cookbook do not require their use. The other cookbooks (on community.opsocde.com) are:
 
-Some cookbooks can be used with this cookbook but they are not
-explicitly required. The default settings in this cookbook do not
-require their use. The other cookbooks (on community.opsocde.com) are:
+- bluepill
+- daemontools
+- runit
 
-* bluepill
-* daemontools
-* runit
+Cron is a dependency, for default behavior of the `cron` recipe to work. This is a dependency because `cron` is cross platform, and doesn't carry additional dependencies, unlike the other cookbooks listed above.
 
-Cron is a dependency, for default behavior of the `cron` recipe to
-work. This is a dependency because `cron` is cross platform, and
-doesn't carry additional dependencies, unlike the other cookbooks
-listed above.
-
-* cron
+- cron
 
 See __USAGE__ below.
 
-Attributes
-==========
 
-The following attributes affect the behavior of the chef-client
-program when running as a service through one of the service recipes,
-or in cron with the cron recipe, or are used in the recipes for
-various settings that require flexibility.
+Attributes
+----------
+The following attributes affect the behavior of the chef-client program when running as a service through one of the service recipes, or in cron with the cron recipe, or are used in the recipes for various settings that require flexibility.
 
 * `node["chef_client"]["interval"]` - Sets `Chef::Config[:interval]`
   via command-line option for number of seconds between chef-client
@@ -93,8 +80,7 @@ various settings that require flexibility.
   must be an array if specified.
 
 
-The following attributes are set on a per-platform basis, see the
-`attributes/default.rb` file for default values.
+The following attributes are set on a per-platform basis, see the `attributes/default.rb` file for default values.
 
 * `node["chef_client"]["init_style"]` - Sets up the client service
   based on the style of init system to use. Default is based on
@@ -114,8 +100,7 @@ The following attributes are set on a per-platform basis, see the
   to "daemon", runs chef-client with `-d` and `-s` options; defaults
   to "interval"
 
-This cookbook makes use of attribute-driven configuration with this
-attribute. See __USAGE__ for examples.
+This cookbook makes use of attribute-driven configuration with this attribute. See __USAGE__ for examples.
 
 * `node['chef_client']['config']` - A hash of Chef::Config keys and
   their values, rendered dynamically in `/etc/chef/client.rb`.
@@ -124,11 +109,9 @@ attribute. See __USAGE__ for examples.
 * `node["ohai"]["disabled_plugins"]` - An array of ohai plugins to
   disable, empty by default, and must be an array if specified.
 
-## Deprecated / Replaced
+### Deprecated / Replaced
 
-The following attributes are deprecated at the `['chef_client']`
-attribute level. Set them using the indicated
-`['chef_client']['config']` attribute.
+The following attributes are deprecated at the `['chef_client']` attribute level. Set them using the indicated `['chef_client']['config']` attribute.
 
 * `node['chef_client']['environment']` - Set the node's environment
   directly (e.g., `knife bootstrap -E`), as it makes it easier to move
@@ -157,40 +140,26 @@ The following attributes are deprecated entirely.
 
 
 Recipes
-=======
+-------
+This section describes the recipes in the cookbook and how to use them in your environment.
 
-This section describes the recipes in the cookbook and how to use them
-in your environment.
-
-## config
-
-Sets up the `/etc/chef/client.rb` config file from a template and
-reloads the configuration for the current chef-client run.
+### config
+Sets up the `/etc/chef/client.rb` config file from a template and reloads the configuration for the current chef-client run.
 
 See __USAGE__ below for more information on how the configuration is
 rendered with attributes.
 
-## service recipes
-
-The `chef-client::service` recipe includes one of the
-`chef-client::INIT_STYLE_service` recipes based on the attribute,
-`node['chef_client']['init_style']`. The individual service recipes
-can be included directly, too. For example, to use the init scripts,
-on a node or role's run list:
+### service recipes
+The `chef-client::service` recipe includes one of the `chef-client::INIT_STYLE_service` recipes based on the attribute, `node['chef_client']['init_style']`. The individual service recipes can be included directly, too. For example, to use the init scripts, on a node or role's run list:
 
     recipe[chef-client::init]
 
-To set up the chef-client under bluepill, daemontools or runit, those
-recipes must be specified on the node or role's run list first, to
-ensure that the dependencies are resolved, as this cookbook does not
-directly depend on them. For example, to use runit:
+To set up the chef-client under bluepill, daemontools or runit, those recipes must be specified on the node or role's run list first, to ensure that the dependencies are resolved, as this cookbook does not directly depend on them. For example, to use runit:
 
     recipe[runit]
     recipe[chef-client::runit_service]
 
-Use this recipe on systems that should have a `chef-client` daemon
-running, such as when Knife bootstrap was used to install Chef on a
-new system.
+Use this recipe on systems that should have a `chef-client` daemon running, such as when Knife bootstrap was used to install Chef on a new system.
 
 * `init` - uses the init script included in this cookbook, supported
   on debian and redhat family distributions.
@@ -209,302 +178,246 @@ new system.
 * `bsd` - prints a message about how to update BSD systems to enable
   the chef-client service, supported on Free/OpenBSD.
 
-## default
-
+### default
 Includes the `chef-client::service` recipe by default.
 
-## delete_validation
+### delete_validation
+Use this recipe to delete the validation certificate (default `/etc/chef/validation.pem`) when using a `chef-client` after the client has been validated and authorized to connect to the server.
 
-Use this recipe to delete the validation certificate (default
-`/etc/chef/validation.pem`) when using a `chef-client` after the
-client has been validated and authorized to connect to the server.
+**Note** If you're using this on a Chef 10 Server, be aware of using this recipe. First copy the validation.pem certificate file to another location, such as your knife configuration directory (`~/.chef`) or [Chef Repository](http://docs.opscode.com/essentials_repository.html).
 
-**Note** If you're using this on a Chef 10 Server, be aware of using
-this recipe. First copy the validation.pem certificate file to another
-location, such as your knife configuration directory (`~/.chef`) or
-[Chef Repository](http://docs.opscode.com/essentials_repository.html).
+### cron
+Use this recipe to run chef-client as a cron job rather than as a service. The cron job runs after random delay that is between 0 and 90 seconds to ensure that the chef-clients don't attempt to connect to the chef-server at the exact same time. You should set node["chef_client"]["init_style"] = "none" when you use this mode but it is not required.
 
-## cron
 
-Use this recipe to run chef-client as a cron job rather than as a
-service. The cron job runs after random delay that is between 0 and 90
-seconds to ensure that the chef-clients don't attempt to connect to
-the chef-server at the exact same time. You should set
-node["chef_client"]["init_style"] = "none" when you use this mode but
-it is not required.
+Usage
+-----
+Use the recipes as described above to configure your systems to run Chef as a service via cron or one of the service management systems supported by the recipes.
 
-USAGE
-=====
+The `chef-client::config` recipe is only *required* with init style `init` (default setting for the attribute on debian/redhat family platforms, because the init script doesn't include the `pid_file` option which is set in the config.
 
-Use the recipes as described above to configure your systems to run
-Chef as a service via cron or one of the service management systems
-supported by the recipes.
+The config recipe is used to dynamically generate the `/etc/chef/client.rb` config file. The template walks all attributes in `node['chef_client']['config']` and writes them out as key:value pairs. The key should be the configuration directive. For example, the following attributes (in a role):
 
-The `chef-client::config` recipe is only *required* with init style
-`init` (default setting for the attribute on debian/redhat family
-platforms, because the init script doesn't include the `pid_file`
-option which is set in the config.
-
-The config recipe is used to dynamically generate the
-`/etc/chef/client.rb` config file. The template walks all attributes
-in `node['chef_client']['config']` and writes them out as key:value
-pairs. The key should be the configuration directive. For example, the
-following attributes (in a role):
-
-    default_attributes(
-      "chef_client" => {
-        "config" => {
-          "ssl_verify_mode" => ":verify_peer",
-          "client_fork" => true
-        }
-      }
-    )
+```ruby
+default_attributes(
+  "chef_client" => {
+    "config" => {
+      "ssl_verify_mode" => ":verify_peer",
+      "client_fork" => true
+    }
+  }
+)
+```
 
 Will render the following configuration (`/etc/chef/client.rb`):
 
-    chef_server_url "https://api.opscode.com/organizations/MYORG"
-    validation_client_name "MYORG-validator"
-    ssl_verify_mode :verify_peer
-    node_name "config-ubuntu-1204"
-    client_fork true
+```ruby
+chef_server_url "https://api.opscode.com/organizations/MYORG"
+validation_client_name "MYORG-validator"
+ssl_verify_mode :verify_peer
+node_name "config-ubuntu-1204"
+client_fork true
+```
 
-The `chef_server_url`, `node_name` and `validation_client_name` are
-set by default in the attributes file from `Chef::Config`. They are
-presumed to come from the `knife bootstrap` command when setting up a
-new node for Chef. To set the node name to the default value (the
-`node['fqdn']` attribute), it can be set false. Be aware of setting
-this or the Server URL, as those values may already exist.
+The `chef_server_url`, `node_name` and `validation_client_name` are set by default in the attributes file from `Chef::Config`. They are presumed to come from the `knife bootstrap` command when setting up a new node for Chef. To set the node name to the default value (the `node['fqdn']` attribute), it can be set false. Be aware of setting this or the Server URL, as those values may already exist.
 
-As another example, to set HTTP proxy configuration settings. By
-default Chef will not use a proxy.
+As another example, to set HTTP proxy configuration settings. By default Chef will not use a proxy.
 
-    default_attributes(
-      "chef_client" => {
-        "config" => {
-          "http_proxy" => "http://proxy.vmware.com:3128",
-          "https_proxy" => "http://proxy.vmware.com:3128",
-          "http_proxy_user" => "my_username",
-          "http_proxy_pass" => "Awe_some_Pass_Word!",
-          "no_proxy" => "*.vmware.com,10.*"
-        }
+```ruby
+default_attributes(
+  "chef_client" => {
+    "config" => {
+      "http_proxy" => "http://proxy.vmware.com:3128",
+      "https_proxy" => "http://proxy.vmware.com:3128",
+      "http_proxy_user" => "my_username",
+      "http_proxy_pass" => "Awe_some_Pass_Word!",
+      "no_proxy" => "*.vmware.com,10.*"
+    }
+  }
+)
+```
+
+### Configuration Includes
+The `/etc/chef/client.rb` file will include all the configuration files in `/etc/chef/client.d/*.rb`. To create custom configuration, simply render a file resource with `file` (and the `content` parameter), `template`, `remote_file`, or `cookbook_file`. For example, in your own cookbook that requires custom Chef client configuration, create the following `cookbook_file` resource:
+
+```ruby
+chef_gem 'syslog-logger'
+
+cookbook_file "/etc/chef/client.d/myconfig.rb" do
+  source "myconfig.rb"
+  mode 00644
+  notifies :create, "ruby_block[reload_client_config]"
+end
+
+include 'chef-client::config'
+```
+
+Then create `files/default/myconfig.rb` with the configuration content you want. For example, if you wish to create a configuration to log to syslog:
+
+```ruby
+require 'rubygems'
+require 'syslog-logger'
+require 'syslog'
+
+Logger::Syslog.class_eval do
+  attr_accessor :sync, :formatter
+end
+
+log_location Logger::Syslog.new('chef-client', Syslog::LOG_DAEMON)
+```
+
+(Hat tip to Joseph Holsten for this in [COOK-2326](http://tickets.opscode.com/browse/COOK-2326)
+
+
+### Requiring Gems
+Use the `load_gems` attribute to install gems that need to be required in the client.rb. This attribute should be a hash. The gem will also be installed with `chef_gem`. For example, suppose we want to use a Chef Handler Gem, `chef-handler-updated-resources`, which is used in the next heading. Set the attributes, e.g., in a role:
+
+```ruby
+default_attributes(
+  "chef_client" => {
+    "load_gems" => {
+      "chef-handler-updated-resources" => {
+        "require_name" => "chef/handler/updated_resources",
+        "version" => "0.1"
       }
-    )
+    }
+  }
+)
+```
 
-## Configuration Includes
-
-The `/etc/chef/client.rb` file will include all the configuration
-files in `/etc/chef/client.d/*.rb`. To create custom configuration,
-simply render a file resource with `file` (and the `content` parameter),
-`template`, `remote_file`, or `cookbook_file`. For example, in your
-own cookbook that requires custom Chef client configuration, create
-the following `cookbook_file` resource:
-
-    chef_gem 'syslog-logger'
-
-    cookbook_file "/etc/chef/client.d/myconfig.rb" do
-      source "myconfig.rb"
-      mode 00644
-      notifies :create, "ruby_block[reload_client_config]"
-    end
-
-    include 'chef-client::config'
-
-Then create `files/default/myconfig.rb` with the configuration content
-you want. For example, if you wish to create a configuration to log to
-syslog:
-
-    require 'rubygems'
-    require 'syslog-logger'
-    require 'syslog'
-
-    Logger::Syslog.class_eval do
-      attr_accessor :sync, :formatter
-    end
-
-    log_location Logger::Syslog.new('chef-client', Syslog::LOG_DAEMON)
-
-(Hat tip to Joseph Holsten for this in
-[COOK-2326](http://tickets.opscode.com/browse/COOK-2326)
-
-## Requiring Gems
-
-Use the `load_gems` attribute to install gems that need to be required
-in the client.rb. This attribute should be a hash. The gem will also
-be installed with `chef_gem`. For example, suppose we want to use a
-Chef Handler Gem, `chef-handler-updated-resources`, which is used in
-the next heading. Set the attributes, e.g., in a role:
-
-    default_attributes(
-      "chef_client" => {
-        "load_gems" => {
-          "chef-handler-updated-resources" => {
-            "require_name" => "chef/handler/updated_resources",
-            "version" => "0.1"
-          }
-        }
-      }
-    )
-
-Each key in `load_gems` is the name of a gem. Each gem hash can have
-two keys, the `require_name` which is the string that will be
-`require`'d in `/etc/chef/client.rb`, and `version` which is the
-version of the gem to install. If the version is not specified, the
-latest version will be installed.
+Each key in `load_gems` is the name of a gem. Each gem hash can have two keys, the `require_name` which is the string that will be `require`'d in `/etc/chef/client.rb`, and `version` which is the version of the gem to install. If the version is not specified, the latest version will be installed.
 
 The above example will render this in `/etc/chef/client.rb`.
 
-    ["chef/handler/updated_resources"].each do |lib|
-      begin
-        require lib
-      rescue LoadError
-        Chef::Log.warn "Failed to load #{lib}. This should be resolved after a chef run."
-      end
-    end
+```ruby
+["chef/handler/updated_resources"].each do |lib|
+  begin
+    require lib
+  rescue LoadError
+    Chef::Log.warn "Failed to load #{lib}. This should be resolved after a chef run."
+  end
+end
+```
 
-## Start, Report, Exception Handlers
+### Start, Report, Exception Handlers
+To dynamically render configuration for Start, Report, or Exception handlers, set the following attributes in the `config` attributes:
 
-To dynamically render configuration for Start, Report, or Exception
-handlers, set the following attributes in the `config` attributes:
+- `start_handlers`
+- `report_handlers`
+- `exception_handlers`
 
-* `start_handlers`
-* `report_handlers`
-* `exception_handlers`
+This is an alternative to using Opscode's [`chef_handler` cookbook](http://community.opscode.com/cookbooks/chef_handler).
 
-This is an alternative to using Opscode's
-[`chef_handler` cookbook](http://community.opscode.com/cookbooks/chef_handler).
+Each of these attributes must be an array of hashes. The hash has two keys, `class` (a string), and `arguments` (an array). For example, to use the report handler in the __Requiring Gems__ section above:
 
-Each of these attributes must be an array of hashes. The hash has two
-keys, `class` (a string), and `arguments` (an array). For example, to
-use the report handler in the __Requiring Gems__ section above:
+```ruby
+default_attributes(
+  "chef_client" => {
+    "config" => {
+      "report_handlers" => [
+        {"class" => "SimpleReport::UpdatedResources", "arguments" => []}
+      ]
+    }
+  }
+)
+```
 
-    default_attributes(
-      "chef_client" => {
-        "config" => {
-          "report_handlers" => [
-            {"class" => "SimpleReport::UpdatedResources", "arguments" => []}
-          ]
-        }
-      }
-    )
-
-If the handler you're using has an initialize method that takes
-arguments, then pass each one as a member of the array. Otherwise,
-leave it blank as above.
+If the handler you're using has an initialize method that takes arguments, then pass each one as a member of the array. Otherwise, leave it blank as above.
 
 This will render the following in `/etc/chef/client.rb`.
 
-    report_handlers << SimpleReport::UpdatedResources.new()
+```ruby
+report_handlers << SimpleReport::UpdatedResources.new()
+```
 
-## Alternate Init Styles
-
+### Alternate Init Styles
 The alternate init styles available are:
 
-* runit
-* bluepill
-* daemontools
-* none -- should be specified if you are running chef-client as cron
-  job
+- runit
+- bluepill
+- daemontools
+- none -- should be specified if you are running chef-client as cron job
 
-For usage, see below.
-
-# Runit
-
+#### Runit
 To use runit, download the cookbook from the cookbook site.
 
-Change the `init_style` to runit in the base role and add the runit
-recipe to the role's run list:
+Change the `init_style` to runit in the base role and add the runit recipe to the role's run list:
 
-    name "base"
-    description "Base role applied to all nodes"
-    default_attributes(
-      "chef_client" => {
-        "init_style" => "runit"
-      }
-    )
-    run_list(
-      "recipe[chef-client::delete_validation]",
-      "recipe[runit]",
-      "recipe[chef-client]"
-    )
+```ruby
+name "base"
+description "Base role applied to all nodes"
+default_attributes(
+  "chef_client" => {
+    "init_style" => "runit"
+  }
+)
+run_list(
+  "recipe[chef-client::delete_validation]",
+  "recipe[runit]",
+  "recipe[chef-client]"
+)
+```
 
-The `chef-client` recipe will create the chef-client service
-configured with runit. The runit run script will be located in
-`/etc/sv/chef-client/run`. The output log will be in the runit service
-directory, `/etc/sv/chef-client/log/main/current`.
+The `chef-client` recipe will create the chef-client service configured with runit. The runit run script will be located in `/etc/sv/chef-client/run`. The output log will be in the runit service directory, `/etc/sv/chef-client/log/main/current`.
 
-# Bluepill
-
+#### Bluepill
 To use bluepill, download the cookbook from the cookbook site.
 
-Change the `init_style` to runit in the base role and add the bluepill
-recipe to the role's run list:
+Change the `init_style` to runit in the base role and add the bluepill recipe to the role's run list:
 
-    name "base"
-    description "Base role applied to all nodes"
-    default_attributes(
-      "chef_client" => {
-        "init_style" => "bluepill"
-      }
-    )
-    run_list(
-      "recipe[chef-client::delete_validation]",
-      "recipe[bluepill]",
-      "recipe[chef-client]"
-    )
+```ruby
+name "base"
+description "Base role applied to all nodes"
+default_attributes(
+  "chef_client" => {
+    "init_style" => "bluepill"
+  }
+)
+run_list(
+  "recipe[chef-client::delete_validation]",
+  "recipe[bluepill]",
+  "recipe[chef-client]"
+)
+```
 
-The `chef-client` recipe will create the chef-client service
-configured with bluepill. The bluepill "pill" will be located in
-`/etc/bluepill/chef-client.pill`. The output log will be to client.log
-file in the `node["chef_client"]["log_dir"]` location,
-`/var/log/chef/client` by default.
+The `chef-client` recipe will create the chef-client service configured with bluepill. The bluepill "pill" will be located in `/etc/bluepill/chef-client.pill`. The output log will be to client.log file in the `node["chef_client"]["log_dir"]` location, `/var/log/chef/client` by default.
 
-# Daemontools
-
+#### Daemontools
 To use daemontools, download the cookbook from the cookbook site.
 
-Change the `init_style` to runit in the base role and add the
-daemontools recipe to the role's run list:
+Change the `init_style` to runit in the base role and add the daemontools recipe to the role's run list:
 
-    name "base"
-    description "Base role applied to all nodes"
-    default_attributes(
-      "chef_client" => {
-        "init_style" => "daemontools"
-      }
-    )
-    run_list(
-      "recipe[chef-client::delete_validation]",
-      "recipe[daemontools]",
-      "recipe[chef-client]"
-    )
+```ruby
+name "base"
+description "Base role applied to all nodes"
+default_attributes(
+  "chef_client" => {
+    "init_style" => "daemontools"
+  }
+)
+run_list(
+  "recipe[chef-client::delete_validation]",
+  "recipe[daemontools]",
+  "recipe[chef-client]"
+)
+```
 
-The `chef-client` recipe will create the chef-client service
-configured under daemontools. It uses the same sv run scripts as the
-runit recipe. The run script will be located in
-`/etc/sv/chef-client/run`. The output log will be in the daemontools
-service directory, `/etc/sv/chef-client/log/main/current`.
+The `chef-client` recipe will create the chef-client service configured under daemontools. It uses the same sv run scripts as the runit recipe. The run script will be located in `/etc/sv/chef-client/run`. The output log will be in the daemontools service directory, `/etc/sv/chef-client/log/main/current`.
 
-# Launchd
+#### Launchd
+On Mac OS X and Mac OS X Server, the default service implementation is "launchd". Launchd support for the service resource is only supported from Chef 0.10.10 onwards. An error message will be logged if you try to use the launchd service for chef-client on a Chef version that does not contain this launchd support.
 
-On Mac OS X and Mac OS X Server, the default service implementation is
-"launchd". Launchd support for the service resource is only supported
-from Chef 0.10.10 onwards. An error message will be logged if you try
-to use the launchd service for chef-client on a Chef version that does
-not contain this launchd support.
+Since launchd can run a service in interval mode, by default chef-client is not started in daemon mode like on Debian or Ubuntu. Keep this in mind when you look at your process list and check for a running chef process! If you wish to run chef-client in daemon mode, set attribute `chef_client.launchd_mode` to "daemon".
 
-Since launchd can run a service in interval mode, by default
-chef-client is not started in daemon mode like on Debian or Ubuntu.
-Keep this in mind when you look at your process list and check for a
-running chef process! If you wish to run chef-client in daemon mode,
-set attribute `chef_client.launchd_mode` to "daemon".
 
-License and Author
-==================
-
+License & Authors
+-----------------
 - Author:: Joshua Timberman (<joshua@opscode.com>)
 - Author:: Paul Mooring (<paul@opscode.com>)
 - Author:: Seth Chisamore (<schisamo@opscode.com>)
-- Copyright:: 2010-2013, Opscode, Inc.
+
+```text
+Copyright:: 2010-2013, Opscode, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -517,3 +430,4 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+```
