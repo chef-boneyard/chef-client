@@ -3,6 +3,16 @@ chef-client Cookbook CHANGELOG
 This file is used to list changes made in each version of the chef-client cookbook.
 
 
+v3.0.6
+------
+### Bug
+- **[COOK-3373](https://tickets.opscode.com/browse/COOK-3373)** - Provide full syslog custom config example in README
+- **[COOK-3301](https://tickets.opscode.com/browse/COOK-3301)** - Fix MiniTest Cron Recipe
+- **[COOK-3300](https://tickets.opscode.com/browse/COOK-3300)** - Allow environment variables (not require)
+- **[COOK-3276](https://tickets.opscode.com/browse/COOK-3276)** - Use `node.default` instead of `node.set`
+- **[COOK-3227](https://tickets.opscode.com/browse/COOK-3227)** - Fix misnamed attribute
+- **[COOK-3104](https://tickets.opscode.com/browse/COOK-3104)** - Update `.kitchen.yml` to properly set environment_variables
+
 v3.0.4
 ------
 ### Bug
