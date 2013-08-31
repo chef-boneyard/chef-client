@@ -10,7 +10,7 @@ create_directories
 
 log "Using winsw_service on this Chef version is deprecated; use windows_service" do
   level :warn
-  only_if { ::Chef::VersionConstraint.new(">= 11.6").include?(::Chef::VERSION.split(/\./)[0..1].join('.')) }
+  only_if { Gem::Requirement.new(">= 11.5").satisfied_by?(Gem::Version.new(::Chef::VERSION)) }
 end
 
 directory node["chef_client"]["winsw_dir"] do

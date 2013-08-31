@@ -24,7 +24,7 @@ class ::Chef::Recipe
 end
 
 # Fall back to winsw on older Chef Clients without the service manager
-if ::Chef::VersionConstraint.new("< 11.6").include?(::Chef::VERSION.split(/\./)[0..1].join('.'))
+if Gem::Requirement.new("< 11.5").satisfied_by?(Gem::Version.new(::Chef::VERSION))
   include_recipe "chef-client::winsw_service"
 else
   # libraries/helpers.rb method to DRY directory creation resources
