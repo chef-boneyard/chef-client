@@ -99,6 +99,14 @@ The following attributes are set on a per-platform basis, see the `attributes/de
 * `node["chef_client"]["launchd_mode"]` - (Only for Mac OS X) if set
   to "daemon", runs chef-client with `-d` and `-s` options; defaults
   to "interval"
+* When chef_client["log_file"] is set and running on a
+  [logrotate](http://ckbk.it/logrotate) supported platform
+  (debian, rhel, fedora family), use the following attributes
+  to tune log rotation.
+  - `node["chef_client"]["logrotate"]["rotate"]` - Number of rotated
+    logs to keep on disk, default 12.
+  - `node["chef_client"]["logrotate"]["frequency"]` - How often
+    to rotate chef client logs, default weekly.
 
 This cookbook makes use of attribute-driven configuration with this attribute. See __USAGE__ for examples.
 
