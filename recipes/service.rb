@@ -31,6 +31,7 @@ supported_init_styles = [
   'runit',
   'smf',
   'upstart',
+  'windows',
   'winsw'
 ]
 init_style = node["chef_client"]["init_style"]
