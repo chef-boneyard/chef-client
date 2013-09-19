@@ -28,7 +28,7 @@ The following platforms are known to work:
 Other platforms may work with or without modification. Most notably, attribute modification may be required.
 
 ### Opscode Cookbooks
-Some cookbooks can be used with this cookbook but they are not explicitly required. The default settings in this cookbook do not require their use. The other cookbooks (on community.opsocde.com) are:
+Some cookbooks can be used with this cookbook but they are not explicitly required. The default settings in this cookbook do not require their use. The other cookbooks (on community.opscode.com) are:
 
 - bluepill
 - daemontools
