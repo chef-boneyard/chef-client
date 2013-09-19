@@ -28,7 +28,7 @@ Opscode Cookbooks
 
 The `chef-client::cron` recipe requires the `cron_d` LWRP from Opscode's cron cookbook, so that is a dependency, otherwise the cron recipe will fail to converge.
 
-Other cookbooks can be used with this cookbook but they are not explicitly required. The default settings in this cookbook do not require their use. The other cookbooks (on community.opsocde.com) are:
+Other cookbooks can be used with this cookbook but they are not explicitly required. The default settings in this cookbook do not require their use. The other cookbooks (on community.opscode.com) are:
 
 * bluepill
 * daemontools
