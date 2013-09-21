@@ -28,10 +28,10 @@ describe 'chef-client::cron' do
 
   it 'creates the cron command' do
     if node['chef_client']['cron']['use_cron_d']
-      file("/etc/cron.d/chef-client").must_match %r{/bin/sleep \d+; (([A-Za-z]+=.*)?) /usr/bin/chef-client &> /dev/null}
+      file("/etc/cron.d/chef-client").must_match %r{/bin/sleep \d+; (([A-Za-z]+=.*)?) /usr/bin/chef-client > /dev/null 2>&1}
     else
       cron("chef-client").command.
-        must_match %r{/bin/sleep \d+; (([A-Za-z]+=.*)?)|[\s] /usr/bin/chef-client &> /dev/null}
+        must_match %r{/bin/sleep \d+; (([A-Za-z]+=.*)?)|[\s] /usr/bin/chef-client > /dev/null 2>&1}
     end
   end
 end
