@@ -24,6 +24,6 @@ describe 'chef-client::cron' do
   include Helpers::ChefClient
   it 'adds environment variables to the cron command' do
     cron("chef-client").command.
-      must_match %r{/bin/sleep \d+; FOO=BAR /usr/bin/chef-client &> /dev/null}
+      must_match %r{/bin/sleep \d+; FOO=BAR /usr/bin/chef-client > /dev/null 2>&1}
   end
 end
