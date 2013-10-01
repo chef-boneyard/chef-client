@@ -3,6 +3,20 @@ chef-client Cookbook CHANGELOG
 This file is used to list changes made in each version of the chef-client cookbook.
 
 
+v3.1.0
+------
+### Bug
+- **[COOK-3638](https://tickets.opscode.com/browse/COOK-3638)** - Use standard posix shell `/bin/sh` instead of `/bin/bash`
+- **[COOK-3637](https://tickets.opscode.com/browse/COOK-3637)** - Fix typo in README
+- **[COOK-3501](https://tickets.opscode.com/browse/COOK-3501)** - Notify reload `:immediately` when `client.rb` template is changed
+- **[COOK-3492](https://tickets.opscode.com/browse/COOK-3492)** - Test upstart on CentOS
+
+### New Feature
+- **[COOK-3500](https://tickets.opscode.com/browse/COOK-3500)** - Rotate logs on supported platforms if 'log_file' is set
+
+### Improvement
+- **[COOK-1863](https://tickets.opscode.com/browse/COOK-1863)** - Install chef-client as a Windows Service
+
 v3.0.6
 ------
 ### Bug
