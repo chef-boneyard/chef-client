@@ -7,7 +7,9 @@ require 'chef/version_constraint'
 # libraries/helpers.rb method to DRY directory creation resources
 client_bin = find_chef_client
 log "Found chef-client in #{client_bin}"
-node.default["chef_client"]["bin"] = client_bin
+if client_bin > 0
+  node.default["chef_client"]["bin"] = client_bin
+end
 create_directories
 
 version_checker = Chef::VersionConstraint.new(">= 0.10.10")
@@ -19,7 +21,7 @@ if mac_service_supported
     mode 0644
     variables(
       :launchd_mode => node["chef_client"]["launchd_mode"],
-      :client_bin => params[:client_bin]
+      :client_bin => node.default["chef_client"]["bin"] 
     )
   end
 
