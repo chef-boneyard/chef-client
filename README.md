@@ -197,6 +197,8 @@ Use this recipe to delete the validation certificate (default `/etc/chef/validat
 ### cron
 Use this recipe to run chef-client as a cron job rather than as a service. The cron job runs after random delay that is between 0 and 90 seconds to ensure that the chef-clients don't attempt to connect to the chef-server at the exact same time. You should set node["chef_client"]["init_style"] = "none" when you use this mode but it is not required.
 
+### safe_cron
+This recipe provides a safe wrapper aroudn the chef-client cron job that allows for per node stop/go control and prevents from chef-client overrunning itself.  All the cron recipe notes still apply.
 
 Usage
 -----
@@ -417,6 +419,42 @@ On Mac OS X and Mac OS X Server, the default service implementation is "launchd"
 
 Since launchd can run a service in interval mode, by default chef-client is not started in daemon mode like on Debian or Ubuntu. Keep this in mind when you look at your process list and check for a running chef process! If you wish to run chef-client in daemon mode, set attribute `chef_client.launchd_mode` to "daemon".
 
+#### Safe-Cron
+Change the `init_style` to none in the base role and add the safe_cron recipe to the role's run list:
+
+```ruby
+name "base"
+description "Base role applied to all nodes"
+default_attributes(
+  "chef_client" => {
+    "init_style" => "none"
+  }
+)
+run_list(
+  "recipe[chef-client::delete_validation]",
+  "recipe[chef-client::safe_cron]"
+)
+```
+
+During the lifetime of a node, if you want to prevent Chef from checking in, simply create a lockfile as shown below.  This is helpful if you want to bring up new nodes without existing nodes pulling configs, for testing, new builds, etc.
+```
+touch /tmp/chef_do_not_run
+```
+
+To allow it to check in again
+```
+rm -f /tmp/chef_do_not_run
+```
+
+You can also apply it to a set of nodes, using knife ssh
+```
+knife ssh 'role:base AND chef_environment:*' "touch /tmp/chef_do_not_run" -a ipaddress -i /ssh_key
+```
+
+And to allow it again
+```
+knife ssh 'role:base AND chef_environment:*' "rm -f /tmp/chef_do_not_run" -a ipaddress -i /ssh_key
+```
 
 License & Authors
 -----------------

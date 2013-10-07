@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# wrapper for Chef client cron.  To manually preven this host from checking in to Chef:
+# touch /tmp/chef_do_not_run
+#
+# to allow Chef to run next time
+# rm -f /tmp/chef_do_not_run
+
+# use a lockfile to prevent potential chef over running itself on slow processes
+CHEF_TOUCHFILE=/tmp/chef_is_running
+
+# use another lockfile to temporarily prevent chef run
+CHEF_DONOTRUN=/tmp/chef_do_not_run
+
+if ([ -e $CHEF_TOUCHFILE ] || [ -e $CHEF_DONOTRUN ]); then 
+    exit 0
+else
+   touch $CHEF_TOUCHFILE
+   /bin/sleep <%= sleep_time %>; <%= env %> <%= client_bin %> > <%= log_file %> 2>&1   
+   rm -f $CHEF_TOUCHFILE
+fi

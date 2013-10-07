@@ -10,6 +10,7 @@ recipe "chef-client::arch_service", "Configures chef-client as a service on Arch
 recipe "chef-client::bluepill_service", "Configures chef-client as a service under Bluepill"
 recipe "chef-client::config", "Configures the client.rb from a template."
 recipe "chef-client::cron", "Runs chef-client as a cron job rather than as a service"
+recipe "chef-client::safe_cron", "Runs chef-client as a cron job rather than as a service, with a safety wrapper and stop/go control"
 recipe "chef-client::daemontools_service", "Configures chef-client as a service under Daemontools"
 recipe "chef-client::delete_validation", "Deletes validation.pem after client registers"
 recipe "chef-client::runit_service", "Configures chef-client as a service under Runit"
