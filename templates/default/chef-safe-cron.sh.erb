@@ -16,6 +16,6 @@ if ([ -e $CHEF_TOUCHFILE ] || [ -e $CHEF_DONOTRUN ]); then
     exit 0
 else
    touch $CHEF_TOUCHFILE
-   /bin/sleep <%= sleep_time %>; <%= env %> <%= client_bin %> > <%= log_file %> 2>&1   
+   /bin/sleep <%= @sleep_time %>; <%= @env %> <%= @client_bin %> > <%= @log_file %> 2>&1   
    rm -f $CHEF_TOUCHFILE
 fi
