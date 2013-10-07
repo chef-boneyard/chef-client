@@ -130,3 +130,6 @@ else
   default["chef_client"]["cache_path"]  = "/var/chef/cache"
   default["chef_client"]["backup_path"] = "/var/chef/backup"
 end
+
+default["chef_client"]["safe_cron_dir"] = "/usr/local/bin"
+default["chef_client"]["safe_cron_script"] = "#{node["chef_client"]["safe_cron_dir"]}/chef-safe-cron.sh"
