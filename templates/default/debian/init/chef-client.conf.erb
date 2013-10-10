@@ -14,4 +14,7 @@ pre-start script
     test -x <%= @client_bin %> || { stop; exit 0; }
 end script
 
-exec <%= @client_bin %> -i <%= node["chef_client"]["interval"] %> -L <%= node["chef_client"]["log_dir"] %>/client.log <%= node["chef_client"]["daemon_options"].join(' ') %>
+script
+  echo $$ > <%= node["chef_client"]["run_path"] %>/chef-client.pid
+  exec <%= @client_bin %> -i <%= node["chef_client"]["interval"] %> -L <%= node["chef_client"]["log_dir"] %>/client.log <%= node["chef_client"]["daemon_options"].join(' ') %>
+end script
