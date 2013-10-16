@@ -24,6 +24,11 @@ class ::Chef::Recipe
   include ::Opscode::ChefClient::Helpers
 end
 
+# We need to set these local variables because the methods aren't
+# available in the Chef::Resource scope
+d_owner = dir_owner
+d_group = dir_group
+
 chef_node_name = Chef::Config[:node_name] == node["fqdn"] ? false : Chef::Config[:node_name]
 case node["chef_client"]["log_file"]
 when String
@@ -38,6 +43,28 @@ when String
       frequency node['chef_client']['logrotate']['frequency']
       options [ 'compress' ]
       postrotate '/etc/init.d/chef-client condrestart >/dev/null || :'
+    end
+  when 'windows'
+    gem_package 'logrotate'
+
+    logrotate_path = File.join(node["chef_client"]["conf_dir"], 'logrotate.rb')
+    template logrotate_path do
+      source 'logrotate.rb.erb'
+      owner d_owner
+      group d_group
+      mode 00644
+      variables(
+        :log_path => log_path,
+        :count => node['chef_client']['logrotate']['rotate']
+      )
+    end
+
+    windows_task 'chef-client_logrotate' do
+      command            "#{node['chef_client']['ruby_bin']} #{logrotate_path}"
+      user               node['chef_client']['task']['user']
+      password           node['chef_client']['task']['password']
+      frequency          node['chef_client']['logrotate']['frequency'].to_sym
+      frequency_modifier 1
     end
   end
 else
@@ -62,11 +89,6 @@ node["chef_client"]["load_gems"].each do |gem_name, gem_info_hash|
   end
   chef_requires.push(gem_info_hash[:require_name] || gem_name)
 end
-
-# We need to set these local variables because the methods aren't
-# available in the Chef::Resource scope
-d_owner = dir_owner
-d_group = dir_group
 
 template "#{node["chef_client"]["conf_dir"]}/client.rb" do
   source "client.rb.erb"

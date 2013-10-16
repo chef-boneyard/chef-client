@@ -52,6 +52,9 @@ default["chef_client"]["cron"] = {
   "use_cron_d" => false
 }
 
+default["chef_client"]["task"]["user"] = 'SYSTEM'
+default["chef_client"]["task"]["password"] = '' # SYSTEM user does not need a password, but windows_task LWRP wants one
+
 default["chef_client"]["load_gems"] = {}
 
 # Any additional daemon options can be set as an array. This will be

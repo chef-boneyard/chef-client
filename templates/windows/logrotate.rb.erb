@@ -1,0 +1,2 @@
+require 'logrotate'
+LogRotate.rotate_file('<%= @log_path %>', count: <%= @count %>, gzip: true)
