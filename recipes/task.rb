@@ -26,12 +26,24 @@ client_bin = find_chef_client
 node.set["chef_client"]["bin"] = client_bin
 create_directories
 
+if node['chef_client']['task']['use_cron_schedule']
+  frequency, frequency_modifier, start_time = cron_to_task_schedule(node['chef_client']['cron']['minute'], node['chef_client']['cron']['hour'])
+else
+  frequency = :minute
+  frequency_modifier = node['chef_client']['interval'].to_i / 60
+  start_time = nil
+end
+
 windows_task "chef-client" do
   run_level :highest
-  command "#{node['chef_client']['ruby_bin']} #{node['chef_client']['bin']} \
+  command "cmd /c \"#{node['chef_client']['ruby_bin']} #{node['chef_client']['bin']} \
   -L #{File.join(node['chef_client']['log_dir'], 'client.log')} \
-  -c #{File.join(node['chef_client']['conf_dir'], 'client.rb')} -s #{node['chef_client']['splay']}"
-  frequency :minute
-  frequency_modifier(node['chef_client']['interval'].to_i / 60)
+  -c #{File.join(node['chef_client']['conf_dir'], 'client.rb')} -s #{node['chef_client']['splay']} > NUL 2>&1\""
+
+  user               node['chef_client']['task']['user']
+  password           node['chef_client']['task']['password']
+  frequency          frequency
+  frequency_modifier frequency_modifier
+  start_time         start_time.strftime('%H:%M') if start_time
 end
 

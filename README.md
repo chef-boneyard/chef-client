@@ -75,6 +75,14 @@ The following attributes affect the behavior of the chef-client program when run
 * `node["chef_client"]["cron"]["use_cron_d"]` - If true, use the
   "cron_d" LWRP (https://github.com/opscode-cookbooks/cron). If false
   (default), use the cron resource built-in to Chef.
+* `node["chef_client"]["task"]["use_cron_schedule"]` - If true, the
+  `chef-client::task` recipe will use the cron schedule when creating
+  the scheduled task to run chef-client in Windows. Defaults to false.
+* `node["chef_client"]["task"]["user"]` - The user the scheduled task
+  will run as, defaults to `'SYSTEM'`.
+* `node["chef_client"]["task"]["password"]` - The password for the user
+  the scheduled task will run as, defaults to `''` because the default
+  user, `'SYSTEM'`, does not need a password.
 * `node["chef_client"]["daemon_options"]` - An array of additional
   options to pass to the chef-client service, empty by default, and
   must be an array if specified.
@@ -196,6 +204,9 @@ Use this recipe to delete the validation certificate (default `/etc/chef/validat
 
 ### cron
 Use this recipe to run chef-client as a cron job rather than as a service. The cron job runs after random delay that is between 0 and 90 seconds to ensure that the chef-clients don't attempt to connect to the chef-server at the exact same time. You should set node["chef_client"]["init_style"] = "none" when you use this mode but it is not required.
+
+### task
+Creates a Windows scheduled task to run chef-client. Default schedule is based on the interval set in `node["chef_client"]["interval"]`. Can also use the same schedule as `chef-client::cron` if `node["chef_client"]["task"]["use_cron_schedule"]` is set to `true`
 
 
 Usage
