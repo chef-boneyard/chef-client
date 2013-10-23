@@ -19,9 +19,6 @@ require File.expand_path('../support/helpers', __FILE__)
 describe 'chef-client::service' do
   include Helpers::ChefClient
   it "starts the chef-client service" do
-    r = Chef::Resource::Service.new("chef-client", @run_context)
-    r.provider Chef::Provider::Service::Upstart
-    current_resource = r.provider_for_action(:start).load_current_resource
-    current_resource.running.must_equal true
+    service('chef-client').must_be_running
   end
 end
