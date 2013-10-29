@@ -10,8 +10,8 @@ log "Found chef-client in #{client_bin}"
 node.default["chef_client"]["bin"] = client_bin
 create_directories
 
-version_checker = Chef::VersionConstraint.new(">= 0.10.10")
-mac_service_supported = version_checker.include?(node['chef_packages']['chef']['version'])
+version_checker = Gem::Requirement.new(">= 0.10.10")
+mac_service_supported = version_checker.satisfied_by?(Gem::Version.new(node['chef_packages']['chef']['version']))
 
 if mac_service_supported
   template "/Library/LaunchDaemons/com.opscode.chef-client.plist" do
