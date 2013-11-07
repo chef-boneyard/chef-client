@@ -72,6 +72,7 @@ checksum   = Digest::MD5.hexdigest(node['fqdn'] || 'unknown-hostname')
 sleep_time = checksum.to_s.hex % node['chef_client']['splay'].to_i
 env        = node['chef_client']['cron']['environment_variables']
 log_file   = node["chef_client"]["cron"]["log_file"]
+redirect_to = node['chef_client']['cron']['append_log'] ? '>>' : '>'
 
 # If "use_cron_d" is set to true, delete the cron entry that uses the cron
 # resource built in to Chef and instead use the cron_d LWRP.
@@ -85,7 +86,7 @@ if node['chef_client']['cron']['use_cron_d']
     hour    node['chef_client']['cron']['hour']
     path    node['chef_client']['cron']['path'] if node['chef_client']['cron']['path']
     user    "root"
-    command "/bin/sleep #{sleep_time}; #{env} #{client_bin} > #{log_file} 2>&1"
+    command "/bin/sleep #{sleep_time}; #{env} #{client_bin} #{redirect_to} #{log_file} 2>&1"
   end
 else
   cron_d "chef-client" do
@@ -97,6 +98,6 @@ else
     hour    node['chef_client']['cron']['hour']
     path    node['chef_client']['cron']['path'] if node['chef_client']['cron']['path']
     user    "root"
-    command "/bin/sleep #{sleep_time}; #{env} #{client_bin} > #{log_file} 2>&1"
+    command "/bin/sleep #{sleep_time}; #{env} #{client_bin} #{redirect_to} #{log_file} 2>&1"
   end
 end
