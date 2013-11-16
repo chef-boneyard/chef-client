@@ -20,12 +20,11 @@
 module Opscode
   module ChefClient
     module Helpers
-      if Chef::VERSION >= '11.0.0'
-        include Chef::DSL::PlatformIntrospection
-        CHEF_SERVER_USER = 'chef_server'
-      else
-        include Chef::Mixin::Language
-        CHEF_SERVER_USER = 'chef'
+      include Chef::Mixin::Language if Chef::VERSION < '11.0.0'
+      include Chef::DSL::PlatformIntrospection if Chef::VERSION >= '11.0.0'
+
+      def chef_server_user
+        Chef::VERSION >= '11.0.0' ? 'chef_server' : 'chef'
       end
 
       def chef_server?
@@ -45,7 +44,7 @@ module Opscode
 
       def dir_owner
         if chef_server?
-          CHEF_SERVER_USER
+          chef_server_user
         else
           root_owner
         end
@@ -63,7 +62,7 @@ module Opscode
 
       def dir_group
         if chef_server?
-          CHEF_SERVER_USER
+          chef_server_user
         else
           root_group
         end
