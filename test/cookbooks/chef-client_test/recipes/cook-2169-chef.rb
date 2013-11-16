@@ -22,7 +22,7 @@ class Chef::Recipe
   include ::Opscode::ChefClient::Helpers
 end
 
-user CHEF_SERVER_USER do
+user chef_server_user do
   action :nothing
 end.run_action(:create)
 
