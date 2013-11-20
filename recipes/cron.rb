@@ -69,10 +69,10 @@ end
 
 # Generate a uniformly distributed unique number to sleep.
 if node['chef_client']['splay'].to_i > 0
-    checksum   = Digest::MD5.hexdigest(node['fqdn'] || 'unknown-hostname')
-    sleep_time = checksum.to_s.hex % node['chef_client']['splay'].to_i
+  checksum   = Digest::MD5.hexdigest(node['fqdn'] || 'unknown-hostname')
+  sleep_time = checksum.to_s.hex % node['chef_client']['splay'].to_i
 else
-    sleep_time = nil
+  sleep_time = nil
 end
 env        = node['chef_client']['cron']['environment_variables']
 log_file   = node["chef_client"]["cron"]["log_file"]
