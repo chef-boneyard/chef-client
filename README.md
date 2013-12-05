@@ -72,6 +72,8 @@ The following attributes affect the behavior of the chef-client program when run
   `SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt` chef-client)
 * `node["chef_client"]["cron"]["log_file"]` - Location to capture the
   chef-client output.
+* `node["chef_client"]["cron"]["log_Append"]` - Whether or not to
+  append to the log file or not. Default is to overwrite.
 * `node["chef_client"]["cron"]["use_cron_d"]` - If true, use the
   "cron_d" LWRP (https://github.com/opscode-cookbooks/cron). If false
   (default), use the cron resource built-in to Chef.

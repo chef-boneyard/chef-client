@@ -49,7 +49,8 @@ default["chef_client"]["cron"] = {
   "path" => nil,
   "environment_variables" => nil,
   "log_file" => "/dev/null",
-  "use_cron_d" => false
+  "use_cron_d" => false,
+  "append_log" => false
 }
 
 default["chef_client"]["load_gems"] = {}

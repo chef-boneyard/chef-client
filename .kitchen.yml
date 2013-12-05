@@ -80,6 +80,15 @@ suites:
   - recipe[chef-client::cron]
   attributes: {}
 
+- name: cron_append
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[chef-client::cron]
+  attributes:
+    chef_client:
+      cron:
+        append_log: true
+
 - name: delete_validation
   run_list:
   - recipe[chef-client::delete_validation]
