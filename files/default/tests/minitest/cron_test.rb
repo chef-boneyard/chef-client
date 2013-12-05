@@ -27,11 +27,20 @@ describe 'chef-client::cron' do
   end
 
   it 'creates the cron command' do
+    append_log_regexp = %r{/bin/sleep \d+; (([A-Za-z]+=.*)?) /usr/bin/chef-client >> /dev/null 2>&1}
+    overwrite_log_regexp = %r{/bin/sleep \d+; (([A-Za-z]+=.*)?) /usr/bin/chef-client > /dev/null 2>&1}
     if node['chef_client']['cron']['use_cron_d']
-      file("/etc/cron.d/chef-client").must_match %r{/bin/sleep \d+; (([A-Za-z]+=.*)?) /usr/bin/chef-client > /dev/null 2>&1}
+      if node['chef_client']['cron']['append_log']
+        file("/etc/cron.d/chef-client").must_match append_log_regexp
+      else
+        file("/etc/cron.d/chef-client").must_match overwrite_log_regexp
+      end
     else
-      cron("chef-client").command.
-        must_match %r{/bin/sleep \d+; (([A-Za-z]+=.*)?)|[\s] /usr/bin/chef-client > /dev/null 2>&1}
+      if node['chef_client']['cron']['append_log']
+        cron("chef-client").command.must_match append_log_regexp
+      else
+        cron("chef-client").command.must_match overwrite_log_regexp
+      end
     end
   end
 end

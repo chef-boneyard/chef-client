@@ -75,6 +75,9 @@ log_file   = node["chef_client"]["cron"]["log_file"]
 
 # If "use_cron_d" is set to true, delete the cron entry that uses the cron
 # resource built in to Chef and instead use the cron_d LWRP.
+cron_redirect = node['chef_client']['cron']['append_log'] ? '>>' : '>'
+cron_command = "/bin/sleep #{sleep_time}; #{env} #{client_bin} #{cron_redirect} #{log_file} 2>&1"
+
 if node['chef_client']['cron']['use_cron_d']
   cron "chef-client" do
     action :delete
@@ -85,7 +88,7 @@ if node['chef_client']['cron']['use_cron_d']
     hour    node['chef_client']['cron']['hour']
     path    node['chef_client']['cron']['path'] if node['chef_client']['cron']['path']
     user    "root"
-    command "/bin/sleep #{sleep_time}; #{env} #{client_bin} > #{log_file} 2>&1"
+    command cron_command
   end
 else
   cron_d "chef-client" do
@@ -97,6 +100,6 @@ else
     hour    node['chef_client']['cron']['hour']
     path    node['chef_client']['cron']['path'] if node['chef_client']['cron']['path']
     user    "root"
-    command "/bin/sleep #{sleep_time}; #{env} #{client_bin} > #{log_file} 2>&1"
+    command cron_command
   end
 end
