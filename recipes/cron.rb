@@ -72,13 +72,23 @@ service "chef-client" do
   action [:disable, :stop]
 end
 
-cron "chef-client" do
-  minute node['chef_client']['cron']['minute']	
-  hour	node['chef_client']['cron']['hour']
-  path node['chef_client']['cron']['path'] if node['chef_client']['cron']['path']
-  user	"root"
-  shell	"/bin/bash"
-  command "/bin/sleep `/usr/bin/expr $RANDOM \\% 90` &> /dev/null ; #{client_bin} &> /dev/null "
+if node.run_list.roles.include?(node['nagios']['server_role'])
+  cron "chef-client" do
+    minute node['chef_client']['cron']['nagios']['minute']
+    hour        node['chef_client']['cron']['nagios']['hour']
+    path node['chef_client']['cron']['path'] if node['chef_client']['cron']['path']
+    user        "root"
+    shell       "/bin/bash"
+    command "/bin/sleep `/usr/bin/expr $RANDOM \\% 90` &> /dev/null ; #{client_bin} &> /dev/null "
+  end
+else
+  cron "chef-client" do
+    minute node['chef_client']['cron']['minute']	
+    hour	node['chef_client']['cron']['hour']
+    path node['chef_client']['cron']['path'] if node['chef_client']['cron']['path']
+    user	"root"
+    shell	"/bin/bash"
+    command "/bin/sleep `/usr/bin/expr $RANDOM \\% 90` &> /dev/null ; #{client_bin} &> /dev/null "
+  end
 end
-
 
