@@ -22,9 +22,9 @@
     <string><%= option %></string>
     <% end -%>
   </array>
+  <key>KeepAlive</key>
+  <true/>
 <%- end %>
-  <key>UserName</key>
-  <string>root</string>
   <key>StandardOutPath</key>
   <string><%= node["chef_client"]["log_dir"] %>/client.log</string>
 </dict>
