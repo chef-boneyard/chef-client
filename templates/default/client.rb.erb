@@ -30,6 +30,11 @@ node_name <%= @chef_config['node_name'].inspect %>
 ENV['http_proxy'] = "<%= node["chef_client"]["config"]["http_proxy"] %>"
 ENV['HTTP_PROXY'] = "<%= node["chef_client"]["config"]["http_proxy"] %>"
 <% end -%>
+<% unless node["chef_client"]["config"]["https_proxy"].nil? -%>
+ENV['https_proxy'] = "<%= node["chef_client"]["config"]["https_proxy"] %>"
+ENV['HTTPS_PROXY'] = "<%= node["chef_client"]["config"]["https_proxy"] %>"
+<% end -%>
+
 <% if node.attribute?("ohai") && node["ohai"].attribute?("plugin_path") -%>
 
 Ohai::Config[:plugin_path] << "<%= node["ohai"]["plugin_path"] %>"
