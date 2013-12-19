@@ -23,3 +23,31 @@ Once the above are installed, you should be able to run Test Kitchen:
 
     kitchen list
     kitchen test
+
+# A note about the SLES Box
+
+The .kitchen.yml has a platform for SLES 11-sp2. Due to licensing
+reasons, we cannot distribute the base box. You can however build your
+own using the Bento definition `sles-11-sp2`, and import it separate
+from test-kitchen's run.
+
+Before exporting the box, do ensure that the vagrant user has
+NOPASSWD: ALL in /etc/sudoers.
+
+# A note about the OmniOS Box
+
+This patch to test-kitchen is required to test using the OmniOS box,
+as the path to `pkgadd` (`/usr/sbin`) is not in the default `vagrant`
+user's path when logging in without a TTY.
+
+https://github.com/opscode/test-kitchen/pull/164
+
+If your local version of Vagrant is 1.2.0 or higher, you may need to
+install the `vagrant-guest-omnios` plugin to get OS detection for
+OmniOS to work properly.
+
+https://github.com/clintoncwolfe/vagrant-guest-omnios
+
+TL;DR:
+
+    vagrant plugin install vagrant-guest-omnios

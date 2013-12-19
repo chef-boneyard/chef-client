@@ -8,15 +8,16 @@ platforms:
   driver_config:
     box: opscode-ubuntu-12.04
     box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box
-  run_list:
-  - recipe[apt]
 
 - name: ubuntu-10.04
   driver_config:
     box: opscode-ubuntu-10.04
     box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04_provisionerless.box
-  run_list:
-  - recipe[apt]
+
+- name: debian-6
+  driver_config:
+    box: opscode-debian-6
+    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_debian-6.0.7_chef-11.2.0.box
 
 - name: centos-6.4
   driver_config:
@@ -28,6 +29,16 @@ platforms:
     box: opscode-centos-5.9
     box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-5.9_provisionerless.box
 
+# No box_url, see TESTING.md for information on building a box
+- name: sles-11
+  driver_config:
+    box: opscode-sles-11-sp2
+
+# See TESTING.md for special setup considerations
+- name: omnios-r151006c
+  driver_config:
+    box: omnios-r151006c
+    box_url: http://omnios.omniti.com/media/OmniOS_r151006c-r1.box
 
 suites:
 # This suite tests that the configuration is applied correctly (via attributes)
@@ -50,28 +61,54 @@ suites:
     ohai:
       disabled_plugins: ["passwd"]
 
+# Exclude omnios as it doesn't use "init" (see SMF)
 - name: service_init
   run_list:
   - recipe[minitest-handler]
   - recipe[chef-client::config]
   - recipe[chef-client_test::service_init]
   - recipe[chef-client::init_service]
+  excludes: ["omnios-r151006c"]
   attributes: {}
 
+# Exclude sles and omnios as they aren't supported by the runit cookbook
 - name: service_runit
   run_list:
   - recipe[minitest-handler]
   - recipe[runit]
   - recipe[chef-client_test::service_runit]
   - recipe[chef-client::runit_service]
+  excludes: ["sles-11", "omnios-r151006c"]
   attributes: {}
 
+# Exclude debian 6, centos, sles, and omnios as they don't use upstart
 - name: service_upstart
   run_list:
   - recipe[minitest-handler]
   - recipe[chef-client_test::service_upstart]
   - recipe[chef-client::upstart_service]
-  excludes: ["centos-5.9"]
+  excludes:
+  - debian-6
+  - centos-5.9
+  - centos-6.4
+  - sles-11
+  - omnios-r151006c
+  attributes: {}
+
+# SMF is only relevant for IllumOS/Solaris, and we're using omnios for that
+- name: service_smf
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[chef-client::config]
+  - recipe[chef-client_test::service_smf]
+  - recipe[chef-client::smf_service]
+  excludes:
+  - ubuntu-12.04
+  - ubuntu-10.04
+  - debian-6
+  - centos-6.4
+  - centos-5.9
+  - sles-11
   attributes: {}
 
 - name: cron
@@ -80,43 +117,85 @@ suites:
   - recipe[chef-client::cron]
   attributes: {}
 
+# This doesn't need to run across every platform.
 - name: delete_validation
   run_list:
   - recipe[chef-client::delete_validation]
+  excludes:
+  - ubuntu-10.04
+  - debian-6
+  - centos-6.4
+  - centos-5.9
+  - sles-11
+  - omnios-r151006c
   attributes: {}
 
 # Probably needs to be moved up to config and tested there
+# This doesn't need to run across every platform.
 - name: cook-2092
   run_list:
   - recipe[minitest-handler]
   - recipe[chef-client_test::cook-2092]
   - recipe[chef-client::config]
+  excludes:
+  - ubuntu-10.04
+  - debian-6
+  - centos-6.4
+  - centos-5.9
+  - sles-11
+  - omnios-r151006c
   attributes:
     chef_client:
       log_file: "client.log"
 
 # Tests that the root user is set correctly for the cron recipe.
+# We only need to test major platform differences, not each version, and also
+# exclude debian, sles, and omnios as they are not supported platforms for chef-server
+# which is where the user discrepency comes from
 - name: cook-2169-root
   run_list:
   - recipe[minitest-handler]
   - recipe[chef-client_test::cook-2169-root]
   - recipe[chef-client::cron]
+  excludes:
+  - ubuntu-10.04
+  - debian-6
+  - centos-5.9
+  - sles-11
+  - omnios-r151006c
   attributes: {}
 
 # Tests that the "chef server" user is set correctly with the cron recipe.
+# We only need to test major platform differences, not each version, and also
+# exclude debian, sles, and omnios as they are not supported platforms for chef-server
+# which is where the user discrepency comes from
 - name: cook-2169-chef
   run_list:
   - recipe[minitest-handler]
   - recipe[chef-client_test::cook-2169-chef]
   - recipe[chef-client::cron]
+  excludes:
+  - ubuntu-10.04
+  - debian-6
+  - centos-5.9
+  - sles-11
+  - omnios-r151006c
   attributes: {}
 
 # Test that the environment variables are rendered correctly
+# cron is already tested above, so we only need to test this on one platform.
 - name: cook-2086
   run_list:
   - recipe[minitest-handler]
   - recipe[chef-client_test::cook-2086]
   - recipe[chef-client::cron]
+  excludes:
+  - ubuntu-10.04
+  - debian-6
+  - centos-6.4
+  - centos-5.9
+  - sles-11
+  - omnios-r151006c
   attributes:
     chef_client:
       cron:
@@ -143,12 +222,21 @@ suites:
 #       disabled_plugins: ["passwd"]
 
 # Test that the running process includes command-line "daemon" options
+# Exclude omnios as it doesn't use "init" (see service_smf)
+# Exclude others as init is tested above and we only need major platform family
+# differences tested.
 - name: cook-1951
   run_list:
   - recipe[minitest-handler]
   - recipe[chef-client::config]
   - recipe[chef-client::service]
   - recipe[chef-client_test::cook-1951]
+  excludes:
+  - ubuntu-10.04
+  - debian-6
+  - centos-5.9
+  - sles-11
+  - omnios-r151006c
   attributes:
     chef_client:
       init_style: "init"
