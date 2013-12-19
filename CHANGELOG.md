@@ -2,6 +2,16 @@ chef-client Cookbook CHANGELOG
 ==============================
 This file is used to list changes made in each version of the chef-client cookbook.
 
+v3.2.0
+------
+### Bug
+- **[COOK-3885](https://tickets.opscode.com/browse/COOK-3885)** - launchd_service template missing client_bin
+- **[COOK-3874](https://tickets.opscode.com/browse/COOK-3874)** - COOK-3492 patch breaks server_test.rb
+- **[COOK-3848](https://tickets.opscode.com/browse/COOK-3848)** - allow disable splay
+- Fixing up style to pass most rubocops
+- Updating test-kitchen harness
+
+
 v3.1.2
 ------
 ### Bug
