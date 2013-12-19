@@ -2,6 +2,10 @@ chef-client Cookbook CHANGELOG
 ==============================
 This file is used to list changes made in each version of the chef-client cookbook.
 
+v3.1.2
+------
+### Bug
+- **[COOK-4113](https://tickets.opscode.com/browse/COOK-4113)** - chef-client::smf_service breaks permissions on /lib/svc/method
 
 v3.1.0
 ------

@@ -12,7 +12,7 @@ directory node['chef_client']['method_dir'] do
   action :create
   owner "root"
   group "bin"
-  mode "0644"
+  mode "0755"
   recursive true
 end
 
@@ -21,7 +21,7 @@ template "#{node['chef_client']['method_dir']}/chef-client" do
   source "solaris/chef-client.erb"
   owner "root"
   group "root"
-  mode "0777"
+  mode "0555"
   notifies :restart, "service[chef-client]"
 end
 
