@@ -19,7 +19,7 @@ if mac_service_supported
     mode 0644
     variables(
       :launchd_mode => node["chef_client"]["launchd_mode"],
-      :client_bin => params[:client_bin]
+      :client_bin => client_bin
     )
   end
 
