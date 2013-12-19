@@ -20,23 +20,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# include helper methods
 class ::Chef::Recipe
   include ::Opscode::ChefClient::Helpers
 end
 
-chef_node_name = Chef::Config[:node_name] == node["fqdn"] ? false : Chef::Config[:node_name]
-case node["chef_client"]["log_file"]
+# chef_node_name = Chef::Config[:node_name] == node['fqdn'] ? false : Chef::Config[:node_name]
+case node['chef_client']['log_file']
 when String
-  log_path = File.join(node["chef_client"]["log_dir"], node["chef_client"]["log_file"])
+  log_path = File.join(node['chef_client']['log_dir'], node['chef_client']['log_file'])
   node.default['chef_client']['config']['log_location'] = "'#{log_path}'"
 
   case node['platform_family']
-  when 'rhel','debian','fedora'
+  when 'rhel', 'debian', 'fedora'
     logrotate_app 'chef-client' do
-      path [ log_path ]
+      path [log_path]
       rotate node['chef_client']['logrotate']['rotate']
       frequency node['chef_client']['logrotate']['frequency']
-      options [ 'compress' ]
+      options ['compress']
       postrotate '/etc/init.d/chef-client condrestart >/dev/null || :'
     end
   end
@@ -47,14 +48,14 @@ end
 # libraries/helpers.rb method to DRY directory creation resources
 create_directories
 
-if log_path != "STDOUT"
+if log_path != 'STDOUT'
   file log_path do
     mode 00640
   end
 end
 
 chef_requires = []
-node["chef_client"]["load_gems"].each do |gem_name, gem_info_hash|
+node['chef_client']['load_gems'].each do |gem_name, gem_info_hash|
   gem_info_hash ||= {}
   chef_gem gem_name do
     action gem_info_hash[:action] || :install
@@ -69,7 +70,7 @@ d_owner = dir_owner
 d_group = dir_group
 
 template "#{node["chef_client"]["conf_dir"]}/client.rb" do
-  source "client.rb.erb"
+  source 'client.rb.erb'
   owner d_owner
   group d_group
   mode 00644
@@ -81,7 +82,7 @@ template "#{node["chef_client"]["conf_dir"]}/client.rb" do
     :report_handlers => node['chef_client']['config']['report_handlers'],
     :exception_handlers => node['chef_client']['config']['exception_handlers']
   )
-  notifies :create, "ruby_block[reload_client_config]", :immediately
+  notifies :create, 'ruby_block[reload_client_config]', :immediately
 end
 
 directory ::File.join(node['chef_client']['conf_dir'], 'client.d') do
@@ -91,7 +92,7 @@ directory ::File.join(node['chef_client']['conf_dir'], 'client.d') do
   mode 00755
 end
 
-ruby_block "reload_client_config" do
+ruby_block 'reload_client_config' do
   block do
     Chef::Config.from_file("#{node["chef_client"]["conf_dir"]}/client.rb")
   end

@@ -23,6 +23,6 @@ describe 'chef-client::config' do
   include Helpers::ChefClient
   it 'enables and starts the init service' do
     service('chef-client').must_be_running
-    file('/etc/init.d/chef-client').must_have(:mode, "0755")
+    file('/etc/init.d/chef-client').must_have(:mode, '0755')
   end
 end

@@ -23,6 +23,6 @@ describe 'chef-client::config' do
   include Helpers::ChefClient
   it 'allows disabling ohai plugins' do
     regexp = 'Ohai::Config\[:disabled_plugins\] =\s+\["passwd"\]'
-    file("/etc/chef/client.rb").must_match(/#{regexp}/)
+    file('/etc/chef/client.rb').must_match(/#{regexp}/)
   end
 end

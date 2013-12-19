@@ -15,7 +15,9 @@
 #
 
 module Helpers
+  #
   module ChefClient
+    # include minitest things
     require 'chef/mixin/shell_out'
     include Chef::Mixin::ShellOut
     include MiniTest::Chef::Assertions

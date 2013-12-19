@@ -26,18 +26,18 @@ user CHEF_SERVER_USER do
   action :nothing
 end.run_action(:create)
 
-user "group" do
+user 'group' do
   action :nothing
 end.run_action(:create)
 
 %w{run_path cache_path backup_path log_dir conf_dir}.each do |key|
-  directory node["chef_client"][key] do
+  directory node['chef_client'][key] do
     recursive true
     action :nothing
   end.run_action(:delete)
 end
 
-execute "touch chef-server" do
+execute 'touch chef-server' do
   command <<-EOF
   touch /usr/bin/chef-server
   chmod u+x /usr/bin/chef-server
@@ -45,4 +45,4 @@ execute "touch chef-server" do
   action :nothing
 end.run_action(:run)
 
-include_recipe "chef-client::cron"
+include_recipe 'chef-client::cron'

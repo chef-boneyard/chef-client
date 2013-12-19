@@ -21,24 +21,25 @@
 # limitations under the License.
 #
 
-supported_init_styles = [
-  'arch',
-  'bluepill',
-  'bsd',
-  'daemontools',
-  'init',
-  'launchd',
-  'runit',
-  'smf',
-  'upstart',
-  'windows',
-  'winsw'
-]
-init_style = node["chef_client"]["init_style"]
+supported_init_styles = %w{
+  arch
+  bluepill
+  bsd
+  daemontools
+  init
+  launchd
+  runit
+  smf
+  upstart
+  windows
+  winsw
+}
+
+init_style = node['chef_client']['init_style']
 
 # Services moved to recipes
 if supported_init_styles.include? init_style
   include_recipe "chef-client::#{init_style}_service"
 else
-  log "Could not determine service init style, manual intervention required to start up the chef-client service."
+  log 'Could not determine service init style, manual intervention required to start up the chef-client service.'
 end

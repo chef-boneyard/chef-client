@@ -18,15 +18,17 @@
 # limitations under the License.
 #
 
+# include helper methods
 class ::Chef::Recipe
   include ::Opscode::ChefClient::Helpers
 end
+
 # libraries/helpers.rb method to DRY directory creation resources
 client_bin = find_chef_client
-node.set["chef_client"]["bin"] = client_bin
+node.set['chef_client']['bin'] = client_bin
 create_directories
 
-windows_task "chef-client" do
+windows_task 'chef-client' do
   run_level :highest
   command "#{node['chef_client']['ruby_bin']} #{node['chef_client']['bin']} \
   -L #{File.join(node['chef_client']['log_dir'], 'client.log')} \
@@ -34,4 +36,3 @@ windows_task "chef-client" do
   frequency :minute
   frequency_modifier(node['chef_client']['interval'].to_i / 60)
 end
-

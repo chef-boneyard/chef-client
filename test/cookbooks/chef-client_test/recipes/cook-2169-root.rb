@@ -19,16 +19,15 @@
 #
 
 %w{run_path cache_path backup_path log_dir conf_dir}.each do |key|
-  directory node["chef_client"][key] do
+  directory node['chef_client'][key] do
     recursive true
     action :nothing
   end.run_action(:delete)
 end
 
-execute "rm /usr/local/bin/chef-server" do
+execute 'rm /usr/local/bin/chef-server' do
   action :nothing
-
-  only_if { ::File.exists? "/usr/local/bin/chef-server" }
+  only_if { ::File.exists? '/usr/local/bin/chef-server' }
 end.run_action(:run)
 
-include_recipe "chef-client::cron"
+include_recipe 'chef-client::cron'

@@ -15,6 +15,7 @@
 #
 
 module Helpers
+  # include helpers for minitest
   module ChefClient
     include MiniTest::Chef::Assertions
     include MiniTest::Chef::Context
