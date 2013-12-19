@@ -68,8 +68,12 @@ when "openindiana","opensolaris","nexentacore","solaris2","smartos"
 end
 
 # Generate a uniformly distributed unique number to sleep.
-checksum   = Digest::MD5.hexdigest(node['fqdn'] || 'unknown-hostname')
-sleep_time = checksum.to_s.hex % node['chef_client']['splay'].to_i
+if node['chef_client']['splay'].to_i > 0
+  checksum   = Digest::MD5.hexdigest(node['fqdn'] || 'unknown-hostname')
+  sleep_time = checksum.to_s.hex % node['chef_client']['splay'].to_i
+else
+  sleep_time = nil
+end
 env        = node['chef_client']['cron']['environment_variables']
 log_file   = node["chef_client"]["cron"]["log_file"]
 
@@ -85,7 +89,12 @@ if node['chef_client']['cron']['use_cron_d']
     hour    node['chef_client']['cron']['hour']
     path    node['chef_client']['cron']['path'] if node['chef_client']['cron']['path']
     user    "root"
-    command "/bin/sleep #{sleep_time}; #{env} #{client_bin} > #{log_file} 2>&1"
+    cmd = ""
+    if sleep_time
+        cmd << "/bin/sleep #{sleep_time}; "
+    end
+    cmd << "#{env} #{client_bin} > #{log_file} 2>&1"
+    command cmd
   end
 else
   cron_d "chef-client" do
@@ -97,6 +106,11 @@ else
     hour    node['chef_client']['cron']['hour']
     path    node['chef_client']['cron']['path'] if node['chef_client']['cron']['path']
     user    "root"
-    command "/bin/sleep #{sleep_time}; #{env} #{client_bin} > #{log_file} 2>&1"
+    cmd = ""
+    if sleep_time
+        cmd << "/bin/sleep #{sleep_time}; "
+    end
+    cmd << "#{env} #{client_bin} > #{log_file} 2>&1"
+    command cmd
   end
 end
