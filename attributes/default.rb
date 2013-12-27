@@ -68,6 +68,8 @@ default['ohai']['disabled_plugins'] = []
 default['chef_client']['logrotate']['rotate'] = 12
 default['chef_client']['logrotate']['frequency'] = 'weekly'
 
+default['chef_client']['locale'] = "en_US.UTF-8"
+
 case node['platform_family']
 when 'arch'
   default['chef_client']['init_style']  = 'arch'
