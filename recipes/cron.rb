@@ -29,7 +29,7 @@ end
 
 # libraries/helpers.rb method to DRY directory creation resources
 client_bin = find_chef_client
-node.set['chef_client']['bin'] = client_bin
+node.default['chef_client']['bin'] = client_bin
 create_directories
 
 dist_dir, conf_dir = value_for_platform_family(
