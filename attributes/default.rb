@@ -68,7 +68,10 @@ default['ohai']['disabled_plugins'] = []
 default['chef_client']['logrotate']['rotate'] = 12
 default['chef_client']['logrotate']['frequency'] = 'weekly'
 
-default['chef_client']['locale'] = "en_US.UTF-8"
+# Default locale.
+# Some platform's have a platform-specific locale (see platform
+# attributes below)
+default['chef_client']['locale'] = 'C'
 
 case node['platform_family']
 when 'arch'
@@ -106,6 +109,7 @@ when 'openindiana', 'opensolaris', 'nexentacore', 'solaris2'
   default['chef_client']['backup_path'] = '/var/chef/backup'
   default['chef_client']['method_dir'] = '/lib/svc/method'
   default['chef_client']['bin_dir'] = '/usr/bin'
+  default['chef_client']['locale'] = 'en_US.UTF-8'
 when 'smartos'
   default['chef_client']['init_style']  = 'smf'
   default['chef_client']['run_path']    = '/var/run/chef'
