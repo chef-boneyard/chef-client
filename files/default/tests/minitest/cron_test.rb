@@ -30,7 +30,7 @@ describe 'chef-client::cron' do
     if node['chef_client']['cron']['use_cron_d']
       file('/etc/cron.d/chef-client').must_match %r{/bin/sleep \d+; (([A-Za-z]+=.*)?) /usr/bin/chef-client > /dev/null 2>&1}
     else
-      cron('chef-client').command
+      cron('chef-client').command\
         .must_match %r{/bin/sleep \d+; (([A-Za-z]+=.*)?)|[\s] /usr/bin/chef-client > /dev/null 2>&1}
     end
   end
