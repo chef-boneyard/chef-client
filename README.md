@@ -57,7 +57,7 @@ The following attributes affect the behavior of the chef-client program when run
   daemon runs. Default 1800.
 * `node["chef_client"]["splay"]` - Sets `Chef::Config[:splay]` via
   command-line option for a random amount of seconds to add to
-  interval. Default 20.
+  interval. Default 300.
 * `node["chef_client"]["log_dir"]` - Sets directory used in
   `Chef::Config[:log_location]` via command-line option to a location
   where chef-client should log output. Default "/var/log/chef".
