@@ -87,6 +87,7 @@ if node['chef_client']['cron']['use_cron_d']
     minute  node['chef_client']['cron']['minute']
     hour    node['chef_client']['cron']['hour']
     path    node['chef_client']['cron']['path'] if node['chef_client']['cron']['path']
+    mailto  node['chef_client']['cron']['mailto'] if node['chef_client']['cron']['mailto']
     user    'root'
     cmd = ''
     cmd << "/bin/sleep #{sleep_time}; " if sleep_time
@@ -102,6 +103,7 @@ else
     minute  node['chef_client']['cron']['minute']
     hour    node['chef_client']['cron']['hour']
     path    node['chef_client']['cron']['path'] if node['chef_client']['cron']['path']
+    mailto  node['chef_client']['cron']['mailto'] if node['chef_client']['cron']['mailto']
     user    'root'
     cmd = ''
     cmd << "/bin/sleep #{sleep_time}; " if sleep_time
