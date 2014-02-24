@@ -34,7 +34,8 @@ create_directories
 
 dist_dir, conf_dir = value_for_platform_family(
   ['debian'] => %w{ debian default },
-  ['rhel'] => %w{ redhat sysconfig }
+  ['rhel'] => %w{ redhat sysconfig },
+  ['fedora'] => %w{ redhat sysconfig }
   )
 
 # let's create the service file so the :disable action doesn't fail
