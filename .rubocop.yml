@@ -1,3 +1,6 @@
+AlignParameters:
+  Enabled: false
+
 Encoding:
   Enabled: false
 
@@ -6,9 +9,3 @@ LineLength:
 
 HashSyntax:
   EnforcedStyle: hash_rockets
-
-MethodLength:
-  Max: 31
-
-CyclomaticComplexity:
-  Max: 9
