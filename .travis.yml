@@ -76,10 +76,6 @@ env:
   - secure: WaOr9xl2+vqtnTW3fw3kH13YhDNwDS7KNgwS/nvalNMW+++9EGV7EFzc1JhffKK5SLuEbXZvlL4pQW91qJX75eCyiDptS+uGf6FL+WzrwikdIG0omOWeKEQeXE4clslDkX7lyzPjwq/+VIhq0KTnWKBOWsc9AP0hqptucJ/IfNk=
   - secure: rz1pLEhOd59GgaYfC1GkajB9AmXIzJy/GIhImH9g6mfOTIxViTTFpOvKGOMYBMWw34NxN+aq3iqx2hVnTE2ToTHL8TvBwdA89pWPPtIeFpTxi0rKgiirkv1zzv8NtbfC5ld6IePnq/2TmYi04PaEzifvAFXaPQENe99xJXn4IBw=
   matrix:
-  - KITCHEN_INSTANCE='default-centos-58'
-  - KITCHEN_INSTANCE='default-centos-64'
-  - KITCHEN_INSTANCE='default-amazon-201309'
-  - KITCHEN_INSTANCE='default-fedora-19'
   - KITCHEN_INSTANCE='config-centos-58'
   - KITCHEN_INSTANCE='config-centos-64'
   - KITCHEN_INSTANCE='config-amazon-201309'
