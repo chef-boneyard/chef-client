@@ -7,7 +7,9 @@ require 'chef/version_constraint'
 
 # libraries/helpers.rb method to DRY directory creation resources
 client_bin = find_chef_client
-log "Found chef-client in #{client_bin}"
+log "Found chef-client in #{client_bin}" do
+  level :debug
+end
 node.default['chef_client']['bin'] = client_bin
 create_directories
 
