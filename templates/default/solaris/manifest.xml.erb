@@ -59,12 +59,14 @@
                 name='start'
                 exec='<%= node['chef_client']['method_dir'] %>/chef-client %m'
                 timeout_seconds='60'>
+                <% if node['chef_client']['locale'] %>
                 <method_context>
                         <method_environment>
-                                <envvar name="LANG" value="en_US.UTF-8"/>
-                                <envvar name="LC_ALL" value="en_US.UTF-8"/>
+                                <envvar name="LANG" value="<%= node['chef_client']['locale'] %>"/>
+                                <envvar name="LC_ALL" value="<%= node['chef_client']['locale'] %>"/>
                         </method_environment>
                 </method_context>
+                <% end %>
         </exec_method>
 
         <exec_method
