@@ -31,6 +31,10 @@ default['chef_client']['config'] = {
   'node_name' => Chef::Config[:node_name] == node['fqdn'] ? false : Chef::Config[:node_name]
 }
 
+if Chef::Config.has_key?(:client_fork)
+  default['chef_client']['config']['client_fork'] = true
+end
+
 # By default, we don't have a log file, as we log to STDOUT
 default['chef_client']['log_file']    = nil
 default['chef_client']['interval']    = '1800'
@@ -98,7 +102,7 @@ when 'mac_os_x', 'mac_os_x_server'
   # as 'interval' if you want chef-client to be run
   # periodically by launchd
   default['chef_client']['launchd_mode'] = 'interval'
-when 'openindiana', 'opensolaris', 'nexentacore', 'solaris2'
+when 'openindiana', 'opensolaris', 'nexentacore', 'solaris2', 'omnios'
   default['chef_client']['init_style']  = 'smf'
   default['chef_client']['run_path']    = '/var/run/chef'
   default['chef_client']['cache_path']  = '/var/chef/cache'
@@ -122,8 +126,8 @@ when 'windows'
   default['chef_client']['backup_path'] = "#{node["chef_client"]["conf_dir"]}/backup"
   default['chef_client']['log_dir']     = "#{node["chef_client"]["conf_dir"]}/log"
   default['chef_client']['bin']         = 'C:/opscode/chef/bin/chef-client'
-  # Required for minsw wrapper
-  default['chef_client']['ruby_bin']    = File.join(RbConfig::CONFIG['bindir'], 'ruby.exe')
+  #Required for minsw wrapper
+  default['chef_client']['ruby_bin']    = File.join(RbConfig::CONFIG['bindir'], "ruby.exe")
   default['chef_client']['winsw_url']   = 'http://repo1.maven.org/maven2/com/sun/winsw/winsw/1.9/winsw-1.9-bin.exe'
   default['chef_client']['winsw_dir']   = 'C:/chef/bin'
   default['chef_client']['winsw_exe']   = 'chef-client.exe'

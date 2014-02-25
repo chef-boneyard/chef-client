@@ -5,14 +5,21 @@ This cookbook is used to configure a system as a Chef Client.
 
 Requirements
 ------------
-- Chef 0.10.10+
+- Chef 0.10.14+
 - Ohai 0.6.12+
+
+Chef 10.14.0 or greater is recommended to make use of the
+`client_fork`
+[configuration option](http://tickets.opscode.com/browse/CHEF-3104).
 
 ### Platforms
 The following platforms are tested directly under test-kitchen; see .kitchen.yml and TESTING.md for details.
 
-- Ubuntu 10.04, 12.04
-- CentOS 5.9, 6.4
+* Ubuntu 10.04, 12.04
+* CentOS 5.9, 6.4
+* Debian 6.0.7
+* SUSE (SLES) 11-sp2
+* OmniOS r151006c
 
 The following platforms are known to work:
 
@@ -50,7 +57,7 @@ The following attributes affect the behavior of the chef-client program when run
   daemon runs. Default 1800.
 * `node["chef_client"]["splay"]` - Sets `Chef::Config[:splay]` via
   command-line option for a random amount of seconds to add to
-  interval. Default 20.
+  interval. Default 300.
 * `node["chef_client"]["log_dir"]` - Sets directory used in
   `Chef::Config[:log_location]` via command-line option to a location
   where chef-client should log output. Default "/var/log/chef".
