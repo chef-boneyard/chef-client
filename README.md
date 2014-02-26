@@ -69,10 +69,10 @@ The following attributes affect the behavior of the chef-client program when run
   versions of chef-client exist on a system or the bin has been
   installed in a non-sane path. Default "/usr/bin/chef-client".
 * `node["chef_client"]["cron"]["minute"]` - The hour that chef-client
-  will run as a cron task, only applicable if the you set "cron" as
+  will run as a cron task, only applicable if you set "cron" as
   the "init_style"
 * `node["chef_client"]["cron"]["hour"]` - The hour that chef-client
-  will run as a cron task, only applicable if the you set "cron" as
+  will run as a cron task, only applicable if you set "cron" as
   the "init_style"
 * `node["chef_client"]["cron"]["environment_variables"]` - Environment
   variables to pass to chef-client's execution (e.g.
