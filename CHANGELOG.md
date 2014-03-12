@@ -2,6 +2,11 @@ chef-client Cookbook CHANGELOG
 ==============================
 This file is used to list changes made in each version of the chef-client cookbook.
 
+v3.3.4 (2014-03-12)
+-------------------
+- [COOK-4101] - Support ENV['https_proxy']
+
+
 v3.3.3 (2014-02-27)
 -------------------
 [COOK-4338] - chef-client Upstart job starts too early
