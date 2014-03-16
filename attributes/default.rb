@@ -59,6 +59,11 @@ default['chef_client']['cron'] = {
 
 default['chef_client']['load_gems'] = {}
 
+# If set to false, changes in the `client.rb` template won't trigger a reload
+# of those configs in the current Chef run.
+#
+default['chef_client']['reload_config'] = true
+
 # Any additional daemon options can be set as an array. This will be
 # join'ed in the relevant service configuration.
 default['chef_client']['daemon_options'] = []

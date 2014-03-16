@@ -83,6 +83,8 @@ The following attributes affect the behavior of the chef-client program when run
   "cron_d" LWRP (https://github.com/opscode-cookbooks/cron). If false
   (default), use the cron resource built-in to Chef.
 * `node["chef_client"]["cron"]["mailto"]` - If set, `MAILTO` env variable is set for cron definition
+* `node['chef_client']['reload_config']` - If true, reload Chef config of
+  current Chef run when `client.rb` template changes (defaults to true)
 * `node["chef_client"]["daemon_options"]` - An array of additional
   options to pass to the chef-client service, empty by default, and
   must be an array if specified.
