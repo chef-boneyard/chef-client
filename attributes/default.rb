@@ -52,6 +52,7 @@ default['chef_client']['log_dir']     = '/var/log/chef'
 default['chef_client']['cron'] = {
   'minute' => '0',
   'hour' => '0,4,8,12,16,20',
+  'weekday' => '*',
   'path' => nil,
   'environment_variables' => nil,
   'log_file' => '/dev/null',
