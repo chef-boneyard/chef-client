@@ -2,6 +2,11 @@ chef-client Cookbook CHANGELOG
 ==============================
 This file is used to list changes made in each version of the chef-client cookbook.
 
+v3.3.6 (2014-03-18)
+-------------------
+- [COOK-4432] Use SSL verification by default when talking to HEC
+
+
 v3.3.4 (2014-03-12)
 -------------------
 - [COOK-4101] - Support ENV['https_proxy']
