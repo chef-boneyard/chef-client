@@ -137,3 +137,7 @@ else
   default['chef_client']['cache_path']  = '/var/chef/cache'
   default['chef_client']['backup_path'] = '/var/chef/backup'
 end
+
+if %r{^https://api.opscode.com/}.match(node['chef_client']['config']['chef_server_url'])
+  default['chef_client']['config']['verify_api_cert'] = true
+end
