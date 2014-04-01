@@ -202,6 +202,9 @@ Use this recipe to delete the validation certificate (default `/etc/chef/validat
 
 **Note** If you're using this on a Chef 10 Server, be aware of using this recipe. First copy the validation.pem certificate file to another location, such as your knife configuration directory (`~/.chef`) or [Chef Repository](http://docs.opscode.com/essentials_repository.html).
 
+### chef_embedded_ruby
+Use this recipe to add the omnibus embedded bin dir to your $PATH environment variable. The chef-client includes a stable version of Ruby as part of the omnibus installer. In order to use that version of Ruby system-wide you need to add the correct path to your $PATH environment variable. On Windows systems this is done by the installer, but on Linux/Mac systems it should be done manually.
+
 ### cron
 Use this recipe to run chef-client as a cron job rather than as a service. The cron job runs after random delay that is between 0 and 90 seconds to ensure that the chef-clients don't attempt to connect to the chef-server at the exact same time. You should set node["chef_client"]["init_style"] = "none" when you use this mode but it is not required.
 
