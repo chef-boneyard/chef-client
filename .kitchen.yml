@@ -31,7 +31,7 @@ suites:
         report_handlers: [{class: "SimpleReport::UpdatedResources", arguments: []}]
         exception_handlers: [{class: "SimpleReport::UpdatedResources", arguments: []}]
     ohai:
-      disabled_plugins: ["passwd"]
+      disabled_plugins: [":Passwd","dmi"]
 
 - name: service_init
   run_list:

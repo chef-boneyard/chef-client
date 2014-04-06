@@ -27,8 +27,8 @@ describe 'chef-client::config' do
     file(File.join(node['chef_client']['conf_dir'], 'client.rb')).must_match('^validation_client_name')
   end
 
-  it 'disables ohai plugins' do
-    regexp = 'Ohai::Config\[:disabled_plugins\] =\s+\["passwd"\]'
+  it 'disables ohai 6 & 7 plugins' do
+    regexp = 'Ohai::Config\[:disabled_plugins\] =\s+\[:Passwd,"dmi"\]'
     file(File.join(node['chef_client']['conf_dir'], 'client.rb')).must_match(/#{regexp}/)
   end
 

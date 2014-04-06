@@ -39,8 +39,8 @@ ENV['HTTPS_PROXY'] = "<%= node["chef_client"]["config"]["https_proxy"] %>"
 
 Ohai::Config[:plugin_path] << "<%= node["ohai"]["plugin_path"] %>"
 <% end -%>
-<% unless @ohai_disabled_plugins.empty? %>
-Ohai::Config[:disabled_plugins] = <%= @ohai_disabled_plugins.inspect %>
+<% unless @ohai_disabled_plugins.empty? -%>
+Ohai::Config[:disabled_plugins] = [<%= @ohai_disabled_plugins.map { |k| k.match(/:/) ? k.gsub(/^:/, '').to_sym.inspect : k.inspect }.join(",") %>]
 
 <% end -%>
 <% unless @start_handlers.nil? || @start_handlers.empty?-%>
