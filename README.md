@@ -123,7 +123,9 @@ This cookbook makes use of attribute-driven configuration with this attribute. S
 * `node["chef_client"]["load_gems"]` - Hash of gems to load into chef
   via the client.rb file
 * `node["ohai"]["disabled_plugins"]` - An array of ohai plugins to
-  disable, empty by default, and must be an array if specified.
+  disable, empty by default, and must be an array if specified. Ohai 6
+  plugins should be specified as a string (ie. "dmi"). Ohai 7 plugins 
+  should be specified as a symbol within quotation marks (ie. ":Passwd").
 
 ### Deprecated / Replaced
 

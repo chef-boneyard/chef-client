@@ -1,4 +1,4 @@
-yum Cookbook TESTING doc
+chef-client Cookbook TESTING doc
 ========================
 
 Bundler
