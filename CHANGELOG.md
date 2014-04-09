@@ -2,6 +2,12 @@ chef-client Cookbook CHANGELOG
 ==============================
 This file is used to list changes made in each version of the chef-client cookbook.
 
+v3.4.0 (2014-04-09)
+-------------------
+- [COOK-4521] - support Ohai 7 syntax for disabling plugins
+- [COOK-4505] - kill -9 chef-client when stopping vis SMF
+
+
 v3.3.8 (2014-03-18)
 -------------------
 - [COOK-4430] can't rotate chef-client's logs
