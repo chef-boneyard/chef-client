@@ -12,7 +12,7 @@ dist_dir, conf_dir = value_for_platform_family(
   ["fedora"] => ["fedora", "sysconfig"]
 )
 
-template "/lib/systemd/system/chef-client.service" do
+template "/etc/systemd/system/chef-client.service" do
   source "#{dist_dir}/systemd/chef-client.service.erb"
   mode 0644
   variables(:client_bin => client_bin, :sysconfig_file => "/etc/#{conf_dir}/chef-client")
