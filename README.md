@@ -31,6 +31,7 @@ The following platforms are known to work:
 - FreeBSD
 - Mac OS X
 - Mac OS X Server
+- Microsoft Windows (7, 8, 2003 R2, 2008, 2008 R2, 2012, 2012 R2)
 
 Other platforms may work with or without modification. Most notably, attribute modification may be required.
 
