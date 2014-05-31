@@ -5,9 +5,9 @@ After=syslog.target network.target auditd.service
 [Service]
 Type=forking
 EnvironmentFile=<%= @sysconfig_file %>
-ExecStart=<%= @client_bin %> -d -c $CONFIG 
+ExecStart=<%= @client_bin %> -d -c $CONFIG -P $PIDFILE -i $INTERVAL -s $SPLAY
 ExecReload=/bin/kill -HUP $MAINPID
-PIDFile=/var/run/chef/client.pid
+PIDFile=$PIDFILE
 
 [Install]
 WantedBy=multi-user.target
