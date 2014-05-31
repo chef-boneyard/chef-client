@@ -39,7 +39,16 @@ platforms:
 - name: fedora-19
   driver_plugin: digitalocean
   driver_config:
-    image_id: 696598
+    image_id: 3102879
+    flavor_id: 63
+    region_id: 4
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+
+- name: fedora-20
+  driver_plugin: digitalocean
+  driver_config:
+    image_id: 3243145
     flavor_id: 63
     region_id: 4
     ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
@@ -80,6 +89,14 @@ suites:
   - recipe[runit]
   - recipe[chef-client_test::service_runit]
   - recipe[chef-client::runit_service]
+  attributes: {}
+
+- name: service_systemd
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[chef-client_test::service_systemd]
+  - recipe[chef-client::systemd_service]
+  excludes: ["centos-5.9", "centos-6.4", "ubuntu-10.04", "ubuntu-12.04"]
   attributes: {}
 
 - name: service_upstart
