@@ -40,7 +40,12 @@ module Opscode
       end
 
       def root_owner
-        ['windows'].include?(node['platform']) ? 'Administrator' : 'root'
+        if ['windows'].include?(node['platform']) 
+          adminAccount=WMI::Win32_UserAccount.find(:first,:conditions => "sid like 'S-1-5-21-%-500' and LocalAccount=True")
+          adminAccount.Name
+        else
+          'root'
+        end
       end
 
       def dir_owner
@@ -55,7 +60,8 @@ module Opscode
         if %w{ openbsd freebsd mac_os_x mac_os_x_server }.include?(node['platform'])
           'wheel'
         elsif ['windows'].include?(node['platform'])
-          'Administrators'
+          adminGroup = WMI::Win32_Group.find(:first,:conditions => "SID = 'S-1-5-32-544' AND LocalAccount=TRUE")
+          adminGroup.Name
         else
           'root'
         end
