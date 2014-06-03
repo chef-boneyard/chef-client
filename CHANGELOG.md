@@ -2,6 +2,11 @@ chef-client Cookbook CHANGELOG
 ==============================
 This file is used to list changes made in each version of the chef-client cookbook.
 
+v3.5.2 (2014-06-03)
+-------------------
+[COOK-3992] Localize windows admin account and admin group
+
+
 v3.5.0 (2014-05-07)
 -------------------
 - [COOK-4594] - 'Found chef-client in' log resource
