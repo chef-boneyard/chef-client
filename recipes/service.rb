@@ -30,6 +30,7 @@ supported_init_styles = %w{
   launchd
   runit
   smf
+  systemd
   upstart
   windows
   winsw
