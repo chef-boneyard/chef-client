@@ -2,6 +2,11 @@ chef-client Cookbook CHANGELOG
 ==============================
 This file is used to list changes made in each version of the chef-client cookbook.
 
+v3.6.0 (2014-06-07)
+-------------------
+* [COOK-3465] Switch Fedora to using systemd
+
+
 v3.5.0 (2014-05-07)
 -------------------
 - [COOK-4594] - 'Found chef-client in' log resource
