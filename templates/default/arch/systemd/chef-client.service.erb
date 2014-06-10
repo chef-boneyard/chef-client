@@ -7,7 +7,7 @@ Type=forking
 EnvironmentFile=<%= @environment_file %>
 ExecStart=<%= @client_bin %> -d -c $CONFIG -P $PIDFILE -i $INTERVAL -s $SPLAY
 ExecReload=/bin/kill -HUP $MAINPID
-PIDFile=$PIDFILE
+PIDFile=<%= node["chef_client"]["run_path"]%>/client.pid
 
 [Install]
 WantedBy=multi-user.target
