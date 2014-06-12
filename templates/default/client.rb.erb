@@ -8,7 +8,7 @@
 end
 
 <% end -%>
-<% @chef_config.each_key do |option| -%>
+<% @chef_config.keys.sort.each do |option| -%>
   <% next if %w{ node_name exception_handlers report_handlers start_handlers }.include?(option) -%>
   <% case option -%>
   <% when 'log_level', 'ssl_verify_mode' -%>
