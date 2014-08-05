@@ -2,6 +2,9 @@
 class ::Chef::Recipe
   include ::Opscode::ChefClient::Helpers
 end
+class ::Chef::Recipe
+  include ::Opscode::ChefClient::Helpers
+end
 
 # libraries/helpers.rb method to DRY directory creation resources
 client_bin = find_chef_client
@@ -34,13 +37,13 @@ end
 # in Chef 0.10.6
 execute 'restart chef-client using winsw wrapper' do
   command "#{winsw_path} restart"
-  not_if { WMI::Win32_Service.find(:first, :conditions => { :name => 'chef-client' }).nil? }
+  only_if { chef_client_service_running }
   action :nothing
 end
 
 execute 'Install chef-client service using winsw' do
   command "#{winsw_path} install"
-  only_if { WMI::Win32_Service.find(:first, :conditions => { :name => 'chef-client' }).nil? }
+  not_if { chef_client_service_running }
 end
 
 service 'chef-client' do

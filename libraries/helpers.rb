@@ -16,7 +16,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 module Opscode
   module ChefClient
     # helper methods for use in chef-client recipe code
@@ -39,10 +38,20 @@ module Opscode
         end
       end
 
+      def wmi_property_from_query(wmi_property, wmi_query)
+        @wmi = ::WIN32OLE.connect("winmgmts://")
+        result = @wmi.ExecQuery(wmi_query)
+        return nil unless result.each.count > 0
+        result.each.next.send(wmi_property)
+      end
+
+      def chef_client_service_running
+        wmi_property_from_query(:name, "select * from Win32_Service where name = 'chef-client'") != nil
+      end
+
       def root_owner
         if ['windows'].include?(node['platform']) 
-          adminAccount=WMI::Win32_UserAccount.find(:first,:conditions => "sid like 'S-1-5-21-%-500' and LocalAccount=True")
-          adminAccount.Name
+          wmi_property_from_query(:name, "select * from Win32_UserAccount where sid like 'S-1-5-21-%-500' and LocalAccount=True")
         else
           'root'
         end
@@ -60,8 +69,7 @@ module Opscode
         if %w{ openbsd freebsd mac_os_x mac_os_x_server }.include?(node['platform'])
           'wheel'
         elsif ['windows'].include?(node['platform'])
-          adminGroup = WMI::Win32_Group.find(:first,:conditions => "SID = 'S-1-5-32-544' AND LocalAccount=TRUE")
-          adminGroup.Name
+          wmi_property_from_query(:name, "select * from Win32_Group where SID = 'S-1-5-32-544' AND LocalAccount=TRUE")
         else
           'root'
         end
