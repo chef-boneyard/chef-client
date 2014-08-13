@@ -126,17 +126,6 @@ suites:
   - recipe[chef-client::cron]
   attributes: {}
 
-# Test that the environment variables are rendered correctly
-- name: cook-2086
-  run_list:
-  - recipe[minitest-handler]
-  - recipe[chef-client_test::cook-2086]
-  - recipe[chef-client::cron]
-  attributes:
-    chef_client:
-      cron:
-        environment_variables: "FOO=BAR"
-
 # Test that the we can use the cron_d directory
 - name: cook-use_cron_d
   run_list:
