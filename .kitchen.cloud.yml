@@ -160,10 +160,8 @@ suites:
 # Test that the running process includes command-line "daemon" options
 - name: cook-1951
   run_list:
-  - recipe[minitest-handler]
   - recipe[chef-client::config]
   - recipe[chef-client::service]
-  - recipe[chef-client_test::cook-1951]
   attributes:
     chef_client:
       init_style: "init"
