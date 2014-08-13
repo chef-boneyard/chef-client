@@ -22,6 +22,9 @@
 class ::Chef::Recipe
   include ::Opscode::ChefClient::Helpers
 end
+class ::Chef::Resource
+  include ::Opscode::ChefClient::Helpers
+end
 
 # Fall back to winsw on older Chef Clients without the service manager
 if Gem::Requirement.new('< 11.5').satisfied_by?(Gem::Version.new(::Chef::VERSION))
@@ -33,7 +36,7 @@ else
   # Will also avoid touching any winsw service if it exists
   execute 'register-chef-service' do
     command 'chef-service-manager -a install'
-    only_if { WMI::Win32_Service.find(:first, :conditions => { :name => 'chef-client' }).nil? }
+    not_if { chef_client_service_running }
   end
 
   service 'chef-client' do
