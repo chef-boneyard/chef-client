@@ -128,16 +128,6 @@ suites:
       cron:
         use_cron_d: true
 
-# No longer necessary w/ COOK-2856
-# - name: cook-2317
-#   run_list:
-#   - recipe[minitest-handler]
-#   - recipe[chef-client::config]
-#   - recipe[chef-client_test::cook-2317]
-#   attributes:
-#     ohai:
-#       disabled_plugins: ["passwd"]
-
 # Test that the running process includes command-line "daemon" options
 - name: cook-1951
   run_list:
