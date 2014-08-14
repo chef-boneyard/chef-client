@@ -110,14 +110,6 @@ suites:
     chef_client:
       log_file: "client.log"
 
-# Tests that the root user is set correctly for the cron recipe.
-- name: cook-2169-root
-  run_list:
-  - recipe[minitest-handler]
-  - recipe[chef-client_test::cook-2169-root]
-  - recipe[chef-client::cron]
-  attributes: {}
-
 # Tests that the "chef server" user is set correctly with the cron recipe.
 - name: cook-2169-chef
   run_list:

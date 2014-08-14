@@ -6,6 +6,21 @@ describe 'chef-client::cron' do
     ChefSpec::Runner.new.converge(described_recipe)
   end
 
+  [
+    '/var/run',
+    '/var/chef/cache',
+    '/var/chef/backup',
+    '/var/log/chef',
+    '/etc/chef'
+  ].each do |dir|
+    it "creates #{dir} with the correct attributes" do
+      expect(chef_run).to create_directory(dir).with(
+        user: 'root',
+        group: 'root'
+      )
+    end
+  end
+
   context 'Custom Attributes' do
 
     let(:chef_run) do
