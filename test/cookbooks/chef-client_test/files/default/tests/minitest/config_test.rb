@@ -62,10 +62,4 @@ describe 'chef-client::config' do
     directory(File.join(node['chef_client']['conf_dir'], 'client.d')).must_exist
   end
 
-  it 'includes client_fork true in the config file' do
-    file(File.join(node['chef_client']['conf_dir'], "client.rb")).must_match(
-      '^client_fork true'
-    )
-  end
-
 end
