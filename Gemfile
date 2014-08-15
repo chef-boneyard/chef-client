@@ -7,8 +7,9 @@ group :lint do
 end
 
 group :unit do
-  gem 'berkshelf',  '~> 3.0.0.beta6'
-  gem 'chefspec',   '~> 3.1'
+  gem 'berkshelf',  '~> 3.0'
+  gem 'chefspec',   '~> 4.0'
+  gem 'fauxhai',    '~>2.2'
 end
 
 group :kitchen_common do
@@ -28,10 +29,8 @@ group :development do
   gem 'ruby_gntp'
   gem 'growl'
   gem 'rb-fsevent'
-  gem 'guard', '~> 2.4'
   gem 'guard-kitchen'
   gem 'guard-foodcritic'
-  gem 'guard-rspec'
   gem 'guard-rubocop'
   gem 'rake'
 end
