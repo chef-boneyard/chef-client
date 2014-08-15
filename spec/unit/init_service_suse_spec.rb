@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'chef-client::init_service' do
 
-  os = { platform: 'suse', version: '11.03', conf_dir: 'sysconfig' }
+  os = { platform: 'suse', version: '11.3', conf_dir: 'sysconfig' }
 
   context os[:platform] do
 
