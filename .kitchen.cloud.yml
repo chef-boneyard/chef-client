@@ -59,9 +59,7 @@ suites:
 
 - name: service_init
   run_list:
-  - recipe[minitest-handler]
   - recipe[chef-client::config]
-  - recipe[chef-client_test::service_init]
   - recipe[chef-client::init_service]
   attributes: {}
 
