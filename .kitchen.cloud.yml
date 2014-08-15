@@ -106,9 +106,7 @@ suites:
 
 - name: service_runit
   run_list:
-  - recipe[minitest-handler]
   - recipe[runit]
-  - recipe[chef-client_test::service_runit]
   - recipe[chef-client::runit_service]
   attributes: {}
 
