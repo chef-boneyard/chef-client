@@ -2,7 +2,7 @@ chef-client Cookbook CHANGELOG
 ==============================
 This file is used to list changes made in each version of the chef-client cookbook.
 
-v3.4.0 (2014-08-13)
+v3.7.0 (2014-08-13)
 -------------------
 * remove dependency on ruby-wmi which breaks chef 11.14.2
 
