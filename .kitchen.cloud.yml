@@ -13,22 +13,19 @@ provisioner:
 
 platforms:
 - name: centos-5.8
-  driver_plugin: digitalocean
+  driver_plugin: digital_ocean
   driver_config:
-    image_id: 1601
-    flavor_id: 63
-    region_id: 4
-    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
-    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+    size: 1gb
 
 - name: centos-6.5
-  driver_plugin: digitalocean
+  driver_plugin: digital_ocean
   driver_config:
-    image_id: 3448641
-    flavor_id: 63
-    region_id: 4
-    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
-    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+    size: 1gb
+
+- name: centos-7.0
+  driver_plugin: digital_ocean
+  driver_config:
+    size: 1gb
 
 - name: amazon-2013.09
   driver_plugin: ec2
@@ -52,49 +49,29 @@ platforms:
     ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
 
 - name: fedora-20
-  driver_plugin: digitalocean
+  driver_plugin: digital_ocean
   driver_config:
-    image_id: 3243145
-    flavor_id: 63
-    region_id: 4
-    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
-    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+    size: 1gb
 
 - name: debian-7.0
-  driver_plugin: digitalocean
+  driver_plugin: digital_ocean
   driver_config:
-    image_id: 5562742
-    flavor_id: 63
-    region_id: 4
-    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
-    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+    size: 1gb
 
 - name: ubuntu-10.04
-  driver_plugin: digitalocean
+  driver_plugin: digital_ocean
   driver_config:
-    image_id: 5566812
-    flavor_id: 63
-    region_id: 4
-    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
-    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+    size: 1gb
 
 - name: ubuntu-12.04
-  driver_plugin: digitalocean
+  driver_plugin: digital_ocean
   driver_config:
-    image_id: 5588928
-    flavor_id: 63
-    region_id: 4
-    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
-    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+    size: 1gb
 
 - name: ubuntu-14.04
-  driver_plugin: digitalocean
+  driver_plugin: digital_ocean
   driver_config:
-    image_id: 5141286
-    flavor_id: 63
-    region_id: 4
-    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
-    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+    size: 1gb
 
 suites:
 
@@ -115,15 +92,15 @@ suites:
   - recipe[minitest-handler]
   - recipe[chef-client_test::service_systemd]
   - recipe[chef-client::systemd_service]
-  excludes: ["centos-5.9", "centos-6.4", "ubuntu-10.04", "ubuntu-12.04"]
   attributes: {}
+  includes: ["centos-7.0", "fedora-20", "debian-7.0"]
 
 - name: service_upstart
   run_list:
   - recipe[minitest-handler]
   - recipe[chef-client_test::service_upstart]
   - recipe[chef-client::upstart_service]
-  excludes: ["centos-5.9"]
+  includes: ["ubuntu-10.04", "ubuntu-12.04", "ubuntu-14.04"]
   attributes: {}
 
 - name: cron
