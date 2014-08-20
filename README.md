@@ -171,7 +171,7 @@ rendered with attributes.
 ### service recipes
 The `chef-client::service` recipe includes one of the `chef-client::INIT_STYLE_service` recipes based on the attribute, `node['chef_client']['init_style']`. The individual service recipes can be included directly, too. For example, to use the init scripts, on a node or role's run list:
 
-    recipe[chef-client::init]
+    recipe[chef-client::init_service]
 
 To set up the chef-client under bluepill, daemontools or runit, those recipes must be specified on the node or role's run list first, to ensure that the dependencies are resolved, as this cookbook does not directly depend on them. For example, to use runit:
 
