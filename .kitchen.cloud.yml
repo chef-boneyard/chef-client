@@ -109,14 +109,6 @@ suites:
   - recipe[chef-client::delete_validation]
   attributes: {}
 
-# Tests that the "chef server" user is set correctly with the cron recipe.
-- name: cook-2169-chef
-  run_list:
-  - recipe[minitest-handler]
-  - recipe[chef-client_test::cook-2169-chef]
-  - recipe[chef-client::cron]
-  attributes: {}
-
 # Test that the we can use the cron_d directory
 - name: cook-use_cron_d
   run_list:
