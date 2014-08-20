@@ -27,7 +27,7 @@ guard 'rubocop', all_on_start: false do
   watch('metadata.rb')
 end
 
-guard :rspec, cmd: 'bundle exec rspec', all_on_start: false, notification: false do
+guard :rspec, cmd: 'rspec', all_on_start: false, notification: false do
   watch(%r{^libraries/(.+)\.rb$})
   watch(%r{^spec/(.+)_spec\.rb$})
   watch(%r{^(recipes)/(.+)\.rb$})   { |m| "spec/#{m[1]}_spec.rb" }

@@ -13,22 +13,19 @@ provisioner:
 
 platforms:
 - name: centos-5.8
-  driver_plugin: digitalocean
+  driver_plugin: digital_ocean
   driver_config:
-    image_id: 1601
-    flavor_id: 63
-    region_id: 4
-    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
-    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+    size: 1gb
 
-- name: centos-6.4
-  driver_plugin: digitalocean
+- name: centos-6.5
+  driver_plugin: digital_ocean
   driver_config:
-    image_id: 562354
-    flavor_id: 63
-    region_id: 4
-    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
-    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+    size: 1gb
+
+- name: centos-7.0
+  driver_plugin: digital_ocean
+  driver_config:
+    size: 1gb
 
 - name: amazon-2013.09
   driver_plugin: ec2
@@ -37,80 +34,73 @@ platforms:
     username: ec2-user
     ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
 
-- name: fedora-19
-  driver_plugin: digitalocean
+- name: amazon-2014.03
+  driver_plugin: ec2
   driver_config:
-    image_id: 3102879
-    flavor_id: 63
-    region_id: 4
-    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
-    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+    image_id: ami-6b726502
+    username: ec2-user
+    ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+
+- name: suse-11.3
+  driver_plugin: ec2
+  driver_config:
+    image_id: ami-e8084981
+    username: root
+    ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
 
 - name: fedora-20
-  driver_plugin: digitalocean
+  driver_plugin: digital_ocean
   driver_config:
-    image_id: 3243145
-    flavor_id: 63
-    region_id: 4
-    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
-    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+    size: 1gb
+
+- name: debian-7.0
+  driver_plugin: digital_ocean
+  driver_config:
+    size: 1gb
+
+- name: ubuntu-10.04
+  driver_plugin: digital_ocean
+  driver_config:
+    size: 1gb
+
+- name: ubuntu-12.04
+  driver_plugin: digital_ocean
+  driver_config:
+    size: 1gb
+
+- name: ubuntu-14.04
+  driver_plugin: digital_ocean
+  driver_config:
+    size: 1gb
 
 suites:
-# This suite tests that the configuration is applied correctly (via attributes)
-- name: config
-  run_list:
-  - recipe[minitest-handler]
-  - recipe[chef-client_test::config]
-  - recipe[chef-client::config]
-  attributes:
-    chef_client:
-      load_gems:
-        chef-handler-updated-resources:
-          require_name: "chef/handler/updated_resources"
-      config:
-        log_level: ":debug"
-        ssl_verify_mode: ":verify_peer"
-        start_handlers: [{class: "SimpleReport::UpdatedResources", arguments: []}]
-        report_handlers: [{class: "SimpleReport::UpdatedResources", arguments: []}]
-        exception_handlers: [{class: "SimpleReport::UpdatedResources", arguments: []}]
-    ohai:
-      disabled_plugins: ["passwd"]
 
 - name: service_init
   run_list:
-  - recipe[minitest-handler]
   - recipe[chef-client::config]
-  - recipe[chef-client_test::service_init]
   - recipe[chef-client::init_service]
   attributes: {}
 
 - name: service_runit
   run_list:
-  - recipe[minitest-handler]
   - recipe[runit]
-  - recipe[chef-client_test::service_runit]
   - recipe[chef-client::runit_service]
   attributes: {}
 
-- name: service_systemd
-  run_list:
-  - recipe[minitest-handler]
-  - recipe[chef-client_test::service_systemd]
-  - recipe[chef-client::systemd_service]
-  excludes: ["centos-5.9", "centos-6.4", "ubuntu-10.04", "ubuntu-12.04"]
-  attributes: {}
+#- name: service_systemd
+#  run_list:
+#  - recipe[chef-client::systemd_service]
+#  attributes: {}
+#  includes: ["centos-7.0", "fedora-20", "debian-7.0"]
 
 - name: service_upstart
   run_list:
-  - recipe[minitest-handler]
-  - recipe[chef-client_test::service_upstart]
   - recipe[chef-client::upstart_service]
-  excludes: ["centos-5.9"]
+  includes: ["ubuntu-10.04", "ubuntu-12.04", "ubuntu-14.04"]
   attributes: {}
 
 - name: cron
   run_list:
-  - recipe[minitest-handler]
   - recipe[chef-client::cron]
   attributes: {}
 
@@ -119,70 +109,20 @@ suites:
   - recipe[chef-client::delete_validation]
   attributes: {}
 
-# Probably needs to be moved up to config and tested there
-- name: cook-2092
-  run_list:
-  - recipe[minitest-handler]
-  - recipe[chef-client_test::cook-2092]
-  - recipe[chef-client::config]
-  attributes:
-    chef_client:
-      log_file: "client.log"
-
-# Tests that the root user is set correctly for the cron recipe.
-- name: cook-2169-root
-  run_list:
-  - recipe[minitest-handler]
-  - recipe[chef-client_test::cook-2169-root]
-  - recipe[chef-client::cron]
-  attributes: {}
-
-# Tests that the "chef server" user is set correctly with the cron recipe.
-- name: cook-2169-chef
-  run_list:
-  - recipe[minitest-handler]
-  - recipe[chef-client_test::cook-2169-chef]
-  - recipe[chef-client::cron]
-  attributes: {}
-
-# Test that the environment variables are rendered correctly
-- name: cook-2086
-  run_list:
-  - recipe[minitest-handler]
-  - recipe[chef-client_test::cook-2086]
-  - recipe[chef-client::cron]
-  attributes:
-    chef_client:
-      cron:
-        environment_variables: "FOO=BAR"
-
 # Test that the we can use the cron_d directory
 - name: cook-use_cron_d
   run_list:
-  - recipe[minitest-handler]
   - recipe[chef-client::cron]
   attributes:
     chef_client:
       cron:
         use_cron_d: true
 
-# No longer necessary w/ COOK-2856
-# - name: cook-2317
-#   run_list:
-#   - recipe[minitest-handler]
-#   - recipe[chef-client::config]
-#   - recipe[chef-client_test::cook-2317]
-#   attributes:
-#     ohai:
-#       disabled_plugins: ["passwd"]
-
 # Test that the running process includes command-line "daemon" options
 - name: cook-1951
   run_list:
-  - recipe[minitest-handler]
   - recipe[chef-client::config]
   - recipe[chef-client::service]
-  - recipe[chef-client_test::cook-1951]
   attributes:
     chef_client:
       init_style: "init"
