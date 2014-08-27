@@ -87,7 +87,19 @@ The following attributes affect the behavior of the chef-client program when run
 * `node["chef_client"]["daemon_options"]` - An array of additional
   options to pass to the chef-client service, empty by default, and
   must be an array if specified.
-
+* `node["chef_client"]["task"]["frequency"]` - Frequency with which to run
+  the `chef-client` scheduled task (hourly, daily, etc.) Default "minute"
+* `node["chef_client"]["task"]["frequency_modifier"]` - Numeric value to go
+  with the scheduled task frequency. Default is the value of
+  `node['chef_client']['interval']` in minutes.
+* `node["chef_client"]["task"]["start_time"]` - The start time for the task
+  in `HH:mm` format. If the `frequency` is `minute` default start time will be
+  `Time.now` plus the `frequency_modifier` number of minutes.
+* `node["chef_client"]["task"]["user"]` - The user the scheduled task
+  will run as, defaults to `'SYSTEM'`.
+* `node["chef_client"]["task"]["password"]` - The password for the user
+  the scheduled task will run as, defaults to `''` because the default
+  user, `'SYSTEM'`, does not need a password.
 
 The following attributes are set on a per-platform basis, see the `attributes/default.rb` file for default values.
 
