@@ -74,7 +74,7 @@ d_group = dir_group
 # If verify_api_cert is defined to be true, 
 # then we need Chef server certificate in trusted certificate directory
 #
-if node['chef_client']['config']['verify_api_cert'] == "true"
+if node['chef_client']['config']['verify_api_cert'] == true
   # If trusted certificate filename attribute is not defined
   # set verify_api_cert to false to prevent SSL certificate errors
   if node['chef_client']['trusted_cert'] != ""
