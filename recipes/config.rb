@@ -70,6 +70,35 @@ end
 d_owner = dir_owner
 d_group = dir_group
 
+#
+# If verify_api_cert is defined to be true, 
+# then we need Chef server certificate in trusted certificate directory
+#
+if node['chef_client']['config']['verify_api_cert'] == "true"
+  # If trusted certificate filename attribute is not defined
+  # set verify_api_cert to false to prevent SSL certificate errors
+  if node['chef_client']['trusted_cert'] != ""
+    directory node['chef_client']['trusted_certs_dir'] do
+      recursive true
+      owner d_owner
+      group d_group
+      mode 00755
+    end
+    cert_filename= File.basename(node['chef_client']['trusted_cert'],".*")
+    remote_file "trusted_certificate" do
+      source "#{node['chef_client']['trusted_cert']}"
+      path "#{node['chef_client']['trusted_certs_dir']}/#{cert_filename}.crt"
+      owner d_owner
+      group d_group
+      mode 00644
+    end
+  else
+    Chef::Log.warn("Trusted certificate file is not defined, disabling Chef client configuration item 'verify_api_cert'")
+    node.override['chef_client']['config']['verify_api_cert'] = false
+    # So next block to fix client.rb will properly handle verify_api_cert parameter
+  end
+end
+
 template "#{node["chef_client"]["conf_dir"]}/client.rb" do
   source 'client.rb.erb'
   owner d_owner
