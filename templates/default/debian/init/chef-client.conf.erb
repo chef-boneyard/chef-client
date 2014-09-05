@@ -14,4 +14,12 @@ pre-start script
     test -x <%= @client_bin %> || { stop; exit 0; }
 end script
 
-exec <%= @client_bin %> -i <%= node["chef_client"]["interval"] %> -L <%= node["chef_client"]["log_dir"] %>/client.log <%= node["chef_client"]["daemon_options"].join(' ') %>
+<% 
+  if node["chef_client"]["log_dir"].to_s == '' 
+    logfile_args = ''
+  else
+    logfile_args = "#{node["chef_client"]["log_dir"]}/client.log"
+  end
+%>
+
+exec <%= @client_bin %> -i <%= node["chef_client"]["interval"] %> <%= logfile_args %> <%= node["chef_client"]["daemon_options"].join(' ') %>
