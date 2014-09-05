@@ -1,6 +1,13 @@
-chef-client Cookbook CHANGELOG
-==============================
-This file is used to list changes made in each version of the chef-client cookbook.
+v3.8.0 (2014-09-05)
+-------------------
+- [#182] Complete refactor of testing. Now uses chefspec and serverspec
+- [#134] Update of README to reflect there not being an init recipe
+- [#133] Allow windows_task[chef-client] attributes to be overridden
+- [#143] Added rc.d script for FreeBSD
+- [#155] Allow option to not reload current run Chef config
+- [#162] Update cron.rb to work properly for SUSE
+- [#169] Sort config hash
+- [#184] Changelog fixes
 
 v3.7.0 (2014-08-13)
 -------------------
