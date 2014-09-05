@@ -13,7 +13,7 @@ describe 'chef-client::config' do
 
   it 'contains the default validation_client_name setting' do
     expect(chef_run).to render_file('/etc/chef/client.rb') \
-      .with_content(%r{validation_client_name})
+      .with_content(%r{validation_client_name}) 
   end
 
   [
@@ -27,6 +27,12 @@ describe 'chef-client::config' do
     it "contains #{dir} directory" do
       expect(chef_run).to create_directory(dir)
     end
+  end
+
+  let(:template) { chef_run.template('/etc/chef/client.rb') }
+
+  it 'notifies the client to reload' do
+    expect(template).to notify('ruby_block[reload_client_config]')
   end
 
   it 'reloads the client config' do
