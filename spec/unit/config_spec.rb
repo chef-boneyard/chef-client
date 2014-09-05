@@ -50,6 +50,7 @@ describe 'chef-client::config' do
         node.set['chef_client']['config']['report_handlers'] = [{class: "SimpleReport::UpdatedResources", arguments: []}]
         node.set['chef_client']['config']['start_handlers'] = [{class: "SimpleReport::UpdatedResources", arguments: []}]
         node.set['chef_client']['load_gems']['chef-handler-updated-resources']['require_name'] = "chef/handler/updated_resources"
+        node.set['chef_client']['reload_config'] = false
       end.converge(described_recipe)
     end
 
@@ -79,6 +80,11 @@ describe 'chef-client::config' do
         .with_content(%{\["chef/handler/updated_resources"\].each do |lib|})
     end
 
+    let(:template) { chef_run.template('/etc/chef/client.rb') }
+
+    it 'does not notify the client to reload' do
+      expect(template).to_not notify('ruby_block[reload_client_config]')
+    end
 
   end
 
