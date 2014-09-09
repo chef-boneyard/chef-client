@@ -32,9 +32,9 @@ module Opscode
           node.recipe?('chef-server')
         else
           Chef::Log.debug("Node has Chef Server Recipe? #{node.recipe?("chef-server")}")
-          Chef::Log.debug("Node has Chef Server Executable? #{system("which chef-server > /dev/null 2>&1")}")
-          Chef::Log.debug("Node has Chef Server Ctl Executable? #{system("which chef-server-ctl > /dev/null 2>&1")}")
-          node.recipe?('chef-server') || system('which chef-server > /dev/null 2>&1') || system('which chef-server-ctl > /dev/null 2>&1')
+          Chef::Log.debug("Node has Chef Server Executable? #{system("which chef-server > /dev/null 2>&1")}") # ~FC048 Prefer Mixlib::ShellOut is ignored here
+          Chef::Log.debug("Node has Chef Server Ctl Executable? #{system("which chef-server-ctl > /dev/null 2>&1")}") # ~FC048 Prefer Mixlib::ShellOut is ignored here
+          node.recipe?('chef-server') || system('which chef-server > /dev/null 2>&1') || system('which chef-server-ctl > /dev/null 2>&1') # ~FC048 Prefer Mixlib::ShellOut is ignored here
         end
       end
 
@@ -50,7 +50,7 @@ module Opscode
       end
 
       def root_owner
-        if ['windows'].include?(node['platform']) 
+        if ['windows'].include?(node['platform'])
           wmi_property_from_query(:name, "select * from Win32_UserAccount where sid like 'S-1-5-21-%-500' and LocalAccount=True")
         else
           'root'
@@ -131,7 +131,7 @@ module Opscode
           Chef::Log.debug 'Using chef-client bin from sane path'
           chef_in_sane_path
         # last ditch search for a bin in PATH
-        elsif (chef_in_path = %x{#{which} chef-client}.chomp) && ::File.send(existence_check, chef_in_path)
+      elsif (chef_in_path = %x{#{which} chef-client}.chomp) && ::File.send(existence_check, chef_in_path)  # ~FC048 Prefer Mixlib::ShellOut is ignored here
           Chef::Log.debug 'Using chef-client bin from system path'
           chef_in_path
         else
