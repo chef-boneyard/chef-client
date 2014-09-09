@@ -48,10 +48,9 @@ end
 # libraries/helpers.rb method to DRY directory creation resources
 create_directories
 
-if log_path != 'STDOUT'
-  file log_path do
-    mode 00640
-  end
+file log_path do
+  mode 00640
+  not_if {log_path == 'STDOUT'}
 end
 
 chef_requires = []
