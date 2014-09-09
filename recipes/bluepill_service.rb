@@ -18,7 +18,7 @@ directory node['chef_client']['run_path'] do
   mode 0755
 end
 
-include_recipe 'bluepill'
+include_recipe 'bluepill' # ~FC007: bluepill is only required when using the bluepill_service recipe 
 
 template "#{node['bluepill']['conf_dir']}/chef-client.pill" do
   source 'chef-client.pill.erb'
