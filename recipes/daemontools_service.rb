@@ -11,7 +11,7 @@ create_directories
 
 group = root_group
 
-include_recipe 'daemontools'
+include_recipe 'daemontools' # ~FC007: daemontools is only required when using the daemontools_service recipe 
 
 directory '/etc/sv/chef-client' do
   recursive true

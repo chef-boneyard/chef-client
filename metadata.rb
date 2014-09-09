@@ -23,9 +23,14 @@ recipe 'chef-client::winsw_service', 'Configures chef-client as a service under 
   supports os
 end
 
+# Each of these suggested cookbooks are dependencies when using the
+# respective $SERVICE_MANAGER_service recipe.
+# Foodcritic comments are included in each recipe to ignore
+#   FC007: Ensure recipe dependencies are reflected in cookbook metadata
 suggests 'bluepill'
 suggests 'daemontools'
 suggests 'runit'
+
 depends 'cron', '>= 1.2.0'
 depends 'logrotate', '>= 1.2.0'
 depends 'windows', '~> 1.11'
