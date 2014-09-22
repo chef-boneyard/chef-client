@@ -16,16 +16,19 @@ platforms:
   driver_plugin: digital_ocean
   driver_config:
     size: 1gb
+    image: centos-5-8-x64
 
 - name: centos-6.5
   driver_plugin: digital_ocean
   driver_config:
     size: 1gb
+    image: centos-6-5-x64
 
 - name: centos-7.0
   driver_plugin: digital_ocean
   driver_config:
     size: 1gb
+    image: centos-7-0-x64
 
 - name: amazon-2013.09
   driver_plugin: ec2
@@ -52,26 +55,31 @@ platforms:
   driver_plugin: digital_ocean
   driver_config:
     size: 1gb
+    image: fedora-20-x64
 
 - name: debian-7.0
   driver_plugin: digital_ocean
   driver_config:
     size: 1gb
+    image: debian-7-0-x64
 
 - name: ubuntu-10.04
   driver_plugin: digital_ocean
   driver_config:
     size: 1gb
+    image: ubuntu-10-04-x64
 
 - name: ubuntu-12.04
   driver_plugin: digital_ocean
   driver_config:
     size: 1gb
+    image: ubuntu-12-04-x64
 
 - name: ubuntu-14.04
   driver_plugin: digital_ocean
   driver_config:
     size: 1gb
+    image: ubuntu-14-04-x64
 
 - name: freebsd-10
   driver_plugin: ec2
