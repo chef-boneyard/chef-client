@@ -81,13 +81,6 @@ platforms:
     size: 1gb
     image: ubuntu-14-04-x64
 
-- name: freebsd-10
-  driver_plugin: ec2
-  driver_config:
-    image_id: ami-19dae970
-    username: root
-    ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
-
 suites:
 
 - name: service_init
