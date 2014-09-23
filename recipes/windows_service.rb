@@ -31,7 +31,7 @@ if Gem::Requirement.new('< 11.5').satisfied_by?(Gem::Version.new(::Chef::VERSION
   include_recipe 'chef-client::winsw_service'
 else
   # libraries/helpers.rb method to DRY directory creation resources
-  create_directories
+  include_recipe "#{cookbook_name}::_create_directories"
 
   # Will also avoid touching any winsw service if it exists
   execute 'register-chef-service' do

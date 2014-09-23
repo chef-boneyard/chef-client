@@ -46,7 +46,7 @@ else
 end
 
 # libraries/helpers.rb method to DRY directory creation resources
-create_directories
+include_recipe "#{cookbook_name}::_create_directories"
 
 if log_path != 'STDOUT'
   file log_path do
