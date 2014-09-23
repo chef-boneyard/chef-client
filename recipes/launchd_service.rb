@@ -9,7 +9,8 @@ require 'chef/version_constraint'
 client_bin = find_chef_client
 Chef::Log.debug("Found chef-client in #{client_bin}")
 node.default['chef_client']['bin'] = client_bin
-create_directories
+
+include_recipe "#{cookbook_name}::_create_directories"
 
 version_checker = Gem::Requirement.new(">= 0.10.10")
 mac_service_supported = version_checker.satisfied_by?(Gem::Version.new(node['chef_packages']['chef']['version']))

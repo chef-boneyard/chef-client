@@ -10,7 +10,8 @@ end
 client_bin = find_chef_client
 Chef::Log.debug("Found chef-client in #{client_bin}")
 node.default['chef_client']['bin'] = client_bin
-create_directories
+
+include_recipe "#{cookbook_name}::_create_directories"
 
 log 'Using winsw_service on this Chef version is deprecated; use windows_service' do
   level :warn

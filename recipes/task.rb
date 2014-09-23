@@ -26,7 +26,8 @@ end
 # libraries/helpers.rb method to DRY directory creation resources
 client_bin = find_chef_client
 node.default['chef_client']['bin'] = client_bin
-create_directories
+
+include_recipe "#{cookbook_name}::_create_directories"
 
 start_time = node['chef_client']['task']['frequency'] == 'minute' ? (Time.now + 60*node['chef_client']['task']['frequency_modifier']).strftime('%H:%M') : nil
 windows_task 'chef-client' do
