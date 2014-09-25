@@ -85,6 +85,13 @@ default['chef_client']['logrotate']['rotate'] = 12
 default['chef_client']['logrotate']['frequency'] = 'weekly'
 
 case node['platform_family']
+when 'aix'
+  default['chef_client']['init_style']  = 'src'
+  default['chef_client']['svc_name']    = 'chef'
+  default['chef_client']['run_path']    = '/var/run/chef'
+  default['chef_client']['cache_path']  = '/var/spool/chef'
+  default['chef_client']['backup_path'] = '/var/lib/chef'
+  default['chef_client']['log_dir']     = '/var/adm/chef'
 when 'arch'
   default['chef_client']['init_style']  = 'arch'
   default['chef_client']['run_path']    = '/var/run/chef'
