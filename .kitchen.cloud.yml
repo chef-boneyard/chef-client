@@ -135,3 +135,27 @@ suites:
     chef_client:
       init_style: "init"
       daemon_options: ["-E cook-1951"]
+
+- name: chef-server
+  run_list:
+  - recipe[hostname]
+  - recipe[chef-client]
+  - recipe[chef-server]
+  attributes:
+    set_fqdn: an-server.example.com
+    chef-server:
+      prereleases: true
+  driver_config:
+    size: 4gb
+
+- name: chef-server-reverse
+  run_list:
+  - recipe[hostname]
+  - recipe[chef-server]
+  - recipe[chef-client]
+  attributes:
+    set_fqdn: an-server.example.com
+    chef-server:
+      prereleases: true
+  driver_config:
+    size: 4gb
