@@ -17,18 +17,21 @@ platforms:
   driver_config:
     size: 1gb
     image: centos-5-8-x64
+    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
 
 - name: centos-6.5
   driver_plugin: digital_ocean
   driver_config:
     size: 1gb
     image: centos-6-5-x64
+    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
 
 - name: centos-7.0
   driver_plugin: digital_ocean
   driver_config:
     size: 1gb
     image: centos-7-0-x64
+    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
 
 - name: amazon-2013.09
   driver_plugin: ec2
@@ -51,35 +54,47 @@ platforms:
     username: root
     ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
 
+- name: fedora-19
+  driver_plugin: digital_ocean
+  driver_config:
+    size: 1gb
+    image: fedora-19-x64
+    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
+
 - name: fedora-20
   driver_plugin: digital_ocean
   driver_config:
     size: 1gb
     image: fedora-20-x64
+    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
 
 - name: debian-7.0
   driver_plugin: digital_ocean
   driver_config:
     size: 1gb
     image: debian-7-0-x64
+    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
 
 - name: ubuntu-10.04
   driver_plugin: digital_ocean
   driver_config:
     size: 1gb
     image: ubuntu-10-04-x64
+    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
 
 - name: ubuntu-12.04
   driver_plugin: digital_ocean
   driver_config:
     size: 1gb
     image: ubuntu-12-04-x64
+    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
 
 - name: ubuntu-14.04
   driver_plugin: digital_ocean
   driver_config:
     size: 1gb
     image: ubuntu-14-04-x64
+    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
 
 suites:
 
@@ -88,6 +103,7 @@ suites:
   - recipe[chef-client::config]
   - recipe[chef-client::init_service]
   attributes: {}
+  excludes: ["centos-7.0", "fedora-19", "fedora-20"]
 
 - name: service_runit
   run_list:
@@ -95,11 +111,11 @@ suites:
   - recipe[chef-client::runit_service]
   attributes: {}
 
-#- name: service_systemd
-#  run_list:
-#  - recipe[chef-client::systemd_service]
-#  attributes: {}
-#  includes: ["centos-7.0", "fedora-20", "debian-7.0"]
+- name: service_systemd
+  run_list:
+  - recipe[chef-client::systemd_service]
+  attributes: {}
+  includes: ["centos-7.0", "fedora-20", "fedora-19"]
 
 - name: service_upstart
   run_list:
