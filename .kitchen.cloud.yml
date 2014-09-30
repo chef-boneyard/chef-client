@@ -112,6 +112,7 @@ suites:
 
 - name: default
   run_list:
+  - recipe[chef-client::config]
   - recipe[chef-client]
   attributes: {}
 
