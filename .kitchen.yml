@@ -7,7 +7,9 @@ provisioner:
 platforms:
   - name: centos-5.10
   - name: centos-6.5
+  - name: centos-7.0
   - name: fedora-19
+  - name: fedora-20
   - name: ubuntu-1004
   - name: ubuntu-1204
   - name: ubuntu-1310
@@ -19,6 +21,7 @@ suites:
   - recipe[chef-client::config]
   - recipe[chef-client::init_service]
   attributes: {}
+  excludes: ["centos-7.0", "fedora-19", "fedora-20"]
 
 - name: service_runit
   run_list:
@@ -26,11 +29,11 @@ suites:
   - recipe[chef-client::runit_service]
   attributes: {}
 
-#- name: service_systemd
-#  run_list:
-#  - recipe[chef-client::systemd_service]
-#  attributes: {}
-#  includes: ["centos-7.0", "fedora-20", "debian-7.0"]
+- name: service_systemd
+  run_list:
+  - recipe[chef-client::systemd_service]
+  attributes: {}
+  includes: ["centos-7.0", "fedora-19", "fedora-20"]
 
 - name: service_upstart
   run_list:

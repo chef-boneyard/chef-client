@@ -9,7 +9,8 @@ node.default["chef_client"]["bin"] = client_bin
 create_directories
 
 dist_dir, conf_dir = value_for_platform_family(
-  ["fedora"] => ["fedora", "sysconfig"]
+  ["fedora"] => ["fedora", "sysconfig"],
+  ["rhel"] => ["redhat", "sysconfig"]
 )
 
 template "/etc/systemd/system/chef-client.service" do

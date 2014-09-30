@@ -90,8 +90,17 @@ when 'arch'
   default['chef_client']['run_path']    = '/var/run/chef'
   default['chef_client']['cache_path']  = '/var/cache/chef'
   default['chef_client']['backup_path'] = '/var/lib/chef'
-when 'debian', 'rhel', 'suse'
+when 'debian', 'suse'
   default['chef_client']['init_style']  = 'init'
+  default['chef_client']['run_path']    = '/var/run/chef'
+  default['chef_client']['cache_path']  = '/var/cache/chef'
+  default['chef_client']['backup_path'] = '/var/lib/chef'
+when 'rhel'
+  if node['platform_version'].to_i >= 7
+    default['chef_client']['init_style'] = 'systemd'
+  else
+    default['chef_client']['init_style'] = 'init'
+  end
   default['chef_client']['run_path']    = '/var/run/chef'
   default['chef_client']['cache_path']  = '/var/cache/chef'
   default['chef_client']['backup_path'] = '/var/lib/chef'
