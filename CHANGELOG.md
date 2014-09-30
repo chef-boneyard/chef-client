@@ -1,3 +1,8 @@
+v3.8.1 (2014-09-30)
+-------------------
+- [#202] Avoid resource cloning
+- [#190] Use systemd by default on EL7
+
 v3.8.0 (2014-09-05)
 -------------------
 - [#182] Complete refactor of testing. Now uses chefspec and serverspec
