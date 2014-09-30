@@ -1,3 +1,7 @@
+v3.8.2 (2014-09-30)
+-------------------
+- [#206] Fixes amazon linux issues introduced in #190
+
 v3.8.1 (2014-09-30)
 -------------------
 - [#202] Avoid resource cloning
