@@ -36,23 +36,34 @@ platforms:
 - name: amazon-2013.09
   driver_plugin: ec2
   driver_config:
-    image_id: ami-3be4bc52
+    image_id: ami-e9a18d80
     username: ec2-user
     ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+    flavor_id: t2.small
 
 - name: amazon-2014.03
   driver_plugin: ec2
   driver_config:
-    image_id: ami-6b726502
+    image_id: ami-76817c1e
     username: ec2-user
     ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+    flavor_id: t2.small
+
+- name: amazon-2014.09
+  driver_plugin: ec2
+  driver_config:
+    image_id: ami-fccc6d94
+    username: ec2-user
+    ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+    flavor_id: t2.small
 
 - name: suse-11.3
   driver_plugin: ec2
   driver_config:
-    image_id: ami-e8084981
+    image_id: ami-96b117fe
     username: root
     ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
+    flavor_id: t2.small
 
 # UTF-8 is not a friend
 #- name: fedora-19
@@ -98,6 +109,12 @@ platforms:
     region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
 
 suites:
+
+- name: default
+  run_list:
+  - recipe[chef-client::config]
+  - recipe[chef-client]
+  attributes: {}
 
 - name: service_init
   run_list:
