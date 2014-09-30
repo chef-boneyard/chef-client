@@ -54,12 +54,13 @@ platforms:
     username: root
     ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
 
-- name: fedora-19
-  driver_plugin: digital_ocean
-  driver_config:
-    size: 1gb
-    image: fedora-19-x64
-    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
+# UTF-8 is not a friend
+#- name: fedora-19
+#  driver_plugin: digital_ocean
+#  driver_config:
+#    size: 1gb
+#    image: fedora-19-x64
+#    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
 
 - name: fedora-20
   driver_plugin: digital_ocean
@@ -103,7 +104,7 @@ suites:
   - recipe[chef-client::config]
   - recipe[chef-client::init_service]
   attributes: {}
-  excludes: ["centos-7.0", "fedora-19", "fedora-20"]
+  excludes: ["centos-7.0", "fedora-20"]
 
 - name: service_runit
   run_list:
@@ -115,7 +116,7 @@ suites:
   run_list:
   - recipe[chef-client::systemd_service]
   attributes: {}
-  includes: ["centos-7.0", "fedora-20", "fedora-19"]
+  includes: ["centos-7.0", "fedora-20"]
 
 - name: service_upstart
   run_list:
