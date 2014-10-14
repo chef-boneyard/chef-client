@@ -68,6 +68,8 @@ module Opscode
       def root_group
         if %w{ openbsd freebsd mac_os_x mac_os_x_server }.include?(node['platform'])
           'wheel'
+        elsif ['aix'].include?(node['platform'])
+          'system'
         elsif ['windows'].include?(node['platform'])
           wmi_property_from_query(:name, "select * from Win32_Group where SID = 'S-1-5-32-544' AND LocalAccount=TRUE")
         else
