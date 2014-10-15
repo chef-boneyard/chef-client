@@ -1,3 +1,7 @@
+v3.9.0 (2014-10-15)
+-------------------
+- [#208] Add AIX support
+
 v3.8.2 (2014-09-30)
 -------------------
 - [#206] Fixes amazon linux issues introduced in #190
