@@ -2,7 +2,7 @@
 class ::Chef::Recipe
   include ::Opscode::ChefClient::Helpers
 end
-class ::Chef::Recipe
+class ::Chef::Resource
   include ::Opscode::ChefClient::Helpers
 end
 
