@@ -14,6 +14,9 @@
 # chkconfig: - 99 02
 # description: starts up chef-client in daemon mode.
 
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 DAEMON=<%= @client_bin %>
 NAME=chef-client
