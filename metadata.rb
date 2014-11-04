@@ -19,7 +19,7 @@ recipe 'chef-client::task', 'Runs chef-client as a Windows task.'
 recipe 'chef-client::upstart_service', 'Configures chef-client as a service under Upstart'
 recipe 'chef-client::winsw_service', 'Configures chef-client as a service under Windows WinSW'
 
-%w{ ubuntu debian redhat centos fedora oracle suse freebsd openbsd mac_os_x mac_os_x_server windows aix }.each do |os|
+%w{ ubuntu debian redhat centos fedora oracle suse freebsd openbsd mac_os_x mac_os_x_server aix }.each do |os|
   supports os
 end
 
@@ -33,4 +33,3 @@ suggests 'runit'
 
 depends 'cron', '>= 1.2.0'
 depends 'logrotate', '>= 1.2.0'
-depends 'windows', '~> 1.11'
