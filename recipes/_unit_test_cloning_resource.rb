@@ -1,5 +1,8 @@
 #
-# Copyright 2012, Opscode, Inc.
+# Cookbook Name:: chef-client
+# Recipe:: _unit_test_cloning_resource
+#
+# Copyright 2010, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,11 +17,15 @@
 # limitations under the License.
 #
 
-module Helpers
-  # include helpers for minitest
-  module ChefClient
-    include MiniTest::Chef::Assertions
-    include MiniTest::Chef::Context
-    include MiniTest::Chef::Resources
-  end
+# include helper methods
+class ::Chef::Recipe
+  include ::Opscode::ChefClient::Helpers
 end
+
+directory node['chef_client']['conf_dir'] do
+  recursive false
+  owner 'fake'
+  group 'fake'
+end
+
+create_directories

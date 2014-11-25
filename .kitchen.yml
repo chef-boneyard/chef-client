@@ -7,68 +7,42 @@ provisioner:
 platforms:
   - name: centos-5.10
   - name: centos-6.5
+  - name: centos-7.0
   - name: fedora-19
+  - name: fedora-20
   - name: ubuntu-1004
   - name: ubuntu-1204
   - name: ubuntu-1310
 
 suites:
-# This suite tests that the configuration is applied correctly (via attributes)
-- name: config
-  run_list:
-  - recipe[minitest-handler]
-  - recipe[chef-client_test::config]
-  - recipe[chef-client::config]
-  attributes:
-    chef_client:
-      load_gems:
-        chef-handler-updated-resources:
-          require_name: "chef/handler/updated_resources"
-      config:
-        log_level: ":debug"
-        ssl_verify_mode: ":verify_peer"
-        start_handlers: [{class: "SimpleReport::UpdatedResources", arguments: []}]
-        report_handlers: [{class: "SimpleReport::UpdatedResources", arguments: []}]
-        exception_handlers: [{class: "SimpleReport::UpdatedResources", arguments: []}]
-    ohai:
-      disabled_plugins: [":Passwd","dmi"]
 
 - name: service_init
   run_list:
-  - recipe[minitest-handler]
   - recipe[chef-client::config]
-  - recipe[chef-client_test::service_init]
   - recipe[chef-client::init_service]
   attributes: {}
+  excludes: ["centos-7.0", "fedora-19", "fedora-20"]
 
 - name: service_runit
   run_list:
-  - recipe[minitest-handler]
   - recipe[runit]
-  - recipe[chef-client_test::service_runit]
   - recipe[chef-client::runit_service]
-  attributes: {}
-
-- name: service_upstart
-  run_list:
-  - recipe[minitest-handler]
-  - recipe[chef-client_test::service_upstart]
-  - recipe[chef-client::upstart_service]
-  excludes: ["centos-5.9"]
   attributes: {}
 
 - name: service_systemd
   run_list:
-  run_list:
-  - recipe[minitest-handler]
-  - recipe[chef-client_test::service_systemd]
   - recipe[chef-client::systemd_service]
-  excludes: ["centos-5.9", "centos-6.4", "ubuntu-10.04", "ubuntu-12.04"]
+  attributes: {}
+  includes: ["centos-7.0", "fedora-19", "fedora-20"]
+
+- name: service_upstart
+  run_list:
+  - recipe[chef-client::upstart_service]
+  includes: ["ubuntu-10.04", "ubuntu-12.04", "ubuntu-14.04"]
   attributes: {}
 
 - name: cron
   run_list:
-  - recipe[minitest-handler]
   - recipe[chef-client::cron]
   attributes: {}
 
@@ -77,70 +51,20 @@ suites:
   - recipe[chef-client::delete_validation]
   attributes: {}
 
-# Probably needs to be moved up to config and tested there
-- name: cook-2092
-  run_list:
-  - recipe[minitest-handler]
-  - recipe[chef-client_test::cook-2092]
-  - recipe[chef-client::config]
-  attributes:
-    chef_client:
-      log_file: "client.log"
-
-# Tests that the root user is set correctly for the cron recipe.
-- name: cook-2169-root
-  run_list:
-  - recipe[minitest-handler]
-  - recipe[chef-client_test::cook-2169-root]
-  - recipe[chef-client::cron]
-  attributes: {}
-
-# Tests that the "chef server" user is set correctly with the cron recipe.
-- name: cook-2169-chef
-  run_list:
-  - recipe[minitest-handler]
-  - recipe[chef-client_test::cook-2169-chef]
-  - recipe[chef-client::cron]
-  attributes: {}
-
-# Test that the environment variables are rendered correctly
-- name: cook-2086
-  run_list:
-  - recipe[minitest-handler]
-  - recipe[chef-client_test::cook-2086]
-  - recipe[chef-client::cron]
-  attributes:
-    chef_client:
-      cron:
-        environment_variables: "FOO=BAR"
-
 # Test that the we can use the cron_d directory
 - name: cook-use_cron_d
   run_list:
-  - recipe[minitest-handler]
   - recipe[chef-client::cron]
   attributes:
     chef_client:
       cron:
         use_cron_d: true
 
-# No longer necessary w/ COOK-2856
-# - name: cook-2317
-#   run_list:
-#   - recipe[minitest-handler]
-#   - recipe[chef-client::config]
-#   - recipe[chef-client_test::cook-2317]
-#   attributes:
-#     ohai:
-#       disabled_plugins: ["passwd"]
-
 # Test that the running process includes command-line "daemon" options
 - name: cook-1951
   run_list:
-  - recipe[minitest-handler]
   - recipe[chef-client::config]
   - recipe[chef-client::service]
-  - recipe[chef-client_test::cook-1951]
   attributes:
     chef_client:
       init_style: "init"

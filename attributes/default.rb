@@ -49,7 +49,7 @@ default['chef_client']['log_dir']     = '/var/log/chef'
 # Configuration for chef-client::cron recipe.
 default['chef_client']['cron'] = {
   'minute' => '0',
-  'hour' => '*/4',
+  'hour' => '0,4,8,12,16,20',
   'path' => nil,
   'environment_variables' => nil,
   'log_file' => '/dev/null',
@@ -64,6 +64,11 @@ default['chef_client']['task']['user'] = 'SYSTEM'
 default['chef_client']['task']['password'] = '' # SYSTEM user does not need a password, but windows_task LWRP wants one
 
 default['chef_client']['load_gems'] = {}
+
+# If set to false, changes in the `client.rb` template won't trigger a reload
+# of those configs in the current Chef run.
+#
+default['chef_client']['reload_config'] = true
 
 # Any additional daemon options can be set as an array. This will be
 # join'ed in the relevant service configuration.
@@ -80,13 +85,29 @@ default['chef_client']['logrotate']['rotate'] = 12
 default['chef_client']['logrotate']['frequency'] = 'weekly'
 
 case node['platform_family']
+when 'aix'
+  default['chef_client']['init_style']  = 'src'
+  default['chef_client']['svc_name']    = 'chef'
+  default['chef_client']['run_path']    = '/var/run/chef'
+  default['chef_client']['cache_path']  = '/var/spool/chef'
+  default['chef_client']['backup_path'] = '/var/lib/chef'
+  default['chef_client']['log_dir']     = '/var/adm/chef'
 when 'arch'
   default['chef_client']['init_style']  = 'arch'
   default['chef_client']['run_path']    = '/var/run/chef'
   default['chef_client']['cache_path']  = '/var/cache/chef'
   default['chef_client']['backup_path'] = '/var/lib/chef'
-when 'debian', 'rhel', 'suse'
+when 'debian', 'suse'
   default['chef_client']['init_style']  = 'init'
+  default['chef_client']['run_path']    = '/var/run/chef'
+  default['chef_client']['cache_path']  = '/var/cache/chef'
+  default['chef_client']['backup_path'] = '/var/lib/chef'
+when 'rhel'
+  if node['platform_version'].to_i >= 7 && node['platform'] != 'amazon'
+    default['chef_client']['init_style'] = 'systemd'
+  else
+    default['chef_client']['init_style'] = 'init'
+  end
   default['chef_client']['run_path']    = '/var/run/chef'
   default['chef_client']['cache_path']  = '/var/cache/chef'
   default['chef_client']['backup_path'] = '/var/lib/chef'

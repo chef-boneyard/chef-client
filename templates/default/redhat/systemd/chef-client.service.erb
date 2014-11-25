@@ -1,0 +1,13 @@
+[Unit]
+Description=Chef Client daemon
+After=syslog.target network.target auditd.service
+
+[Service]
+Type=forking
+EnvironmentFile=<%= @sysconfig_file %>
+ExecStart=<%= @client_bin %> -d -c $CONFIG -P $PIDFILE -i $INTERVAL -s $SPLAY
+ExecReload=/bin/kill -HUP $MAINPID
+PIDFile=$PIDFILE
+
+[Install]
+WantedBy=multi-user.target
