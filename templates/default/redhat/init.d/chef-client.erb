@@ -26,7 +26,6 @@ prog="chef-client"
 config=${CONFIG-/etc/chef/client.rb}
 pidfile=${PIDFILE-/var/run/chef/client.pid}
 lockfile=${LOCKFILE-/var/lock/subsys/$prog}
-logfile=${LOGFILE-/var/log/chef/client.log}
 interval=${INTERVAL-1800}
 splay=${SPLAY-20}
 options=${OPTIONS-}
@@ -35,7 +34,7 @@ start() {
     [ -x $exec ] || exit 5
     [ -f $config ] || exit 6
     echo -n $"Starting $prog: "
-    daemon $exec -d -c "$config" -L "$logfile" -P "$pidfile" -i "$interval" -s "$splay" "$options"
+    daemon $exec -d -c "$config" -P "$pidfile" -i "$interval" -s "$splay" "$options"
     retval=$?
     echo
     [ $retval -eq 0 ] && touch $lockfile
