@@ -17,7 +17,6 @@ recipe 'chef-client::service', 'Sets up a client daemon to run periodically'
 recipe 'chef-client::smf_service', 'Configures chef-client as a service under SMF'
 recipe 'chef-client::task', 'Runs chef-client as a Windows task.'
 recipe 'chef-client::upstart_service', 'Configures chef-client as a service under Upstart'
-recipe 'chef-client::winsw_service', 'Configures chef-client as a service under Windows WinSW'
 
 %w{ ubuntu debian redhat centos fedora oracle suse freebsd openbsd mac_os_x mac_os_x_server windows aix }.each do |os|
   supports os
