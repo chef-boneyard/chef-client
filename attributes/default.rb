@@ -35,6 +35,7 @@ if Chef::Config.has_key?(:client_fork)
   default['chef_client']['config']['client_fork'] = true
 end
 
+# log_file has no effect when using runit
 default['chef_client']['log_file']    = 'client.log'
 default['chef_client']['interval']    = '1800'
 default['chef_client']['splay']       = '300'
