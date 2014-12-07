@@ -1,3 +1,8 @@
+Unreleased
+----------
+
+- [#227] Add sourcing /etc/default/locale to upstart script
+
 v3.9.0 (2014-10-15)
 -------------------
 - [#208] Add AIX support
