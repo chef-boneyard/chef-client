@@ -1,7 +1,8 @@
 Unreleased
 ----------
-
 - [#227] Add sourcing /etc/default/locale to upstart script
+- [#224] Fix FreeBSD service startup
+- [#223] Add FreeBSD test harness
 
 v3.9.0 (2014-10-15)
 -------------------
