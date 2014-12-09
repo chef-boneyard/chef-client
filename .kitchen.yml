@@ -10,11 +10,20 @@ platforms:
   - name: centos-7.0
   - name: fedora-19
   - name: fedora-20
+  - name: freebsd-9.3
+  - name: freebsd-10.1
   - name: ubuntu-1004
   - name: ubuntu-1204
   - name: ubuntu-1310
 
 suites:
+
+- name: service_bsd
+  run_list:
+  - recipe[chef-client::config]
+  - recipe[chef-client::bsd_service]
+  attributes: {}
+  includes: ["freebsd-9.3", "freebsd-10.1"]
 
 - name: service_init
   run_list:
