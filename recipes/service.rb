@@ -34,7 +34,6 @@ supported_init_styles = %w{
   systemd
   upstart
   windows
-  winsw
 }
 
 init_style = node['chef_client']['init_style']

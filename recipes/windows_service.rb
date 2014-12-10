@@ -26,20 +26,14 @@ class ::Chef::Resource
   include ::Opscode::ChefClient::Helpers
 end
 
-# Fall back to winsw on older Chef Clients without the service manager
-if Gem::Requirement.new('< 11.5').satisfied_by?(Gem::Version.new(::Chef::VERSION))
-  include_recipe 'chef-client::winsw_service'
-else
-  # libraries/helpers.rb method to DRY directory creation resources
-  create_directories
+# libraries/helpers.rb method to DRY directory creation resources
+create_directories
 
-  # Will also avoid touching any winsw service if it exists
-  execute 'register-chef-service' do
-    command 'chef-service-manager -a install'
-    not_if { chef_client_service_running }
-  end
+execute 'register-chef-service' do
+  command 'chef-service-manager -a install'
+  not_if { chef_client_service_running }
+end
 
-  service 'chef-client' do
-    action [:enable, :start]
-  end
+service 'chef-client' do
+  action [:enable, :start]
 end
