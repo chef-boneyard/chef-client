@@ -1,9 +1,10 @@
 v4.0.0 (2014-12-10)
 -------------------
-- [@221] Retire the winsw service wrapper in Windows
+- [#221] Retire the winsw service wrapper in Windows
 - [#227] Add sourcing /etc/default/locale to upstart script
 - [#224] Fix FreeBSD service startup
 - [#223] Add FreeBSD test harness
+- [#217] Fix and modernize systemd configuration
 
 v3.9.0 (2014-10-15)
 -------------------
