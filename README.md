@@ -288,19 +288,10 @@ include 'chef-client::config'
 Then create `files/default/myconfig.rb` with the configuration content you want. For example, if you wish to create a configuration to log to syslog:
 
 ```ruby
-require 'rubygems'
 require 'syslog-logger'
-require 'syslog'
 
-Logger::Syslog.class_eval do
-  attr_accessor :sync, :formatter
-end
-
-log_location Logger::Syslog.new('chef-client', Syslog::LOG_DAEMON)
+Chef::Log.use_log_devices( [ Logger::Syslog.new("chef-client", Syslog::LOG_LOCAL7) ] )
 ```
-
-(Hat tip to Joseph Holsten for this in [COOK-2326](http://tickets.opscode.com/browse/COOK-2326)
-
 
 ### Requiring Gems
 Use the `load_gems` attribute to install gems that need to be required in the client.rb. This attribute should be a hash. The gem will also be installed with `chef_gem`. For example, suppose we want to use a Chef Handler Gem, `chef-handler-updated-resources`, which is used in the next heading. Set the attributes, e.g., in a role:
