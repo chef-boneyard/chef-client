@@ -13,7 +13,7 @@ describe 'chef-client::config' do
 
   it 'contains the default validation_client_name setting' do
     expect(chef_run).to render_file('/etc/chef/client.rb') \
-      .with_content(%r{validation_client_name}) 
+      .with_content(%r{validation_client_name})
   end
 
   [
@@ -49,6 +49,9 @@ describe 'chef-client::config' do
         node.set['chef_client']['config']['exception_handlers'] = [{class: "SimpleReport::UpdatedResources", arguments: []}]
         node.set['chef_client']['config']['report_handlers'] = [{class: "SimpleReport::UpdatedResources", arguments: []}]
         node.set['chef_client']['config']['start_handlers'] = [{class: "SimpleReport::UpdatedResources", arguments: []}]
+        node.set['chef_client']['config']['http_proxy'] = 'http://proxy.vmware.com:3128'
+        node.set['chef_client']['config']['https_proxy'] = 'http://proxy.vmware.com:3128'
+        node.set['chef_client']['config']['no_proxy'] = '*.vmware.com,10.*'
         node.set['chef_client']['load_gems']['chef-handler-updated-resources']['require_name'] = "chef/handler/updated_resources"
         node.set['chef_client']['reload_config'] = false
       end.converge(described_recipe)
@@ -78,6 +81,33 @@ describe 'chef-client::config' do
       expect(chef_run).to install_chef_gem('chef-handler-updated-resources')
       expect(chef_run).to render_file('/etc/chef/client.rb') \
         .with_content(%{\["chef/handler/updated_resources"\].each do |lib|})
+    end
+
+    it 'configures an HTTP Proxy' do
+      expect(chef_run).to render_file('/etc/chef/client.rb') \
+      .with_content(%r{^http_proxy "http://proxy.vmware.com:3128"})
+      expect(chef_run).to render_file('/etc/chef/client.rb') \
+      .with_content(%r{^ENV\['http_proxy'\] = "http://proxy.vmware.com:3128"})
+      expect(chef_run).to render_file('/etc/chef/client.rb') \
+      .with_content(%r{^ENV\['HTTP_PROXY'\] = "http://proxy.vmware.com:3128"})
+    end
+
+    it 'configures an HTTPS Proxy' do
+      expect(chef_run).to render_file('/etc/chef/client.rb') \
+      .with_content(%r{^https_proxy "http://proxy.vmware.com:3128"})
+      expect(chef_run).to render_file('/etc/chef/client.rb') \
+      .with_content(%r{^ENV\['https_proxy'\] = "http://proxy.vmware.com:3128"})
+      expect(chef_run).to render_file('/etc/chef/client.rb') \
+      .with_content(%r{^ENV\['HTTPS_PROXY'\] = "http://proxy.vmware.com:3128"})
+    end
+
+    it 'configures no_proxy' do
+      expect(chef_run).to render_file('/etc/chef/client.rb') \
+      .with_content(%r{^no_proxy "\*.vmware.com,10.\*"})
+      expect(chef_run).to render_file('/etc/chef/client.rb') \
+      .with_content(%r{^ENV\['no_proxy'\] = "\*.vmware.com,10.\*"})
+      expect(chef_run).to render_file('/etc/chef/client.rb') \
+      .with_content(%r{^ENV\['NO_PROXY'\] = "\*.vmware.com,10.\*"})
     end
 
     let(:template) { chef_run.template('/etc/chef/client.rb') }
