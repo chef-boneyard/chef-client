@@ -1,3 +1,7 @@
+Unreleased
+----------
+- [#231] Allow setting NO_PROXY/no_proxy in client.rb
+
 v4.0.0 (2014-12-10)
 -------------------
 - [#221] Retire the winsw service wrapper in Windows
