@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'chef-client::cron' do
 
   let(:chef_run) do
-    ChefSpec::Runner.new.converge(described_recipe)
+    ChefSpec::SoloRunner.new.converge(described_recipe)
   end
 
   [
@@ -24,7 +24,7 @@ describe 'chef-client::cron' do
   context 'Custom Attributes' do
 
     let(:chef_run) do
-      ChefSpec::Runner.new do |node|
+      ChefSpec::SoloRunner.new do |node|
         node.set['chef_client']['cron']['environment_variables'] = 'FOO=BAR'
       end.converge(described_recipe)
     end

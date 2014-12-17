@@ -7,7 +7,7 @@ describe 'chef-client::init_service' do
   context os[:platform] do
 
     let(:chef_run) do
-      ChefSpec::Runner.new(platform: os[:platform], version: os[:version]) do |node|
+      ChefSpec::SoloRunner.new(platform: os[:platform], version: os[:version]) do |node|
         node.set['chef_client']['daemon_options'] = ["-E cook-1951"]
       end.converge(described_recipe)
     end
