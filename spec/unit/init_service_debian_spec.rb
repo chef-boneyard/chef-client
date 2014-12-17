@@ -5,7 +5,7 @@ describe 'chef-client::init_service' do
   context 'Debian/Ubuntu' do
 
     let(:chef_run) do
-      ChefSpec::Runner.new(platform: 'ubuntu', version: '12.04') do |node|
+      ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '12.04') do |node|
         node.set['chef_client']['daemon_options'] = ["-E cook-1951"]
       end.converge(described_recipe)
     end
