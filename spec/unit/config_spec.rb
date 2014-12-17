@@ -116,6 +116,30 @@ describe 'chef-client::config' do
       expect(template).to_not notify('ruby_block[reload_client_config]')
     end
 
+    context 'empty config key values' do
+      let(:chef_run) do
+        ChefSpec::Runner.new do |node|
+          node.set['chef_client']['config']['http_proxy'] = ''
+          node.set['chef_client']['config']['https_proxy'] = ''
+          node.set['chef_client']['config']['no_proxy'] = ''
+        end.converge(described_recipe)
+      end
+
+      it 'does not write config elements' do
+        expect(chef_run).to_not render_file('/etc/chef/client.rb') \
+        .with_content(%r{^https_proxy ""})
+
+        expect(chef_run).to_not render_file('/etc/chef/client.rb') \
+        .with_content(%r{^ENV\['HTTPS_PROXY'\] = ""})
+
+        expect(chef_run).to_not render_file('/etc/chef/client.rb') \
+        .with_content(%r{^ENV\['HTTP_PROXY'\] = ""})
+
+        expect(chef_run).to_not render_file('/etc/chef/client.rb') \
+        .with_content(%r{^ENV\['NO_PROXY'\] = ""})
+      end
+    end
+
   end
 
 
