@@ -2,6 +2,7 @@ Unreleased
 ----------
 - [#233] Unbreak unit and integration test harnesses
 - [#231] Allow setting NO_PROXY/no_proxy in client.rb
+- [#219] Configure log location via client.rb only
 
 v4.0.0 (2014-12-10)
 -------------------
