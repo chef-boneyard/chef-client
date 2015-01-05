@@ -30,6 +30,18 @@ end
 if node['chef_client']['log_file'].is_a? String and node['chef_client']['init_style'] != 'runit'
   log_path = File.join(node['chef_client']['log_dir'], node['chef_client']['log_file'])
   node.default['chef_client']['config']['log_location'] = "'#{log_path}'"
+  logrotate_options = ['compress']
+
+  case node['chef_client']['init_style']
+  when 'init'
+    logrotate_postrotate = '/etc/init.d/chef-client reload >/dev/null || :'
+  when 'upstart'
+    logrotate_postrotate = 'restart chef-client >/dev/null || :'
+  else
+    # copytruncate will work fine if we can't be sure how to restart chef-client
+    logrotate_postrotate = ''
+    logrotate_options << 'copytruncate'
+  end
 
   case node['platform_family']
   when 'rhel', 'debian', 'fedora'
@@ -37,8 +49,8 @@ if node['chef_client']['log_file'].is_a? String and node['chef_client']['init_st
       path [log_path]
       rotate node['chef_client']['logrotate']['rotate']
       frequency node['chef_client']['logrotate']['frequency']
-      options ['compress']
-      postrotate '/etc/init.d/chef-client reload >/dev/null || :'
+      options logrotate_options
+      postrotate logrotate_postrotate
     end
   end
 else
