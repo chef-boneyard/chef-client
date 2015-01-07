@@ -30,7 +30,7 @@ node_name <%= @chef_config['node_name'].inspect %>
 http_proxy "<%= node["chef_client"]["config"]["http_proxy"] %>"
 <% end -%>
 <% unless node["chef_client"]["config"]["https_proxy"].nil? -%>
-https_proxy = "<%= node["chef_client"]["config"]["https_proxy"] %>"
+https_proxy "<%= node["chef_client"]["config"]["https_proxy"] %>"
 <% end -%>
 <% unless node["chef_client"]["config"]["no_proxy"].nil? -%>
 no_proxy "<%= node["chef_client"]["config"]["no_proxy"] %>"
