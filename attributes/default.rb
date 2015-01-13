@@ -38,6 +38,12 @@ end
 # log_file has no effect when using runit
 default['chef_client']['log_file']    = 'client.log'
 default['chef_client']['log_rotation']['options'] = ['compress']
+default['chef_client']['log_rotation']['postrotate'] =  case node['chef_client']['init_style']
+                                                        when 'systemd'
+                                                          'systemctl reload chef-client.service >/dev/null || :'
+                                                        else
+                                                          '/etc/init.d/chef-client reload >/dev/null || :'
+                                                        end
 default['chef_client']['interval']    = '1800'
 default['chef_client']['splay']       = '300'
 default['chef_client']['conf_dir']    = '/etc/chef'

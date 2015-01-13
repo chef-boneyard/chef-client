@@ -38,12 +38,7 @@ if node['chef_client']['log_file'].is_a? String and node['chef_client']['init_st
       rotate node['chef_client']['logrotate']['rotate']
       frequency node['chef_client']['logrotate']['frequency']
       options node['chef_client']['log_rotation']['options']
-      postrotate case node['chef_client']['init_style']
-                 when 'systemd'
-                   'systemctl reload chef-client.service >/dev/null || :'
-                 else
-                   '/etc/init.d/chef-client reload >/dev/null || :'
-                 end
+      postrotate node['chef_client'['log_rotation']['postrotate']
     end
   end
 else
