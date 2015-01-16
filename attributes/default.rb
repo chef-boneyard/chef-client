@@ -84,6 +84,12 @@ default['ohai']['disabled_plugins'] = []
 default['chef_client']['logrotate']['rotate'] = 12
 default['chef_client']['logrotate']['frequency'] = 'weekly'
 
+# Defines if runit should use finish script
+# This requires template sv-service_name-finish.erb
+# See runit cookbook for more info
+
+default['chef_client']['runit_finish'] = false
+
 case node['platform_family']
 when 'aix'
   default['chef_client']['init_style']  = 'src'
