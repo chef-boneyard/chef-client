@@ -1,5 +1,6 @@
 Unreleased
 ----------
+- [#241] Configure logrotate to use systemd when appropriate
 - [#233] Unbreak unit and integration test harnesses
 - [#231] Allow setting NO_PROXY/no_proxy in client.rb
 - [#219] Configure log location via client.rb only
