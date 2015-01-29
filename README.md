@@ -139,7 +139,7 @@ This cookbook makes use of attribute-driven configuration with this attribute. S
   via the client.rb file
 * `node["ohai"]["disabled_plugins"]` - An array of ohai plugins to
   disable, empty by default, and must be an array if specified. Ohai 6
-  plugins should be specified as a string (ie. "dmi"). Ohai 7 plugins 
+  plugins should be specified as a string (ie. "dmi"). Ohai 7 plugins
   should be specified as a symbol within quotation marks (ie. ":Passwd").
 
 ### Deprecated / Replaced
@@ -441,6 +441,14 @@ The `chef-client` recipe will create the chef-client service configured under da
 On Mac OS X and Mac OS X Server, the default service implementation is "launchd". Launchd support for the service resource is only supported from Chef 0.10.10 onwards. An error message will be logged if you try to use the launchd service for chef-client on a Chef version that does not contain this launchd support.
 
 Since launchd can run a service in interval mode, by default chef-client is not started in daemon mode like on Debian or Ubuntu. Keep this in mind when you look at your process list and check for a running chef process! If you wish to run chef-client in daemon mode, set attribute `chef_client.launchd_mode` to "daemon".
+
+## Installing and updating chef-client
+
+This cookbook does not handle updating the chef-client, and probably never will, as that's out of the cookbook's current scope. To sensibly manage updates of the chef-client omnibus install, we refer you to:
+
+* [OmnibusUpdater](https://github.com/hw-cookbooks/omnibus_updater) - Heavy Water's cookbook for installing the omnibus Chef package and keeping your install up-to-date
+
+* For more on why this cookbook does not support installs, see [Issue #102](https://github.com/opscode-cookbooks/chef-client/pull/102)
 
 
 License & Authors
