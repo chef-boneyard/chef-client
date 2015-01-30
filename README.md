@@ -444,11 +444,11 @@ Since launchd can run a service in interval mode, by default chef-client is not 
 
 ## Installing and updating chef-client
 
-This cookbook does not handle updating the chef-client, and probably never will, as that's out of the cookbook's current scope. To sensibly manage updates of the chef-client omnibus install, we refer you to:
+This cookbook does not handle updating the chef-client, as that's out of the cookbook's current scope. To sensibly manage updates of the chef-client omnibus install, we refer you to:
 
-* [OmnibusUpdater](https://github.com/hw-cookbooks/omnibus_updater) - Heavy Water's cookbook for installing the omnibus Chef package and keeping your install up-to-date
+* [omnibus_updater](https://github.com/hw-cookbooks/omnibus_updater) - Heavy Water's cookbook for installing the omnibus Chef package and keeping your install up-to-date
 
-* For more on why this cookbook does not support installs, see [Issue #102](https://github.com/opscode-cookbooks/chef-client/pull/102)
+For more on why this cookbook does not support installs, see [Issue #102](https://github.com/opscode-cookbooks/chef-client/pull/102)
 
 
 License & Authors
