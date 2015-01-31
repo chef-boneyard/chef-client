@@ -30,7 +30,7 @@ end
 create_directories
 
 execute 'register-chef-service' do
-  command 'chef-service-manager -a install'
+  command "chef-service-manager -a install -L #{File.join(node['chef_client']['log_dir'], 'client.log')}"
   not_if { chef_client_service_running }
 end
 
