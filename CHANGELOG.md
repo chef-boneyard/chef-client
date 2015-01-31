@@ -1,3 +1,7 @@
+v4.1.1 (2015-01-30)
+-------------------
+- Repair syntax error introduced in config recipe
+
 v4.1.0 (2015-01-30)
 -------------------
 - [#247] Switch Arch Linux to use systemd
