@@ -2,7 +2,6 @@ chef-client Cookbook
 ====================
 This cookbook is used to configure a system as a Chef Client.
 
-
 Requirements
 ------------
 - Chef 0.10.14+
@@ -455,12 +454,12 @@ For more on why this cookbook does not support installs, see [Issue #102](https:
 
 License & Authors
 -----------------
-- Author:: Joshua Timberman (<joshua@opscode.com>)
-- Author:: Paul Mooring (<paul@opscode.com>)
-- Author:: Seth Chisamore (<schisamo@opscode.com>)
+- Author:: Joshua Timberman (<joshua@chef.io>)
+- Author:: Paul Mooring (<paul@chef.io>)
+- Author:: Seth Chisamore (<schisamo@chef.io>)
 
 ```text
-Copyright:: 2010-2013, Opscode, Inc.
+Copyright:: 2010-2015, Chef Software, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

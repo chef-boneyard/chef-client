@@ -1,5 +1,5 @@
-Unreleased
-----------
+v4.1.0 (2015-01-30)
+-------------------
 - [#247] Switch Arch Linux to use systemd
 - [#243] Improve logrotation configurability
 - [#241] Configure logrotate to use systemd when appropriate
