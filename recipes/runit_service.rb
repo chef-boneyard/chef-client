@@ -10,4 +10,7 @@ node.default['chef_client']['bin'] = client_bin
 create_directories
 
 include_recipe 'runit'  # ~FC007: runit is only required when using the runit_service recipe 
-runit_service 'chef-client'
+
+runit_service 'chef-client' do
+  finish node['chef_client']['runit_finish']
+end
