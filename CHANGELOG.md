@@ -1,5 +1,6 @@
 Unreleased
 ----------
+- [#243] Improve logrotation configurability
 - [#241] Configure logrotate to use systemd when appropriate
 - [#239] Allow setting splay in upstart configuration
 - [#233] Unbreak unit and integration test harnesses
