@@ -1,5 +1,6 @@
 Unreleased
 ----------
+- [#247] Switch Arch Linux to use systemd
 - [#243] Improve logrotation configurability
 - [#241] Configure logrotate to use systemd when appropriate
 - [#239] Allow setting splay in upstart configuration
