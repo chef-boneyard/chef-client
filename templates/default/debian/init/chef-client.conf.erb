@@ -19,5 +19,5 @@ script
         . /etc/default/locale
         export LANG LANGUAGE LC_MESSAGES LC_ALL
     fi
-    exec <%= @client_bin %> -i <%= node["chef_client"]["interval"] %> <%= node["chef_client"]["daemon_options"].join(' ') %>
+    exec <%= @client_bin %> -i <%= node["chef_client"]["interval"] %> -s <%= node["chef_client"]["splay"] %> <%= node["chef_client"]["daemon_options"].join(' ') %>
 end script
