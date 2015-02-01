@@ -6,13 +6,13 @@ describe 'chef-client::init_service' do
 
     let(:chef_run) do
       ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '12.04') do |node|
-        node.set['chef_client']['daemon_options'] = ["-E cook-1951"]
+        node.set['chef_client']['daemon_options'] = ["-E client-args"]
       end.converge(described_recipe)
     end
 
-    it 'should set -E cook-1951' do
+    it 'should set -E client-args' do
       expect(chef_run).to render_file("/etc/init.d/chef-client") \
-        .with_content(%r{DAEMON_OPTS=".*-E cook-1951"})
+        .with_content(%r{DAEMON_OPTS=".*-E client-args"})
     end
 
   end
