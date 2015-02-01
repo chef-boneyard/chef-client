@@ -54,6 +54,7 @@ default['chef_client']['cron'] = {
   'path' => nil,
   'environment_variables' => nil,
   'log_file' => '/dev/null',
+  'append_log' => false,
   'use_cron_d' => false,
   'mailto' => nil,
 }
