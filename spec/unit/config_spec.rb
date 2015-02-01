@@ -45,7 +45,7 @@ describe 'chef-client::config' do
       ChefSpec::SoloRunner.new do |node|
         node.set['ohai']['disabled_plugins'] = [:passwd, "dmi"]
         node.set['chef_client']['config']['log_level'] = ":debug"
-        node.set['chef_client']['config']['ssl_verify_mode'] = ":verify_peer"
+        node.set['chef_client']['config']['ssl_verify_mode'] = ":verify_none"
         node.set['chef_client']['config']['exception_handlers'] = [{class: "SimpleReport::UpdatedResources", arguments: []}]
         node.set['chef_client']['config']['report_handlers'] = [{class: "SimpleReport::UpdatedResources", arguments: []}]
         node.set['chef_client']['config']['start_handlers'] = [{class: "SimpleReport::UpdatedResources", arguments: []}]
@@ -69,7 +69,7 @@ describe 'chef-client::config' do
 
     it 'converts ssl_verify_mode to a symbol' do
       expect(chef_run).to render_file('/etc/chef/client.rb') \
-        .with_content(%r{^ssl_verify_mode :verify_peer})
+        .with_content(%r{^ssl_verify_mode :verify_none})
     end
 
     it 'enables exception_handlers' do
@@ -110,13 +110,6 @@ describe 'chef-client::config' do
       .with_content(%r{^ENV\['NO_PROXY'\] = "\*.vmware.com,10.\*"})
     end
 
-    let(:template) { chef_run.template('/etc/chef/client.rb') }
-
-    it 'does not notify the client to reload' do
-      expect(template).to_not notify('ruby_block[reload_client_config]')
-    end
-
   end
-
 
 end
