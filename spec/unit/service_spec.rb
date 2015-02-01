@@ -2,12 +2,13 @@ require 'spec_helper'
 
 describe 'chef-client::service' do
 
-  context 'Arch' do
-    let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'arch', version: '3.10.5-1-ARCH').converge(described_recipe) }
-    it 'should use the systemd service' do
-      expect(chef_run).to include_recipe('chef-client::systemd_service')
-    end
-  end
+  # No Fauxhai support yet
+  #context 'Arch' do
+  #  let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'arch', version: '3.10.5-1-ARCH').converge(described_recipe) }
+  #  it 'should use the systemd service' do
+  #    expect(chef_run).to include_recipe('chef-client::systemd_service')
+  #  end
+  #end
 
   context 'CentOS 5' do
     let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '5.10').converge(described_recipe) }
@@ -58,10 +59,11 @@ describe 'chef-client::service' do
     end
   end
 
-  context 'Solaris' do
-    let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'solaris', version: '5.11').converge(described_recipe) }
-    it 'should use the smf service' do
-      expect(chef_run).to include_recipe('chef-client::smf_service')
-    end
-  end
+  # no Fauxhai support yet
+  #context 'Solaris' do
+  #  let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'solaris', version: '5.11').converge(described_recipe) }
+  #  it 'should use the smf service' do
+  #    expect(chef_run).to include_recipe('chef-client::smf_service')
+  #  end
+  #end
 end
