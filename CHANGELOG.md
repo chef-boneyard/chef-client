@@ -1,6 +1,7 @@
 Unreleased
 ----------
 - [#250] Verify API certificates by default in config
+- [#238] Remove proxy ENV variables from config
 - [#234] Move windows service log directory to correct location
 
 v4.1.1 (2015-01-30)
