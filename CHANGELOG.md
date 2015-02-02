@@ -1,3 +1,8 @@
+Unreleased
+----------
+- [#250] Verify API certificates by default in config
+- [#234] Move windows service log directory to correct location
+
 v4.1.1 (2015-01-30)
 -------------------
 - Repair syntax error introduced in config recipe
