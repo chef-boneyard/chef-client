@@ -39,6 +39,7 @@ if node['chef_client']['log_file'].is_a? String and node['chef_client']['init_st
       frequency node['chef_client']['logrotate']['frequency']
       options node['chef_client']['log_rotation']['options']
       postrotate node['chef_client']['log_rotation']['postrotate']
+      template_mode '0644'
     end
   end
 else
