@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'chef-client::config' do
 
   let(:chef_run) do
-    ChefSpec::SoloRunner.new.converge(described_recipe)
+    ChefSpec::ServerRunner.new.converge(described_recipe)
   end
 
   it 'contains the default chef_server_url setting' do
@@ -42,7 +42,7 @@ describe 'chef-client::config' do
   context 'Custom Attributes' do
 
     let(:chef_run) do
-      ChefSpec::SoloRunner.new do |node|
+      ChefSpec::ServerRunner.new do |node|
         node.set['ohai']['disabled_plugins'] = [:passwd, "dmi"]
         node.set['chef_client']['config']['log_level'] = ":debug"
         node.set['chef_client']['config']['ssl_verify_mode'] = ":verify_none"
