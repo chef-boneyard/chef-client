@@ -1,5 +1,6 @@
 Unreleased
 ----------
+- [#252] Fix ordering problem with logrotate command attribute
 - [#250] Verify API certificates by default in config
 - [#238] Remove proxy ENV variables from config
 - [#234] Move windows service log directory to correct location
