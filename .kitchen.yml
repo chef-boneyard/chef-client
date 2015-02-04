@@ -56,6 +56,11 @@ suites:
   - recipe[chef-client::cron]
   attributes: {}
 
+- name: config
+  run_list:
+  - recipe[chef-client::config]
+  attributes: {}
+
 - name: delete_validation
   run_list:
   - recipe[chef-client::delete_validation]

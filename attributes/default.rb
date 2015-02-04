@@ -1,10 +1,10 @@
 #
-# Author:: Joshua Timberman (<joshua@opscode.com>)
-# Author:: Seth Chisamore (<schisamo@opscode.com>)
-# Cookbook Name:: chef
+# Author:: Joshua Timberman (<joshua@chef.io>)
+# Author:: Seth Chisamore (<schisamo@chef.io>)
+# Cookbook Name:: chef-client
 # Attributes:: default
 #
-# Copyright 2008-2011, Opscode, Inc
+# Copyright 2008-2015, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the 'License');
 # you may not use this file except in compliance with the License.
@@ -28,7 +28,8 @@ require 'rbconfig'
 default['chef_client']['config'] = {
   'chef_server_url' => Chef::Config[:chef_server_url],
   'validation_client_name' => Chef::Config[:validation_client_name],
-  'node_name' => Chef::Config[:node_name] == node['fqdn'] ? false : Chef::Config[:node_name]
+  'node_name' => Chef::Config[:node_name] == node['fqdn'] ? false : Chef::Config[:node_name],
+  'verify_api_cert' => true
 }
 
 if Chef::Config.has_key?(:client_fork)
@@ -37,13 +38,6 @@ end
 
 # log_file has no effect when using runit
 default['chef_client']['log_file']    = 'client.log'
-default['chef_client']['log_rotation']['options'] = ['compress']
-default['chef_client']['log_rotation']['postrotate'] =  case node['chef_client']['init_style']
-                                                        when 'systemd'
-                                                          'systemctl reload chef-client.service >/dev/null || :'
-                                                        else
-                                                          '/etc/init.d/chef-client reload >/dev/null || :'
-                                                        end
 default['chef_client']['interval']    = '1800'
 default['chef_client']['splay']       = '300'
 default['chef_client']['conf_dir']    = '/etc/chef'
@@ -173,6 +167,11 @@ else
   default['chef_client']['backup_path'] = '/var/chef/backup'
 end
 
-if %r{^https://api.opscode.com/}.match(node['chef_client']['config']['chef_server_url'])
-  default['chef_client']['config']['verify_api_cert'] = true
-end
+# Must appear after init_style to take effect correctly
+default['chef_client']['log_rotation']['options'] = ['compress']
+default['chef_client']['log_rotation']['postrotate'] =  case node['chef_client']['init_style']
+                                                        when 'systemd'
+                                                          'systemctl reload chef-client.service >/dev/null || :'
+                                                        else
+                                                          '/etc/init.d/chef-client reload >/dev/null || :'
+                                                        end
