@@ -1,5 +1,5 @@
-Unreleased
-----------
+v4.2.0 (2015-02-08)
+-------------------
 - [#252] Fix ordering problem with logrotate command attribute
 - [#250] Verify API certificates by default in config
 - [#238] Remove proxy ENV variables from config
