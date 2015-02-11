@@ -31,7 +31,7 @@ describe 'chef-client::cron' do
 
     it 'sets the FOO=BAR environment variable' do
       expect(chef_run).to create_cron('chef-client') \
-        .with(command: %r{/bin/sleep \d+; FOO=BAR /usr/bin/chef-client > /dev/null 2>&1})
+        .with(command: %r{FOO=BAR.*chef-client})
     end
 
   end
@@ -46,7 +46,7 @@ describe 'chef-client::cron' do
 
     it 'creates a cron job appending to the log' do
       expect(chef_run).to create_cron('chef-client') \
-        .with(command: %r{/bin/sleep \d+;  /usr/bin/chef-client >> /dev/null 2>&1})
+        .with(command: %r{chef-client >>})
     end
 
   end
