@@ -9,7 +9,7 @@ end
 
 <% end -%>
 <% @chef_config.keys.sort.each do |option| -%>
-  <% next if %w{ node_name exception_handlers report_handlers start_handlers }.include?(option) -%>
+  <% next if %w{ node_name environment exception_handlers report_handlers start_handlers }.include?(option) -%>
   <% case option -%>
   <% when 'log_level', 'ssl_verify_mode' -%>
 <%= option %> <%= @chef_config[option].gsub(/^:/, '').to_sym.inspect %>
@@ -19,6 +19,9 @@ end
 <%= option %> <%= @chef_config[option].inspect %>
   <% end -%>
 <% end -%>
+<% if @chef_config['environment'] -%>
+environment <%= @chef_config['environment'].inspect %>
+<%end -%>
 <% if @chef_config['node_name'] -%>
 node_name <%= @chef_config['node_name'].inspect %>
 <% else -%>
