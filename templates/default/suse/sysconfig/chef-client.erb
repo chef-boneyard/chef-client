@@ -3,7 +3,6 @@
 CONFIG=<%= node["chef_client"]["conf_dir"] %>/client.rb
 PIDFILE=<%= node["chef_client"]["run_path"] %>/client.pid
 #LOCKFILE=/var/lock/subsys/chef-client
-LOGFILE=<%= node["chef_client"]["log_dir"] %>/client.log
 # Sleep interval between runs.
 # This value is in seconds.
 INTERVAL=<%= node["chef_client"]["interval"] %>

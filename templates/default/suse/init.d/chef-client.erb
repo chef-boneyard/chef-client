@@ -27,7 +27,6 @@ fi
 CONFIG=${CONFIG-<%= node["chef_client"]["conf_dir"] %>/client.rb}
 PIDFILE=${PIDFILE-<%= node["chef_client"]["run_dir"] %>/client.pid}
 LOCKFILE=${LOCKFILE-/var/lock/subsys/chef-client}
-LOGFILE=${LOGFILE-<%= node["chef_client"]["log_dir"] %>/client.log}
 INTERVAL=${INTERVAL-<%= node["chef_client"]["interval"] %>}
 SPLAY=${SPLAY-<%= node["chef_client"]["splay"] %>}
 OPTIONS=${OPTIONS-}
@@ -76,7 +75,7 @@ case "$1" in
         echo -n "Starting chef-client "
         ## Start daemon with startproc(8). If this fails
         ## the return value is set appropriately by startproc.
-        /sbin/startproc -p $PIDFILE $CHEF_CLIENT -d -c "$CONFIG" -L "$LOGFILE" -P "$PIDFILE" -i "$INTERVAL" -s "$SPLAY" "$OPTIONS"
+        /sbin/startproc -p $PIDFILE $CHEF_CLIENT -d -c "$CONFIG" -P "$PIDFILE" -i "$INTERVAL" -s "$SPLAY" "$OPTIONS"
 
         # Remember status and be verbose
         rc_status -v

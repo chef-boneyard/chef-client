@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'chef-client::config' do
 
   let(:chef_run) do
-    ChefSpec::Runner.new.converge(described_recipe)
+    ChefSpec::ServerRunner.new.converge(described_recipe)
   end
 
   it 'contains the default chef_server_url setting' do
@@ -13,7 +13,7 @@ describe 'chef-client::config' do
 
   it 'contains the default validation_client_name setting' do
     expect(chef_run).to render_file('/etc/chef/client.rb') \
-      .with_content(%r{validation_client_name}) 
+      .with_content(%r{validation_client_name})
   end
 
   [
@@ -42,13 +42,16 @@ describe 'chef-client::config' do
   context 'Custom Attributes' do
 
     let(:chef_run) do
-      ChefSpec::Runner.new do |node|
+      ChefSpec::ServerRunner.new do |node|
         node.set['ohai']['disabled_plugins'] = [:passwd, "dmi"]
         node.set['chef_client']['config']['log_level'] = ":debug"
-        node.set['chef_client']['config']['ssl_verify_mode'] = ":verify_peer"
+        node.set['chef_client']['config']['ssl_verify_mode'] = ":verify_none"
         node.set['chef_client']['config']['exception_handlers'] = [{class: "SimpleReport::UpdatedResources", arguments: []}]
         node.set['chef_client']['config']['report_handlers'] = [{class: "SimpleReport::UpdatedResources", arguments: []}]
         node.set['chef_client']['config']['start_handlers'] = [{class: "SimpleReport::UpdatedResources", arguments: []}]
+        node.set['chef_client']['config']['http_proxy'] = 'http://proxy.vmware.com:3128'
+        node.set['chef_client']['config']['https_proxy'] = 'http://proxy.vmware.com:3128'
+        node.set['chef_client']['config']['no_proxy'] = '*.vmware.com,10.*'
         node.set['chef_client']['load_gems']['chef-handler-updated-resources']['require_name'] = "chef/handler/updated_resources"
         node.set['chef_client']['reload_config'] = false
       end.converge(described_recipe)
@@ -66,7 +69,7 @@ describe 'chef-client::config' do
 
     it 'converts ssl_verify_mode to a symbol' do
       expect(chef_run).to render_file('/etc/chef/client.rb') \
-        .with_content(%r{^ssl_verify_mode :verify_peer})
+        .with_content(%r{^ssl_verify_mode :verify_none})
     end
 
     it 'enables exception_handlers' do
@@ -80,13 +83,21 @@ describe 'chef-client::config' do
         .with_content(%{\["chef/handler/updated_resources"\].each do |lib|})
     end
 
-    let(:template) { chef_run.template('/etc/chef/client.rb') }
+    it 'configures an HTTP Proxy' do
+      expect(chef_run).to render_file('/etc/chef/client.rb') \
+      .with_content(%r{^http_proxy "http://proxy.vmware.com:3128"})
+    end
 
-    it 'does not notify the client to reload' do
-      expect(template).to_not notify('ruby_block[reload_client_config]')
+    it 'configures an HTTPS Proxy' do
+      expect(chef_run).to render_file('/etc/chef/client.rb') \
+      .with_content(%r{^https_proxy "http://proxy.vmware.com:3128"})
+    end
+
+    it 'configures no_proxy' do
+      expect(chef_run).to render_file('/etc/chef/client.rb') \
+      .with_content(%r{^no_proxy "\*.vmware.com,10.\*"})
     end
 
   end
-
 
 end

@@ -1,7 +1,42 @@
-v3.8.3 (2014-02-17)
+
+v4.2.1 (2014-02-17)
 -------------------
 - Being explicit about usage of the chef_gem's compile_time property.
 - Eliminating future deprecation warnings in Chef 12.1.0.
+
+v4.2.0 (2015-02-08)
+-------------------
+- [#252] Fix ordering problem with logrotate command attribute
+- [#250] Verify API certificates by default in config
+- [#238] Remove proxy ENV variables from config
+- [#234] Move windows service log directory to correct location
+
+v4.1.1 (2015-01-30)
+-------------------
+- Repair syntax error introduced in config recipe
+
+v4.1.0 (2015-01-30)
+-------------------
+- [#247] Switch Arch Linux to use systemd
+- [#243] Improve logrotation configurability
+- [#241] Configure logrotate to use systemd when appropriate
+- [#239] Allow setting splay in upstart configuration
+- [#233] Unbreak unit and integration test harnesses
+- [#231] Allow setting NO_PROXY/no_proxy in client.rb
+- [#219] Configure log location via client.rb only
+
+v4.0.0 (2014-12-10)
+-------------------
+- [#221] Retire the winsw service wrapper in Windows
+- [#227] Add sourcing /etc/default/locale to upstart script
+- [#224] Fix FreeBSD service startup
+- [#223] Add FreeBSD test harness
+- [#217] Fix and modernize systemd configuration
+
+v3.9.0 (2014-10-15)
+-------------------
+- [#208] Add AIX support
+>>>>>>> 029f756152c4dc97aaf6468b3e44b5ec2284cf61
 
 v3.8.2 (2014-09-30)
 -------------------

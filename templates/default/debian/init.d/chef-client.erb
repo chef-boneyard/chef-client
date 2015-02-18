@@ -32,10 +32,6 @@ fi
 
 DAEMON_OPTS="-d -P $PIDFILE -c $CONFIG -i $INTERVAL -s $SPLAY <%= node["chef_client"]["daemon_options"].join(' ') %>"
 
-if [ ! -z $LOGFILE ]; then
-  DAEMON_OPTS="${DAEMON_OPTS} -L $LOGFILE"
-fi
-
 running_pid() {
   pid=$1
   name=$2
