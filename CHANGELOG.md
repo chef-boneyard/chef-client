@@ -1,4 +1,8 @@
 
+v4.2.2 (2014-02-18)
+-------------------
+- Fixing chef_gem for Chef below 12.1.0
+
 v4.2.1 (2014-02-17)
 -------------------
 - Being explicit about usage of the chef_gem's compile_time property.
