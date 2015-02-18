@@ -10,7 +10,7 @@ Requirements
 
 Chef 10.14.0 or greater is recommended to make use of the
 `client_fork`
-[configuration option](http://tickets.opscode.com/browse/CHEF-3104).
+[configuration option](http://tickets.chef.io/browse/CHEF-3104).
 
 ### Platforms
 The following platforms are tested directly under test-kitchen; see .kitchen.yml and TESTING.md for details.
@@ -35,8 +35,8 @@ The following platforms are known to work:
 
 Other platforms may work with or without modification. Most notably, attribute modification may be required.
 
-### Opscode Cookbooks
-Some cookbooks can be used with this cookbook but they are not explicitly required. The default settings in this cookbook do not require their use. The other cookbooks (on community.opscode.com) are:
+### Chef Software Cookbooks
+Some cookbooks can be used with this cookbook but they are not explicitly required. The default settings in this cookbook do not require their use. The other cookbooks (on community.chef.io) are:
 
 - bluepill
 - daemontools
@@ -217,7 +217,7 @@ Includes the `chef-client::service` recipe by default.
 ### delete_validation
 Use this recipe to delete the validation certificate (default `/etc/chef/validation.pem`) when using a `chef-client` after the client has been validated and authorized to connect to the server.
 
-**Note** If you're using this on a Chef 10 Server, be aware of using this recipe. First copy the validation.pem certificate file to another location, such as your knife configuration directory (`~/.chef`) or [Chef Repository](http://docs.opscode.com/essentials_repository.html).
+**Note** If you're using this on a Chef 10 Server, be aware of using this recipe. First copy the validation.pem certificate file to another location, such as your knife configuration directory (`~/.chef`) or [Chef Repository](http://docs.chef.io/essentials_repository.html).
 
 ### cron
 Use this recipe to run chef-client as a cron job rather than as a service. The cron job runs after random delay that is between 0 and 90 seconds to ensure that the chef-clients don't attempt to connect to the chef-server at the exact same time. You should set node["chef_client"]["init_style"] = "none" when you use this mode but it is not required.
@@ -245,7 +245,7 @@ default_attributes(
 Will render the following configuration (`/etc/chef/client.rb`):
 
 ```ruby
-chef_server_url "https://api.opscode.com/organizations/MYORG"
+chef_server_url "https://api.chef.io/organizations/MYORG"
 validation_client_name "MYORG-validator"
 ssl_verify_mode :verify_peer
 node_name "config-ubuntu-1204"
@@ -299,7 +299,7 @@ end
 log_location Logger::Syslog.new('chef-client', Syslog::LOG_DAEMON)
 ```
 
-(Hat tip to Joseph Holsten for this in [COOK-2326](http://tickets.opscode.com/browse/COOK-2326)
+(Hat tip to Joseph Holsten for this in [COOK-2326](http://tickets.chef.io/browse/COOK-2326)
 
 
 ### Requiring Gems
@@ -339,7 +339,7 @@ To dynamically render configuration for Start, Report, or Exception handlers, se
 - `report_handlers`
 - `exception_handlers`
 
-This is an alternative to using Opscode's [`chef_handler` cookbook](http://community.opscode.com/cookbooks/chef_handler).
+This is an alternative to using Chef Software's [`chef_handler` cookbook](http://community.chef.io/cookbooks/chef_handler).
 
 Each of these attributes must be an array of hashes. The hash has two keys, `class` (a string), and `arguments` (an array). For example, to use the report handler in the __Requiring Gems__ section above:
 
@@ -445,12 +445,12 @@ Since launchd can run a service in interval mode, by default chef-client is not 
 
 License & Authors
 -----------------
-- Author:: Joshua Timberman (<joshua@opscode.com>)
-- Author:: Paul Mooring (<paul@opscode.com>)
-- Author:: Seth Chisamore (<schisamo@opscode.com>)
+- Author:: Joshua Timberman (<joshua@chef.io>)
+- Author:: Paul Mooring (<paul@chef.io>)
+- Author:: Seth Chisamore (<schisamo@chef.io>)
 
 ```text
-Copyright:: 2010-2013, Opscode, Inc.
+Copyright:: 2010-2013, Chef Software, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
