@@ -2,11 +2,11 @@
 # Cookbook Name:: chef-client
 # Recipe:: service
 #
-# Author:: Joshua Timberman (<joshua@opscode.com>)
-# Author:: Seth Chisamore (<schisamo@opscode.com>)
-# Author:: Paul Mooring (<paul@opscode.com>)
+# Author:: Joshua Timberman (<joshua@chef.io>)
+# Author:: Seth Chisamore (<schisamo@chef.io>)
+# Author:: Paul Mooring (<paul@chef.io>)
 #
-# Copyright 2009-2013, Opscode, Inc.
+# Copyright 2009-2013, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.

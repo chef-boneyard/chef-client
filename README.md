@@ -1,7 +1,7 @@
 Chef Client Cookbook
 ====================
 
-[![Build Status](https://secure.travis-ci.org/opscode-cookbooks/chef-client.png?branch=master)](http://travis-ci.org/opscode-cookbooks/chef-client)
+[![Build Status](https://secure.travis-ci.org/chef-cookbooks/chef-client.png?branch=master)](http://travis-ci.org/chef-cookbooks/chef-client)
 
 This cookbook is used to configure a system as a Chef Client.
 
@@ -81,7 +81,7 @@ The following attributes affect the behavior of the chef-client program when run
 * `node["chef_client"]["cron"]["append_log"]` - Whether to append to the log. Default: `false`
   chef-client output.
 * `node["chef_client"]["cron"]["use_cron_d"]` - If true, use the
-  "cron_d" LWRP (https://github.com/opscode-cookbooks/cron). If false
+  "cron_d" LWRP (https://github.com/chef-cookbooks/cron). If false
   (default), use the cron resource built-in to Chef.
 * `node["chef_client"]["cron"]["mailto"]` - If set, `MAILTO` env variable is set for cron definition
 * `node['chef_client']['reload_config']` - If true, reload Chef config of
@@ -448,7 +448,7 @@ This cookbook does not handle updating the chef-client, as that's out of the coo
 
 * [omnibus_updater](https://github.com/hw-cookbooks/omnibus_updater) - Heavy Water's cookbook for installing the omnibus Chef package and keeping your install up-to-date
 
-For more on why this cookbook does not support installs, see [Issue #102](https://github.com/opscode-cookbooks/chef-client/pull/102)
+For more on why this cookbook does not support installs, see [Issue #102](https://github.com/chef-cookbooks/chef-client/pull/102)
 
 
 License & Authors
