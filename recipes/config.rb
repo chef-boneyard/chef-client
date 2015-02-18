@@ -61,6 +61,7 @@ node['chef_client']['load_gems'].each do |gem_name, gem_info_hash|
     action gem_info_hash[:action] || :install
     version gem_info_hash[:version] if gem_info_hash[:version]
     options ( gem_info_hash[:options] ) if gem_info_hash[:options]
+    compile_time true
   end
   chef_requires.push(gem_info_hash[:require_name] || gem_name)
 end
