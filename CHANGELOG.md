@@ -1,3 +1,6 @@
+v4.2.3 (2014-02-18)
+-------------------
+- Fixing chef_gem with Chef::Resource::ChefGem.method_defined?(:compile_time)
 
 v4.2.2 (2014-02-18)
 -------------------
