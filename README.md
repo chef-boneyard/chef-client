@@ -154,7 +154,7 @@ The following attributes are deprecated at the `['chef_client']` attribute level
   default log level and output formatting from Chef 11.
 * `node['chef_client']['server_url']` - Set by default with
   `node['chef_client']['config']['chef_server_url']`
-* `node['chef_client']['validation_client_name']` - - Set by default
+* `node['chef_client']['validation_client_name']` - Set by default
   with `node['chef_client']['config']['validation_client_name']`.
 * `node['chef_client']['report_handlers']` - See [USAGE](#usage) for how to
   set handlers with the `config` attribute.
@@ -218,7 +218,7 @@ Includes the `chef-client::service` recipe by default.
 ### delete_validation
 Use this recipe to delete the validation certificate (default `/etc/chef/validation.pem`) when using a `chef-client` after the client has been validated and authorized to connect to the server.
 
-**Note** If you're using this on a Chef 10 Server, be aware of using this recipe. First copy the validation.pem certificate file to another location, such as your knife configuration directory (`~/.chef`) or [Chef Repository](http://docs.chef.io/essentials_repository.html).
+**Note** If you're using this on a Chef 10 Server, be careful when using this recipe. First, copy the `validation.pem` certificate file to another location, such as your knife configuration directory (`~/.chef`) or [Chef Repository](http://docs.chef.io/essentials_repository.html).
 
 ### cron
 Use this recipe to run chef-client as a cron job rather than as a service. The cron job runs after random delay that is between 0 and 90 seconds to ensure that the chef-clients don't attempt to connect to the chef-server at the exact same time. You should set `node['chef_client']['init_style'] = 'none'` when you use this mode but it is not required.
@@ -243,7 +243,7 @@ default_attributes(
 )
 ```
 
-Will render the following configuration (`/etc/chef/client.rb`):
+will render the following configuration (`/etc/chef/client.rb`):
 
 ```ruby
 chef_server_url "https://api.chef.io/organizations/MYORG"
@@ -253,7 +253,7 @@ node_name "config-ubuntu-1204"
 client_fork true
 ```
 
-The `chef_server_url`, `node_name` and `validation_client_name` are set by default in the attributes file from `Chef::Config`. They are presumed to come from the `knife bootstrap` command when setting up a new node for Chef. To set the node name to the default value (the `node['fqdn']` attribute), it can be set false. Be aware of setting this or the Server URL, as those values may already exist.
+The `chef_server_url`, `node_name` and `validation_client_name` are set by default in the attributes file from `Chef::Config`. They are presumed to come from the `knife bootstrap` command when setting up a new node for Chef. To set the node name to the default value (the `node['fqdn']` attribute), it can be set false. Be careful when setting this or the Server URL, as those values may already exist.
 
 As another example, to set HTTP proxy configuration settings. By default Chef will not use a proxy.
 
@@ -300,7 +300,7 @@ end
 log_location Logger::Syslog.new('chef-client', Syslog::LOG_DAEMON)
 ```
 
-(Hat tip to Joseph Holsten for this in [COOK-2326](http://tickets.chef.io/browse/COOK-2326)
+Hat tip to Joseph Holsten for this in [COOK-2326](http://tickets.chef.io/browse/COOK-2326).
 
 
 ### Requiring Gems
@@ -321,7 +321,7 @@ default_attributes(
 
 Each key in `load_gems` is the name of a gem. Each gem hash can have two keys, the `require_name` which is the string that will be `require`'d in `/etc/chef/client.rb`, and `version` which is the version of the gem to install. If the version is not specified, the latest version will be installed.
 
-The above example will render this in `/etc/chef/client.rb`.
+The above example will render the following in `/etc/chef/client.rb`:
 
 ```ruby
 ["chef/handler/updated_resources"].each do |lib|
