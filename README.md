@@ -44,7 +44,7 @@ Cron is a dependency, for default behavior of the `cron` recipe to work. This is
 
 - cron
 
-See __USAGE__ below.
+See [USAGE](#usage).
 
 Attributes
 ----------
@@ -107,7 +107,7 @@ The following attributes are set on a per-platform basis, see the `attributes/de
 
 * `node["chef_client"]["init_style"]` - Sets up the client service
   based on the style of init system to use. Default is based on
-  platform and falls back to "none". See __service recipes__ below.
+  platform and falls back to "none". See [service recipes](#service-recipes).
 * `node["chef_client"]["run_path"]` - Directory location where
   chef-client should write the PID file. Default based on platform,
   falls back to "/var/run".
@@ -131,7 +131,7 @@ The following attributes are set on a per-platform basis, see the `attributes/de
   - `node["chef_client"]["logrotate"]["frequency"]` - How often
     to rotate chef client logs, default weekly.
 
-This cookbook makes use of attribute-driven configuration with this attribute. See __USAGE__ for examples.
+This cookbook makes use of attribute-driven configuration with this attribute. See [USAGE](#usage) for examples.
 
 * `node['chef_client']['config']` - A hash of Chef::Config keys and
   their values, rendered dynamically in `/etc/chef/client.rb`.
@@ -155,9 +155,9 @@ The following attributes are deprecated at the `['chef_client']` attribute level
   `node['chef_client']['config']['chef_server_url']`
 * `node['chef_client']['validation_client_name']` - - Set by default
   with `node['chef_client']['config']['validation_client_name']`.
-* `node['chef_client']['report_handlers']` - See __USAGE__ for how to
+* `node['chef_client']['report_handlers']` - See [USAGE](#usage) for how to
   set handlers with the `config` attribute.
-* `node['chef_client']['exception_handlers']` - See __USAGE__ for how
+* `node['chef_client']['exception_handlers']` - See [USAGE](#usage) for how
   to set handlers with the `config` attribute.
 * `node['chef_client']['checksum_cache_path']` - Use
   `node['chef_client']['config']['cache_options']['path']`.
@@ -179,7 +179,7 @@ This section describes the recipes in the cookbook and how to use them in your e
 ### config
 Sets up the `/etc/chef/client.rb` config file from a template and reloads the configuration for the current chef-client run.
 
-See __USAGE__ below for more information on how the configuration is
+See [USAGE](#usage) for more information on how the configuration is
 rendered with attributes.
 
 ### service recipes
@@ -341,7 +341,7 @@ To dynamically render configuration for Start, Report, or Exception handlers, se
 
 This is an alternative to using the [`chef_handler` cookbook](http://supermarket.chef.io/cookbooks/chef_handler).
 
-Each of these attributes must be an array of hashes. The hash has two keys, `class` (a string), and `arguments` (an array). For example, to use the report handler in the __Requiring Gems__ section above:
+Each of these attributes must be an array of hashes. The hash has two keys, `class` (a string), and `arguments` (an array). For example, to use the report handler in the [Requiring Gems](#requiring-gems) section:
 
 ```ruby
 default_attributes(
