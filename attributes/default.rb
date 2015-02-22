@@ -173,6 +173,8 @@ default['chef_client']['log_rotation']['options'] = ['compress']
 default['chef_client']['log_rotation']['postrotate'] =  case node['chef_client']['init_style']
                                                         when 'systemd'
                                                           'systemctl reload chef-client.service >/dev/null || :'
+                                                        when 'upstart'
+                                                          'initctl reload chef-client >/dev/null || :'
                                                         else
                                                           '/etc/init.d/chef-client reload >/dev/null || :'
                                                         end
