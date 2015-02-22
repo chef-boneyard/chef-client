@@ -50,94 +50,95 @@ Attributes
 ----------
 The following attributes affect the behavior of the chef-client program when running as a service through one of the service recipes, or in cron with the cron recipe, or are used in the recipes for various settings that require flexibility.
 
-* `node["chef_client"]["interval"]` - Sets `Chef::Config[:interval]`
+* `node['chef_client']['interval']` - Sets `Chef::Config[:interval]`
   via command-line option for number of seconds between chef-client
   daemon runs. Default 1800.
-* `node["chef_client"]["splay"]` - Sets `Chef::Config[:splay]` via
+* `node['chef_client']['splay']` - Sets `Chef::Config[:splay]` via
   command-line option for a random amount of seconds to add to
   interval. Default 300.
-* `node["chef_client"]["log_dir"]` - Sets directory used in
+* `node['chef_client']['log_dir']` - Sets directory used in
   `Chef::Config[:log_location]` via command-line option to a location
   where chef-client should log output. Default "/var/log/chef".
-* `node["chef_client"]["log_rotation"]["options"]` - Set options to logrotation of chef-client log file. Default `["compress"]`.
-* `node["chef_client"]["log_rotation"]["postrotate"]` - Set postrotate action for chef-client logrotation. Default to chef-client service reload depending on init system.
-* `node["chef_client"]["conf_dir"]` - Sets directory used via
+* `node['chef_client']['log_rotation']['options']` - Set options to logrotation of chef-client log file. Default `['compress']`.
+* `node['chef_client']['log_rotation']['postrotate']` - Set postrotate action for chef-client logrotation. Default to chef-client service reload depending on init system.
+* `node['chef_client']['conf_dir']` - Sets directory used via
   command-line option to a location where chef-client search for the
   client config file . Default "/etc/chef".
-* `node["chef_client"]["bin"]` - Sets the full path to the
+* `node['chef_client']['bin']` - Sets the full path to the
   `chef-client` binary. Mainly used to set a specific path if multiple
   versions of chef-client exist on a system or the bin has been
   installed in a non-sane path. Default "/usr/bin/chef-client".
-* `node["chef_client"]["cron"]["minute"]` - The hour that chef-client
-  will run as a cron task, only applicable if you set "cron" as
-  the "init_style"
-* `node["chef_client"]["cron"]["hour"]` - The hour that chef-client
-  will run as a cron task, only applicable if you set "cron" as
-  the "init_style"
-* `node["chef_client"]["cron"]["environment_variables"]` - Environment
+* `node['chef_client']['cron']['minute']` - The hour that chef-client
+  will run as a cron task, only applicable if you set `'cron'` as
+  the `'init_style'`
+* `node['chef_client']['cron']['hour']` - The hour that chef-client
+  will run as a cron task, only applicable if you set `'cron'` as
+  the `'init_style'`
+* `node['chef_client']['cron']['environment_variables']` - Environment
   variables to pass to chef-client's execution (e.g.
   `SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt` chef-client)
-* `node["chef_client"]["cron"]["log_file"]` - Location to capture the
-* `node["chef_client"]["cron"]["append_log"]` - Whether to append to the log. Default: `false`
+* `node['chef_client']['cron']['log_file']` - Location to capture the
+* `node['chef_client']['cron']['append_log']` - Whether to append to the log. Default: `false`
   chef-client output.
-* `node["chef_client"]["cron"]["use_cron_d"]` - If true, use the
-  "cron_d" LWRP (https://github.com/chef-cookbooks/cron). If false
+* `node['chef_client']['cron']['use_cron_d']` - If true, use the
+  [`cron_d` LWRP](https://github.com/chef-cookbooks/cron). If false
   (default), use the cron resource built-in to Chef.
-* `node["chef_client"]["cron"]["mailto"]` - If set, `MAILTO` env variable is set for cron definition
+* `node['chef_client']['cron']['mailto']` - If set, `MAILTO` env variable is set for cron definition
 * `node['chef_client']['reload_config']` - If true, reload Chef config of
   current Chef run when `client.rb` template changes (defaults to true)
-* `node["chef_client"]["daemon_options"]` - An array of additional
+* `node['chef_client']['daemon_options']` - An array of additional
   options to pass to the chef-client service, empty by default, and
   must be an array if specified.
-* `node["chef_client"]["task"]["frequency"]` - Frequency with which to run
-  the `chef-client` scheduled task (hourly, daily, etc.) Default "minute"
-* `node["chef_client"]["task"]["frequency_modifier"]` - Numeric value to go
+* `node['chef_client']['task']['frequency']` - Frequency with which to run
+  the `chef-client` scheduled task (e.g., `'hourly'`, `'daily'`, etc.) Default
+  is `'minute'`.
+* `node['chef_client']['task']['frequency_modifier']` - Numeric value to go
   with the scheduled task frequency. Default is the value of
   `node['chef_client']['interval']` in minutes.
-* `node["chef_client"]["task"]["start_time"]` - The start time for the task
+* `node['chef_client']['task']['start_time']` - The start time for the task
   in `HH:mm` format. If the `frequency` is `minute` default start time will be
   `Time.now` plus the `frequency_modifier` number of minutes.
-* `node["chef_client"]["task"]["user"]` - The user the scheduled task
+* `node['chef_client']['task']['user']` - The user the scheduled task
   will run as, defaults to `'SYSTEM'`.
-* `node["chef_client"]["task"]["password"]` - The password for the user
+* `node['chef_client']['task']['password']` - The password for the user
   the scheduled task will run as, defaults to `''` because the default
   user, `'SYSTEM'`, does not need a password.
 
 The following attributes are set on a per-platform basis, see the `attributes/default.rb` file for default values.
 
-* `node["chef_client"]["init_style"]` - Sets up the client service
+* `node['chef_client']['init_style']` - Sets up the client service
   based on the style of init system to use. Default is based on
-  platform and falls back to "none". See [service recipes](#service-recipes).
-* `node["chef_client"]["run_path"]` - Directory location where
+  platform and falls back to `'none'`. See [service recipes](#service-recipes).
+* `node['chef_client']['run_path']` - Directory location where
   chef-client should write the PID file. Default based on platform,
   falls back to "/var/run".
-* `node["chef_client"]["cache_path"]` - Directory location for
+* `node['chef_client']['cache_path']` - Directory location for
   `Chef::Config[:file_cache_path]` where chef-client will cache
   various files. Default is based on platform, falls back to
   "/var/chef/cache".
-* `node["chef_client"]["backup_path"]` - Directory location for
+* `node['chef_client']['backup_path']` - Directory location for
   `Chef::Config[:file_backup_path]` where chef-client will backup
   templates and cookbook files. Default is based on platform, falls
   back to "/var/chef/backup".
-* `node["chef_client"]["launchd_mode"]` - (Only for Mac OS X) if set
-  to "daemon", runs chef-client with `-d` and `-s` options; defaults
-  to "interval"
-* When chef_client["log_file"] is set and running on a
+* `node['chef_client']['launchd_mode']` - (Only for Mac OS X) if set
+  to `'daemon'`, runs chef-client with `-d` and `-s` options; defaults
+  to `'interval'`.
+* When `chef_client['log_file']` is set and running on a
   [logrotate](http://ckbk.it/logrotate) supported platform
   (debian, rhel, fedora family), use the following attributes
   to tune log rotation.
-  - `node["chef_client"]["logrotate"]["rotate"]` - Number of rotated
+  - `node['chef_client']['logrotate']['rotate']` - Number of rotated
     logs to keep on disk, default 12.
-  - `node["chef_client"]["logrotate"]["frequency"]` - How often
+  - `node['chef_client']['logrotate']['frequency']` - How often
     to rotate chef client logs, default weekly.
 
 This cookbook makes use of attribute-driven configuration with this attribute. See [USAGE](#usage) for examples.
 
 * `node['chef_client']['config']` - A hash of Chef::Config keys and
   their values, rendered dynamically in `/etc/chef/client.rb`.
-* `node["chef_client"]["load_gems"]` - Hash of gems to load into chef
+* `node['chef_client']['load_gems']` - Hash of gems to load into chef
   via the client.rb file
-* `node["ohai"]["disabled_plugins"]` - An array of ohai plugins to
+* `node['ohai']['disabled_plugins']` - An array of ohai plugins to
   disable, empty by default, and must be an array if specified. Ohai 6
   plugins should be specified as a string (ie. "dmi"). Ohai 7 plugins
   should be specified as a symbol within quotation marks (ie. ":Passwd").
@@ -220,7 +221,7 @@ Use this recipe to delete the validation certificate (default `/etc/chef/validat
 **Note** If you're using this on a Chef 10 Server, be aware of using this recipe. First copy the validation.pem certificate file to another location, such as your knife configuration directory (`~/.chef`) or [Chef Repository](http://docs.chef.io/essentials_repository.html).
 
 ### cron
-Use this recipe to run chef-client as a cron job rather than as a service. The cron job runs after random delay that is between 0 and 90 seconds to ensure that the chef-clients don't attempt to connect to the chef-server at the exact same time. You should set node["chef_client"]["init_style"] = "none" when you use this mode but it is not required.
+Use this recipe to run chef-client as a cron job rather than as a service. The cron job runs after random delay that is between 0 and 90 seconds to ensure that the chef-clients don't attempt to connect to the chef-server at the exact same time. You should set `node['chef_client']['init_style'] = 'none'` when you use this mode but it is not required.
 
 
 Usage
@@ -413,7 +414,7 @@ run_list(
 )
 ```
 
-The `chef-client` recipe will create the chef-client service configured with bluepill. The bluepill "pill" will be located in `/etc/bluepill/chef-client.pill`. The output log will be to client.log file in the `node["chef_client"]["log_dir"]` location, `/var/log/chef/client` by default.
+The `chef-client` recipe will create the chef-client service configured with bluepill. The bluepill "pill" will be located in `/etc/bluepill/chef-client.pill`. The output log will be to client.log file in the `node['chef_client']['log_dir']` location, `/var/log/chef/client` by default.
 
 #### Daemontools
 To use daemontools, download the cookbook from the cookbook site.
