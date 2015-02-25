@@ -47,6 +47,7 @@ default['chef_client']['bin']         = '/usr/bin/chef-client'
 # Set a sane default log directory location, overriden by specific
 # platforms below.
 default['chef_client']['log_dir']     = '/var/log/chef'
+default['chef_client']['log_dir_mode'] = 00750
 
 # Configuration for chef-client::cron recipe.
 default['chef_client']['cron'] = {
