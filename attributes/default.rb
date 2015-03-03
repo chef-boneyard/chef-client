@@ -127,11 +127,20 @@ when 'openbsd', 'freebsd'
 # don't use bsd paths per COOK-1379
 when 'mac_os_x', 'mac_os_x_server'
   default['chef_client']['init_style']  = 'launchd'
-  default['chef_client']['log_dir']     = '/Library/Logs/Chef'
-  # Launchd doesn't use pid files
-  default['chef_client']['run_path']    = '/var/run/chef'
-  default['chef_client']['cache_path']  = '/Library/Caches/Chef'
-  default['chef_client']['backup_path'] = '/Library/Caches/Chef/Backup'
+  
+  if node['chef_client']['task']['user'].eql? 'SYSTEM'
+    default['chef_client']['log_dir']     = '/Library/Logs/Chef'
+    # Launchd doesn't use pid files
+    default['chef_client']['run_path']    = '/var/run/chef'
+    default['chef_client']['cache_path']  = '/Library/Caches/Chef'
+    default['chef_client']['backup_path'] = '/Library/Caches/Chef/Backup'
+  else
+    default['chef_client']['log_dir']     = "#{node['chef_client']['task']['user']}/Library/Logs/Chef"
+    # Launchd doesn't use pid files
+    default['chef_client']['run_path']    = '/var/run/chef'
+    default['chef_client']['cache_path']  = "#{node['chef_client']['task']['user']}/Library/Caches/Chef"
+    default['chef_client']['backup_path'] = "#{node['chef_client']['task']['user']}/Library/Caches/Chef/Backup"
+  end
   # Set to 'daemon' if you want chef-client to run
   # continuously with the -d and -s options, or leave
   # as 'interval' if you want chef-client to be run
