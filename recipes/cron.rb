@@ -89,6 +89,7 @@ if node['chef_client']['cron']['use_cron_d']
   cron_d 'chef-client' do
     minute  node['chef_client']['cron']['minute']
     hour    node['chef_client']['cron']['hour']
+    weekday node['chef_client']['cron']['weekday']
     path    node['chef_client']['cron']['path'] if node['chef_client']['cron']['path']
     mailto  node['chef_client']['cron']['mailto'] if node['chef_client']['cron']['mailto']
     user    'root'
@@ -105,6 +106,7 @@ else
   cron 'chef-client' do
     minute  node['chef_client']['cron']['minute']
     hour    node['chef_client']['cron']['hour']
+    weekday node['chef_client']['cron']['weekday']
     path    node['chef_client']['cron']['path'] if node['chef_client']['cron']['path']
     mailto  node['chef_client']['cron']['mailto'] if node['chef_client']['cron']['mailto']
     user    'root'
