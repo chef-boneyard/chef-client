@@ -49,7 +49,7 @@ end
 # libraries/helpers.rb method to DRY directory creation resources
 create_directories
 
-if log_path != 'STDOUT'
+if log_path != 'STDOUT' #~FC023
   file log_path do
     mode 00640
   end
