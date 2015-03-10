@@ -18,8 +18,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'rbconfig'
-
 # We only set these by default because this is what comes from `knife
 # bootstrap` (the best way to install Chef Client on managed nodes).
 #
