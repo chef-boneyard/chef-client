@@ -58,6 +58,8 @@ module Opscode
       end
 
       def dir_owner
+        return node['chef_client']['dir_owner'] if node['chef_client']['dir_owner']
+
         if chef_server?
           chef_server_user
         else
@@ -66,6 +68,8 @@ module Opscode
       end
 
       def root_group
+        return node['chef_client']['dir_group'] if node['chef_client']['dir_group']
+
         if %w{ openbsd freebsd mac_os_x mac_os_x_server }.include?(node['platform'])
           'wheel'
         elsif ['aix'].include?(node['platform'])

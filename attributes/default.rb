@@ -46,6 +46,11 @@ default['chef_client']['bin']         = '/usr/bin/chef-client'
 # platforms below.
 default['chef_client']['log_dir']     = '/var/log/chef'
 
+# Dir owner and group will be set automatically based on server flavor if not
+# customized in attributes
+default['chef_client']['dir_owner']   = nil
+default['chef_client']['dir_group']   = nil
+
 # Configuration for chef-client::cron recipe.
 default['chef_client']['cron'] = {
   'minute' => '0',
