@@ -3,7 +3,10 @@ require 'spec_helper'
 describe 'chef-client::config' do
 
   let(:chef_run) do
-    ChefSpec::ServerRunner.new.converge(described_recipe)
+    ChefSpec::ServerRunner.new do |node|
+      node.set['chef_client']['dir_owner'] = 'foo-owner'
+      node.set['chef_client']['dir_group'] = 'foo-group'
+    end.converge(described_recipe)
   end
 
   it 'contains the default chef_server_url setting' do
@@ -25,7 +28,10 @@ describe 'chef-client::config' do
     '/etc/chef/client.d'
   ].each do |dir|
     it "contains #{dir} directory" do
-      expect(chef_run).to create_directory(dir)
+      expect(chef_run).to create_directory(dir).with(
+        user: 'foo-owner',
+        group: 'foo-group'
+      )
     end
   end
 
