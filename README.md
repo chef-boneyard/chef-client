@@ -7,7 +7,7 @@ This cookbook is used to configure a system as a Chef Client.
 
 Requirements
 ------------
-- Chef Client 11.x or better
+- Chef Client [11.6.0](https://www.chef.io/blog/2013/07/23/chef-client-11-6-0-ohai-6-18-0-and-more/) or higher (for use of `node['root_group']` attribute).
 
 ### Platforms
 The following platforms are tested directly under test-kitchen; see .kitchen.yml and TESTING.md for details.
