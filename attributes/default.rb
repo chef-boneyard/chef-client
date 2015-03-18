@@ -161,7 +161,7 @@ when 'windows'
   default['chef_client']['cache_path']  = "#{node["chef_client"]["conf_dir"]}/cache"
   default['chef_client']['backup_path'] = "#{node["chef_client"]["conf_dir"]}/backup"
   default['chef_client']['log_dir']     = "#{node["chef_client"]["conf_dir"]}/log"
-  default['chef_client']['bin']         = 'C:/chef/chef/bin/chef-client'
+  default['chef_client']['bin']         = 'C:/opscode/chef/bin/chef-client'
 else
   default['chef_client']['init_style']  = 'none'
   default['chef_client']['run_path']    = '/var/run'
