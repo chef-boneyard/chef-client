@@ -38,6 +38,7 @@ if node['chef_client']['log_file'].is_a? String and node['chef_client']['init_st
       rotate node['chef_client']['logrotate']['rotate']
       frequency node['chef_client']['logrotate']['frequency']
       options node['chef_client']['log_rotation']['options']
+      prerotate node['chef_client']['log_rotation']['prerotate']
       postrotate node['chef_client']['log_rotation']['postrotate']
       template_mode '0644'
     end
