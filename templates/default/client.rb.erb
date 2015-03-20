@@ -11,7 +11,7 @@ end
 <% @chef_config.keys.sort.each do |option| -%>
   <% next if %w{ node_name environment exception_handlers report_handlers start_handlers http_proxy https_proxy no_proxy }.include?(option) -%>
   <% case option -%>
-  <% when 'log_level', 'ssl_verify_mode' -%>
+  <% when 'log_level', 'ssl_verify_mode', 'audit_mode' -%>
 <%= option %> <%= @chef_config[option].gsub(/^:/, '').to_sym.inspect %>
   <% when 'log_location' -%>
 <%= option %> <%= @chef_config[option] %>
