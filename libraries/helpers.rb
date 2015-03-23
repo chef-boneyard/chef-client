@@ -57,14 +57,6 @@ module Opscode
         end
       end
 
-      def dir_owner
-        if chef_server?
-          chef_server_user
-        else
-          root_owner
-        end
-      end
-
       def root_group
         if %w{ openbsd freebsd mac_os_x mac_os_x_server }.include?(node['platform'])
           'wheel'
@@ -77,18 +69,10 @@ module Opscode
         end
       end
 
-      def dir_group
-        if chef_server?
-          chef_server_user
-        else
-          root_group
-        end
-      end
-
       def create_directories
         # dir_owner and dir_group are not found in the block below.
-        d_owner = dir_owner
-        d_group = dir_group
+        d_owner = root_owner
+        d_group = root_group
         %w{run_path cache_path backup_path log_dir conf_dir}.each do |dir|
           # Do not redefine the resource if it exist
           begin
