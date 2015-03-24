@@ -22,9 +22,12 @@ class ::Chef::Recipe
 end
 
 unless chef_server?
+  # In some cases Chef::Config may not have a client_key
+  client_key = Chef::Config[:client_key] || '/etc/chef/validation.pem'
+
   file Chef::Config[:validation_key] do
     action :delete
     backup false
-    only_if { ::File.exists?(Chef::Config[:client_key]) }
+    only_if { ::File.exists?(client_key) }
   end
 end
