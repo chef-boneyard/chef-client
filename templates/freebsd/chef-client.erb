@@ -7,17 +7,9 @@
 . /etc/rc.subr
 
 name="chef"
-stop_cmd="chef_stop"
+pidfile="<%= node["chef_client"]["run_path"] %>/${name}.pid"
 command="<%= @client_bin %>"
 command_interpreter="<%= RbConfig.ruby %>"
-command_args="-i <%= node["chef_client"]["interval"] %> -s <%= node["chef_client"]["splay"] %> -d -L <%= node["chef_client"]["log_dir"] %>/client.log  -P <%= node["chef_client"]["run_path"] %>/chef.pid"
+command_args="-i <%= node["chef_client"]["interval"] %> -s <%= node["chef_client"]["splay"] %> -d -P <%= node["chef_client"]["run_path"] %>/${name}.pid"
 load_rc_config $name
-export rc_pid
-chef_stop()
-{
-  pidfile="<%= node["chef_client"]["run_path"] %>/chef.pid"
-  rc_pid=`cat ${pidfile}`
-        kill -9 $rc_pid
-}
-
 run_rc_command "$1"

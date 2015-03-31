@@ -1,11 +1,11 @@
 #
-# Author:: Joshua Timberman (<joshua@opscode.com>)
-# Author:: Seth Chisamore (<schisamo@opscode.com>)
+# Author:: Joshua Timberman (<joshua@chef.io>)
+# Author:: Seth Chisamore (<schisamo@chef.io>)
 # Author:: Bryan Berry (<bryan.berry@gmail.com>)
 # Cookbook Name:: chef-client
 # Recipe:: cron
 #
-# Copyright 2009-2011, Opscode, Inc.
+# Copyright 2009-2011, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -77,6 +77,7 @@ else
 end
 env        = node['chef_client']['cron']['environment_variables']
 log_file   = node['chef_client']['cron']['log_file']
+append_log = node['chef_client']['cron']['append_log'] ? '>>' : '>'
 
 # If "use_cron_d" is set to true, delete the cron entry that uses the cron
 # resource built in to Chef and instead use the cron_d LWRP.
@@ -88,12 +89,13 @@ if node['chef_client']['cron']['use_cron_d']
   cron_d 'chef-client' do
     minute  node['chef_client']['cron']['minute']
     hour    node['chef_client']['cron']['hour']
+    weekday node['chef_client']['cron']['weekday']
     path    node['chef_client']['cron']['path'] if node['chef_client']['cron']['path']
     mailto  node['chef_client']['cron']['mailto'] if node['chef_client']['cron']['mailto']
     user    'root'
     cmd = ''
     cmd << "/bin/sleep #{sleep_time}; " if sleep_time
-    cmd << "#{env} #{client_bin} > #{log_file} 2>&1"
+    cmd << "#{env} #{client_bin} #{append_log} #{log_file} 2>&1"
     command cmd
   end
 else
@@ -104,12 +106,13 @@ else
   cron 'chef-client' do
     minute  node['chef_client']['cron']['minute']
     hour    node['chef_client']['cron']['hour']
+    weekday node['chef_client']['cron']['weekday']
     path    node['chef_client']['cron']['path'] if node['chef_client']['cron']['path']
     mailto  node['chef_client']['cron']['mailto'] if node['chef_client']['cron']['mailto']
     user    'root'
     cmd = ''
     cmd << "/bin/sleep #{sleep_time}; " if sleep_time
-    cmd << "#{env} #{client_bin} > #{log_file} 2>&1"
+    cmd << "#{env} #{client_bin} #{append_log} #{log_file} 2>&1"
     command cmd
   end
 end

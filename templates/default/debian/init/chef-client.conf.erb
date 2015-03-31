@@ -22,4 +22,10 @@ end script
   end
 %>
 
-exec <%= @client_bin %> -i <%= node["chef_client"]["interval"] %> <%= logfile_args %> <%= node["chef_client"]["daemon_options"].join(' ') %>
+script
+    if [ -r /etc/default/locale ]; then
+        . /etc/default/locale
+        export LANG LANGUAGE LC_MESSAGES LC_ALL
+    fi
+    exec <%= @client_bin %> -i <%= node["chef_client"]["interval"] %> <%= logfile_args %> -s <%= node["chef_client"]["splay"] %> <%= node["chef_client"]["daemon_options"].join(' ') %>
+end script

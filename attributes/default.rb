@@ -1,10 +1,10 @@
 #
-# Author:: Joshua Timberman (<joshua@opscode.com>)
-# Author:: Seth Chisamore (<schisamo@opscode.com>)
-# Cookbook Name:: chef
+# Author:: Joshua Timberman (<joshua@chef.io>)
+# Author:: Seth Chisamore (<schisamo@chef.io>)
+# Cookbook Name:: chef-client
 # Attributes:: default
 #
-# Copyright 2008-2011, Opscode, Inc
+# Copyright 2008-2015, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the 'License');
 # you may not use this file except in compliance with the License.
@@ -18,8 +18,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'rbconfig'
-
 # We only set these by default because this is what comes from `knife
 # bootstrap` (the best way to install Chef Client on managed nodes).
 #
@@ -28,15 +26,17 @@ require 'rbconfig'
 default['chef_client']['config'] = {
   'chef_server_url' => Chef::Config[:chef_server_url],
   'validation_client_name' => Chef::Config[:validation_client_name],
-  'node_name' => Chef::Config[:node_name] == node['fqdn'] ? false : Chef::Config[:node_name]
+  'environment' => Chef::Config[:environment] == '_default' ? false : Chef::Config[:environment],
+  'node_name' => Chef::Config[:node_name] == node['fqdn'] ? false : Chef::Config[:node_name],
+  'verify_api_cert' => true
 }
 
 if Chef::Config.has_key?(:client_fork)
   default['chef_client']['config']['client_fork'] = true
 end
 
-# By default, we don't have a log file, as we log to STDOUT
-default['chef_client']['log_file']    = nil
+# log_file has no effect when using runit
+default['chef_client']['log_file']    = 'client.log'
 default['chef_client']['interval']    = '1800'
 default['chef_client']['splay']       = '300'
 default['chef_client']['conf_dir']    = '/etc/chef'
@@ -50,9 +50,11 @@ default['chef_client']['log_dir']     = '/var/log/chef'
 default['chef_client']['cron'] = {
   'minute' => '0',
   'hour' => '0,4,8,12,16,20',
+  'weekday' => '*',
   'path' => nil,
   'environment_variables' => nil,
   'log_file' => '/dev/null',
+  'append_log' => false,
   'use_cron_d' => false,
   'mailto' => nil,
 }
@@ -93,7 +95,7 @@ when 'aix'
   default['chef_client']['backup_path'] = '/var/lib/chef'
   default['chef_client']['log_dir']     = '/var/adm/chef'
 when 'arch'
-  default['chef_client']['init_style']  = 'arch'
+  default['chef_client']['init_style']  = 'systemd'
   default['chef_client']['run_path']    = '/var/run/chef'
   default['chef_client']['cache_path']  = '/var/cache/chef'
   default['chef_client']['backup_path'] = '/var/lib/chef'
@@ -142,6 +144,7 @@ when 'openindiana', 'opensolaris', 'nexentacore', 'solaris2', 'omnios'
   default['chef_client']['method_dir'] = '/lib/svc/method'
   default['chef_client']['bin_dir'] = '/usr/bin'
   default['chef_client']['locale'] = 'en_US.UTF-8'
+  default['chef_client']['env_path'] = '/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin'
 when 'smartos'
   default['chef_client']['init_style']  = 'smf'
   default['chef_client']['run_path']    = '/var/run/chef'
@@ -150,6 +153,7 @@ when 'smartos'
   default['chef_client']['method_dir'] = '/opt/local/lib/svc/method'
   default['chef_client']['bin_dir'] = '/opt/local/bin'
   default['chef_client']['locale'] = 'en_US.UTF-8'
+  default['chef_client']['env_path'] = '/usr/local/sbin:/usr/local/bin:/opt/local/sbin:/opt/local/bin:/usr/sbin:/usr/bin:/sbin'
 when 'windows'
   default['chef_client']['init_style']  = 'windows'
   default['chef_client']['conf_dir']    = 'C:/chef'
@@ -158,11 +162,6 @@ when 'windows'
   default['chef_client']['backup_path'] = "#{node["chef_client"]["conf_dir"]}/backup"
   default['chef_client']['log_dir']     = "#{node["chef_client"]["conf_dir"]}/log"
   default['chef_client']['bin']         = 'C:/opscode/chef/bin/chef-client'
-  #Required for minsw wrapper
-  default['chef_client']['ruby_bin']    = File.join(RbConfig::CONFIG['bindir'], "ruby.exe")
-  default['chef_client']['winsw_url']   = 'http://repo1.maven.org/maven2/com/sun/winsw/winsw/1.9/winsw-1.9-bin.exe'
-  default['chef_client']['winsw_dir']   = 'C:/chef/bin'
-  default['chef_client']['winsw_exe']   = 'chef-client.exe'
 else
   default['chef_client']['init_style']  = 'none'
   default['chef_client']['run_path']    = '/var/run'
@@ -170,6 +169,13 @@ else
   default['chef_client']['backup_path'] = '/var/chef/backup'
 end
 
-if %r{^https://api.opscode.com/}.match(node['chef_client']['config']['chef_server_url'])
-  default['chef_client']['config']['verify_api_cert'] = true
-end
+# Must appear after init_style to take effect correctly
+default['chef_client']['log_rotation']['options'] = ['compress']
+default['chef_client']['log_rotation']['postrotate'] =  case node['chef_client']['init_style']
+                                                        when 'systemd'
+                                                          'systemctl reload chef-client.service >/dev/null || :'
+                                                        when 'upstart'
+                                                          'initctl reload chef-client >/dev/null || :'
+                                                        else
+                                                          '/etc/init.d/chef-client reload >/dev/null || :'
+                                                        end

@@ -8,7 +8,7 @@
 # Short-Description:  Start a chef-client.
 ### END INIT INFO
 #
-# Copyright (c) 2009-2010 Opscode, Inc, <legal@opscode.com>
+# Copyright (c) 2009-2010 Chef Software, Inc, <legal@chef.io>
 #
 # chef-client         Startup script for chef-client.
 # chkconfig: - 99 02
@@ -31,10 +31,6 @@ if [ ! -d /var/run/chef ]; then
 fi
 
 DAEMON_OPTS="-d -P $PIDFILE -c $CONFIG -i $INTERVAL -s $SPLAY <%= node["chef_client"]["daemon_options"].join(' ') %>"
-
-if [ ! -z $LOGFILE ]; then
-  DAEMON_OPTS="${DAEMON_OPTS} -L $LOGFILE"
-fi
 
 running_pid() {
   pid=$1

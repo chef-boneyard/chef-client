@@ -9,9 +9,9 @@ end
 
 <% end -%>
 <% @chef_config.keys.sort.each do |option| -%>
-  <% next if %w{ node_name exception_handlers report_handlers start_handlers }.include?(option) -%>
+  <% next if %w{ node_name environment exception_handlers report_handlers start_handlers http_proxy https_proxy no_proxy }.include?(option) -%>
   <% case option -%>
-  <% when 'log_level', 'ssl_verify_mode' -%>
+  <% when 'log_level', 'ssl_verify_mode', 'audit_mode' -%>
 <%= option %> <%= @chef_config[option].gsub(/^:/, '').to_sym.inspect %>
   <% when 'log_location' -%>
 <%= option %> <%= @chef_config[option] %>
@@ -19,20 +19,24 @@ end
 <%= option %> <%= @chef_config[option].inspect %>
   <% end -%>
 <% end -%>
+<% if @chef_config['environment'] -%>
+environment <%= @chef_config['environment'].inspect %>
+<%end -%>
 <% if @chef_config['node_name'] -%>
 node_name <%= @chef_config['node_name'].inspect %>
 <% else -%>
 # Using default node name (fqdn)
 <% end -%>
-<% unless node["chef_client"]["config"]["http_proxy"].nil? -%>
 
+<% unless node["chef_client"]["config"]["http_proxy"].nil? -%>
 # set the proxy env variable so rubygems works correctly
-ENV['http_proxy'] = "<%= node["chef_client"]["config"]["http_proxy"] %>"
-ENV['HTTP_PROXY'] = "<%= node["chef_client"]["config"]["http_proxy"] %>"
+http_proxy "<%= node["chef_client"]["config"]["http_proxy"] %>"
 <% end -%>
 <% unless node["chef_client"]["config"]["https_proxy"].nil? -%>
-ENV['https_proxy'] = "<%= node["chef_client"]["config"]["https_proxy"] %>"
-ENV['HTTPS_PROXY'] = "<%= node["chef_client"]["config"]["https_proxy"] %>"
+https_proxy "<%= node["chef_client"]["config"]["https_proxy"] %>"
+<% end -%>
+<% unless node["chef_client"]["config"]["no_proxy"].nil? -%>
+no_proxy "<%= node["chef_client"]["config"]["no_proxy"] %>"
 <% end -%>
 
 <% if node.attribute?("ohai") && node["ohai"].attribute?("plugin_path") -%>

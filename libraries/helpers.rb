@@ -50,7 +50,7 @@ module Opscode
       end
 
       def root_owner
-        if ['windows'].include?(node['platform']) 
+        if ['windows'].include?(node['platform'])
           wmi_property_from_query(:name, "select * from Win32_UserAccount where sid like 'S-1-5-21-%-500' and LocalAccount=True")
         else
           'root'
@@ -68,6 +68,8 @@ module Opscode
       def root_group
         if %w{ openbsd freebsd mac_os_x mac_os_x_server }.include?(node['platform'])
           'wheel'
+	elsif ['aix'].include?(node['platform'])
+	  'system'
         elsif ['windows'].include?(node['platform'])
           wmi_property_from_query(:name, "select * from Win32_Group where SID = 'S-1-5-32-544' AND LocalAccount=TRUE")
         else
@@ -138,7 +140,7 @@ module Opscode
           Chef::Log.debug 'Using chef-client bin from sane path'
           chef_in_sane_path
         # last ditch search for a bin in PATH
-        elsif (chef_in_path = %x{#{which} chef-client}.chomp) && ::File.send(existence_check, chef_in_path)
+      elsif (chef_in_path = %x{#{which} chef-client}.chomp) && ::File.send(existence_check, chef_in_path)  # ~FC048 Prefer Mixlib::ShellOut is ignored here
           Chef::Log.debug 'Using chef-client bin from system path'
           chef_in_path
         else
