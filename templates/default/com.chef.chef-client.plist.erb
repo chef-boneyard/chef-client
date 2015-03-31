@@ -26,7 +26,11 @@
   <true/>
 <%- end %>
   <key>StandardOutPath</key>
+<% node["chef_client"]["log_dir"].to_s == '' %>
+  <string></string>
+<% else %>
   <string><%= node["chef_client"]["log_dir"] %>/client.log</string>
+<% end %>
 </dict>
 
 </plist>

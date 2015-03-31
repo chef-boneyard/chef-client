@@ -32,9 +32,9 @@ module Opscode
           node.recipe?('chef-server')
         else
           Chef::Log.debug("Node has Chef Server Recipe? #{node.recipe?("chef-server")}")
-          Chef::Log.debug("Node has Chef Server Executable? #{system("which chef-server > /dev/null 2>&1")}") # ~FC048 Prefer Mixlib::ShellOut is ignored here
-          Chef::Log.debug("Node has Chef Server Ctl Executable? #{system("which chef-server-ctl > /dev/null 2>&1")}") # ~FC048 Prefer Mixlib::ShellOut is ignored here
-          node.recipe?('chef-server') || system('which chef-server > /dev/null 2>&1') || system('which chef-server-ctl > /dev/null 2>&1') # ~FC048 Prefer Mixlib::ShellOut is ignored here
+          Chef::Log.debug("Node has Chef Server Executable? #{system("which chef-server > /dev/null 2>&1")}")
+          Chef::Log.debug("Node has Chef Server Ctl Executable? #{system("which chef-server-ctl > /dev/null 2>&1")}")
+          node.recipe?('chef-server') || system('which chef-server > /dev/null 2>&1') || system('which chef-server-ctl > /dev/null 2>&1')
         end
       end
 
@@ -68,8 +68,8 @@ module Opscode
       def root_group
         if %w{ openbsd freebsd mac_os_x mac_os_x_server }.include?(node['platform'])
           'wheel'
-        elsif ['aix'].include?(node['platform'])
-          'system'
+	elsif ['aix'].include?(node['platform'])
+	  'system'
         elsif ['windows'].include?(node['platform'])
           wmi_property_from_query(:name, "select * from Win32_Group where SID = 'S-1-5-32-544' AND LocalAccount=TRUE")
         else
@@ -94,11 +94,13 @@ module Opscode
           begin
             r = resources(directory: node['chef_client'][dir])
           rescue Chef::Exceptions::ResourceNotFound
-            directory node['chef_client'][dir] do
-              recursive true
-              mode 00750 if dir == 'log_dir'
-              owner d_owner
-              group d_group
+            unless node['chef_client'][dir].to_s == ''
+              directory node['chef_client'][dir] do
+                recursive true
+                mode 00750 if dir == 'log_dir'
+                owner d_owner
+                group d_group
+              end
             end
           end
         end

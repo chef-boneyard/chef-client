@@ -14,10 +14,18 @@ pre-start script
     test -x <%= @client_bin %> || { stop; exit 0; }
 end script
 
+<% 
+  if node["chef_client"]["log_dir"].to_s == '' 
+    logfile_args = ''
+  else
+    logfile_args = "#{node["chef_client"]["log_dir"]}/client.log"
+  end
+%>
+
 script
     if [ -r /etc/default/locale ]; then
         . /etc/default/locale
         export LANG LANGUAGE LC_MESSAGES LC_ALL
     fi
-    exec <%= @client_bin %> -i <%= node["chef_client"]["interval"] %> -s <%= node["chef_client"]["splay"] %> <%= node["chef_client"]["daemon_options"].join(' ') %>
+    exec <%= @client_bin %> -i <%= node["chef_client"]["interval"] %> <%= logfile_args %> -s <%= node["chef_client"]["splay"] %> <%= node["chef_client"]["daemon_options"].join(' ') %>
 end script

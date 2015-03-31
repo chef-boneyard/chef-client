@@ -1,2 +1,4 @@
 #!/bin/sh
+<% unless node["chef_client"]["log_dir"].to_s == '' %>
 exec svlogd -tt <%= node["chef_client"]["log_dir"] %>
+<% end %>
