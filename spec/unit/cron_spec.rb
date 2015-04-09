@@ -3,7 +3,10 @@ require 'spec_helper'
 describe 'chef-client::cron' do
 
   let(:chef_run) do
-    ChefSpec::ServerRunner.new.converge(described_recipe)
+    ChefSpec::ServerRunner.new do |node|
+      # the root_group attribute isn't present in fauxhai data
+      node.set['root_group'] = 'root'
+    end.converge(described_recipe)
   end
 
   [
@@ -37,7 +40,7 @@ describe 'chef-client::cron' do
   end
 
   context 'append to log file' do
-  
+
     let(:chef_run) do
       ChefSpec::SoloRunner.new do |node|
         node.set['chef_client']['cron']['append_log'] = true
