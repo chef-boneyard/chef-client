@@ -15,19 +15,38 @@ version_checker = Gem::Requirement.new(">= 0.10.10")
 mac_service_supported = version_checker.satisfied_by?(Gem::Version.new(node['chef_packages']['chef']['version']))
 
 if mac_service_supported
-  template '/Library/LaunchDaemons/com.chef.chef-client.plist' do
-    source 'com.chef.chef-client.plist.erb'
-    mode 0644
-    variables(
-      :launchd_mode => node['chef_client']['launchd_mode'],
-      :client_bin => client_bin
-    )
+  if node['chef_client']['task']['user'].eql? 'SYSTEM'
+    template '/Library/LaunchDaemons/com.chef.chef-client.plist' do
+      source 'com.chef.chef-client.plist.erb'
+      mode 0644
+      variables(
+          :launchd_mode => node['chef_client']['launchd_mode'],
+          :client_bin => client_bin
+      )
+    end
+  else
+    home_dir = Dir.home(node['chef_client']['task']['user'])
+    
+    directory "#{home_dir}/Library/LaunchDaemons" do
+      owner node['chef_client']['task']['user']
+    end
+    
+    template "#{home_dir}/Library/LaunchDaemons/com.chef.chef-client.plist" do
+      source 'com.chef.chef-client.plist.erb'
+      mode 0644
+      variables(
+          :launchd_mode => node['chef_client']['launchd_mode'],
+          :client_bin => client_bin
+      )
+    end
   end
 
-  service 'chef-client' do
-    service_name 'com.chef.chef-client'
-    provider Chef::Provider::Service::Macosx
-    action :start
+  if node['chef_client']['launchd_mode'].eql? 'daemon'
+    service 'chef-client' do
+      service_name 'com.chef.chef-client'
+      provider Chef::Provider::Service::Macosx
+      action :start
+    end
   end
 else
   log('Mac OS X Service provider is only supported in Chef >= 0.10.10') { level :warn }
