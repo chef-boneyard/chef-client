@@ -68,7 +68,7 @@ The following attributes affect the behavior of the chef-client program when run
   `chef-client` binary. Mainly used to set a specific path if multiple
   versions of chef-client exist on a system or the bin has been
   installed in a non-sane path. Default "/usr/bin/chef-client".
-* `node['chef_client']['cron']['minute']` - The hour that chef-client
+* `node['chef_client']['cron']['minute']` - The minute that chef-client
   will run as a cron task, only applicable if you set `'cron'` as
   the `'init_style'`
 * `node['chef_client']['cron']['hour']` - The hour that chef-client
