@@ -52,7 +52,7 @@ module Opscode
           rescue Chef::Exceptions::ResourceNotFound
             directory node['chef_client'][dir] do
               recursive true
-              mode 00750 if dir == 'log_dir'
+              mode node['chef_client']['log_dir_mode'] if dir == 'log_dir'
               owner d_owner
               group node['root_group']
             end

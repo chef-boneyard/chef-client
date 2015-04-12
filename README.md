@@ -59,6 +59,7 @@ The following attributes affect the behavior of the chef-client program when run
 * `node['chef_client']['log_dir']` - Sets directory used in
   `Chef::Config[:log_location]` via command-line option to a location
   where chef-client should log output. Default "/var/log/chef".
+* `node['chef_client']['log_dir_mode']` - Sets permissions for the log directory. Default 00750.
 * `node['chef_client']['log_rotation']['options']` - Set options to logrotation of chef-client log file. Default `['compress']`.
 * `node['chef_client']['log_rotation']['prerotate']` - Set prerotate action for chef-client logrotation. Default to `nil`.
 * `node['chef_client']['log_rotation']['postrotate']` - Set postrotate action for chef-client logrotation. Default to chef-client service reload depending on init system.
