@@ -1,11 +1,11 @@
 #
-# Author:: Joshua Timberman (<joshua@opscode.com>)
+# Author:: Joshua Timberman (<joshua@chef.io>)
 # Author:: Joshua Sierles (<joshua@37signals.com>)
-# Author:: Seth Chisamore (<schisamo@opscode.com>)
+# Author:: Seth Chisamore (<schisamo@chef.io>)
 # Cookbook Name:: chef-client
 # Recipe:: config
 #
-# Copyright 2008-2013, Opscode, Inc
+# Copyright 2008-2013, Chef Software, Inc
 # Copyright 2009, 37signals
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,7 +38,9 @@ if node['chef_client']['log_file'].is_a? String and node['chef_client']['init_st
       rotate node['chef_client']['logrotate']['rotate']
       frequency node['chef_client']['logrotate']['frequency']
       options node['chef_client']['log_rotation']['options']
+      prerotate node['chef_client']['log_rotation']['prerotate']
       postrotate node['chef_client']['log_rotation']['postrotate']
+      template_mode '0644'
     end
   end
 else
@@ -48,7 +50,7 @@ end
 # libraries/helpers.rb method to DRY directory creation resources
 create_directories
 
-if log_path != 'STDOUT'
+if log_path != 'STDOUT' #~FC023
   file log_path do
     mode 00640
   end
@@ -59,6 +61,7 @@ node['chef_client']['load_gems'].each do |gem_name, gem_info_hash|
   gem_info_hash ||= {}
   chef_gem gem_name do
     action gem_info_hash[:action] || :install
+    source gem_info_hash[:source] if gem_info_hash[:source]
     version gem_info_hash[:version] if gem_info_hash[:version]
     options ( gem_info_hash[:options] ) if gem_info_hash[:options]
   end
@@ -67,8 +70,8 @@ end
 
 # We need to set these local variables because the methods aren't
 # available in the Chef::Resource scope
-d_owner = dir_owner
-d_group = dir_group
+d_owner = root_owner
+d_group = node['root_group']
 
 template "#{node["chef_client"]["conf_dir"]}/client.rb" do
   source 'client.rb.erb'

@@ -3,7 +3,10 @@ require 'spec_helper'
 describe 'chef-client::cron' do
 
   let(:chef_run) do
-    ChefSpec::ServerRunner.new.converge(described_recipe)
+    ChefSpec::ServerRunner.new do |node|
+      # the root_group attribute isn't present in fauxhai data
+      node.set['root_group'] = 'root'
+    end.converge(described_recipe)
   end
 
   [
@@ -21,7 +24,7 @@ describe 'chef-client::cron' do
     end
   end
 
-  context 'Custom Attributes' do
+  context 'environmental variables' do
 
     let(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
@@ -31,7 +34,22 @@ describe 'chef-client::cron' do
 
     it 'sets the FOO=BAR environment variable' do
       expect(chef_run).to create_cron('chef-client') \
-        .with(command: %r{/bin/sleep \d+; FOO=BAR /usr/bin/chef-client > /dev/null 2>&1})
+        .with(command: %r{FOO=BAR.*chef-client})
+    end
+
+  end
+
+  context 'append to log file' do
+
+    let(:chef_run) do
+      ChefSpec::SoloRunner.new do |node|
+        node.set['chef_client']['cron']['append_log'] = true
+      end.converge(described_recipe)
+    end
+
+    it 'creates a cron job appending to the log' do
+      expect(chef_run).to create_cron('chef-client') \
+        .with(command: %r{chef-client >>})
     end
 
   end

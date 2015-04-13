@@ -1,3 +1,6 @@
+# Used by chef-client.erb template to find command interpreter
+require 'rbconfig'
+
 # include helper meth
 class ::Chef::Recipe
   include ::Opscode::ChefClient::Helpers

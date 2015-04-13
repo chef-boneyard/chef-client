@@ -1,5 +1,8 @@
 driver:
   name: vagrant
+  customize:
+    memory: 1024
+    cpus: 2
 
 provisioner:
   name: chef_zero
@@ -84,3 +87,11 @@ suites:
     chef_client:
       init_style: "init"
       daemon_options: ["-E cook-1951"]
+
+# Testing when we are using chef-client on a Chef Server (12+ only)
+- name: server
+  run_list:
+  - recipe[chef-server]
+  - recipe[chef-client::config]
+  - recipe[chef-client::service]
+  attributes: {}
