@@ -1,7 +1,7 @@
 ---
 driver_config:
   digitalocean_client_id: <%= ENV['DIGITAL_OCEAN_CLIENT_ID'] %>
-  digitalocean_api_key: <%= ENV['DIGITAL_OCEAN_API_KEY'] %>
+  digitalocean_access_token: <%= ENV['DIGITAL_OCEAN_ACCESS_TOKEN'] %>
   aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %> 
   aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
   aws_ssh_key_id: <%= ENV['AWS_KEYPAIR_NAME'] %>
@@ -13,25 +13,31 @@ provisioner:
 
 platforms:
 - name: centos-5.8
-  driver_plugin: digital_ocean
+  driver_plugin: digitalocean
   driver_config:
     size: 1gb
     image: centos-5-8-x64
     region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
 
 - name: centos-6.5
-  driver_plugin: digital_ocean
+  driver_plugin: digitalocean
   driver_config:
     size: 1gb
     image: centos-6-5-x64
     region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
 
 - name: centos-7.0
-  driver_plugin: digital_ocean
+  driver_plugin: digitalocean
   driver_config:
     size: 1gb
     image: centos-7-0-x64
     region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
 
 - name: amazon-2013.09
   driver_plugin: ec2
@@ -65,48 +71,50 @@ platforms:
     ssh_key: <%= ENV['EC2_SSH_KEY_PATH'] %>
     flavor_id: t2.small
 
-# UTF-8 is not a friend
-#- name: fedora-19
-#  driver_plugin: digital_ocean
-#  driver_config:
-#    size: 1gb
-#    image: fedora-19-x64
-#    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
-
 - name: fedora-20
-  driver_plugin: digital_ocean
+  driver_plugin: digitalocean
   driver_config:
     size: 1gb
     image: fedora-20-x64
     region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
+
+- name: fedora-21
+  driver_plugin: digitalocean
+  driver_config:
+    size: 1gb
+    image: fedora-21-x64
+    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
 
 - name: debian-7.0
-  driver_plugin: digital_ocean
+  driver_plugin: digitalocean
   driver_config:
     size: 1gb
     image: debian-7-0-x64
     region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
-
-- name: ubuntu-10.04
-  driver_plugin: digital_ocean
-  driver_config:
-    size: 1gb
-    image: ubuntu-10-04-x64
-    region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
 
 - name: ubuntu-12.04
-  driver_plugin: digital_ocean
+  driver_plugin: digitalocean
   driver_config:
     size: 1gb
     image: ubuntu-12-04-x64
     region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
 
 - name: ubuntu-14.04
-  driver_plugin: digital_ocean
+  driver_plugin: digitalocean
   driver_config:
     size: 1gb
     image: ubuntu-14-04-x64
     region: <%= ENV['DIGITAL_OCEAN_REGION'] %>
+    ssh_key_ids: <%= ENV['DIGITAL_OCEAN_SSH_KEY_IDS'] %>
+    ssh_key: <%= ENV['DIGITAL_OCEAN_SSH_KEY_PATH'] %>
 
 suites:
 
