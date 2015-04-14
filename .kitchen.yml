@@ -16,7 +16,6 @@ platforms:
   - name: fedora-21
   - name: freebsd-9.3
   - name: freebsd-10.1
-  - name: ubuntu-10.04
   - name: ubuntu-12.04
   - name: ubuntu-14.04
 
@@ -51,7 +50,7 @@ suites:
 - name: service_upstart
   run_list:
   - recipe[chef-client::upstart_service]
-  includes: ["ubuntu-10.04", "ubuntu-12.04", "ubuntu-14.04"]
+  includes: ["ubuntu-12.04", "ubuntu-14.04"]
   attributes: {}
 
 - name: cron
