@@ -1,16 +1,39 @@
-v4.2.4 (2014-02-18)
+v4.3.0 (2015-04-14)
+-------------------
+- [#303] cron ignores daemon_options
+- [#297] support prerotate options in logrotate
+- [#296] Support adding audit_mode as configuration in client.rb
+- [#295] Add support for specifying gem source for config
+- [#294] Cleanup opscode-named plist and service on OS X
+- [#291] Pass $OPTIONS to systemd service
+- [#289] Use systemd on Debian 8 (jessie)
+- [#286] Remove legacy logic for handling Chef Server
+- [#283] Update plist filename for new company
+- [#278] Fix path on SmartOS
+- [#277] Update contributing documentation
+- [#275] Correct logrotate postrotate command for upstart init_style
+- [#273] Fix punctuation, capitalization and wording in readme
+- [#272] Fix readme quoting
+- [#271] Add internal heading links to documentation
+- [#270] Fix Travis CI build
+- [#262] Allow client.rb to contain environment
+- [#257] Change log directory mode 0755
+- [#254] Remove rbconfig
+- [#156] Allow cron to have a weekday parameter
+
+v4.2.4 (2015-02-18)
 -------------------
 - Ripping out chef_gem compile_time stuff
 
-v4.2.3 (2014-02-18)
+v4.2.3 (2015-02-18)
 -------------------
 - Fixing chef_gem with Chef::Resource::ChefGem.method_defined?(:compile_time)
 
-v4.2.2 (2014-02-18)
+v4.2.2 (2015-02-18)
 -------------------
 - Fixing chef_gem for Chef below 12.1.0
 
-v4.2.1 (2014-02-17)
+v4.2.1 (2015-02-17)
 -------------------
 - Being explicit about usage of the chef_gem's compile_time property.
 - Eliminating future deprecation warnings in Chef 12.1.0.
