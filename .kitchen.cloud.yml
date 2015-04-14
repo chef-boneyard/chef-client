@@ -146,7 +146,7 @@ suites:
 - name: service_upstart
   run_list:
   - recipe[chef-client::upstart_service]
-  includes: ["ubuntu-10.04", "ubuntu-12.04", "ubuntu-14.04"]
+  includes: ["ubuntu-12.04", "ubuntu-14.04"]
   attributes: {}
 
 - name: cron
