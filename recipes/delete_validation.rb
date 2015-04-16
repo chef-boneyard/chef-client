@@ -21,8 +21,10 @@ class ::Chef::Recipe
   include ::Opscode::ChefClient::Helpers
 end
 
-file Chef::Config[:validation_key] do
-  action :delete
-  backup false
-  only_if { ::File.exists?(Chef::Config[:client_key]) }
+unless Chef::Config[:validation_key].nil?
+  file Chef::Config[:validation_key] do
+    action :delete
+    backup false
+    only_if { ::File.exists?(Chef::Config[:client_key]) }
+  end
 end
