@@ -9,7 +9,7 @@ Chef::Log.debug("Found chef-client in #{client_bin}")
 node.default['chef_client']['bin'] = client_bin
 create_directories
 
-group = root_group
+group = node['root_group']
 
 directory node['chef_client']['run_path'] do
   recursive true
