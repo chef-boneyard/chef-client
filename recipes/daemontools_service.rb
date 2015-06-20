@@ -9,7 +9,7 @@ Chef::Log.debug("Found chef-client in #{client_bin}")
 node.default['chef_client']['bin'] = client_bin
 create_directories
 
-group = root_group
+group = node['root_group']
 
 include_recipe 'daemontools' # ~FC007: daemontools is only required when using the daemontools_service recipe 
 
