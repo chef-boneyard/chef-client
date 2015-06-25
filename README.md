@@ -104,7 +104,7 @@ The following attributes affect the behavior of the chef-client program when run
 * `node['chef_client']['task']['user']` - The user the scheduled task
   will run as, defaults to `'SYSTEM'`.
 * `node['chef_client']['task']['password']` - The password for the user
-  the scheduled task will run as, defaults to `''` because the default
+  the scheduled task will run as, defaults to `nil` because the default
   user, `'SYSTEM'`, does not need a password.
 
 The following attributes are set on a per-platform basis, see the `attributes/default.rb` file for default values.
