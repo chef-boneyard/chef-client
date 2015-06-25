@@ -1,3 +1,7 @@
+v4.4.0 (2015-06-25)
+-------------------
+- [#318] default value for password for windows task should be nil
+
 v4.3.0 (2015-04-14)
 -------------------
 - [#303] cron ignores daemon_options
