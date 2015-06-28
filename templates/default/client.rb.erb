@@ -14,7 +14,11 @@ end
   <% when 'log_level', 'ssl_verify_mode', 'audit_mode' -%>
 <%= option %> <%= @chef_config[option].gsub(/^:/, '').to_sym.inspect %>
   <% when 'log_location' -%>
-<%= option %> "<%= @chef_config[option] %>"
+  <%   if @chef_config[option].instance_of? String -%>
+<%= option %> <%= @chef_config[option].inspect %>
+  <%   else -%>
+<%= option %> <%= @chef_config[option] -%>
+  <%   end -%>
   <% else -%>
 <%= option %> <%= @chef_config[option].inspect %>
   <% end -%>
