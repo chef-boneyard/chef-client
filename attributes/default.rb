@@ -26,7 +26,6 @@
 default['chef_client']['config'] = {
   'chef_server_url' => Chef::Config[:chef_server_url],
   'validation_client_name' => Chef::Config[:validation_client_name],
-  'environment' => Chef::Config[:environment] == '_default' ? false : Chef::Config[:environment],
   'node_name' => Chef::Config[:node_name] == node['fqdn'] ? false : Chef::Config[:node_name],
   'verify_api_cert' => true
 }
