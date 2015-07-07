@@ -286,7 +286,7 @@ cookbook_file "/etc/chef/client.d/myconfig.rb" do
   notifies :create, "ruby_block[reload_client_config]"
 end
 
-include 'chef-client::config'
+include_recipe 'chef-client::config'
 ```
 
 Then create `files/default/myconfig.rb` with the configuration content you want. For example, if you wish to create a configuration to log to syslog:
@@ -300,10 +300,14 @@ Logger::Syslog.class_eval do
   attr_accessor :sync, :formatter
 end
 
-log_location Logger::Syslog.new('chef-client', Syslog::LOG_DAEMON)
+log_location Logger::Syslog.new('chef-client', ::Syslog::LOG_DAEMON)
 ```
 
-Hat tip to Joseph Holsten for this in [COOK-2326](http://tickets.chef.io/browse/COOK-2326).
+Or, if you're using Chef >= 12.4:
+
+```ruby
+log_location Chef::Log::Syslog.new('chef-client', ::Syslog::LOG_DAEMON)
+```
 
 
 ### Requiring Gems
