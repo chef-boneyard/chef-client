@@ -1,0 +1,11 @@
+if File.exists?(%q|<%= node["chef_client"]["conf_dir"] %>/client.rb|)
+   Chef::Config.from_file(%q|<%= node["chef_client"]["conf_dir"] %>/client.rb|)
+end
+
+<% unless node["chef_client"]["interval"].nil? -%>
+interval <%= node["chef_client"]["interval"] %>
+<% end -%>
+
+<% unless node["chef_client"]["splay"].nil? -%>
+splay <%= node["chef_client"]["splay"] %>
+<% end -%>

@@ -29,8 +29,19 @@ end
 # libraries/helpers.rb method to DRY directory creation resources
 create_directories
 
+d_owner = root_owner
+d_group = node['root_group']
+
+template "#{node["chef_client"]["conf_dir"]}/client.service.rb" do
+  source 'client.service.rb.erb'
+  owner d_owner
+  group d_group
+  mode 00644
+end
+
 execute 'register-chef-service' do
-  command "chef-service-manager -a install -L #{File.join(node['chef_client']['log_dir'], 'client.log')}"
+  command "chef-service-manager -a install -c #{File.join(node['chef_client']['conf_dir'], 'client.service.rb')} "\
+    "-L #{File.join(node['chef_client']['log_dir'], 'client.log')}"
   not_if { chef_client_service_running }
 end
 
