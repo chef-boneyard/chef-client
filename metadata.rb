@@ -36,4 +36,4 @@ suggests 'runit'
 
 depends 'cron', '>= 1.2.0'
 depends 'logrotate', '>= 1.2.0'
-depends 'windows', '~> 1.11'
+depends 'windows', '~> 1.37'
