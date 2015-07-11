@@ -48,6 +48,9 @@ Ohai::Config[:plugin_path] << "<%= node["ohai"]["plugin_path"] %>"
 Ohai::Config[:disabled_plugins] = [<%= @ohai_disabled_plugins.map { |k| k.match(/:/) ? k.gsub(/^:/, '').to_sym.inspect : k.inspect }.join(",") %>]
 
 <% end -%>
+
+# Do no crash if a handler is missing / not installed yet
+begin
 <% unless @start_handlers.nil? || @start_handlers.empty?-%>
   <% @start_handlers.each do |handler| -%>
 start_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
@@ -63,6 +66,9 @@ report_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(','
 exception_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
   <% end -%>
 <% end -%>
+rescue NameError => e
+  Chef::Log.error e
+end
 
 Dir.glob(File.join(<%= node['chef_client']['conf_dir'].inspect %>, "client.d", "*.rb")).each do |conf|
   Chef::Config.from_file(conf)
