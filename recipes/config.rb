@@ -29,7 +29,7 @@ end
 
 if node['chef_client']['log_file'].is_a? String and node['chef_client']['init_style'] != 'runit'
   log_path = File.join(node['chef_client']['log_dir'], node['chef_client']['log_file'])
-  node.default['chef_client']['config']['log_location'] = "'#{log_path}'"
+  node.default['chef_client']['config']['log_location'] = log_path
 
   case node['platform_family']
   when 'rhel', 'debian', 'fedora'
