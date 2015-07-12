@@ -1,6 +1,12 @@
-UNRELEASED
+v4.3.1 (2015-07-12)
 -------------------
+- [#320] don't crash if handler class isn't available
 - [#318] default value for password for windows task should be nil
+- [#317] properly quote log_location to avoid regex corner case issue
+- [#314] fully replace root_group with node['root_group']
+- [#310] revert #267; prohibit clients from dictating their environments
+- [#307] fix delete_validation recipe under chef-zero
+- [#235] workaround chef/chef#3432
 
 v4.3.0 (2015-04-14)
 -------------------
