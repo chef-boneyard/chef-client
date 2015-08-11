@@ -35,8 +35,8 @@ windows_task 'chef-client' do
   -L #{File.join(node['chef_client']['log_dir'], 'client.log')} \
   -c #{File.join(node['chef_client']['conf_dir'], 'client.rb')} -s #{node['chef_client']['splay']} > NUL 2>&1'"
 
-  user               node['chef_client']['task']['user']
-  password           node['chef_client']['task']['password']
+  user               node['chef_client']['task']['user'] if node['chef_client']['task']['user']
+  password           node['chef_client']['task']['password'] if node['chef_client']['task']['password']
   frequency          node['chef_client']['task']['frequency'].to_sym
   frequency_modifier node['chef_client']['task']['frequency_modifier']
   start_time         node['chef_client']['task']['start_time'] || start_time
