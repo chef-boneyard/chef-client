@@ -65,6 +65,9 @@ node['chef_client']['load_gems'].each do |gem_name, gem_info_hash|
     source gem_info_hash[:source] if gem_info_hash[:source]
     version gem_info_hash[:version] if gem_info_hash[:version]
     options gem_info_hash[:options] if gem_info_hash[:options]
+    retries gem_info_hash[:retries] if gem_info_hash[:retries]
+    retry_delay gem_info_hash[:retry_delay] if gem_info_hash[:retry_delay]
+    timeout gem_info_hash[:timeout] if gem_info_hash[:timeout]
   end
   chef_requires.push(gem_info_hash[:require_name] || gem_name)
 end
