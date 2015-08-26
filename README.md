@@ -146,13 +146,12 @@ This cookbook makes use of attribute-driven configuration with this attribute. S
   plugins should be specified as a string (ie. "dmi"). Ohai 7 plugins
   should be specified as a symbol within quotation marks (ie. ":Passwd").
 
-### Deprecated / Replaced
+### Chef Client Config
 
-The following attributes are deprecated at the `['chef_client']` attribute level. Set them using the indicated `['chef_client']['config']` attribute.
+The following attributes should be set using `['chef_client']['config']`. Setting them at the `['chef_client']` attribute level is **deprecated**.
 
 * `node['chef_client']['environment']` - Set the node's environment
-  directly (e.g., `knife bootstrap -E`), as it makes it easier to move
-  nodes to different environments.
+  directly (useful for unattended installs when `knife bootstrap -E` is not an option).
 * `node['chef_client']['log_level']` - Not set anymore, use the
   default log level and output formatting from Chef 11.
 * `node['chef_client']['server_url']` - Set by default with
