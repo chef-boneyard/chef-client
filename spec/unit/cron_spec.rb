@@ -54,4 +54,27 @@ describe 'chef-client::cron' do
 
   end
 
+  context 'daemon options in cron' do
+
+    let(:chef_run) do
+      ChefSpec::SoloRunner.new(
+        platform: 'ubuntu', version: '12.04'
+      ) do |node|
+        node.set['chef_client']['daemon_options'] = %w(--run-lock-timeout 900)
+      end.converge(described_recipe)
+    end
+
+    it 'creates a cronjob with the daemon options' do
+      expect(chef_run).to create_cron('chef-client') \
+        .with(command: %r{--run-lock-timeout 900})
+    end
+
+    it 'creates a stand-in service starter without the daemon options' do
+      starter = chef_run.template('/etc/init.d/chef-client')
+      expect(starter.variables[:client_bin]) \
+        .not_to match(/--run-lock-timeout 900/)
+    end
+
+  end
+
 end
