@@ -1,8 +1,10 @@
-language: ruby
 sudo: false
-bundler_args: --without kitchen_vagrant
+cache: bundler
+language: ruby
+bundler_args: --without kitchen_common kitchen_vagrant kitchen_cloud
 rvm:
-- 2.1.5
-- 2.2.0
+  - 2.0
+  - 2.1
+  - 2.2
 script:
 - rake spec
