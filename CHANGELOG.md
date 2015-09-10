@@ -1,3 +1,7 @@
+chef-client Cookbook CHANGELOG
+==============================
+This file is used to list changes made in each version of the chef-client cookbook.
+
 v4.3.1 (2015-07-12)
 -------------------
 - [#320] don't crash if handler class isn't available
