@@ -24,7 +24,7 @@ template "#{upstart_job_dir}/chef-client#{upstart_job_suffix}" do
   source 'debian/init/chef-client.conf.erb'
   mode 0644
   variables(
-    :client_bin => client_bin
+    client_bin: client_bin
   )
   notifies :restart, 'service[chef-client]', :delayed
 end

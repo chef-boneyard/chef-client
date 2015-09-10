@@ -27,7 +27,7 @@ end
 
 # chef_node_name = Chef::Config[:node_name] == node['fqdn'] ? false : Chef::Config[:node_name]
 
-if node['chef_client']['log_file'].is_a? String and node['chef_client']['init_style'] != 'runit'
+if node['chef_client']['log_file'].is_a?(String) && node['chef_client']['init_style'] != 'runit'
   log_path = File.join(node['chef_client']['log_dir'], node['chef_client']['log_file'])
   node.default['chef_client']['config']['log_location'] = log_path
 
@@ -50,7 +50,7 @@ end
 # libraries/helpers.rb method to DRY directory creation resources
 create_directories
 
-if log_path != 'STDOUT' #~FC023
+if log_path != 'STDOUT' # ~FC023
   file log_path do
     mode 00640
   end
@@ -63,7 +63,7 @@ node['chef_client']['load_gems'].each do |gem_name, gem_info_hash|
     action gem_info_hash[:action] || :install
     source gem_info_hash[:source] if gem_info_hash[:source]
     version gem_info_hash[:version] if gem_info_hash[:version]
-    options ( gem_info_hash[:options] ) if gem_info_hash[:options]
+    options ( gem_info_hash[:options]) if gem_info_hash[:options]
   end
   chef_requires.push(gem_info_hash[:require_name] || gem_name)
 end
@@ -73,18 +73,18 @@ end
 d_owner = root_owner
 d_group = node['root_group']
 
-template "#{node["chef_client"]["conf_dir"]}/client.rb" do
+template "#{node['chef_client']['conf_dir']}/client.rb" do
   source 'client.rb.erb'
   owner d_owner
   group d_group
   mode 00644
   variables(
-    :chef_config => node['chef_client']['config'],
-    :chef_requires => chef_requires,
-    :ohai_disabled_plugins => node['ohai']['disabled_plugins'],
-    :start_handlers => node['chef_client']['config']['start_handlers'],
-    :report_handlers => node['chef_client']['config']['report_handlers'],
-    :exception_handlers => node['chef_client']['config']['exception_handlers']
+    chef_config: node['chef_client']['config'],
+    chef_requires: chef_requires,
+    ohai_disabled_plugins: node['ohai']['disabled_plugins'],
+    start_handlers: node['chef_client']['config']['start_handlers'],
+    report_handlers: node['chef_client']['config']['report_handlers'],
+    exception_handlers: node['chef_client']['config']['exception_handlers']
   )
 
   if node['chef_client']['reload_config']
@@ -101,7 +101,7 @@ end
 
 ruby_block 'reload_client_config' do
   block do
-    Chef::Config.from_file("#{node["chef_client"]["conf_dir"]}/client.rb")
+    Chef::Config.from_file("#{node['chef_client']['conf_dir']}/client.rb")
   end
   action :nothing
 end

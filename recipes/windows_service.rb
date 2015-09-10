@@ -32,7 +32,7 @@ create_directories
 d_owner = root_owner
 d_group = node['root_group']
 
-template "#{node["chef_client"]["conf_dir"]}/client.service.rb" do
+template "#{node['chef_client']['conf_dir']}/client.service.rb" do
   source 'client.service.rb.erb'
   owner d_owner
   group d_group

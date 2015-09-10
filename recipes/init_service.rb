@@ -10,16 +10,16 @@ node.default['chef_client']['bin'] = client_bin
 create_directories
 
 dist_dir, conf_dir = value_for_platform_family(
-  ['debian'] => %w{ debian default },
-  ['fedora'] => %w{ redhat sysconfig },
-  ['rhel'] => %w{ redhat sysconfig },
-  ['suse'] => %w{ suse sysconfig }
+  ['debian'] => %w( debian default ),
+  ['fedora'] => %w( redhat sysconfig ),
+  ['rhel'] => %w( redhat sysconfig ),
+  ['suse'] => %w( suse sysconfig )
 )
 
 template '/etc/init.d/chef-client' do
   source "#{dist_dir}/init.d/chef-client.erb"
   mode 0755
-  variables :client_bin => client_bin
+  variables client_bin: client_bin
   notifies :restart, 'service[chef-client]', :delayed
 end
 
@@ -30,6 +30,6 @@ template "/etc/#{conf_dir}/chef-client" do
 end
 
 service 'chef-client' do
-  supports :status => true, :restart => true
+  supports status: true, restart: true
   action [:enable, :start]
 end

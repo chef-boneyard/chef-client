@@ -1,12 +1,11 @@
 require 'spec_helper'
 
 describe 'chef-client::service' do
-
   context 'AIX' do
     let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'aix', version: '7.1').converge(described_recipe) }
     before do
-      stub_command("lssrc -s chef").and_return(true)
-      stub_command("lsitab chef").and_return(true)
+      stub_command('lssrc -s chef').and_return(true)
+      stub_command('lsitab chef').and_return(true)
     end
     it 'should use the src service' do
       expect(chef_run).to include_recipe('chef-client::src_service')

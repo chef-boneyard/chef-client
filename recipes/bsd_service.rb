@@ -15,31 +15,31 @@ create_directories
 case node['platform_family']
 when 'freebsd'
 
-  directory "/etc/rc.conf.d" do
-    owner "root"
-    group "wheel"
-    mode "0644"
+  directory '/etc/rc.conf.d' do
+    owner 'root'
+    group 'wheel'
+    mode '0644'
     action :create
   end
 
-  template "/etc/rc.d/chef-client" do
-    owner "root"
-    group "wheel"
-    variables :client_bin => client_bin
+  template '/etc/rc.d/chef-client' do
+    owner 'root'
+    group 'wheel'
+    variables client_bin: client_bin
     mode 0755
   end
 
-  template "/etc/rc.conf.d/chef" do
+  template '/etc/rc.conf.d/chef' do
     mode 0644
-    notifies :start, "service[chef-client]", :delayed
+    notifies :start, 'service[chef-client]', :delayed
   end
 
-  service "chef-client" do
-    supports :status => true, :restart => true
+  service 'chef-client' do
+    supports status: true, restart: true
     action [:start]
   end
 
 else
   log "You specified service style 'bsd'. You will need to set up your rc.local file."
-  log "Hint: chef-client -i #{node["chef_client"]["client_interval"]} -s #{node["chef_client"]["client_splay"]}"
+  log "Hint: chef-client -i #{node['chef_client']['client_interval']} -s #{node['chef_client']['client_splay']}"
 end
