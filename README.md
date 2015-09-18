@@ -1,7 +1,7 @@
 Chef Client Cookbook
 ====================
 
-[![Build Status](https://secure.travis-ci.org/chef-cookbooks/chef-client.png?branch=master)](http://travis-ci.org/chef-cookbooks/chef-client)
+[![Build Status](https://travis-ci.org/chef-cookbooks/chef-client.svg?branch=master)](https://travis-ci.org/chef-cookbooks/chef-client)
 [![Cookbook Version](https://img.shields.io/cookbook/v/chef-client.svg)](https://supermarket.chef.io/cookbooks/chef-client)
 
 This cookbook is used to configure a system as a Chef Client.
@@ -461,13 +461,11 @@ For more on why this cookbook does not support installs, see [Issue #102](https:
 
 License & Authors
 -----------------
-- Author:: Joshua Timberman (<joshua@chef.io>)
-- Author:: Paul Mooring (<paul@chef.io>)
-- Author:: Seth Chisamore (<schisamo@chef.io>)
 
-```text
-Copyright:: 2010-2015, Chef Software, Inc.
+**Author:** Cookbook Engineering Team (<cookbooks@chef.io>)
 
+**Copyright:** 2010-2015, Chef Software, Inc.
+```
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
