@@ -46,11 +46,13 @@ when 'arch', 'debian', 'rhel', 'fedora', 'suse', 'openbsd', 'freebsd'
     source "#{dist_dir}/init.d/chef-client.erb"
     mode 0755
     variables(client_bin: client_bin)
+    not_if { node['platform_family'] == 'freebsd'}
   end
 
   template "/etc/#{conf_dir}/chef-client" do
     source "#{dist_dir}/#{conf_dir}/chef-client.erb"
     mode 0644
+    not_if { node['platform_family'] == 'freebsd'}
   end
 
   service 'chef-client' do

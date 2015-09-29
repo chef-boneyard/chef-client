@@ -3,6 +3,8 @@ driver:
   customize:
     memory: 1024
     cpus: 2
+  ssh:
+    shell: '"/bin/sh"'
 
 provisioner:
   name: chef_zero
