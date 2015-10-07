@@ -3,8 +3,6 @@ driver:
   customize:
     memory: 1024
     cpus: 2
-  ssh:
-    shell: '"/bin/sh"'
 
 provisioner:
   name: chef_zero
@@ -18,6 +16,9 @@ platforms:
   - name: fedora-21
   - name: freebsd-9.3
   - name: freebsd-10.1
+    driver:
+      ssh:
+        shell: '/bin/sh'
   - name: ubuntu-12.04
   - name: ubuntu-14.04
 
