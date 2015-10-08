@@ -52,7 +52,7 @@ create_directories
 
 if log_path != 'STDOUT' # ~FC023
   file log_path do
-    mode 00640
+    mode node['chef_client']['log_file_mode']
   end
 end
 
