@@ -41,18 +41,16 @@ dist_dir, conf_dir = value_for_platform_family(
 
 # let's create the service file so the :disable action doesn't fail
 case node['platform_family']
-when 'arch', 'debian', 'rhel', 'fedora', 'suse', 'openbsd', 'freebsd'
+when 'arch', 'debian', 'rhel', 'fedora', 'suse', 'openbsd'
   template '/etc/init.d/chef-client' do
     source "#{dist_dir}/init.d/chef-client.erb"
     mode 0755
     variables(client_bin: client_bin)
-    not_if { node['platform_family'] == 'freebsd'}
   end
 
   template "/etc/#{conf_dir}/chef-client" do
     source "#{dist_dir}/#{conf_dir}/chef-client.erb"
     mode 0644
-    not_if { node['platform_family'] == 'freebsd'}
   end
 
   service 'chef-client' do
@@ -67,6 +65,13 @@ when 'openindiana', 'opensolaris', 'nexentacore', 'solaris2', 'smartos', 'omnios
     action [:disable, :stop]
     provider Chef::Provider::Service::Solaris
     ignore_failure true
+  end
+
+when 'freebsd'
+  service 'chef-client' do
+    supports status: true, restart: true
+    provider Chef::Provider::Service::Upstart if node['chef_client']['init_style'] == 'upstart'
+    action [:disable, :stop]
   end
 end
 
