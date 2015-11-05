@@ -4,7 +4,7 @@ maintainer_email  'cookbooks@chef.io'
 license           'Apache 2.0'
 description       'Manages client.rb configuration and chef-client service'
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version           '4.3.1'
+version           '4.3.2'
 recipe 'chef-client', 'Includes the service recipe by default.'
 recipe 'chef-client::bluepill_service', 'Configures chef-client as a service under Bluepill'
 recipe 'chef-client::bsd_service', 'Configures chef-client as a service on *BSD'

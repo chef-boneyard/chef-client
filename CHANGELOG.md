@@ -2,6 +2,18 @@ chef-client Cookbook CHANGELOG
 ==============================
 This file is used to list changes made in each version of the chef-client cookbook.
 
+v4.3.2 (2015-11-05)
+-------------------
+- [#347] windows_service updates client.service.rb with log_location path. This accompanies a change the chef-client that will now honor that configuration for windows_service logging. See https://github.com/chef/chef/pull/4135
+- [#326] prevent duplicate proxy config properties in client.rb
+- [#345] improved wording around deprecated settings in the readme
+- Added a chefignore file to limit files being uploaded to the chef server
+- Updated contributing and testing docs
+- Adding maintainers.md and maintainers.toml files
+- Added a Rakefile for simplified testing
+- Updated development and testing dependencies to the latest
+- Added cookbook version badge and travis status badge to the readme
+
 v4.3.1 (2015-07-12)
 -------------------
 - [#320] don't crash if handler class isn't available
