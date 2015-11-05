@@ -31,6 +31,10 @@ create_directories
 
 d_owner = root_owner
 d_group = node['root_group']
+install_command = "chef-service-manager -a install -c #{File.join(node['chef_client']['conf_dir'], 'client.service.rb')}"
+if Chef::VERSION <= '12.5.1'
+  install_command << " -L #{File.join(node['chef_client']['log_dir'], 'client.log')}"
+end
 
 template "#{node['chef_client']['conf_dir']}/client.service.rb" do
   source 'client.service.rb.erb'
@@ -40,8 +44,7 @@ template "#{node['chef_client']['conf_dir']}/client.service.rb" do
 end
 
 execute 'register-chef-service' do
-  command "chef-service-manager -a install -c #{File.join(node['chef_client']['conf_dir'], 'client.service.rb')} "\
-    "-L #{File.join(node['chef_client']['log_dir'], 'client.log')}"
+  command install_command
   not_if { chef_client_service_running }
 end
 

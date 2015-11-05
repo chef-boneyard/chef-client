@@ -2,6 +2,8 @@ if File.exists?(%q|<%= node["chef_client"]["conf_dir"] %>/client.rb|)
    Chef::Config.from_file(%q|<%= node["chef_client"]["conf_dir"] %>/client.rb|)
 end
 
+log_location "<%= File.join(node['chef_client']['log_dir'], 'client.log') %>"
+
 <% unless node["chef_client"]["interval"].nil? -%>
 interval <%= node["chef_client"]["interval"] %>
 <% end -%>

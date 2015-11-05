@@ -31,7 +31,7 @@ module Opscode
       end
 
       def chef_client_service_running
-        wmi_property_from_query(:name, "select * from Win32_Service where name = 'chef-client'") != nil
+        !wmi_property_from_query(:name, "select * from Win32_Service where name = 'chef-client'").nil?
       end
 
       def root_owner
@@ -48,7 +48,7 @@ module Opscode
         %w(run_path cache_path backup_path log_dir conf_dir).each do |dir|
           # Do not redefine the resource if it exist
           begin
-            r = resources(directory: node['chef_client'][dir])
+            resources(directory: node['chef_client'][dir])
           rescue Chef::Exceptions::ResourceNotFound
             directory node['chef_client'][dir] do
               recursive true
