@@ -57,7 +57,7 @@ describe 'chef-client::config' do
 
     it 'disables ohai 6 & 7 plugins' do
       expect(chef_run).to render_file('/etc/chef/client.rb') \
-        .with_content(/Ohai::Config\[:disabled_plugins\] =\s+\[:passwd,"dmi"\]/)
+        .with_content(/ohai.disabled_plugins =\s+\[:passwd,"dmi"\]/)
     end
 
     it 'converts log_level to a symbol' do

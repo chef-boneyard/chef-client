@@ -45,7 +45,7 @@ no_proxy "<%= node["chef_client"]["config"]["no_proxy"] %>"
 Ohai::Config[:plugin_path] << "<%= node["ohai"]["plugin_path"] %>"
 <% end -%>
 <% unless @ohai_disabled_plugins.empty? -%>
-Ohai::Config[:disabled_plugins] = [<%= @ohai_disabled_plugins.map { |k| k.match(/:/) ? k.gsub(/^:/, '').to_sym.inspect : k.inspect }.join(",") %>]
+<%= @ohai_new_config_syntax? 'ohai.disabled_plugins' : 'Ohai::Config[:disabled_plugins]' %> = [<%= @ohai_disabled_plugins.map { |k| k.match(/:/) ? k.gsub(/^:/, '').to_sym.inspect : k.inspect }.join(",") %>]
 
 <% end -%>
 
