@@ -42,6 +42,7 @@ describe 'chef-client::config' do
     let(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
         node.set['ohai']['disabled_plugins'] = [:passwd, 'dmi']
+        node.set['ohai']['plugin_path'] = '/etc/chef/ohai_plugins'
         node.set['chef_client']['config']['log_level'] = ':debug'
         node.set['chef_client']['config']['ssl_verify_mode'] = ':verify_none'
         node.set['chef_client']['config']['exception_handlers'] = [{ class: 'SimpleReport::UpdatedResources', arguments: [] }]
@@ -58,6 +59,11 @@ describe 'chef-client::config' do
     it 'disables ohai 6 & 7 plugins' do
       expect(chef_run).to render_file('/etc/chef/client.rb') \
         .with_content(/ohai.disabled_plugins =\s+\[:passwd,"dmi"\]/)
+    end
+
+    it 'specifies an ohai plugin path' do
+      expect(chef_run).to render_file('/etc/chef/client.rb') \
+        .with_content(/ohai.plugin_path << "\/etc\/chef\/ohai_plugins"/)
     end
 
     it 'converts log_level to a symbol' do
