@@ -63,7 +63,7 @@ describe 'chef-client::config' do
 
     it 'specifies an ohai plugin path' do
       expect(chef_run).to render_file('/etc/chef/client.rb') \
-        .with_content(/ohai.plugin_path << "\/etc\/chef\/ohai_plugins"/)
+        .with_content(%(ohai.plugin_path << "/etc/chef/ohai_plugins"))
     end
 
     it 'converts log_level to a symbol' do
