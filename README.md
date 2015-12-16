@@ -4,8 +4,6 @@
 This cookbook is used to configure a system as a Chef Client.
 
 ## Requirements
-- Chef Client [11.6.0](https://www.chef.io/blog/2013/07/23/chef-client-11-6-0-ohai-6-18-0-and-more/) or higher (for use of `node['root_group']` attribute).
-
 ### Platforms
 The following platforms are tested directly under test-kitchen; see .kitchen.yml and TESTING.md for details.
 - Ubuntu 12.04, 14.04
@@ -27,6 +25,9 @@ The following platforms are known to work:
 - AIX (6.1, 7.1)
 
 Other platforms may work with or without modification. Most notably, attribute modification may be required.
+
+### Chef
+- Chef 11.6.0+
 
 ### Dependent Cookbooks
 Some cookbooks can be used with this cookbook but they are not explicitly required. The default settings in this cookbook do not require their use. The other cookbooks (on the [supermarket](https://supermarket.chef.io/)) are:
