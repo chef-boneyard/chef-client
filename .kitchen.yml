@@ -14,6 +14,7 @@ platforms:
   - name: debian-7.8
   - name: debian-8.1
   - name: fedora-21
+  - name: fedora-22
   - name: freebsd-9.3
   - name: freebsd-10.1
   - name: ubuntu-12.04
@@ -33,7 +34,7 @@ suites:
   - recipe[chef-client::config]
   - recipe[chef-client::init_service]
   attributes: {}
-  excludes: ["centos-7.1", "fedora-21"]
+  excludes: ["centos-7.1", "fedora-21", "fedora-22"]
 
 - name: service_runit
   run_list:
@@ -45,7 +46,7 @@ suites:
   run_list:
   - recipe[chef-client::systemd_service]
   attributes: {}
-  includes: ["centos-7.1", "fedora-21"]
+  includes: ["centos-7.1", "fedora-21", "fedora-21"]
 
 - name: service_upstart
   run_list:
