@@ -64,6 +64,7 @@ suites:
 
 - name: cron
   run_list:
+  - recipe[cron::default]
   - recipe[chef-client::cron]
 
 - name: config
