@@ -13,9 +13,9 @@ Requirements
 ### Platforms
 The following platforms are tested directly under test-kitchen; see .kitchen.yml and TESTING.md for details.
 
-* Ubuntu 10.04, 12.04
-* CentOS 5.9, 6.4
-* Debian 6.0.7
+* Ubuntu 10.04, 12.04, 14.04
+* CentOS 5.9, 6.4, 7.1
+* Debian 6.0.7, 7.8, 8.1
 * SUSE (SLES) 11-sp2
 * OmniOS r151006c
 
