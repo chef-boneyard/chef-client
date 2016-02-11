@@ -99,11 +99,11 @@ when 'arch'
   default['chef_client']['cache_path']  = '/var/cache/chef'
   default['chef_client']['backup_path'] = '/var/lib/chef'
 when 'debian'
-  if node['platform_version'].to_i >= 8 && node.key?('init_package') && node['init_package'] == 'systemd'
-    default['chef_client']['init_style'] = 'systemd'
-  else
-    default['chef_client']['init_style'] = 'init'
-  end
+  default['chef_client']['init_style'] = if node['platform_version'].to_i >= 8 && node.key?('init_package') && node['init_package'] == 'systemd'
+                                           'systemd'
+                                         else
+                                           'init'
+                                         end
   default['chef_client']['run_path']    = '/var/run/chef'
   default['chef_client']['cache_path']  = '/var/cache/chef'
   default['chef_client']['backup_path'] = '/var/lib/chef'
@@ -113,11 +113,11 @@ when 'suse'
   default['chef_client']['cache_path']  = '/var/cache/chef'
   default['chef_client']['backup_path'] = '/var/lib/chef'
 when 'rhel'
-  if node['platform_version'].to_i >= 7 && node['platform'] != 'amazon'
-    default['chef_client']['init_style'] = 'systemd'
-  else
-    default['chef_client']['init_style'] = 'init'
-  end
+  default['chef_client']['init_style'] = if node['platform_version'].to_i >= 7 && node['platform'] != 'amazon'
+                                           'systemd'
+                                         else
+                                           'init'
+                                         end
   default['chef_client']['run_path']    = '/var/run/chef'
   default['chef_client']['cache_path']  = '/var/cache/chef'
   default['chef_client']['backup_path'] = '/var/lib/chef'

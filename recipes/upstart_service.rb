@@ -14,7 +14,7 @@ upstart_job_suffix = '.conf'
 
 case node['platform']
 when 'ubuntu'
-  if (8.04..9.04).include?(node['platform_version'].to_f)
+  if (8.04..9.04).cover?(node['platform_version'].to_f)
     upstart_job_dir = '/etc/event.d'
     upstart_job_suffix = ''
   end

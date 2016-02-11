@@ -5,7 +5,7 @@
 # Cookbook Name:: chef-client
 # Recipe:: config
 #
-# Copyright 2008-2013, Chef Software, Inc
+# Copyright 2008-2016, Chef Software, Inc.
 # Copyright 2009, 37signals
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
