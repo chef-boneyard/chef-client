@@ -20,10 +20,10 @@ env:
   - INSTANCE=config-ubuntu-1404
   - INSTANCE=config-centos-6
   - INSTANCE=config-centos-7
-  - INSTANCE=delete_validation-ubuntu-1204
-  - INSTANCE=delete_validation-ubuntu-1404
-  - INSTANCE=delete_validation-centos-6
-  - INSTANCE=delete_validation-centos-7
+  - INSTANCE=delete-validation-ubuntu-1204
+  - INSTANCE=delete-validation-ubuntu-1404
+  - INSTANCE=delete-validation-centos-6
+  - INSTANCE=delete-validation-centos-7
   - INSTANCE=service_upstart-ubuntu-1204
   - INSTANCE=service_upstart-ubuntu-1404
   - INSTANCE=service_systemd-centos-7
