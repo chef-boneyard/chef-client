@@ -98,7 +98,7 @@ module Opscode
           Chef::Log.debug 'Using chef-client bin from system path'
           chef_in_path
         else
-          fail "Could not locate the chef-client bin in any known path. Please set the proper path by overriding the node['chef_client']['bin'] attribute."
+          raise "Could not locate the chef-client bin in any known path. Please set the proper path by overriding the node['chef_client']['bin'] attribute."
         end
       end
     end
