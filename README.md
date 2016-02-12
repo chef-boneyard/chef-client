@@ -7,10 +7,10 @@ This cookbook is used to configure a system as a Chef Client.
 ### Platforms
 The following platforms are tested directly under test-kitchen; see .kitchen.yml and TESTING.md for details.
 - Ubuntu 12.04, 14.04
-- CentOS 5.11, 6.7, 7.1
-- Debian 7.8, 8.1
-- Fedora 21, 22
-- FreeBSD 9.3, 10.1
+- CentOS 5.11, 6.7, 7.2
+- Debian 7.9, 8.2
+- Fedora 22, 23
+- FreeBSD 9.3, 10.2
 
 The following platforms are known to work:
 - Debian family (Debian, Ubuntu etc)
@@ -372,7 +372,7 @@ For more on why this cookbook does not support installs, see [Issue #102](https:
 ## License & Authors
 **Author:** Cookbook Engineering Team ([cookbooks@chef.io](mailto:cookbooks@chef.io))
 
-**Copyright:** 2010-2015, Chef Software, Inc.
+**Copyright:** 2010-2016, Chef Software, Inc.
 
 ```
 Licensed under the Apache License, Version 2.0 (the "License");
