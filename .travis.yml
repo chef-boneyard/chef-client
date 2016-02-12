@@ -29,8 +29,6 @@ env:
   - INSTANCE=service-systemd-centos-7
   - INSTANCE=service-runit-ubuntu-1204
   - INSTANCE=service-runit-ubuntu-1404
-  - INSTANCE=service-runit-centos-6
-  - INSTANCE=service-runit-centos-7
   - INSTANCE=service-init-ubuntu-1204
   - INSTANCE=service-init-ubuntu-1404
   - INSTANCE=service-init-centos-6
