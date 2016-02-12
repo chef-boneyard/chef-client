@@ -29,3 +29,5 @@ PerceivedComplexity:
   Enabled: false
 Style/ClassAndModuleChildren:
   Enabled: false
+Lint/AmbiguousRegexpLiteral:
+  Enabled: false
