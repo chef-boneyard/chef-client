@@ -1,9 +1,14 @@
 # chef-client Cookbook CHANGELOG
 This file is used to list changes made in each version of the chef-client cookbook.
 
-## UNRELEASED
+## v4.3.3 (2016-02-15)
 - [#349] Fix Ohai syntax for > 8.6.0 to remove deprecation warning
 - [#316] Make chef-client log permissions configurable
+- [#327/#364] Fix chef windows task quoting
+- [#341] Update template to use correct milestone for Solaris 11
+- [#338] Allow starting chef-client in FreeBSD jails
+- Added amazon as a supported platform in the metadata.rb file
+- Updated the minimum required windows cookbook to the latest version to resolve issues with scheduled tasks
 - Replaced Digital Ocean testing with Kitchen-Docker running in Travis CI
 - Expanded platform testing in Test Kitchen and fixed failing ServerSpecs
 
