@@ -1,19 +1,18 @@
 require 'spec_helper'
 
 describe 'chef-client::config' do
-
   let(:chef_run) do
     ChefSpec::ServerRunner.new.converge(described_recipe)
   end
 
   it 'contains the default chef_server_url setting' do
     expect(chef_run).to render_file('/etc/chef/client.rb') \
-      .with_content(%r{chef_server_url})
+      .with_content(/chef_server_url/)
   end
 
   it 'contains the default validation_client_name setting' do
     expect(chef_run).to render_file('/etc/chef/client.rb') \
-      .with_content(%r{validation_client_name})
+      .with_content(/validation_client_name/)
   end
 
   [
@@ -40,64 +39,67 @@ describe 'chef-client::config' do
   end
 
   context 'Custom Attributes' do
-
     let(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
-        node.set['ohai']['disabled_plugins'] = [:passwd, "dmi"]
-        node.set['chef_client']['config']['log_level'] = ":debug"
-        node.set['chef_client']['config']['ssl_verify_mode'] = ":verify_none"
-        node.set['chef_client']['config']['exception_handlers'] = [{class: "SimpleReport::UpdatedResources", arguments: []}]
-        node.set['chef_client']['config']['report_handlers'] = [{class: "SimpleReport::UpdatedResources", arguments: []}]
-        node.set['chef_client']['config']['start_handlers'] = [{class: "SimpleReport::UpdatedResources", arguments: []}]
+        node.set['ohai']['disabled_plugins'] = [:passwd, 'dmi']
+        node.set['ohai']['plugin_path'] = '/etc/chef/ohai_plugins'
+        node.set['chef_client']['config']['log_level'] = ':debug'
+        node.set['chef_client']['config']['ssl_verify_mode'] = ':verify_none'
+        node.set['chef_client']['config']['exception_handlers'] = [{ class: 'SimpleReport::UpdatedResources', arguments: [] }]
+        node.set['chef_client']['config']['report_handlers'] = [{ class: 'SimpleReport::UpdatedResources', arguments: [] }]
+        node.set['chef_client']['config']['start_handlers'] = [{ class: 'SimpleReport::UpdatedResources', arguments: [] }]
         node.set['chef_client']['config']['http_proxy'] = 'http://proxy.vmware.com:3128'
         node.set['chef_client']['config']['https_proxy'] = 'http://proxy.vmware.com:3128'
         node.set['chef_client']['config']['no_proxy'] = '*.vmware.com,10.*'
-        node.set['chef_client']['load_gems']['chef-handler-updated-resources']['require_name'] = "chef/handler/updated_resources"
+        node.set['chef_client']['load_gems']['chef-handler-updated-resources']['require_name'] = 'chef/handler/updated_resources'
         node.set['chef_client']['reload_config'] = false
       end.converge(described_recipe)
     end
 
     it 'disables ohai 6 & 7 plugins' do
       expect(chef_run).to render_file('/etc/chef/client.rb') \
-        .with_content(%r{Ohai::Config\[:disabled_plugins\] =\s+\[:passwd,"dmi"\]})
+        .with_content(/ohai.disabled_plugins =\s+\[:passwd,"dmi"\]/)
+    end
+
+    it 'specifies an ohai plugin path' do
+      expect(chef_run).to render_file('/etc/chef/client.rb') \
+        .with_content(%(ohai.plugin_path << "/etc/chef/ohai_plugins"))
     end
 
     it 'converts log_level to a symbol' do
       expect(chef_run).to render_file('/etc/chef/client.rb') \
-        .with_content(%r{^log_level :debug})
+        .with_content(/^log_level :debug/)
     end
 
     it 'converts ssl_verify_mode to a symbol' do
       expect(chef_run).to render_file('/etc/chef/client.rb') \
-        .with_content(%r{^ssl_verify_mode :verify_none})
+        .with_content(/^ssl_verify_mode :verify_none/)
     end
 
     it 'enables exception_handlers' do
       expect(chef_run).to render_file('/etc/chef/client.rb') \
-        .with_content(%{exception_handlers << SimpleReport::UpdatedResources.new})
+        .with_content(%(exception_handlers << SimpleReport::UpdatedResources.new))
     end
 
     it 'requires handler libraries' do
       expect(chef_run).to install_chef_gem('chef-handler-updated-resources')
       expect(chef_run).to render_file('/etc/chef/client.rb') \
-        .with_content(%{\["chef/handler/updated_resources"\].each do |lib|})
+        .with_content(%(\["chef/handler/updated_resources"\].each do |lib|))
     end
 
     it 'configures an HTTP Proxy' do
       expect(chef_run).to render_file('/etc/chef/client.rb') \
-      .with_content(%r{^http_proxy "http://proxy.vmware.com:3128"})
+        .with_content(%r{^http_proxy "http://proxy.vmware.com:3128"})
     end
 
     it 'configures an HTTPS Proxy' do
       expect(chef_run).to render_file('/etc/chef/client.rb') \
-      .with_content(%r{^https_proxy "http://proxy.vmware.com:3128"})
+        .with_content(%r{^https_proxy "http://proxy.vmware.com:3128"})
     end
 
     it 'configures no_proxy' do
       expect(chef_run).to render_file('/etc/chef/client.rb') \
-      .with_content(%r{^no_proxy "\*.vmware.com,10.\*"})
+        .with_content(/^no_proxy "\*.vmware.com,10.\*"/)
     end
-
   end
-
 end

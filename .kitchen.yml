@@ -9,15 +9,22 @@ provisioner:
 
 platforms:
   - name: centos-5.11
-  - name: centos-6.6
-  - name: centos-7.0
-  - name: debian-7.7
-  - name: fedora-20
-  - name: fedora-21
+  - name: centos-6.7
+  - name: centos-7.2
+  - name: debian-7.9
+  - name: debian-8.2
+  - name: fedora-22
+  - name: fedora-23
   - name: freebsd-9.3
-  - name: freebsd-10.1
+  - name: freebsd-10.2
   - name: ubuntu-12.04
   - name: ubuntu-14.04
+  - name: ubuntu-14.04-chef-11
+    driver_config:
+      box: opscode-ubuntu-14.04
+    provisioner:
+      require_chef_omnibus: 11.18.6
+  - name: ubuntu-15.04
 
 suites:
 
@@ -25,52 +32,47 @@ suites:
   run_list:
   - recipe[chef-client::config]
   - recipe[chef-client::bsd_service]
-  attributes: {}
-  includes: ["freebsd-9.3", "freebsd-10.1"]
+  includes: ["freebsd-9.3", "freebsd-10.2"]
 
 - name: service_init
   run_list:
   - recipe[chef-client::config]
   - recipe[chef-client::init_service]
-  attributes: {}
-  excludes: ["centos-7.0", "fedora-20", "fedora-21"]
+  excludes: ["centos-7.2", "debian-8.2", "fedora-22", "fedora-23", "freebsd-9.3", "freebsd-10.2"]
 
 - name: service_runit
   run_list:
   - recipe[runit]
   - recipe[chef-client::runit_service]
-  attributes: {}
+  includes: ["ubuntu-12.04", "ubuntu-14.04", "debian-7.9", "debian-8.2"]
 
 - name: service_systemd
   run_list:
   - recipe[chef-client::systemd_service]
-  attributes: {}
-  includes: ["centos-7.0", "fedora-20", "fedora-21"]
+  includes: ["centos-7.2", "debian-8.2", "fedora-22", "fedora-23", "ubuntu-15.04"]
 
 - name: service_upstart
   run_list:
   - recipe[chef-client::upstart_service]
   includes: ["ubuntu-12.04", "ubuntu-14.04"]
-  attributes: {}
 
 - name: cron
   run_list:
+  - recipe[cron::default]
   - recipe[chef-client::cron]
-  attributes: {}
 
 - name: config
   run_list:
   - recipe[chef-client::config]
-  attributes: {}
 
 - name: delete_validation
   run_list:
   - recipe[chef-client::delete_validation]
-  attributes: {}
 
 # Test that the we can use the cron_d directory
 - name: cook-use_cron_d
   run_list:
+  - recipe[cron::default]
   - recipe[chef-client::cron]
   attributes:
     chef_client:
@@ -86,6 +88,7 @@ suites:
     chef_client:
       init_style: "init"
       daemon_options: ["-E cook-1951"]
+  excludes: ["freebsd-9.3", "freebsd-10.2"]
 
 # Testing when we are using chef-client on a Chef Server (12+ only)
 - name: server
@@ -93,4 +96,3 @@ suites:
   - recipe[chef-server]
   - recipe[chef-client::config]
   - recipe[chef-client::service]
-  attributes: {}

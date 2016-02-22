@@ -24,14 +24,14 @@ module Opscode
       include Chef::DSL::PlatformIntrospection if Chef::VERSION >= '11.0.0'
 
       def wmi_property_from_query(wmi_property, wmi_query)
-        @wmi = ::WIN32OLE.connect("winmgmts://")
+        @wmi = ::WIN32OLE.connect('winmgmts://')
         result = @wmi.ExecQuery(wmi_query)
         return nil unless result.each.count > 0
         result.each.next.send(wmi_property)
       end
 
       def chef_client_service_running
-        wmi_property_from_query(:name, "select * from Win32_Service where name = 'chef-client'") != nil
+        !wmi_property_from_query(:name, "select * from Win32_Service where name = 'chef-client'").nil?
       end
 
       def root_owner
@@ -45,10 +45,10 @@ module Opscode
       def create_directories
         # root_owner is not in scope in the block below.
         d_owner = root_owner
-        %w{run_path cache_path backup_path log_dir conf_dir}.each do |dir|
+        %w(run_path cache_path backup_path log_dir conf_dir).each do |dir|
           # Do not redefine the resource if it exist
           begin
-            r = resources(directory: node['chef_client'][dir])
+            resources(directory: node['chef_client'][dir])
           rescue Chef::Exceptions::ResourceNotFound
             directory node['chef_client'][dir] do
               recursive true
@@ -94,11 +94,11 @@ module Opscode
           Chef::Log.debug 'Using chef-client bin from sane path'
           chef_in_sane_path
         # last ditch search for a bin in PATH
-      elsif (chef_in_path = %x{#{which} chef-client}.chomp) && ::File.send(existence_check, chef_in_path)  # ~FC048 Prefer Mixlib::ShellOut is ignored here
+        elsif (chef_in_path = `#{which} chef-client`.chomp) && ::File.send(existence_check, chef_in_path) # ~FC048 Prefer Mixlib::ShellOut is ignored here
           Chef::Log.debug 'Using chef-client bin from system path'
           chef_in_path
         else
-          fail "Could not locate the chef-client bin in any known path. Please set the proper path by overriding the node['chef_client']['bin'] attribute."
+          raise "Could not locate the chef-client bin in any known path. Please set the proper path by overriding the node['chef_client']['bin'] attribute."
         end
       end
     end

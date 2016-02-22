@@ -5,7 +5,7 @@
 # Cookbook Name:: chef-client
 # Recipe:: cron
 #
-# Copyright 2009-2011, Chef Software, Inc.
+# Copyright 2009-2016, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -33,11 +33,11 @@ node.default['chef_client']['bin'] = client_bin
 create_directories
 
 dist_dir, conf_dir = value_for_platform_family(
-  ['debian'] => %w{ debian default },
-  ['rhel'] => %w{ redhat sysconfig },
-  ['fedora'] => %w{ redhat sysconfig },
-  ['suse'] => %w{ suse sysconfig }
-  )
+  ['debian'] => %w( debian default ),
+  ['rhel'] => %w( redhat sysconfig ),
+  ['fedora'] => %w( redhat sysconfig ),
+  ['suse'] => %w( suse sysconfig )
+)
 
 # let's create the service file so the :disable action doesn't fail
 case node['platform_family']
@@ -45,7 +45,7 @@ when 'arch', 'debian', 'rhel', 'fedora', 'suse', 'openbsd', 'freebsd'
   template '/etc/init.d/chef-client' do
     source "#{dist_dir}/init.d/chef-client.erb"
     mode 0755
-    variables(:client_bin => client_bin)
+    variables(client_bin: client_bin)
   end
 
   template "/etc/#{conf_dir}/chef-client" do
@@ -54,14 +54,14 @@ when 'arch', 'debian', 'rhel', 'fedora', 'suse', 'openbsd', 'freebsd'
   end
 
   service 'chef-client' do
-    supports :status => true, :restart => true
+    supports status: true, restart: true
     provider Chef::Provider::Service::Upstart if node['chef_client']['init_style'] == 'upstart'
     action [:disable, :stop]
   end
 
 when 'openindiana', 'opensolaris', 'nexentacore', 'solaris2', 'smartos', 'omnios'
   service 'chef-client' do
-    supports :status => true, :restart => true
+    supports status: true, restart: true
     action [:disable, :stop]
     provider Chef::Provider::Service::Solaris
     ignore_failure true
@@ -80,7 +80,7 @@ log_file   = node['chef_client']['cron']['log_file']
 append_log = node['chef_client']['cron']['append_log'] ? '>>' : '>'
 
 # Use daemon_options in cron.
-client_bin << " #{node["chef_client"]["daemon_options"].join(' ')}" if node["chef_client"]["daemon_options"].any?
+client_bin << " #{node['chef_client']['daemon_options'].join(' ')}" if node['chef_client']['daemon_options'].any?
 
 # If "use_cron_d" is set to true, delete the cron entry that uses the cron
 # resource built in to Chef and instead use the cron_d LWRP.

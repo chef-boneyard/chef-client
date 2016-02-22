@@ -17,5 +17,4 @@ describe 'chef-client::_unit_test_cloning_resource' do
     expect(chef_run).to create_directory('/var/log/chef').with_owner('root')
     expect(chef_run).to create_directory('/var/log/chef').with_group('root')
   end
-
 end

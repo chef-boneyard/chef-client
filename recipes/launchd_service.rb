@@ -11,7 +11,7 @@ Chef::Log.debug("Found chef-client in #{client_bin}")
 node.default['chef_client']['bin'] = client_bin
 create_directories
 
-version_checker = Gem::Requirement.new(">= 0.10.10")
+version_checker = Gem::Requirement.new('>= 0.10.10')
 mac_service_supported = version_checker.satisfied_by?(Gem::Version.new(node['chef_packages']['chef']['version']))
 
 if mac_service_supported
@@ -25,8 +25,8 @@ if mac_service_supported
     source 'com.chef.chef-client.plist.erb'
     mode 0644
     variables(
-      :launchd_mode => node['chef_client']['launchd_mode'],
-      :client_bin => client_bin
+      launchd_mode: node['chef_client']['launchd_mode'],
+      client_bin: client_bin
     )
   end
 

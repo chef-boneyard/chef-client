@@ -1,23 +1,33 @@
+AllCops:
+  Exclude:
+    - vendor/**/*
+    - Guardfile
+
 AlignParameters:
   Enabled: false
-
+ClassLength:
+  Enabled: false
 CyclomaticComplexity:
   Enabled: false
-
-Encoding:
-  Enabled: false
-
-LineLength:
-  Max: 200
-
-HashSyntax:
-  EnforcedStyle: hash_rockets
-
-# Offence count: 3
 Documentation:
   Enabled: false
-
-# Offence count: 1
-# Configuration parameters: CountComments.
+Encoding:
+  Enabled: false
+Style/FileName:
+  Enabled: false
+Style/Alias:
+  Enabled: false
+Style/SpaceBeforeFirstArg:
+  Enabled: false
+LineLength:
+  Enabled: false
 MethodLength:
-  Max: 33
+  Enabled: false
+Metrics/AbcSize:
+  Enabled: false
+PerceivedComplexity:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  Enabled: false
+Lint/AmbiguousRegexpLiteral:
+  Enabled: false
