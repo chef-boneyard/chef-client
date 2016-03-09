@@ -64,6 +64,10 @@ suites:
 - name: config
   run_list:
   - recipe[chef-client::config]
+  attributes:
+    ohai:
+      disabled_plugins:
+        - Mdadm
 
 - name: delete_validation
   run_list:
