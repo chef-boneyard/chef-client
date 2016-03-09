@@ -41,15 +41,13 @@ no_proxy "<%= node["chef_client"]["config"]["no_proxy"] %>"
 <% end -%>
 
 <% if node.attribute?("ohai") && node["ohai"].attribute?("plugin_path") -%>
-
 <%= @ohai_new_config_syntax? 'ohai.plugin_path' : 'Ohai::Config[:plugin_path]' %> << "<%= node["ohai"]["plugin_path"] %>"
 <% end -%>
 <% unless @ohai_disabled_plugins.empty? -%>
 <%= @ohai_new_config_syntax? 'ohai.disabled_plugins' : 'Ohai::Config[:disabled_plugins]' %> = [<%= @ohai_disabled_plugins.map { |k| k.match(/:/) ? k.gsub(/^:/, '').to_sym.inspect : k.inspect }.join(",") %>]
-
 <% end -%>
 
-# Do no crash if a handler is missing / not installed yet
+# Do not crash if a handler is missing / not installed yet
 begin
 <% unless @start_handlers.nil? || @start_handlers.empty?-%>
   <% @start_handlers.each do |handler| -%>
