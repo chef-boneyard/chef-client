@@ -31,5 +31,12 @@ end
 
 service 'chef-client' do
   provider Chef::Provider::Service::Upstart
+  # Upstart doesn't reliably restart chef-client with the new splay/interval options.
+  # Either the old config is maintained, or the chef-client daemon dies.
+  #
+  # This complication ensures (a) new splay/interval options are picked up and
+  # (b) chef-client is running with the new config after restart is executed.
+  #
+  restart_command 'nohup bash -c "trap SIGHUP SIGINT SIGTERM ; stop chef-client ; start chef-client"'
   action [:enable, :start]
 end
