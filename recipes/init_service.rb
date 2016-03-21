@@ -19,7 +19,11 @@ dist_dir, conf_dir = value_for_platform_family(
 template '/etc/init.d/chef-client' do
   source "#{dist_dir}/init.d/chef-client.erb"
   mode 0755
-  variables client_bin: client_bin
+  variables({
+    :client_bin => client_bin,
+    :chkconfig_start_order => node[:chef_client][chkconfig][start_order],
+    :chkconfig_stop_order => node[:chef_client][chkconfig][stop_order]
+  })
   notifies :restart, 'service[chef-client]', :delayed
 end
 
