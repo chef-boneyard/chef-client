@@ -21,8 +21,8 @@ template '/etc/init.d/chef-client' do
   mode 0755
   variables({
     :client_bin => client_bin,
-    :chkconfig_start_order => node[:chef_client][chkconfig][start_order],
-    :chkconfig_stop_order => node[:chef_client][chkconfig][stop_order]
+    :chkconfig_start_order => node['chef_client']['chkconfig']['start_order'],
+    :chkconfig_stop_order => node['chef_client']['chkconfig']['stop_order']
   })
   notifies :restart, 'service[chef-client]', :delayed
 end
