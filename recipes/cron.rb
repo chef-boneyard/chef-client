@@ -78,6 +78,7 @@ end
 env        = node['chef_client']['cron']['environment_variables']
 log_file   = node['chef_client']['cron']['log_file']
 append_log = node['chef_client']['cron']['append_log'] ? '>>' : '>'
+cmd_args   = node['chef_client']['cron']['cmd_args']
 
 # Use daemon_options in cron.
 client_bin << " #{node['chef_client']['daemon_options'].join(' ')}" if node['chef_client']['daemon_options'].any?
@@ -98,7 +99,7 @@ if node['chef_client']['cron']['use_cron_d']
     user    'root'
     cmd = ''
     cmd << "/bin/sleep #{sleep_time}; " if sleep_time
-    cmd << "#{env} #{client_bin} #{append_log} #{log_file} 2>&1"
+    cmd << "#{env} #{client_bin} #{cmd_args} #{append_log} #{log_file} 2>&1"
     command cmd
   end
 else
@@ -115,7 +116,7 @@ else
     user    'root'
     cmd = ''
     cmd << "/bin/sleep #{sleep_time}; " if sleep_time
-    cmd << "#{env} #{client_bin} #{append_log} #{log_file} 2>&1"
+    cmd << "#{env} #{client_bin} #{cmd_args} #{append_log} #{log_file} 2>&1"
     command cmd
   end
 end
