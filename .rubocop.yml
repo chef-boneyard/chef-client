@@ -25,9 +25,9 @@ MethodLength:
   Enabled: false
 Metrics/AbcSize:
   Enabled: false
+Metrics/ModuleLength:
+  Enabled: false
 PerceivedComplexity:
   Enabled: false
 Style/ClassAndModuleChildren:
-  Enabled: false
-Lint/AmbiguousRegexpLiteral:
   Enabled: false
