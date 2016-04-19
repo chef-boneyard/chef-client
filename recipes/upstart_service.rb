@@ -12,14 +12,6 @@ create_directories
 upstart_job_dir = '/etc/init'
 upstart_job_suffix = '.conf'
 
-case node['platform']
-when 'ubuntu'
-  if (8.04..9.04).cover?(node['platform_version'].to_f)
-    upstart_job_dir = '/etc/event.d'
-    upstart_job_suffix = ''
-  end
-end
-
 template "#{upstart_job_dir}/chef-client#{upstart_job_suffix}" do
   source 'debian/init/chef-client.conf.erb'
   mode 0644
