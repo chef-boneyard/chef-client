@@ -69,7 +69,7 @@ The following attributes affect the behavior of the chef-client program when run
 - `node['chef_client']['cron']['environment_variables']` - Environment variables to pass to chef-client's execution (e.g. `SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt` chef-client)
 - `node['chef_client']['cron']['log_file']` - Location to capture the
 - `node['chef_client']['cron']['append_log']` - Whether to append to the log. Default: `false` chef-client output.
-- `node['chef_client']['cron']['use_cron_d']` - If true, use the [`cron_d` LWRP](https://github.com/chef-cookbooks/cron). If false (default), use the cron resource built-in to Chef.
+- `node['chef_client']['cron']['use_cron_d']` - If true, use the [`cron_d` resource](https://github.com/chef-cookbooks/cron). If false (default), use the cron resource built-in to Chef.
 - `node['chef_client']['cron']['mailto']` - If set, `MAILTO` env variable is set for cron definition
 - `node['chef_client']['reload_config']` - If true, reload Chef config of current Chef run when `client.rb` template changes (defaults to true)
 - `node['chef_client']['daemon_options']` - An array of additional options to pass to the chef-client service, empty by default, and must be an array if specified.
@@ -165,9 +165,13 @@ Use this recipe to delete the validation certificate (default `/etc/chef/validat
 
 Use this recipe to run chef-client as a cron job rather than as a service. The cron job runs after random delay that is between 0 and 90 seconds to ensure that the chef-clients don't attempt to connect to the chef-server at the exact same time. You should set `node['chef_client']['init_style'] = 'none'` when you use this mode but it is not required.
 
+### task
+
+Use this recipe to run chef-client on Windows nodes as a scheduled task. Without modifying attributes the scheduled task will run 30 minutes after the recipe runs, with each chef run rescheduling the run 30 minutes in the future. By default the job runs as the system user. The time period between runs can be modified with the `default['chef_client']['task']['frequency_modifier']` attribute and the user can be changed with the `default['chef_client']['task']['user']` and `default['chef_client']['task']['password']` attributes.
+
 ## Usage
 
-Use the recipes as described above to configure your systems to run Chef as a service via cron or one of the service management systems supported by the recipes.
+Use the recipes as described above to configure your systems to run Chef as a service via cron / scheduled task or one of the service management systems supported by the recipes.
 
 The `chef-client::config` recipe is only _required_ with init style `init` (default setting for the attribute on debian/redhat family platforms, because the init script doesn't include the `pid_file` option which is set in the config.
 
