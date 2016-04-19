@@ -133,12 +133,12 @@ Use this recipe on systems that should have a `chef-client` daemon running, such
 - `bsd` - prints a message about how to update BSD systems to enable the chef-client service, supported on Free/OpenBSD.
 
 ### default
+
 Includes the `chef-client::service` recipe by default.
 
 ### delete_validation
-Use this recipe to delete the validation certificate (default `/etc/chef/validation.pem`) when using a `chef-client` after the client has been validated and authorized to connect to the server.
 
-**Note** If you're using this on a Chef 10 Server, be careful when using this recipe. First, copy the `validation.pem` certificate file to another location, such as your knife configuration directory (`~/.chef`) or [Chef Repository](http://docs.chef.io/essentials_repository.html).
+Use this recipe to delete the validation certificate (default `/etc/chef/validation.pem`) when using a `chef-client` after the client has been validated and authorized to connect to the server.
 
 ### cron
 Use this recipe to run chef-client as a cron job rather than as a service. The cron job runs after random delay that is between 0 and 90 seconds to ensure that the chef-clients don't attempt to connect to the chef-server at the exact same time. You should set `node['chef_client']['init_style'] = 'none'` when you use this mode but it is not required.
