@@ -202,8 +202,8 @@ As another example, to set HTTP proxy configuration settings. By default Chef wi
 default_attributes(
   "chef_client" => {
     "config" => {
-      "http_proxy" => "http://proxy.vmware.com:3128",
-      "https_proxy" => "http://proxy.vmware.com:3128",
+      "http_proxy" => "http://proxy.mycorp.com:3128",
+      "https_proxy" => "http://proxy.mycorp.com:3128",
       "http_proxy_user" => "my_username",
       "http_proxy_pass" => "Awe_some_Pass_Word!",
       "no_proxy" => "*.vmware.com,10.*"
