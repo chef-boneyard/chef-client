@@ -87,7 +87,7 @@ The following attributes are set on a per-platform basis, see the `attributes/de
 - `Chef::Config[:file_cache_path]` where chef-client will cache various files. Default is based on platform, falls back to "/var/chef/cache".
 - `node['chef_client']['backup_path']` - Directory location for `Chef::Config[:file_backup_path]` where chef-client will backup templates and cookbook files. Default is based on platform, falls back to "/var/chef/backup".
 - `node['chef_client']['launchd_mode']` - (Only for Mac OS X) if set to `'daemon'`, runs chef-client with `-d` and `-s` options; defaults to `'interval'`.
-- When `chef_client['log_file']` is set and running on a [logrotate](http://ckbk.it/logrotate) supported platform (debian, rhel, fedora family), use the following attributes to tune log rotation.
+- When `chef_client['log_file']` is set and running on a [logrotate](https://supermarket.chef.io/cookbooks/logrotate) supported platform (debian, rhel, fedora family), use the following attributes to tune log rotation.
 
   - `node['chef_client']['logrotate']['rotate']` - Number of rotated logs to keep on disk, default 12.
   - `node['chef_client']['logrotate']['frequency']` - How often to rotate chef client logs, default weekly.
@@ -287,7 +287,7 @@ To dynamically render configuration for Start, Report, or Exception handlers, se
 - `report_handlers`
 - `exception_handlers`
 
-This is an alternative to using the [`chef_handler` cookbook](http://supermarket.chef.io/cookbooks/chef_handler).
+This is an alternative to using the [`chef_handler` cookbook](https://supermarket.chef.io/cookbooks/chef_handler).
 
 Each of these attributes must be an array of hashes. The hash has two keys, `class` (a string), and `arguments` (an array). For example, to use the report handler in the [Requiring Gems](#requiring-gems) section:
 
