@@ -25,6 +25,12 @@ platforms:
     provisioner:
       require_chef_omnibus: 11.18.6
   - name: ubuntu-15.04
+  - name: windows-2008r2
+    driver_config:
+      box: chef/windows-server-2008r2-standard # private box
+  - name: windows-2012r2
+    driver_config:
+      box: chef/windows-server-2012r2-standard # private box
 
 suites:
 
@@ -38,7 +44,7 @@ suites:
   run_list:
   - recipe[chef-client::config]
   - recipe[chef-client::init_service]
-  excludes: ["centos-7.2", "debian-8.2", "fedora-22", "fedora-23", "freebsd-9.3", "freebsd-10.2"]
+  includes: ["centos-5.11", "centos-6.7", "debian-7.9", "ubuntu-12.04", "ubuntu-14.04"]
 
 - name: service_runit
   run_list:
@@ -60,6 +66,7 @@ suites:
   run_list:
   - recipe[cron::default]
   - recipe[chef-client::cron]
+  excludes: ["windows-2008r2", "windows-2012r2"]
 
 - name: config
   run_list:
@@ -82,6 +89,7 @@ suites:
     chef_client:
       cron:
         use_cron_d: true
+  excludes: ["windows-2008r2", "windows-2012r2"]
 
 # Test that the running process includes command-line "daemon" options
 - name: cook-1951
@@ -92,7 +100,7 @@ suites:
     chef_client:
       init_style: "init"
       daemon_options: ["-E cook-1951"]
-  excludes: ["freebsd-9.3", "freebsd-10.2"]
+  excludes: ["freebsd-9.3", "freebsd-10.2", "windows-2008r2", "windows-2012r2"]
 
 # Testing when we are using chef-client on a Chef Server (12+ only)
 - name: server
@@ -100,3 +108,9 @@ suites:
   - recipe[chef-server]
   - recipe[chef-client::config]
   - recipe[chef-client::service]
+  includes: ["ubuntu-12.04", "ubuntu-14.04", "centos-6.7", "centos-7.2"]
+
+- name: task
+  run_list:
+    - recipe[chef-client::task]
+  includes: ["windows-2008r2", "windows-2012r2"]
