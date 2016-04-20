@@ -34,8 +34,8 @@ suggests 'bluepill'
 suggests 'daemontools'
 suggests 'runit'
 
-depends 'cron', '>= 1.2.0'
-depends 'logrotate', '>= 1.2.0'
+depends 'cron', '>= 1.7.0'
+depends 'logrotate', '>= 1.9.0'
 depends 'windows', '>= 1.39.0'
 
 source_url 'https://github.com/chef-cookbooks/chef-client' if respond_to?(:source_url)
