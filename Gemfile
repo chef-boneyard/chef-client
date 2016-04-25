@@ -17,6 +17,9 @@ end
 
 group :kitchen_common do
   gem 'test-kitchen', '~> 1.7'
+  # Windows specific, but kitchen won't work without these.
+  gem 'winrm', '~> 1.6'
+  gem 'winrm-fs', '~> 0.4.1'
 end
 
 group :kitchen_vagrant do
