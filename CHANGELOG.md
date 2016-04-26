@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## v4.5.0 (2016-04-26)
+
+- Updated the client.rb to use ChefConfig::Config.from_file to load config files on Chef 12.4.0\. This resolves NameError messages when running Ohai on its own.
+
 ## v4.4.0 (2016-04-20)
 
 - Update the required version of logrorate to >= 1.9.0 and cron to 1.7.0 so we bring in the last few years of bug fixes and feature enhancements
