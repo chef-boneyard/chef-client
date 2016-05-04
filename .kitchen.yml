@@ -78,6 +78,16 @@ suites:
   - recipe[chef-client::cron]
   excludes: ["windows-2008r2", "windows-2012r2"]
 
+- name: timer_systemd
+  run_list:
+  - recipe[chef-client::systemd_service]
+  attributes:
+    chef_client:
+      systemd:
+        timer: true
+  includes: ["centos-7.3", "debian-8.6", "fedora-25", "ubuntu-16.04"]
+
+
 - name: config
   run_list:
   - recipe[chef-client::config]

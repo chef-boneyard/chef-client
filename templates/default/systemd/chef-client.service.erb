@@ -3,11 +3,14 @@ Description=Chef Client daemon
 After=network.target auditd.service
 
 [Service]
+Type=<%= @type %>
 EnvironmentFile=<%= @sysconfig_file %>
-ExecStart=<%= @client_bin %> -c $CONFIG -i $INTERVAL -s $SPLAY $OPTIONS
+ExecStart=<%= @client_bin %> <%= @exec_options %>
 ExecReload=/bin/kill -HUP $MAINPID
 SuccessExitStatus=3
-Restart=on-failure
+<% if @restart_mode %>
+Restart=<%= @restart_mode %>
+<% end %>
 
 [Install]
 WantedBy=multi-user.target
