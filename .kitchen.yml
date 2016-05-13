@@ -13,7 +13,6 @@ platforms:
   - name: centos-7.2
   - name: debian-7.10
   - name: debian-8.4
-  - name: fedora-22
   - name: fedora-23
   - name: freebsd-9.3
   - name: freebsd-10.2
@@ -55,7 +54,7 @@ suites:
 - name: service_systemd
   run_list:
   - recipe[chef-client::systemd_service]
-  includes: ["centos-7.2", "debian-8.2", "fedora-22", "fedora-23", "ubuntu-15.04"]
+  includes: ["centos-7.2", "debian-8.2", "fedora-23", "ubuntu-16.04"]
 
 - name: service_upstart
   run_list:
