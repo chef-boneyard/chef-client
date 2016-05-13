@@ -20,8 +20,7 @@ module Opscode
   module ChefClient
     # helper methods for use in chef-client recipe code
     module Helpers
-      include Chef::Mixin::Language if Chef::VERSION < '11.0.0'
-      include Chef::DSL::PlatformIntrospection if Chef::VERSION >= '11.0.0'
+      include Chef::DSL::PlatformIntrospection
 
       def wmi_property_from_query(wmi_property, wmi_query)
         @wmi = ::WIN32OLE.connect('winmgmts://')
