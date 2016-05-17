@@ -20,6 +20,7 @@ module Opscode
   module ChefClient
     # helper methods for use in chef-client recipe code
     module Helpers
+      include Chef::Mixin::Which
       include Chef::DSL::PlatformIntrospection
 
       def wmi_property_from_query(wmi_property, wmi_query)
@@ -62,16 +63,13 @@ module Opscode
       def find_chef_client
         if node['platform'] == 'windows'
           existence_check = :exists?
-          # Where will also return files that have extensions matching PATHEXT (e.g.
-          # *.bat). We don't want the batch file wrapper, but the actual script.
-          which = 'set PATHEXT=.exe & where'
           Chef::Log.debug "Using exists? and 'where', since we're on Windows"
         else
           existence_check = :executable?
-          which = 'which'
           Chef::Log.debug "Using executable? and 'which' since we're on Linux"
         end
 
+        # FIXME: considerable overlap with Chef::Mixin::Which
         chef_in_sane_path = lambda do
           begin
             Chef::Client::SANE_PATHS.map do |p|
@@ -93,7 +91,7 @@ module Opscode
           Chef::Log.debug 'Using chef-client bin from sane path'
           chef_in_sane_path
         # last ditch search for a bin in PATH
-        elsif (chef_in_path = `#{which} chef-client`.chomp) && ::File.send(existence_check, chef_in_path) # ~FC048 Prefer Mixlib::ShellOut is ignored here
+        elsif (chef_in_path = which('chef-client')) != false
           Chef::Log.debug 'Using chef-client bin from system path'
           chef_in_path
         else
