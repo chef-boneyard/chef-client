@@ -15,14 +15,14 @@ directory node['chef_client']['run_path'] do
   recursive true
   owner 'root'
   group group
-  mode 0755
+  mode 00755
 end
 
 include_recipe 'bluepill' # ~FC007: bluepill is only required when using the bluepill_service recipe
 
 template "#{node['bluepill']['conf_dir']}/chef-client.pill" do
   source 'chef-client.pill.erb'
-  mode 0644
+  mode 00644
   notifies :restart, 'bluepill_service[chef-client]', :delayed
 end
 

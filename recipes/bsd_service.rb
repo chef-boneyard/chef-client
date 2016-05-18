@@ -26,11 +26,11 @@ when 'freebsd'
     owner 'root'
     group 'wheel'
     variables client_bin: client_bin
-    mode 0755
+    mode 00755
   end
 
   template '/etc/rc.conf.d/chef' do
-    mode 0644
+    mode 00644
     notifies :start, 'service[chef-client]', :delayed
   end
 
