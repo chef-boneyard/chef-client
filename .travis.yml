@@ -9,20 +9,28 @@ addons:
     packages:
       - chefdk
 
+install: echo "skip bundle install"
+
 services: docker
 
 env:
   matrix:
   - INSTANCE=cron-ubuntu-1204
   - INSTANCE=cron-ubuntu-1404
+  - INSTANCE=cron-ubuntu-1604
+  - INSTANCE=cron-centos-5
   - INSTANCE=cron-centos-6
   - INSTANCE=cron-centos-7
   - INSTANCE=config-ubuntu-1204
   - INSTANCE=config-ubuntu-1404
+  - INSTANCE=config-ubuntu-1604
+  - INSTANCE=config-centos-5
   - INSTANCE=config-centos-6
   - INSTANCE=config-centos-7
   - INSTANCE=delete-validation-ubuntu-1204
   - INSTANCE=delete-validation-ubuntu-1404
+  - INSTANCE=delete-validation-ubuntu-1604
+  - INSTANCE=delete-validation-centos-5
   - INSTANCE=delete-validation-centos-6
   - INSTANCE=delete-validation-centos-7
   - INSTANCE=service-upstart-ubuntu-1204
@@ -30,23 +38,21 @@ env:
   - INSTANCE=service-systemd-centos-7
   - INSTANCE=service-init-ubuntu-1204
   - INSTANCE=service-init-ubuntu-1404
+  - INSTANCE=service-init-centos-5
   - INSTANCE=service-init-centos-6
 
-# Don't `bundle install`
-install: echo "skip bundle install"
+  fast_finish: true
 
-# Ensure we make ChefDK's Ruby the default
 before_script:
-  # https://github.com/zuazo/kitchen-in-travis-native/issues/1#issuecomment-142230889
   - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
   - eval "$(/opt/chefdk/bin/chef shell-init bash)"
-  - /opt/chefdk/embedded/bin/chef gem install kitchen-docker
-  - /opt/chefdk/embedded/bin/chef gem install rubocop -v 0.37
+  - /opt/chefdk/embedded/bin/chef gem install kitchen-dokken
+
 script:
   - /opt/chefdk/embedded/bin/chef --version
   - /opt/chefdk/embedded/bin/rubocop --version
   - /opt/chefdk/embedded/bin/rubocop
   - /opt/chefdk/embedded/bin/foodcritic --version
-  - /opt/chefdk/embedded/bin/foodcritic . --exclude spec
+  - /opt/chefdk/embedded/bin/foodcritic . --exclude spec -f any
   - /opt/chefdk/embedded/bin/rspec
   - KITCHEN_LOCAL_YAML=.kitchen.docker.yml /opt/chefdk/embedded/bin/kitchen verify ${INSTANCE}
