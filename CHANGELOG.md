@@ -2,6 +2,13 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## v4.5.1 (2016-05-19)
+
+- Removed the last bit of Chef 10 compatibility code
+- Updated file modes in resources so we properly set the leading 0s
+- Switched Travis CI testing to kitchen-dokken and expanded the platforms / suites that are tested
+- Added additional service Chefspecs
+
 ## v4.5.0 (2016-04-26)
 
 - Updated the client.rb to use ChefConfig::Config.from_file to load config files on Chef 12.4.0\. This resolves NameError messages when running Ohai on its own.
