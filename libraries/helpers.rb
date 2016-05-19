@@ -20,7 +20,7 @@ module Opscode
   module ChefClient
     # helper methods for use in chef-client recipe code
     module Helpers
-      include Chef::Mixin::Which
+      include Chef::Mixin::Which if defined?(Chef::Mixin::Which)
       include Chef::DSL::PlatformIntrospection
 
       def wmi_property_from_query(wmi_property, wmi_query)
@@ -91,7 +91,10 @@ module Opscode
           Chef::Log.debug 'Using chef-client bin from sane path'
           chef_in_sane_path
         # last ditch search for a bin in PATH
-        elsif (chef_in_path = which('chef-client')) != false
+        elsif defined?(which) && (chef_in_path = which('chef-client')) != false
+          Chef::Log.debug 'Using chef-client bin from system path'
+          chef_in_path
+        elsif (chef_in_path = `#{which} chef-client`.chomp) && ::File.send(existence_check, chef_in_path) # ~FC048 Prefer Mixlib::ShellOut is ignored here
           Chef::Log.debug 'Using chef-client bin from system path'
           chef_in_path
         else
