@@ -91,7 +91,7 @@ suites:
   run_list:
   - recipe[chef-client::config]
   - recipe[chef-client::init_service]
-  includes: ["ubuntu-12.04", "ubuntu-14.04", "centos-6"]
+  includes: ["ubuntu-12.04", "ubuntu-14.04", "centos-6", "centos-5"]
 
 - name: service_runit
   run_list:
