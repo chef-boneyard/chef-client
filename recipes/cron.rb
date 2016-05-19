@@ -50,7 +50,7 @@ when 'arch', 'debian', 'rhel', 'fedora', 'suse', 'openbsd', 'freebsd'
 
   template "/etc/#{conf_dir}/chef-client" do
     source "#{dist_dir}/#{conf_dir}/chef-client.erb"
-    mode 0644
+    mode 00644
   end
 
   service 'chef-client' do

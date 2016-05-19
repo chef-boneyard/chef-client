@@ -27,7 +27,7 @@ template "#{node['chef_client']['method_dir']}/chef-client" do
 end
 
 template(local_path + 'chef-client.xml') do
-  if node[:platform_version].to_f >= 5.11
+  if node['platform_version'].to_f >= 5.11
     source 'solaris/manifest-5.11.xml.erb'
   else
     source 'solaris/manifest.xml.erb'
