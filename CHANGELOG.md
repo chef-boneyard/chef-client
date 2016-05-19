@@ -4,6 +4,7 @@ This file is used to list changes made in each version of the chef-client cookbo
 
 ## v4.5.1 (2016-05-19)
 
+- Switch from command line which to pure Ruby which in the helper for finding chef-client
 - Removed the last bit of Chef 10 compatibility code
 - Updated file modes in resources so we properly set the leading 0s
 - Switched Travis CI testing to kitchen-dokken and expanded the platforms / suites that are tested
