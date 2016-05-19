@@ -153,6 +153,7 @@ Use this recipe on systems that should have a `chef-client` daemon running, such
 - `daemontools` - sets up the service under daemontools, supported on debian, ubuntu and arch
 - `launchd` - sets up the service under launchd, supported on Mac OS X & Mac OS X Server.
 - `bsd` - prints a message about how to update BSD systems to enable the chef-client service, supported on Free/OpenBSD.
+- `systemd` - sets up the service under systemd. Supported on systemd based distros.
 
 ### default
 
