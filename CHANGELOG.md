@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## v4.5.2 (2016-05-20)
+
+- Revert switching to ruby based which as this broke compatibility with older Chef clients
+- Resolved deprecation warnings with chef_gem installs
+
 ## v4.5.1 (2016-05-19)
 
 - Switch from command line which to pure Ruby which in the helper for finding chef-client
