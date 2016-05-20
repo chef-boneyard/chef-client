@@ -34,7 +34,7 @@ platforms:
     image: centos:5
     platform: rhel
     pid_one_command: /sbin/init
-    provision_command:
+    intermediate_instructions:
       - /usr/bin/yum install -y which initscripts
 
 - name: centos-6
