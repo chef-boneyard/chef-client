@@ -35,7 +35,7 @@ platforms:
     platform: rhel
     pid_one_command: /sbin/init
     intermediate_instructions:
-      - /usr/bin/yum install -y which initscripts
+      - RUN yum install -y which initscripts
 
 - name: centos-6
   driver:
