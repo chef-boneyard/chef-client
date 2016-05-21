@@ -6,6 +6,7 @@ After=network.target auditd.service
 EnvironmentFile=<%= @sysconfig_file %>
 ExecStart=<%= @client_bin %> -c $CONFIG -i $INTERVAL -s $SPLAY $OPTIONS
 ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
