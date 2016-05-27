@@ -42,13 +42,13 @@ Some cookbooks can be used with this cookbook but they are not explicitly requir
 
 - bluepill
 - daemontools
-- runit
 
 Cron is a dependency, for default behavior of the `cron` recipe to work. This is a dependency because `cron` is cross platform, and doesn't carry additional dependencies, unlike the other cookbooks listed above.
 
 - cron 1.2.0+
 - logrotate 1.2.0+
-- windows 1.39.0+
+- windows 1.40.0+
+- runit 1.2.0+
 
 See [USAGE](#usage).
 
