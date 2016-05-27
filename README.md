@@ -38,13 +38,6 @@ Other platforms may work with or without modification. Most notably, attribute m
 
 ### Dependent Cookbooks
 
-Some cookbooks can be used with this cookbook but they are not explicitly required. The default settings in this cookbook do not require their use. The other cookbooks (on the [supermarket](https://supermarket.chef.io/)) are:
-
-- bluepill
-- daemontools
-
-Cron is a dependency, for default behavior of the `cron` recipe to work. This is a dependency because `cron` is cross platform, and doesn't carry additional dependencies, unlike the other cookbooks listed above.
-
 - cron 1.2.0+
 - logrotate 1.2.0+
 - windows 1.40.0+
