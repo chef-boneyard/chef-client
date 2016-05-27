@@ -36,7 +36,7 @@ suggests 'runit'
 
 depends 'cron', '>= 1.7.0'
 depends 'logrotate', '>= 1.9.0'
-depends 'windows', '>= 1.39.0'
+depends 'windows', '>= 1.42.0'
 
 source_url 'https://github.com/chef-cookbooks/chef-client' if respond_to?(:source_url)
 issues_url 'https://github.com/chef-cookbooks/chef-client/issues' if respond_to?(:issues_url)
