@@ -31,9 +31,9 @@ create_directories
 start_time = node['chef_client']['task']['frequency'] == 'minute' ? (Time.now + 60 * node['chef_client']['task']['frequency_modifier']).strftime('%H:%M') : nil
 windows_task 'chef-client' do
   run_level :highest
-  command "cmd /c \\\"#{node['chef_client']['ruby_bin']} #{node['chef_client']['bin']} \
+  command "cmd /c \"#{node['chef_client']['ruby_bin']} #{node['chef_client']['bin']} \
   -L #{File.join(node['chef_client']['log_dir'], 'client.log')} \
-  -c #{File.join(node['chef_client']['conf_dir'], 'client.rb')} -s #{node['chef_client']['splay']} > NUL 2>&1\\\""
+  -c #{File.join(node['chef_client']['conf_dir'], 'client.rb')} -s #{node['chef_client']['splay']}\""
 
   user               node['chef_client']['task']['user']
   password           node['chef_client']['task']['password']
