@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## v4.5.3 (2016-05-20)
+
+- Make task recipe idempotent
+
 ## v4.5.2 (2016-05-20)
 
 - Revert switching to ruby based which as this broke compatibility with older Chef clients
