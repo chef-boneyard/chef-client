@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'chef-client::windows_service' do
-  let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'windows', version: '2012R2').converge(described_recipe) }
+  let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'windows', version: '2012R2').converge(described_recipe) }
 
   before do
     allow_any_instance_of(Chef::Recipe).to receive(:create_directories)

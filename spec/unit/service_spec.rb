@@ -20,21 +20,21 @@ describe 'chef-client::service' do
   end
 
   context 'CentOS 5' do
-    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'centos', version: '5.10').converge(described_recipe) }
+    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'centos', version: '5.11').converge(described_recipe) }
     it 'should use the init service' do
       expect(chef_run).to include_recipe('chef-client::init_service')
     end
   end
 
   context 'CentOS 6' do
-    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'centos', version: '6.5').converge(described_recipe) }
+    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'centos', version: '6.7').converge(described_recipe) }
     it 'should use the init service' do
       expect(chef_run).to include_recipe('chef-client::init_service')
     end
   end
 
   context 'CentOS 7' do
-    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'centos', version: '7.0').converge(described_recipe) }
+    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'centos', version: '7.2.1511').converge(described_recipe) }
     it 'should use the systemd service' do
       expect(chef_run).to include_recipe('chef-client::systemd_service')
     end
@@ -48,7 +48,7 @@ describe 'chef-client::service' do
   end
 
   context 'FreeBSD 9' do
-    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'freebsd', version: '9.2').converge(described_recipe) }
+    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'freebsd', version: '9.3').converge(described_recipe) }
     it 'should use the bsd service' do
       expect(chef_run).to include_recipe('chef-client::bsd_service')
     end

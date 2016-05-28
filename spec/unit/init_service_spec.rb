@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe 'chef-client::init_service' do
-  centos5 = { platform: 'centos', version: '5.10', conf_dir: 'sysconfig' }
-  centos6 = { platform: 'centos', version: '6.5', conf_dir: 'sysconfig' }
-  ubuntu = { platform: 'ubuntu', version: '12.04', conf_dir: 'init.d' }
-  opensuse = { platform: 'suse', version: '11.3', conf_dir: 'sysconfig' }
+  centos5 = { platform: 'centos', version: '5.11', conf_dir: 'sysconfig' }
+  centos6 = { platform: 'centos', version: '6.7', conf_dir: 'sysconfig' }
+  ubuntu = { platform: 'ubuntu', version: '14.04', conf_dir: 'init.d' }
+  opensuse = { platform: 'opensuse', version: '13.2', conf_dir: 'sysconfig' }
 
   context "#{centos5[:platform]} #{centos5[:version]}" do
     let(:chef_run) do
