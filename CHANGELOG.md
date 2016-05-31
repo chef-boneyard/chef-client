@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## v4.5.4 (2016-05-31)
+
+- Updated the systemd unit file to restart on failure and added exit status 3 as a valid successful exit status
+- Added the ability to specify retries, retry_delay, timeout in the chef gem install hash
+
 ## v4.5.3 (2016-05-27)
 
 - Fixed idempotency of the windows task recipe
