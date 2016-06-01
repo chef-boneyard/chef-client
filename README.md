@@ -15,6 +15,7 @@ The following platforms are tested directly under test-kitchen; see .kitchen.yml
 - Debian 7.9, 8.2
 - Fedora 22, 23
 - FreeBSD 9.3, 10.2
+- openSUSE 13.2
 - Windows 2008 R2 / Windows 2012 R2
 
 The following platforms are known to work:
@@ -29,6 +30,7 @@ The following platforms are known to work:
 - Mac OS X Server
 - Microsoft Windows (7, 8, 2008, 2008 R2, 2012, 2012 R2)
 - AIX (6.1, 7.1)
+- openSUSE Leap / SUSE Linux Enterprises
 
 Other platforms may work with or without modification. Most notably, attribute modification may be required.
 

@@ -24,6 +24,7 @@ platforms:
     provisioner:
       require_chef_omnibus: 11.18.6
   - name: ubuntu-16.04
+  - name: opensuse-13.2
   - name: windows-2008r2
     driver_config:
       box: chef/windows-server-2008r2-standard # private box
@@ -54,7 +55,7 @@ suites:
 - name: service_systemd
   run_list:
   - recipe[chef-client::systemd_service]
-  includes: ["centos-7.2", "debian-8.2", "fedora-23", "ubuntu-16.04"]
+  includes: ["centos-7.2", "debian-8.2", "fedora-23", "ubuntu-16.04", "opensuse-13.2"]
 
 - name: service_upstart
   run_list:
