@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## v4.6.0 (2016-06-01)
+
+- Add systemd support to Suse platforms and make systemd the default there as systemd is the init system on all supported suse platforms
+- Added a serverspec test for systemd service setup
+
 ## v4.5.4 (2016-05-31)
 
 - Updated the systemd unit file to restart on failure and added exit status 3 as a valid successful exit status
