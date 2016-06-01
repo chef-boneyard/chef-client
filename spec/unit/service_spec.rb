@@ -70,8 +70,29 @@ describe 'chef-client::service' do
 
   context 'OpenSuSE' do
     let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'opensuse', version: '13.2').converge(described_recipe) }
+    it 'should use the systemd service' do
+      expect(chef_run).to include_recipe('chef-client::systemd_service')
+    end
+  end
+
+  context 'Ubuntu 12.04' do
+    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '12.04').converge(described_recipe) }
     it 'should use the init service' do
       expect(chef_run).to include_recipe('chef-client::init_service')
+    end
+  end
+
+  context 'Ubuntu 14.04' do
+    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '14.04').converge(described_recipe) }
+    it 'should use the init service' do
+      expect(chef_run).to include_recipe('chef-client::init_service')
+    end
+  end
+
+  context 'Ubuntu 16.04' do
+    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04').converge(described_recipe) }
+    it 'should use the systemd service' do
+      expect(chef_run).to include_recipe('chef-client::systemd_service')
     end
   end
 
