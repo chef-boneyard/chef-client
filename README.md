@@ -167,7 +167,7 @@ Use this recipe to delete the validation certificate (default `/etc/chef/validat
 
 ### cron
 
-Use this recipe to run chef-client as a cron job rather than as a service. The cron job runs after random delay that is between 0 and 90 seconds to ensure that the chef-clients don't attempt to connect to the chef-server at the exact same time. You should set `node['chef_client']['init_style'] = 'none'` when you use this mode but it is not required.
+Use this recipe to run chef-client as a cron job rather than as a service. The cron job runs after random delay that is between 0 and 90 seconds to ensure that the chef-clients don't attempt to connect to the chef-server at the exact same time. You can alternatively have the "default" recipe in the run_list and set `node['chef_client']['init_style'] = 'cron'` to have "cron" recipe included. It is not required if you put the recipe in the run_list manually.
 
 ### task
 

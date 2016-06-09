@@ -40,6 +40,8 @@ init_style = node['chef_client']['init_style']
 # Services moved to recipes
 if supported_init_styles.include? init_style
   include_recipe "chef-client::#{init_style}_service"
+elsif init_style == "cron"
+  include_recipe "chef-client::cron"
 else
   log 'Could not determine service init style, manual intervention required to start up the chef-client service.'
 end
