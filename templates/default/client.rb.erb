@@ -68,6 +68,7 @@ rescue NameError => e
   Chef::Log.error e
 end
 
+<% if Gem::Version.new(Chef::VERSION) < Gem::Version.new('12.8') -%>
 Dir.glob(File.join(<%= node['chef_client']['conf_dir'].inspect %>, "client.d", "*.rb")).each do |conf|
   <% if Gem::Version.new(Chef::VERSION) < Gem::Version.new('12.4.0') -%>
   Chef::Config.from_file(conf)
@@ -75,3 +76,4 @@ Dir.glob(File.join(<%= node['chef_client']['conf_dir'].inspect %>, "client.d", "
   ChefConfig::Config.from_file(conf)
   <% end -%>
 end
+<% end -%>
