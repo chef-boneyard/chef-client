@@ -39,7 +39,7 @@ env:
   - INSTANCE=service-upstart-ubuntu-1404
   - INSTANCE=service-systemd-centos-7
   - INSTANCE=service-systemd-opensuse-132
-  - INSTANCE=service-systemd-fedora-23
+  - INSTANCE=service-systemd-fedora-latest
   - INSTANCE=service-init-ubuntu-1204
   - INSTANCE=service-init-ubuntu-1404
   - INSTANCE=service-init-centos-5
