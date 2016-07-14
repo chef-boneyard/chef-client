@@ -22,9 +22,7 @@
 #
 
 supported_init_styles = %w(
-  bluepill
   bsd
-  daemontools
   init
   launchd
   runit

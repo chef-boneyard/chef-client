@@ -40,11 +40,7 @@ Other platforms may work with or without modification. Most notably, attribute m
 
 ### Dependent Cookbooks
 
-Some cookbooks can be used with this cookbook but they are not explicitly required. The default settings in this cookbook do not require their use. The other cookbooks (on the [supermarket](https://supermarket.chef.io/)) are:
-
-- bluepill
-- daemontools
-- runit
+The runit cookbook can be used with this cookbook but it is not explicitly required. The default settings in this cookbook do not require its use.
 
 Cron is a dependency, for default behavior of the `cron` recipe to work. This is a dependency because `cron` is cross platform, and doesn't carry additional dependencies, unlike the other cookbooks listed above.
 
@@ -138,7 +134,7 @@ The `chef-client::service` recipe includes one of the `chef-client::INIT_STYLE_s
 recipe[chef-client::init_service]
 ```
 
-To set up the chef-client under bluepill, daemontools or runit, those recipes must be specified on the node or role's run list first, to ensure that the dependencies are resolved, as this cookbook does not directly depend on them. For example, to use runit:
+To set up the chef-client under runit, the runit cookbook must be specified on the node or role's run list first, to ensure that the dependencies are resolved, as this cookbook does not directly depend on runit. For example:
 
 ```
 recipe[runit]
@@ -151,8 +147,6 @@ Use this recipe on systems that should have a `chef-client` daemon running, such
 - `upstart` - uses the upstart job included in this cookbook, supported on ubuntu.
 - `arch` - uses the init script included in this cookbook for ArchLinux, supported on arch.
 - `runit` - sets up the service under runit, supported on ubuntu, debian, redhat family distributions, and gentoo.
-- `bluepill` - sets up the service under bluepill. As bluepill is a pure ruby process monitor, this should work on any platform.
-- `daemontools` - sets up the service under daemontools, supported on debian, ubuntu and arch
 - `launchd` - sets up the service under launchd, supported on Mac OS X & Mac OS X Server.
 - `bsd` - prints a message about how to update BSD systems to enable the chef-client service, supported on Free/OpenBSD.
 - `systemd` - sets up the service under systemd. Supported on systemd based distros.
@@ -324,8 +318,6 @@ report_handlers << SimpleReport::UpdatedResources.new()
 The alternate init styles available are:
 
 - runit
-- bluepill
-- daemontools
 - none -- should be specified if you are running chef-client as cron job
 
 #### Runit
@@ -350,52 +342,6 @@ run_list(
 ```
 
 The `chef-client` recipe will create the chef-client service configured with runit. The runit run script will be located in `/etc/sv/chef-client/run`. The output log will be in the runit service directory, `/etc/sv/chef-client/log/main/current`.
-
-#### Bluepill
-
-To use bluepill, download the cookbook from Supermarket.
-
-Change the `init_style` to runit in the base role and add the bluepill recipe to the role's run list:
-
-```ruby
-name "base"
-description "Base role applied to all nodes"
-default_attributes(
-  "chef_client" => {
-    "init_style" => "bluepill"
-  }
-)
-run_list(
-  "recipe[chef-client::delete_validation]",
-  "recipe[bluepill]",
-  "recipe[chef-client]"
-)
-```
-
-The `chef-client` recipe will create the chef-client service configured with bluepill. The bluepill "pill" will be located in `/etc/bluepill/chef-client.pill`. The output log will be to client.log file in the `node['chef_client']['log_dir']` location, `/var/log/chef/client` by default.
-
-#### Daemontools
-
-To use daemontools, download the cookbook from Supermarket.
-
-Change the `init_style` to runit in the base role and add the daemontools recipe to the role's run list:
-
-```ruby
-name "base"
-description "Base role applied to all nodes"
-default_attributes(
-  "chef_client" => {
-    "init_style" => "daemontools"
-  }
-)
-run_list(
-  "recipe[chef-client::delete_validation]",
-  "recipe[daemontools]",
-  "recipe[chef-client]"
-)
-```
-
-The `chef-client` recipe will create the chef-client service configured under daemontools. It uses the same sv run scripts as the runit recipe. The run script will be located in `/etc/sv/chef-client/run`. The output log will be in the daemontools service directory, `/etc/sv/chef-client/log/main/current`.
 
 #### Launchd
 

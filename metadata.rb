@@ -6,11 +6,9 @@ description       'Manages client.rb configuration and chef-client service'
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version           '4.6.0'
 recipe 'chef-client', 'Includes the service recipe by default.'
-recipe 'chef-client::bluepill_service', 'Configures chef-client as a service under Bluepill'
 recipe 'chef-client::bsd_service', 'Configures chef-client as a service on *BSD'
 recipe 'chef-client::config', 'Configures the client.rb from a template.'
 recipe 'chef-client::cron', 'Runs chef-client as a cron job rather than as a service'
-recipe 'chef-client::daemontools_service', 'Configures chef-client as a service under Daemontools'
 recipe 'chef-client::delete_validation', 'Deletes validation.pem after client registers'
 recipe 'chef-client::init_service', 'Configures chef-client as a SysVInit service'
 recipe 'chef-client::launchd_service', 'Configures chef-client as a launchd service on OS X'
@@ -26,12 +24,7 @@ recipe 'chef-client::windows_service', 'Configures chef-client as a service on W
   supports os
 end
 
-# Each of these suggested cookbooks are dependencies when using the
-# respective $SERVICE_MANAGER_service recipe.
-# Foodcritic comments are included in each recipe to ignore
-#   FC007: Ensure recipe dependencies are reflected in cookbook metadata
-suggests 'bluepill'
-suggests 'daemontools'
+# Runit is necessary if runit is being used, but is not explicitly required
 suggests 'runit'
 
 depends 'cron', '>= 1.7.0'
