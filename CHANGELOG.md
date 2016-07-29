@@ -2,6 +2,16 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## v5.0.0 (2016-07-29)
+
+- This will be the last version of this cookbook that supports Chef 11\. If you are still using Chef 11 you will need to pin to < 6.0
+- Support for Bluepill and Daemontools init systems has been removed
+- chef_version metadata has been added
+- client.d config files are now only explicitly added on Chef < 12.8 to prevent double loading configs
+- Rubocop has been replaced by cookstyle for simpler ruby linting
+- A new Rakefile that handles missing gems better has been included
+- Support for daemon options when running as a Windows scheduled task has been added
+
 ## v4.6.0 (2016-06-01)
 
 - Add systemd support to Suse platforms and make systemd the default there as systemd is the init system on all supported suse platforms
