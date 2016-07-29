@@ -21,11 +21,6 @@ platforms:
   - name: freebsd-10.3
   - name: ubuntu-12.04
   - name: ubuntu-14.04
-  - name: ubuntu-14.04-chef-11
-    driver_config:
-      box: bento/ubuntu-14.04
-    provisioner:
-      require_chef_omnibus: 11.18.6
   - name: ubuntu-16.04
   - name: opensuse-13.2
   - name: windows-2008r2
@@ -41,24 +36,24 @@ suites:
   run_list:
   - recipe[chef-client::config]
   - recipe[chef-client::bsd_service]
-  includes: ["freebsd-9.3", "freebsd-10.2"]
+  includes: ["freebsd-9.3", "freebsd-10.3"]
 
 - name: service_init
   run_list:
   - recipe[chef-client::config]
   - recipe[chef-client::init_service]
-  includes: ["centos-5.11", "centos-6.7", "debian-7.9", "ubuntu-12.04", "ubuntu-14.04"]
+  includes: ["centos-5.11", "centos-6.7", "debian-7.11"]
 
 - name: service_runit
   run_list:
   - recipe[runit]
   - recipe[chef-client::runit_service]
-  includes: ["ubuntu-12.04", "ubuntu-14.04", "debian-7.9", "debian-8.2"]
+  includes: ["centos-5.11", "centos-6.7", "debian-7.11"]
 
 - name: service_systemd
   run_list:
   - recipe[chef-client::systemd_service]
-  includes: ["centos-7.2", "debian-8.2", "fedora-23", "ubuntu-16.04", "opensuse-13.2"]
+  includes: ["centos-7.2", "debian-8.5", "fedora-23", "ubuntu-16.04", "opensuse-13.2"]
 
 - name: service_upstart
   run_list:
@@ -78,7 +73,6 @@ suites:
     ohai:
       disabled_plugins:
         - Mdadm
-  excludes: ["ubuntu-14.04-chef-11"]
 
 - name: delete_validation
   run_list:
@@ -104,7 +98,7 @@ suites:
     chef_client:
       init_style: "init"
       daemon_options: ["-E cook-1951"]
-  excludes: ["freebsd-9.3", "freebsd-10.2", "windows-2008r2", "windows-2012r2"]
+  excludes: ["freebsd-9.3", "freebsd-10.3", "windows-2008r2", "windows-2012r2"]
 
 # Testing when we are using chef-client on a Chef Server (12+ only)
 - name: server

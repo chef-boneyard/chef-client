@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## Unreleased
+
+- Support for Chef 11 has been removed
+
 ## v5.0.0 (2016-07-29)
 
 - This will be the last version of this cookbook that supports Chef 11\. If you are still using Chef 11 you will need to pin to < 6.0
