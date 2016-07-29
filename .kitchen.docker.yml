@@ -111,7 +111,7 @@ suites:
 - name: service_systemd
   run_list:
   - recipe[chef-client::systemd_service]
-  includes: ["centos-7", "opensuse-13.2", "opensuse-42.1", "fedora-latest", "ubuntu-16.04"]
+  includes: ["centos-7", "debian-8", "opensuse-13.2", "opensuse-42.1", "fedora-latest", "ubuntu-16.04"]
 
 - name: service_upstart
   run_list:
