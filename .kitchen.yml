@@ -1,8 +1,5 @@
 driver:
   name: vagrant
-  customize:
-    memory: 1024
-    cpus: 2
 
 provisioner:
   name: chef_zero
@@ -16,7 +13,7 @@ platforms:
   - name: centos-7.2
   - name: debian-7.11
   - name: debian-8.5
-  - name: fedora-23
+  - name: fedora-24
   - name: freebsd-9.3
   - name: freebsd-10.3
   - name: ubuntu-12.04
