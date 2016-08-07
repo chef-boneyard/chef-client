@@ -1,7 +1,5 @@
-# cookstyle todo
-#
+# rubocop to-do
+
 Lint/AmbiguousRegexpLiteral:
   Exclude:
-    - 'test/integration/service_init/serverspec/service_init_spec.rb'
-    - 'test/integration/service_runit/serverspec/service_runit_spec.rb'
-    - 'test/integration/service_systemd/serverspec/service_init_spec.rb'
+    - 'test/**/*'
