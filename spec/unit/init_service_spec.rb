@@ -4,7 +4,6 @@ describe 'chef-client::init_service' do
   centos5 = { platform: 'centos', version: '5.11', conf_dir: 'sysconfig' }
   centos6 = { platform: 'centos', version: '6.7', conf_dir: 'sysconfig' }
   ubuntu = { platform: 'ubuntu', version: '14.04', conf_dir: 'init.d' }
-  opensuse = { platform: 'opensuse', version: '13.2', conf_dir: 'sysconfig' }
 
   context "#{centos5[:platform]} #{centos5[:version]}" do
     let(:chef_run) do
@@ -28,19 +27,6 @@ describe 'chef-client::init_service' do
 
     it 'should set -E client-args' do
       expect(chef_run).to render_file("/etc/#{centos6[:conf_dir]}/chef-client") \
-        .with_content(/OPTIONS="-E client-args"/)
-    end
-  end
-
-  context "#{opensuse[:platform]} #{opensuse[:version]}" do
-    let(:chef_run) do
-      ChefSpec::ServerRunner.new(platform: opensuse[:platform], version: opensuse[:version]) do |node|
-        node.set['chef_client']['daemon_options'] = ['-E client-args']
-      end.converge(described_recipe)
-    end
-
-    it 'should set -E client-args' do
-      expect(chef_run).to render_file("/etc/#{opensuse[:conf_dir]}/chef-client") \
         .with_content(/OPTIONS="-E client-args"/)
     end
   end

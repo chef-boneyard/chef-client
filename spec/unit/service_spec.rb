@@ -20,16 +20,23 @@ describe 'chef-client::service' do
   end
 
   context 'CentOS 5' do
-    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'centos', version: '5.11').converge(described_recipe) }
+    let(:chef_run) do
+      ChefSpec::ServerRunner.new(platform: 'centos', version: '5.11') do |node|
+        # this can go away when fauxhai 3.8 ships in chefdk
+        node.set['init_package'] = 'init'
+      end.converge(described_recipe)
+    end
     it 'should use the init service' do
       expect(chef_run).to include_recipe('chef-client::init_service')
     end
   end
 
   context 'CentOS 6' do
-    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'centos', version: '6.7').converge(described_recipe) }
-    it 'should use the init service' do
-      expect(chef_run).to include_recipe('chef-client::init_service')
+    let(:chef_run) do
+      ChefSpec::ServerRunner.new(platform: 'centos', version: '6.8') do |node|
+        # this can go away when fauxhai 3.8 ships in chefdk
+        node.set['init_package'] = 'init'
+      end.converge(described_recipe)
     end
   end
 
@@ -68,7 +75,7 @@ describe 'chef-client::service' do
     end
   end
 
-  context 'OpenSuSE' do
+  context 'openSUSE' do
     let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'opensuse', version: '13.2').converge(described_recipe) }
     it 'should use the systemd service' do
       expect(chef_run).to include_recipe('chef-client::systemd_service')
@@ -76,14 +83,24 @@ describe 'chef-client::service' do
   end
 
   context 'Ubuntu 12.04' do
-    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '12.04').converge(described_recipe) }
+    let(:chef_run) do
+      ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '12.04') do |node|
+        # this can go away when fauxhai 3.8 ships in chefdk
+        node.set['init_package'] = 'init'
+      end.converge(described_recipe)
+    end
     it 'should use the init service' do
       expect(chef_run).to include_recipe('chef-client::init_service')
     end
   end
 
   context 'Ubuntu 14.04' do
-    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '14.04').converge(described_recipe) }
+    let(:chef_run) do
+      ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '14.04') do |node|
+        # this can go away when fauxhai 3.8 ships in chefdk
+        node.set['init_package'] = 'init'
+      end.converge(described_recipe)
+    end
     it 'should use the init service' do
       expect(chef_run).to include_recipe('chef-client::init_service')
     end

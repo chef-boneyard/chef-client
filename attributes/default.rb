@@ -30,9 +30,8 @@ default['chef_client']['config'] = {
   'verify_api_cert' => true
 }
 
-if Chef::Config.key?(:client_fork)
-  default['chef_client']['config']['client_fork'] = true
-end
+# should the client fork on runs
+default['chef_client']['config']['client_fork'] = true
 
 # log_file has no effect when using runit
 default['chef_client']['log_file']    = 'client.log'
@@ -102,11 +101,7 @@ when 'arch'
   default['chef_client']['cache_path']  = '/var/cache/chef'
   default['chef_client']['backup_path'] = '/var/lib/chef'
 when 'debian'
-  default['chef_client']['init_style'] = if node['platform_version'].to_i >= 8 && node.key?('init_package') && node['init_package'] == 'systemd'
-                                           'systemd'
-                                         else
-                                           'init'
-                                         end
+  default['chef_client']['init_style']  = node['init_package']
   default['chef_client']['run_path']    = '/var/run/chef'
   default['chef_client']['cache_path']  = '/var/cache/chef'
   default['chef_client']['backup_path'] = '/var/lib/chef'
@@ -116,11 +111,7 @@ when 'suse'
   default['chef_client']['cache_path']  = '/var/cache/chef'
   default['chef_client']['backup_path'] = '/var/lib/chef'
 when 'rhel'
-  default['chef_client']['init_style'] = if node['platform_version'].to_i >= 7 && node['platform'] != 'amazon'
-                                           'systemd'
-                                         else
-                                           'init'
-                                         end
+  default['chef_client']['init_style']  = node['init_package']
   default['chef_client']['run_path']    = '/var/run/chef'
   default['chef_client']['cache_path']  = '/var/cache/chef'
   default['chef_client']['backup_path'] = '/var/lib/chef'

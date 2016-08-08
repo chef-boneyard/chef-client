@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'chef-client::config' do
-  let(:chef_run) do
+  cached(:chef_run) do
     ChefSpec::ServerRunner.new.converge(described_recipe)
   end
 
@@ -79,7 +79,7 @@ describe 'chef-client::config' do
   end
 
   context 'Custom Attributes' do
-    let(:chef_run) do
+    cached(:chef_run) do
       ChefSpec::ServerRunner.new do |node|
         node.set['ohai']['disabled_plugins'] = [:passwd, 'dmi']
         node.set['ohai']['plugin_path'] = '/etc/chef/ohai_plugins'
