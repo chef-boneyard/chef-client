@@ -18,7 +18,6 @@ This cookbook is used to configure a system as a Chef Client.
 - Solaris 10+
 - Ubuntu 12.04+
 - Windows 2008 R2+
-- Windows 2008 R2+
 
 ### Chef
 
