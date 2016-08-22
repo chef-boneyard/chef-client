@@ -109,3 +109,8 @@ ruby_block 'reload_client_config' do
   end
   action :nothing
 end
+
+execute 'What happens' do
+  command 'ohai virtualization -c /etc/chef/client.rb'
+  action :run
+end

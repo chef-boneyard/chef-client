@@ -96,37 +96,6 @@ platforms:
       - RUN zypper --non-interactive install aaa_base perl-Getopt-Long-Descriptive which
 
 suites:
-- name: service_init
+- name: test
   run_list:
   - recipe[chef-client::config]
-  - recipe[chef-client::init_service]
-  includes: ["debian-7", "centos-6", "centos-5"]
-
-- name: service_runit
-  run_list:
-  - recipe[runit]
-  - recipe[chef-client::runit_service]
-  includes: ["debian-7", "centos-6", "centos-5"]
-
-- name: service_systemd
-  run_list:
-  - recipe[chef-client::systemd_service]
-  includes: ["centos-7", "debian-8", "opensuse-13.2", "opensuse-42.1", "fedora-latest", "ubuntu-16.04"]
-
-- name: service_upstart
-  run_list:
-  - recipe[chef-client::upstart_service]
-  includes: ["ubuntu-12.04", "ubuntu-14.04"]
-
-- name: cron
-  run_list:
-  - recipe[cron::default]
-  - recipe[chef-client::cron]
-
-- name: config
-  run_list:
-  - recipe[chef-client::config]
-
-- name: delete_validation
-  run_list:
-  - recipe[chef-client::delete_validation]
