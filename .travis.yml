@@ -45,9 +45,6 @@ env:
   - INSTANCE=service-init-debian-7
   - INSTANCE=service-init-centos-5
   - INSTANCE=service-init-centos-6
-  - INSTANCE=service-runit-debian-7
-  - INSTANCE=service-runit-centos-5
-  - INSTANCE=service-runit-centos-6
 
 before_script:
   - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
