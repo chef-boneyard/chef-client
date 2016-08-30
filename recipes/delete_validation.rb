@@ -21,6 +21,10 @@ class ::Chef::Recipe
   include ::Opscode::ChefClient::Helpers
 end
 
+# Don't do anything run running as solo. This can happen when using ChefSpec or
+# Test Kitchen.
+return if Chef::Config[:solo]
+
 unless Chef::Config[:validation_key].nil?
   file Chef::Config[:validation_key] do
     action :delete
