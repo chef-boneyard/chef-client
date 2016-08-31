@@ -23,7 +23,13 @@ end
 
 # Don't do anything run running as solo. This can happen when using ChefSpec or
 # Test Kitchen.
-return if Chef::Config[:solo]
+if Chef::Config[:solo]
+  if !ENV['TEST_KITCHEN'] && !defined?(ChefSpec)
+    Chef::Log.info("[chef-client::delete_validation] Skipping validation " \
+      "delete because we are running under chef-solo")
+  end
+  return
+end
 
 unless Chef::Config[:validation_key].nil?
   file Chef::Config[:validation_key] do
