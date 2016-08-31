@@ -21,10 +21,10 @@ platforms:
   - name: ubuntu-16.04
   - name: opensuse-13.2
   - name: windows-2008r2
-    driver_config:
+    driver:
       box: chef/windows-server-2008r2-standard # private box
   - name: windows-2012r2
-    driver_config:
+    driver:
       box: chef/windows-server-2012r2-standard # private box
 
 suites:

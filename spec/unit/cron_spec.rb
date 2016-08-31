@@ -21,8 +21,8 @@ describe 'chef-client::cron' do
   context 'environmental variables and append_log' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04') do |node|
-        node.set['chef_client']['cron']['environment_variables'] = 'FOO=BAR'
-        node.set['chef_client']['cron']['append_log'] = true
+        node.normal['chef_client']['cron']['environment_variables'] = 'FOO=BAR'
+        node.normal['chef_client']['cron']['append_log'] = true
       end.converge(described_recipe)
     end
 
