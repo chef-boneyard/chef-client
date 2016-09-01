@@ -22,11 +22,16 @@ when 'freebsd'
     action :create
   end
 
-  template '/etc/rc.d/chef-client' do
+  template '/usr/local/etc/rc.d/chef-client' do
     owner 'root'
     group 'wheel'
     variables client_bin: client_bin
     mode 00755
+  end
+
+  # Remove wrong rc.d script created by an older version of cookbook
+  file '/etc/rc.d/chef-client' do
+    action :delete
   end
 
   template '/etc/rc.conf.d/chef' do
