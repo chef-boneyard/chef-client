@@ -29,6 +29,11 @@ when 'freebsd'
     mode 00755
   end
 
+  # Remove wrong rc.d script created by an older version of cookbook
+  file '/etc/rc.d/chef-client' do
+    action :delete
+  end
+
   template '/etc/rc.conf.d/chef' do
     mode 00644
     notifies :start, 'service[chef-client]', :delayed
