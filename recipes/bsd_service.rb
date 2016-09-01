@@ -22,7 +22,7 @@ when 'freebsd'
     action :create
   end
 
-  template '/etc/rc.d/chef-client' do
+  template '/usr/local/etc/rc.d/chef-client' do
     owner 'root'
     group 'wheel'
     variables client_bin: client_bin
