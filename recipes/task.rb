@@ -45,7 +45,7 @@ end
 start_time = node['chef_client']['task']['frequency'] == 'minute' ? (Time.now + 60 * node['chef_client']['task']['frequency_modifier']).strftime('%H:%M') : nil
 windows_task 'chef-client' do
   run_level :highest
-  command "cmd /c \\\"#{client_cmd} > NUL 2>&1\\\""
+  command "cmd /c \"#{client_cmd} ^> NUL 2^>^&1\""
 
   user               node['chef_client']['task']['user']
   password           node['chef_client']['task']['password']
