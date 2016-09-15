@@ -34,4 +34,4 @@ depends 'windows', '>= 1.42.0'
 source_url 'https://github.com/chef-cookbooks/chef-client'
 issues_url 'https://github.com/chef-cookbooks/chef-client/issues'
 
-chef_version '>= 12.1' if respond_to?(:chef_version)
+chef_version '>= 12.1'
