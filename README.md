@@ -129,7 +129,7 @@ Use this recipe on systems that should have a `chef-client` daemon running, such
 - `arch` - uses the init script included in this cookbook for ArchLinux, supported on arch.
 - `runit` - sets up the service under runit, supported on ubuntu, debian, redhat family distributions, and gentoo.
 - `launchd` - sets up the service under launchd, supported on Mac OS X & Mac OS X Server.
-- `bsd` - prints a message about how to update BSD systems to enable the chef-client service, supported on Free/OpenBSD.
+- `bsd` - prints a message about how to update BSD systems to enable the chef-client service.
 - `systemd` - sets up the service under systemd. Supported on systemd based distros.
 
 ### default

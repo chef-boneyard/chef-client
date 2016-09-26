@@ -19,7 +19,7 @@ recipe 'chef-client::src_service', 'Configures chef-client as a Service Resource
 recipe 'chef-client::task', 'Runs chef-client as a Windows task.'
 recipe 'chef-client::upstart_service', 'Configures chef-client as a service under Upstart'
 
-%w( aix amazon centos fedora freebsd debian openbsd oracle mac_os_x mac_os_x_server redhat suse opensuse opensuseleap ubuntu windows zlinux ).each do |os|
+%w( aix amazon centos fedora freebsd debian oracle mac_os_x redhat suse opensuse opensuseleap ubuntu windows zlinux ).each do |os|
   supports os
 end
 

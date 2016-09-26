@@ -67,7 +67,7 @@ when 'openindiana', 'opensolaris', 'nexentacore', 'solaris2', 'smartos', 'omnios
     ignore_failure true
   end
 
-when 'freebsd', 'openbsd'
+when 'freebsd'
   template '/etc/rc.d/chef-client' do
     owner 'root'
     group 'wheel'
