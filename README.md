@@ -134,7 +134,7 @@ Use this recipe on systems that should have a `chef-client` daemon running, such
 
 ### default
 
-Includes the `chef-client::service` recipe by default.
+Includes the `chef-client::service` recipe by default on *nix platforms and the task recipe for Windows hosts.
 
 ### delete_validation
 
