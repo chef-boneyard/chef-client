@@ -126,7 +126,7 @@ when 'openbsd', 'freebsd'
   default['chef_client']['cache_path']  = '/var/chef/cache'
   default['chef_client']['backup_path'] = '/var/chef/backup'
 # don't use bsd paths per COOK-1379
-when 'mac_os_x', 'mac_os_x_server'
+when 'mac_os_x'
   default['chef_client']['init_style']  = 'launchd'
   default['chef_client']['log_dir']     = '/Library/Logs/Chef'
   # Launchd doesn't use pid files
