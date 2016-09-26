@@ -60,7 +60,7 @@ chef_requires = []
 node['chef_client']['load_gems'].each do |gem_name, gem_info_hash|
   gem_info_hash ||= {}
   chef_gem gem_name do
-    compile_time true if Chef::Resource::ChefGem.method_defined?(:compile_time)
+    compile_time true
     action gem_info_hash[:action] || :install
     source gem_info_hash[:source] if gem_info_hash[:source]
     version gem_info_hash[:version] if gem_info_hash[:version]
