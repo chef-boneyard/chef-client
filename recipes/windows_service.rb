@@ -19,7 +19,7 @@
 # limitations under the License.
 #
 
-Chef::Log.warn "Running chef-client as a service on Windows is deprecated and not recommended. This recipe will be removed in a future version of this cookbook. We recommend running Chef client as a scheduled task instead."
+Chef::Log.warn 'Running chef-client as a service on Windows is deprecated and not recommended. This recipe will be removed in a future version of this cookbook. We recommend running Chef client as a scheduled task instead.'
 
 class ::Chef::Recipe
   include ::Opscode::ChefClient::Helpers

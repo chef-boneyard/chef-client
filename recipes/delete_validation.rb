@@ -25,8 +25,8 @@ end
 # Test Kitchen.
 if Chef::Config[:solo]
   if !ENV['TEST_KITCHEN'] && !defined?(ChefSpec)
-    Chef::Log.info("[chef-client::delete_validation] Skipping validation " \
-      "delete because we are running under chef-solo")
+    Chef::Log.info('[chef-client::delete_validation] Skipping validation ' \
+      'delete because we are running under chef-solo')
   end
   return
 end
