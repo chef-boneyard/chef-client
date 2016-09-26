@@ -2,6 +2,22 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 6.0.0 (2016-09-26)
+
+### Breaking Changes
+- Support for Chef 11 has been removed. Chef 12.1 or later is now required
+- Running chef-client as a service on Windows has been deprecated. The default.rb recipe will now include the task recipe on Windows hosts. The windows_service recipe will be removed in the next major version of this cookbook.
+
+- Switch from serverspec to Inspec
+- Add BSDs to bsd_init to fix cron service
+- Simplified attributes for Chef 12 - Chef 12 lets us simplify attributes since we don't have to check to see if we can fork and we can assume we know the init type via Ohai
+- Fix validation recipe to not explode under chef-solo.
+- Change path for rc.d chef-client script in FreeBSD
+- Remove wrong rc.d script created by an older version of cookbook
+- Remove duplication from rc.d script template for FreeBSD
+- Fix escaping in the Windows task recipe
+- Allow STDOUT as a valid log location
+
 ## Unreleased
 
 - Support for Chef 11 has been removed
