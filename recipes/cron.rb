@@ -41,7 +41,7 @@ dist_dir, conf_dir = value_for_platform_family(
 
 # let's create the service file so the :disable action doesn't fail
 case node['platform_family']
-when 'arch', 'debian', 'rhel', 'fedora', 'suse'
+when 'debian', 'rhel', 'fedora', 'suse'
   template '/etc/init.d/chef-client' do
     source "#{dist_dir}/init.d/chef-client.erb"
     mode 0755

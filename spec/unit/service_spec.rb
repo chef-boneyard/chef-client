@@ -12,13 +12,6 @@ describe 'chef-client::service' do
     end
   end
 
-  context 'Arch' do
-    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'arch', version: '3.10.5-1-ARCH').converge(described_recipe) }
-    it 'should use the systemd service' do
-      expect(chef_run).to include_recipe('chef-client::systemd_service')
-    end
-  end
-
   context 'CentOS 5' do
     let(:chef_run) do
       ChefSpec::ServerRunner.new(platform: 'centos', version: '5.11') do |node|
