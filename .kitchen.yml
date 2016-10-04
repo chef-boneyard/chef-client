@@ -39,18 +39,18 @@ suites:
   run_list:
   - recipe[chef-client::config]
   - recipe[chef-client::init_service]
-  includes: ["centos-5.11", "centos-6.7", "debian-7.11"]
+  includes: ["centos-5.11", "centos-6.8", "debian-7.11"]
 
 - name: service_runit
   run_list:
   - recipe[runit]
   - recipe[chef-client::runit_service]
-  includes: ["centos-5.11", "centos-6.7", "debian-7.11"]
+  includes: ["centos-5.11", "centos-6.8", "debian-7.11"]
 
 - name: service_systemd
   run_list:
   - recipe[chef-client::systemd_service]
-  includes: ["centos-7.2", "debian-8.5", "fedora-23", "ubuntu-16.04", "opensuse-13.2"]
+  includes: ["centos-7.2", "debian-8.5", "fedora-24", "ubuntu-16.04", "opensuse-13.2"]
 
 - name: service_upstart
   run_list:
