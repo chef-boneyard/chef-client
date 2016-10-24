@@ -16,10 +16,20 @@ platforms:
   - name: fedora-24
   - name: freebsd-9.3
   - name: freebsd-10.3
+  - name: opensuse-13.2
+  - name: opensuse-leap-42.1
+  - name: sles-12-sp1
+    driver:
+      box: chef/sles-12-sp1-x86_64 # private box
+  - name: solaris-10.11
+    driver:
+      box: chef/solaris-10.11 # private box
+  - name: solaris-11.3
+    driver:
+      box: chef/solaris-11.3 # private box
   - name: ubuntu-12.04
   - name: ubuntu-14.04
   - name: ubuntu-16.04
-  - name: opensuse-13.2
   - name: windows-2008r2
     driver:
       box: chef/windows-server-2008r2-standard # private box
@@ -56,6 +66,11 @@ suites:
   run_list:
   - recipe[chef-client::upstart_service]
   includes: ["ubuntu-12.04", "ubuntu-14.04"]
+
+- name: service_smf
+  run_list:
+  - recipe[chef-client::smf_service]
+  includes: ["solaris-11.3", "solaris-10.11"]
 
 - name: cron
   run_list:
