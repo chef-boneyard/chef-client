@@ -49,7 +49,7 @@ suites:
   run_list:
   - recipe[chef-client::config]
   - recipe[chef-client::init_service]
-  includes: ["centos-5.11", "centos-6.8", "debian-7.11"]
+  includes: ["centos-5.11", "centos-6.8", "debian-7.11", "sles-12-sp1"]
 
 - name: service_runit
   run_list:
@@ -101,18 +101,7 @@ suites:
         use_cron_d: true
   excludes: ["windows-2008r2", "windows-2012r2"]
 
-# Test that the running process includes command-line "daemon" options
-- name: cook-1951
-  run_list:
-  - recipe[chef-client::config]
-  - recipe[chef-client::service]
-  attributes:
-    chef_client:
-      init_style: "init"
-      daemon_options: ["-E cook-1951"]
-  excludes: ["freebsd-9.3", "freebsd-10.3", "windows-2008r2", "windows-2012r2"]
-
-# Testing when we are using chef-client on a Chef Server (12+ only)
+# Testing when we are using chef-client on a Chef Server
 - name: server
   run_list:
   - recipe[chef-server]
