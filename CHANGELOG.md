@@ -2,6 +2,19 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 7.0.0 (2016-10-25)
+
+### Breaking Changes
+
+- Remove support for OpenBSD
+- Remove support for Arch Linux
+
+### Other Changes
+
+- Document 'weekday' in readme
+- Adding exception to 5.11 SMF manifest for SmartOS. SmartOS does not have a config milestone
+- Add chef-client init back for SLES 12
+
 ## 6.0.0 (2016-09-26)
 
 ### Breaking Changes
