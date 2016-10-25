@@ -50,6 +50,7 @@ The following attributes affect the behavior of the chef-client program when run
 - `node['chef_client']['bin']` - Sets the full path to the `chef-client` binary. Mainly used to set a specific path if multiple versions of chef-client exist on a system or the bin has been installed in a non-sane path. Default "/usr/bin/chef-client".
 - `node['chef_client']['cron']['minute']` - The minute that chef-client will run as a cron task, only applicable if you set `'cron'` as the `'init_style'`
 - `node['chef_client']['cron']['hour']` - The hour that chef-client will run as a cron task, only applicable if you set `'cron'` as the `'init_style'`
+- `node['chef_client']['cron']['weekday']` - The weekday that chef-client will run as a cron task, only applicable if you set `'cron'` as the `'init_style'`
 - `node['chef_client']['cron']['environment_variables']` - Environment variables to pass to chef-client's execution (e.g. `SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt` chef-client)
 - `node['chef_client']['cron']['log_file']` - Location to capture the
 - `node['chef_client']['cron']['append_log']` - Whether to append to the log. Default: `false` chef-client output.
