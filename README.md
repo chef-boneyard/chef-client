@@ -14,6 +14,7 @@ This cookbook is used to configure a system as a Chef Client.
 - FreeBSD 9+
 - Mac OS X
 - openSUSE 13+
+- SLES 12+
 - RHEL 5+
 - Solaris 10+
 - Ubuntu 12.04+
