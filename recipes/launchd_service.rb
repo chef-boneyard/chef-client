@@ -18,7 +18,7 @@ end
 
 template '/Library/LaunchDaemons/com.chef.chef-client.plist' do
   source 'com.chef.chef-client.plist.erb'
-  mode 00644
+  mode "644"
   variables(
     launchd_mode: node['chef_client']['launchd_mode'],
     client_bin: client_bin

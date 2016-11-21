@@ -44,13 +44,13 @@ case node['platform_family']
 when 'debian', 'rhel', 'fedora', 'suse'
   template '/etc/init.d/chef-client' do
     source "#{dist_dir}/init.d/chef-client.erb"
-    mode 0755
+    mode "755"
     variables(client_bin: client_bin)
   end
 
   template "/etc/#{conf_dir}/chef-client" do
     source "#{dist_dir}/#{conf_dir}/chef-client.erb"
-    mode 00644
+    mode "644"
   end
 
   service 'chef-client' do
@@ -72,7 +72,7 @@ when 'freebsd'
     owner 'root'
     group 'wheel'
     variables client_bin: client_bin
-    mode 00755
+    mode "755"
   end
 
   file '/etc/rc.conf.d/chef' do
