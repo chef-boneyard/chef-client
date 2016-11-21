@@ -2,10 +2,10 @@
 # Author:: Joshua Timberman (<joshua@chef.io>)
 # Author:: Seth Chisamore (<schisamo@chef.io>)
 # Author:: Bryan Berry (<bryan.berry@gmail.com>)
-# Cookbook Name:: chef-client
+# Cookbook::  chef-client
 # Recipe:: cron
 #
-# Copyright 2009-2016, Chef Software, Inc.
+# Copyright:: 2009-2016, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -44,13 +44,13 @@ case node['platform_family']
 when 'debian', 'rhel', 'fedora', 'suse'
   template '/etc/init.d/chef-client' do
     source "#{dist_dir}/init.d/chef-client.erb"
-    mode "755"
+    mode '755'
     variables(client_bin: client_bin)
   end
 
   template "/etc/#{conf_dir}/chef-client" do
     source "#{dist_dir}/#{conf_dir}/chef-client.erb"
-    mode "644"
+    mode '644'
   end
 
   service 'chef-client' do
@@ -72,7 +72,7 @@ when 'freebsd'
     owner 'root'
     group 'wheel'
     variables client_bin: client_bin
-    mode "755"
+    mode '755'
   end
 
   file '/etc/rc.conf.d/chef' do

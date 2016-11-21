@@ -2,11 +2,11 @@
 # Author:: Joshua Timberman (<joshua@chef.io>)
 # Author:: Joshua Sierles (<joshua@37signals.com>)
 # Author:: Seth Chisamore (<schisamo@chef.io>)
-# Cookbook Name:: chef-client
+# Cookbook::  chef-client
 # Recipe:: config
 #
-# Copyright 2008-2016, Chef Software, Inc.
-# Copyright 2009, 37signals
+# Copyright:: 2008-2016, Chef Software, Inc.
+# Copyright:: 2009, 37signals
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -80,7 +80,7 @@ template "#{node['chef_client']['conf_dir']}/client.rb" do
   source 'client.rb.erb'
   owner d_owner
   group node['root_group']
-  mode "644"
+  mode '644'
   variables(
     chef_config: node['chef_client']['config'],
     chef_requires: chef_requires,
@@ -100,7 +100,7 @@ directory ::File.join(node['chef_client']['conf_dir'], 'client.d') do
   recursive true
   owner d_owner
   group node['root_group']
-  mode "755"
+  mode '755'
 end
 
 ruby_block 'reload_client_config' do

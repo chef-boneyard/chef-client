@@ -1,9 +1,9 @@
 #
 # Author:: John Dewey (<john@dewey.ws>)
-# Cookbook Name:: chef-client
+# Cookbook::  chef-client
 # Library:: helpers
 #
-# Copyright 2012, John Dewey
+# Copyright:: 2012, John Dewey
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -51,7 +51,7 @@ module Opscode
           rescue Chef::Exceptions::ResourceNotFound
             directory node['chef_client'][dir] do
               recursive true
-              mode "755" if dir == 'log_dir'
+              mode '755' if dir == 'log_dir'
               owner d_owner
               group node['root_group']
             end
