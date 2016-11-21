@@ -26,7 +26,7 @@ when 'freebsd'
     owner 'root'
     group 'wheel'
     variables client_bin: client_bin
-    mode 00755
+    mode "755"
   end
 
   # Remove wrong rc.d script created by an older version of cookbook
@@ -35,7 +35,7 @@ when 'freebsd'
   end
 
   template '/etc/rc.conf.d/chef' do
-    mode 00644
+    mode "644"
     notifies :start, 'service[chef-client]', :delayed
   end
 
