@@ -45,7 +45,7 @@ default['chef_client']['bin']         = '/usr/bin/chef-client'
 default['chef_client']['log_dir']     = '/var/log/chef'
 
 # If log file is used, default permissions so everyone can read
-default['chef_client']['log_perm'] = 00640
+default['chef_client']['log_perm'] = 00644
 
 # Configuration for chef-client::cron recipe.
 default['chef_client']['cron'] = {
