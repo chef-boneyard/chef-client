@@ -98,6 +98,8 @@ The following attributes should be set using `['chef_client']['config']`. Settin
 - `node['chef_client']['checksum_cache_path']` - Use
 - `node['chef_client']['config']['cache_options']['path']`.
 - `node['chef_client']['verbose_logging']` - Not set anymore, we recommend using the default log level and output formatting in Chef 11+. This can still be set using `node['chef_client']['config']['verbose_logging']` if required.
+- `node['chef_client']['config']['data_collector_server_url']` - Used to send node and converge data to Chef Automate Visibility. See https://docs.chef.io/setup_visibility_chef_automate.html for more info.
+- `node['chef_client']['config']['data_collector_token']` - Used to send node and converge data to Chef Automate Visibility. See https://docs.chef.io/setup_visibility_chef_automate.html for more info.
 
 ## Recipes
 
