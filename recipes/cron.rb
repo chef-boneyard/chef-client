@@ -72,7 +72,7 @@ when 'freebsd'
     owner 'root'
     group 'wheel'
     variables client_bin: client_bin
-    mode "755"
+    mode '755'
   end
 
   file '/etc/rc.conf.d/chef' do
