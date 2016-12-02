@@ -87,6 +87,7 @@ suites:
     ohai:
       disabled_plugins:
         - Mdadm
+      plugin_path: "/tmp/kitchen/ohai/plugins"
 
 - name: delete_validation
   run_list:
