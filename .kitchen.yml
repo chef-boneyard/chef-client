@@ -3,6 +3,8 @@ driver:
 
 provisioner:
   name: chef_zero
+  chef_omnibus_url: "https://omnitruck.chef.io/install.sh"
+  chef_omnibus_install_options: "-c current"
 
 verifier:
   name: inspec
