@@ -81,6 +81,9 @@ default['chef_client']['daemon_options'] = []
 # so they can be set as an array in this attribute.
 default['ohai']['disabled_plugins'] = []
 
+# An additional path to load Ohai plugins from.
+default['ohai']['plugin_path'] = nil
+
 # Use logrotate_app definition on supported platforms via config recipe
 # when chef_client['log_file'] is set.
 # Default rotate: 12; frequency: weekly
