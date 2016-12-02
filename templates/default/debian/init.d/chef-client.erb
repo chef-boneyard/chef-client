@@ -37,8 +37,8 @@ running_pid() {
   name=$2
   [ -z "$pid" ] && return 1
   [ ! -d /proc/$pid ] &&  return 1
-  cmd=`cat /proc/$pid/cmdline | tr '\000' '\n' | awk 'NR==2'`
-  [ "$cmd" != "$name" ] &&  return 1
+  cmd=`cat /proc/$pid/cmdline | tr '\000' ' '`
+  [ "$cmd" !=~ "$name" ] &&  return 1
   return 0
 }
 
@@ -203,4 +203,3 @@ case "$1" in
 esac
 
 exit 0
-
