@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 7.0.1 (2016-12-02)
+- Fixed cron attributes documentation
+- Fix file modes to be strings
+- Added SLES support to the readme
+- Use regex instead of position for service status
+
 ## 7.0.0 (2016-10-25)
 
 ### Breaking Changes
