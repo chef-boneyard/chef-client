@@ -100,7 +100,7 @@ directory ::File.join(node['chef_client']['conf_dir'], 'client.d') do
   recursive true
   owner d_owner
   group node['root_group']
-  mode "755"
+  mode '755'
 end
 
 ruby_block 'reload_client_config' do

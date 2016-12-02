@@ -41,7 +41,7 @@ template "#{node['chef_client']['conf_dir']}/client.service.rb" do
   source 'client.service.rb.erb'
   owner d_owner
   group node['root_group']
-  mode "644"
+  mode '644'
 end
 
 execute 'register-chef-service' do
