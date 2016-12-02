@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'chef-client::config' do
   cached(:chef_run) do
-    ChefSpec::ServerRunner.new.converge(described_recipe)
+    ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04').converge(described_recipe)
   end
 
   it 'contains the default chef_server_url setting' do
@@ -56,9 +56,9 @@ describe 'chef-client::config' do
   end
 
   [
-    '/var/run',
-    '/var/chef/cache',
-    '/var/chef/backup',
+    '/var/run/chef',
+    '/var/cache/chef',
+    '/var/lib/chef',
     '/var/log/chef',
     '/etc/chef',
     '/etc/chef/client.d'
@@ -80,7 +80,7 @@ describe 'chef-client::config' do
 
   context 'Custom Attributes' do
     cached(:chef_run) do
-      ChefSpec::ServerRunner.new do |node|
+      ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04') do |node|
         node.normal['ohai']['disabled_plugins'] = [:passwd, 'dmi']
         node.normal['ohai']['plugin_path'] = '/etc/chef/ohai_plugins'
         node.normal['chef_client']['config']['log_level'] = ':debug'
