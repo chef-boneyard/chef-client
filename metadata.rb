@@ -4,7 +4,7 @@ maintainer_email  'cookbooks@chef.io'
 license           'Apache 2.0'
 description       'Manages client.rb configuration and chef-client service'
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version           '7.0.1'
+version           '7.0.2'
 recipe 'chef-client', 'Includes the service recipe by default.'
 recipe 'chef-client::bsd_service', 'Configures chef-client as a service on *BSD'
 recipe 'chef-client::config', 'Configures the client.rb from a template.'
@@ -33,5 +33,4 @@ depends 'windows', '>= 1.42.0'
 
 source_url 'https://github.com/chef-cookbooks/chef-client'
 issues_url 'https://github.com/chef-cookbooks/chef-client/issues'
-
 chef_version '>= 12.1'

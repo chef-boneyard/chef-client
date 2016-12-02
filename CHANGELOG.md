@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 7.0.2 (2016-12-02)
+- Document / test setting a custom ohai plugin path
+- Make log_perm permissions attribute value a string
+- Avoid warnings during ChefSpec runs
+
 ## 7.0.1 (2016-12-02)
 - Fixed cron attributes documentation
 - Fix file modes to be strings
