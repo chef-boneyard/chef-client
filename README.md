@@ -42,8 +42,7 @@ The following attributes affect the behavior of the chef-client program when run
 
 - `node['chef_client']['interval']` - Sets `Chef::Config[:interval]` via command-line option for number of seconds between chef-client daemon runs. Default 1800.
 - `node['chef_client']['splay']` - Sets `Chef::Config[:splay]` via command-line option for a random amount of seconds to add to interval. Default 300.
-- `node['chef_client']['log_dir']` - Sets directory used in
-- `Chef::Config[:log_location]` via command-line option to a location where chef-client should log output. Default "/var/log/chef".
+- `node['chef_client']['log_dir']` - Sets directory used to store chef-client logs. Default "/var/log/chef".
 - `node['chef_client']['log_rotation']['options']` - Set options to logrotation of chef-client log file. Default `['compress']`.
 - `node['chef_client']['log_rotation']['prerotate']` - Set prerotate action for chef-client logrotation. Default to `nil`.
 - `node['chef_client']['log_rotation']['postrotate']` - Set postrotate action for chef-client logrotation. Default to chef-client service reload depending on init system.
@@ -53,7 +52,7 @@ The following attributes affect the behavior of the chef-client program when run
 - `node['chef_client']['cron']['hour']` - The hour that chef-client will run as a cron task. See [cron recipe](#cron)
 - `node['chef_client']['cron']['weekday']` - The weekday that chef-client will run as a cron task. See [cron recipe](#cron)
 - `node['chef_client']['cron']['environment_variables']` - Environment variables to pass to chef-client's execution (e.g. `SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt` chef-client)
-- `node['chef_client']['cron']['log_file']` - Location to capture the
+- `node['chef_client']['cron']['log_file']` - Location to capture the log output of chef-client during the chef run.
 - `node['chef_client']['cron']['append_log']` - Whether to append to the log. Default: `false` chef-client output.
 - `node['chef_client']['cron']['use_cron_d']` - If true, use the [`cron_d` resource](https://github.com/chef-cookbooks/cron). If false (default), use the cron resource built-in to Chef.
 - `node['chef_client']['cron']['mailto']` - If set, `MAILTO` env variable is set for cron definition
