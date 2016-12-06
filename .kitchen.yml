@@ -14,8 +14,8 @@ platforms:
   - name: centos-6.8
   - name: centos-7.2
   - name: debian-7.11
-  - name: debian-8.5
-  - name: fedora-24
+  - name: debian-8.6
+  - name: fedora-25
   - name: freebsd-9.3
   - name: freebsd-10.3
   - name: opensuse-13.2
@@ -62,7 +62,7 @@ suites:
 - name: service_systemd
   run_list:
   - recipe[chef-client::systemd_service]
-  includes: ["centos-7.2", "debian-8.5", "fedora-24", "ubuntu-16.04", "opensuse-13.2"]
+  includes: ["centos-7.2", "debian-8.6", "fedora-25", "ubuntu-16.04", "opensuse-13.2"]
 
 - name: service_upstart
   run_list:
@@ -110,7 +110,7 @@ suites:
   - recipe[chef-server]
   - recipe[chef-client::config]
   - recipe[chef-client::service]
-  includes: ["ubuntu-12.04", "ubuntu-14.04", "centos-6.7", "centos-7.2"]
+  includes: ["ubuntu-12.04", "ubuntu-14.04", "centos-6.8", "centos-7.2"]
 
 - name: task
   run_list:

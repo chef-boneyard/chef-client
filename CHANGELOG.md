@@ -2,6 +2,9 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 7.0.3 (2016-12-06)
+- Fix invalid shell syntax in /etc/init.d script
+
 ## 7.0.2 (2016-12-02)
 - Document / test setting a custom ohai plugin path
 - Make log_perm permissions attribute value a string
