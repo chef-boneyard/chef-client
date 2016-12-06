@@ -37,11 +37,6 @@ client_cmd << " -s #{node['chef_client']['splay']}"
 # Add custom options
 client_cmd << " #{node['chef_client']['daemon_options'].join(' ')}" if node['chef_client']['daemon_options'].any?
 
-log 'debug client_cmd' do
-  message "Final client_cmd: #{client_cmd}"
-  level :debug
-end
-
 start_time = node['chef_client']['task']['frequency'] == 'minute' ? (Time.now + 60 * node['chef_client']['task']['frequency_modifier']).strftime('%H:%M') : nil
 windows_task 'chef-client' do
   run_level :highest
