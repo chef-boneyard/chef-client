@@ -3,6 +3,8 @@ class ::Chef::Recipe
   include ::Opscode::ChefClient::Helpers
 end
 
+Chef::Log.warn("Running chef-client under the Runit init system is deprecated. Please consider running under your native init system instead.")
+
 # libraries/helpers.rb method to DRY directory creation resources
 client_bin = find_chef_client
 Chef::Log.debug("Found chef-client in #{client_bin}")
