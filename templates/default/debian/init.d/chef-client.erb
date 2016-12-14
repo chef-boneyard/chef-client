@@ -1,24 +1,24 @@
 #! /bin/sh
 ### BEGIN INIT INFO
-# Provides:           chef-client
+# Provides:           <%= node["chef_client"]["svc_name"] %>
 # Required-Start:     $remote_fs $network
 # Required-Stop:      $remote_fs $network
 # Default-Start:      2 3 4 5
 # Default-Stop:       0 1 6
-# Short-Description:  Start a chef-client.
+# Short-Description:  Start a <%= node["chef_client"]["svc_name"] %>.
 ### END INIT INFO
 #
 # Copyright (c) 2009-2010 Chef Software, Inc, <legal@chef.io>
 #
-# chef-client         Startup script for chef-client.
+# <%= node["chef_client"]["svc_name"] %>         Startup script for <%= node["chef_client"]["svc_name"] %>.
 # chkconfig: - 99 02
-# description: starts up chef-client in daemon mode.
+# description: starts up <%= node["chef_client"]["svc_name"] %> in daemon mode.
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 DAEMON=<%= @client_bin %>
-NAME=chef-client
-DESC=chef-client
-PIDFILE=<%= node["chef_client"]["run_path"] %>/client.pid
+NAME=<%= node["chef_client"]["svc_name"] %>
+DESC=<%= node["chef_client"]["svc_name"] %>
+PIDFILE=<%= node["chef_client"]["run_path"] %>/<%= if node["chef_client"]["svc_name"] == 'chef-client' then 'client' else node["chef_client"]["svc_name"] end %>.pid
 
 test -x $DAEMON || exit 1
 

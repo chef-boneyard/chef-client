@@ -12,7 +12,7 @@ create_directories
 upstart_job_dir = '/etc/init'
 upstart_job_suffix = '.conf'
 
-template "#{upstart_job_dir}/chef-client#{upstart_job_suffix}" do
+template "#{upstart_job_dir}/#{node['chef_client']['svc_name']}#{upstart_job_suffix}" do
   source 'debian/init/chef-client.conf.erb'
   mode '644'
   variables(
@@ -22,6 +22,7 @@ template "#{upstart_job_dir}/chef-client#{upstart_job_suffix}" do
 end
 
 service 'chef-client' do
+  service_name node['chef_client']['svc_name']
   provider Chef::Provider::Service::Upstart
   action [:enable, :start]
 end

@@ -1,6 +1,6 @@
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides:          chef-client
+# Provides:          <%= node["chef_client"]["svc_name"] %>
 # Required-Start:    $syslog $remote_fs
 # Should-Start:      $time
 # Required-Stop:     $syslog $remote_fs
@@ -20,8 +20,8 @@ test -x $CHEF_CLIENT || { echo "$CHEF_CLIENT not installed";
 PIDFILE=<%= node["chef_client"]["run_path"] %>/client.pid
 
 # Read sysconfig
-if [ -f "/etc/sysconfig/chef-client" ]; then
-    . /etc/sysconfig/chef-client
+if [ -f "/etc/sysconfig/<%= node["chef_client"]["svc_name"] %>" ]; then
+    . /etc/sysconfig/<%= node["chef_client"]["svc_name"] %>
 fi
 
 CONFIG=${CONFIG-<%= node["chef_client"]["conf_dir"] %>/client.rb}
@@ -72,7 +72,7 @@ rc_reset
 
 case "$1" in
     start)
-        echo -n "Starting chef-client "
+        echo -n "Starting <%= node["chef_client"]["svc_name"] %> "
         ## Start daemon with startproc(8). If this fails
         ## the return value is set appropriately by startproc.
         /sbin/startproc -p $PIDFILE $CHEF_CLIENT -d -c "$CONFIG" -P "$PIDFILE" -i "$INTERVAL" -s "$SPLAY" "$OPTIONS"
@@ -81,7 +81,7 @@ case "$1" in
         rc_status -v
         ;;
     stop)
-        echo -n "Shutting down chef-client "
+        echo -n "Shutting down <%= node["chef_client"]["svc_name"] %> "
         ## Stop daemon with killproc(8) and if this fails
         ## killproc sets the return value according to LSB.
 
@@ -116,7 +116,7 @@ case "$1" in
         rc_status
         ;;
     status)
-        echo -n "Checking for service chef-client "
+        echo -n "Checking for service <%= node["chef_client"]["svc_name"] %> "
         ## Check status with checkproc(8), if process is running
         ## checkproc will return with exit status 0.
 

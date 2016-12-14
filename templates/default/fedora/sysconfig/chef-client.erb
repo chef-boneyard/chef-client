@@ -1,8 +1,8 @@
-# Configuration file for the chef-client service
+# Configuration file for the <%= node["chef_client"]["svc_name"] %> service
 
 CONFIG=<%= node["chef_client"]["conf_dir"] %>/client.rb
-PIDFILE=<%= node["chef_client"]["run_path"] %>/client.pid
-#LOCKFILE=/var/lock/subsys/chef-client
+PIDFILE=<%= node["chef_client"]["run_path"] %>/<%= if node["chef_client"]["svc_name"] == 'chef-client' then 'client' else node["chef_client"]["svc_name"] end %>.pid
+#LOCKFILE=/var/lock/subsys/<%= node["chef_client"]["svc_name"] %>
 # Sleep interval between runs.
 # This value is in seconds.
 INTERVAL=<%= node["chef_client"]["interval"] %>
