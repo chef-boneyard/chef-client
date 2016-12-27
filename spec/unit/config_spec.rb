@@ -61,7 +61,7 @@ describe 'chef-client::config' do
     '/var/lib/chef',
     '/var/log/chef',
     '/etc/chef',
-    '/etc/chef/client.d'
+    '/etc/chef/client.d',
   ].each do |dir|
     it "contains #{dir} directory" do
       expect(chef_run).to create_directory(dir)

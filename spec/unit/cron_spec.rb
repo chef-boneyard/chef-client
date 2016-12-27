@@ -8,7 +8,7 @@ describe 'chef-client::cron' do
     '/var/cache/chef',
     '/var/cache/chef',
     '/var/log/chef',
-    '/etc/chef'
+    '/etc/chef',
   ].each do |dir|
     it "creates #{dir} with the correct attributes" do
       expect(chef_run).to create_directory(dir).with(
