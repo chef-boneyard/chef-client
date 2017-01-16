@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 7.1.0 (2017-01-16)
+
+- Fix some poor wording in the readme due to split lines
+- Remove a debug message in the windows task recipe
+- Add deprecation warning when using the Runit init system
+
 ## 7.0.3 (2016-12-06)
 - Fix invalid shell syntax in /etc/init.d script
 
