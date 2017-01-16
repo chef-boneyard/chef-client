@@ -38,13 +38,36 @@ client_cmd << " -s #{node['chef_client']['splay']}"
 client_cmd << " #{node['chef_client']['daemon_options'].join(' ')}" if node['chef_client']['daemon_options'].any?
 
 start_time = node['chef_client']['task']['frequency'] == 'minute' ? (Time.now + 60 * node['chef_client']['task']['frequency_modifier']).strftime('%H:%M') : nil
+
+chef_client_task_user = node['chef_client']['task']['user']
+chef_client_task_password = node['chef_client']['task']['password']
+
+data_bag_name = node['chef_client']['data_bag']['name']
+config_item = node['chef_client']['data_bag']['config_item']
+
+# Retrieve potential config from data bag.  Username/password should not be clear text in node attributes
+client_config = ::Opscode::ChefClient::Helpers.data_bag_item(data_bag_name, config_item, true)
+
+if client_config
+  # If any data bag settings exists, merge them with the node attribute settings
+  if client_config['task']
+    if client_config['task']['user']
+      chef_client_task_user = client_config['task']['user']
+    end
+    if client_config['task']['password']
+      chef_client_task_password = client_config['task']['password']
+    end
+  end
+end
+
+
 windows_task 'chef-client' do
   run_level :highest
   command "cmd /c \"#{client_cmd} ^> NUL 2^>^&1\""
 
-  user               node['chef_client']['task']['user']
-  password           node['chef_client']['task']['password']
-  frequency          node['chef_client']['task']['frequency'].to_sym
+  user chef_client_task_user
+  password chef_client_task_password
+  frequency node['chef_client']['task']['frequency'].to_sym
   frequency_modifier node['chef_client']['task']['frequency_modifier']
-  start_time         node['chef_client']['task']['start_time'] || start_time
+  start_time node['chef_client']['task']['start_time'] || start_time
 end

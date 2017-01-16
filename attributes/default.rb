@@ -66,6 +66,10 @@ default['chef_client']['task']['frequency_modifier'] = node['chef_client']['inte
 default['chef_client']['task']['user'] = 'SYSTEM'
 default['chef_client']['task']['password'] = nil # Password is only required for none system users
 
+# Configuration inside data bag
+default['chef_client']['data_bag']['name'] = 'chef_client'
+default['chef_client']['data_bag']['config_item'] = 'config'
+
 default['chef_client']['load_gems'] = {}
 
 # If set to false, changes in the `client.rb` template won't trigger a reload
