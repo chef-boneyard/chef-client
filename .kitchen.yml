@@ -15,16 +15,15 @@ verifier:
   name: inspec
 
 platforms:
-  - name: centos-5.11
   - name: centos-6.8
-  - name: centos-7.2
+  - name: centos-7.3
   - name: debian-7.11
   - name: debian-8.6
   - name: fedora-25
   - name: freebsd-9.3
   - name: freebsd-10.3
   - name: opensuse-13.2
-  - name: opensuse-leap-42.1
+  - name: opensuse-leap-42.2
   - name: sles-12-sp1
     driver:
       box: chef/sles-12-sp1-x86_64 # private box
@@ -34,7 +33,6 @@ platforms:
   - name: solaris-11.3
     driver:
       box: chef/solaris-11.3 # private box
-  - name: ubuntu-12.04
   - name: ubuntu-14.04
   - name: ubuntu-16.04
   - name: windows-2008r2
