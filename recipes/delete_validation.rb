@@ -21,9 +21,9 @@ class ::Chef::Recipe
   include ::Opscode::ChefClient::Helpers
 end
 
-# Don't do anything run running as solo. This can happen when using ChefSpec or
+# Don't do anything run running as solo or zero in Test-Kitchen. This can happen when using ChefSpec or
 # Test Kitchen.
-if Chef::Config[:solo]
+if Chef::Config[:solo] || (Chef::Config[:chef_server_url].include?('localhost') && ENV['TEST_KITCHEN'])
   if !ENV['TEST_KITCHEN'] && !defined?(ChefSpec)
     Chef::Log.info('[chef-client::delete_validation] Skipping validation ' \
       'delete because we are running under chef-solo')
