@@ -20,24 +20,20 @@ services: docker
 
 env:
   matrix:
-  - INSTANCE=cron-ubuntu-1204
   - INSTANCE=cron-ubuntu-1404
   - INSTANCE=cron-ubuntu-1604
-  - INSTANCE=cron-centos-5
   - INSTANCE=cron-centos-6
   - INSTANCE=cron-centos-7
   - INSTANCE=delete-validation-ubuntu-1604
   - INSTANCE=delete-validation-centos-7
-  - INSTANCE=service-upstart-ubuntu-1204
   - INSTANCE=service-upstart-ubuntu-1404
   - INSTANCE=service-systemd-centos-7
   - INSTANCE=service-systemd-debian-8
   - INSTANCE=service-systemd-fedora-latest
   - INSTANCE=service-systemd-opensuse-132
-  - INSTANCE=service-systemd-opensuse-421
+  - INSTANCE=service-systemd-opensuse-leap
   - INSTANCE=service-systemd-ubuntu-1604
   - INSTANCE=service-init-debian-7
-  - INSTANCE=service-init-centos-5
   - INSTANCE=service-init-centos-6
 
 before_script:

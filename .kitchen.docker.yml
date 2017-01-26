@@ -30,14 +30,6 @@ platforms:
       - RUN /usr/bin/apt-get update
       - RUN /usr/bin/apt-get install lsb-release -y
 
-- name: centos-5
-  driver:
-    image: centos:5
-    platform: rhel
-    pid_one_command: /sbin/init
-    intermediate_instructions:
-      - RUN yum install -y which initscripts
-
 - name: centos-6
   driver:
     image: centos:6
@@ -61,13 +53,6 @@ platforms:
     intermediate_instructions:
       - RUN dnf -y install yum which systemd-sysv initscripts
 
-- name: ubuntu-12.04
-  driver:
-    image: ubuntu-upstart:12.04
-    pid_one_command: /sbin/init
-    intermediate_instructions:
-      - RUN /usr/bin/apt-get update
-
 - name: ubuntu-14.04
   driver:
     image: ubuntu-upstart:14.04
@@ -89,9 +74,9 @@ platforms:
     intermediate_instructions:
       - RUN zypper --non-interactive install aaa_base perl-Getopt-Long-Descriptive which
 
-- name: opensuse-42.1
+- name: opensuse-leap
   driver:
-    image: opensuse:42.1
+    image: opensuse:leap
     pid_one_command: /bin/systemd
     intermediate_instructions:
       - RUN zypper --non-interactive install aaa_base perl-Getopt-Long-Descriptive which
@@ -112,7 +97,7 @@ suites:
 - name: service_systemd
   run_list:
   - recipe[chef-client::systemd_service]
-  includes: ["centos-7", "debian-8", "opensuse-13.2", "opensuse-42.1", "fedora-latest", "ubuntu-16.04"]
+  includes: ["centos-7", "debian-8", "opensuse-13.2", "opensuse-leap", "fedora-latest", "ubuntu-16.04"]
 
 - name: service_upstart
   run_list:
