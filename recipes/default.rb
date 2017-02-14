@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: chef-client
+# Cookbook::  chef-client
 # Recipe:: default
 #
-# Copyright 2010-2016, Chef Software, Inc.
+# Copyright:: 2010-2016, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,4 +17,8 @@
 # limitations under the License.
 #
 
-include_recipe 'chef-client::service'
+if platform?('windows')
+  include_recipe 'chef-client::task'
+else
+  include_recipe 'chef-client::service'
+end

@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'chef-client::config' do
-  let(:chef_run) do
-    ChefSpec::ServerRunner.new.converge(described_recipe)
+  cached(:chef_run) do
+    ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04').converge(described_recipe)
   end
 
   it 'contains the default chef_server_url setting' do
@@ -15,13 +15,53 @@ describe 'chef-client::config' do
       .with_content(/validation_client_name/)
   end
 
+  context 'when Chef::VERSION is 12.4.0 or greater' do
+    ## chef-config was introduced in 12.4.0
+    ## ohai supports config files in 8.6.0
+    before(:each) do
+      @chef = ChefSpec.const_get(:Chef)
+      @chef_version = @chef.const_get(:VERSION)
+      @chef.send(:remove_const, :VERSION)
+      @chef.const_set(:VERSION, '12.4.0')
+    end
+
+    after(:each) do
+      @chef.send(:remove_const, :VERSION)
+      @chef.const_set(:VERSION, @chef_version)
+    end
+
+    it 'loads config files via ChefConfig::Config.from_file' do
+      expect(chef_run).to render_file('/etc/chef/client.rb') \
+        .with_content(/ChefConfig::Config.from_file/)
+    end
+  end
+
+  context 'when Chef::VERSION is 12.3.0 or earlier' do
+    before(:each) do
+      @chef = ChefSpec.const_get(:Chef)
+      @chef_version = @chef.const_get(:VERSION)
+      @chef.send(:remove_const, :VERSION)
+      @chef.const_set(:VERSION, '12.3.0')
+    end
+
+    after(:each) do
+      @chef.send(:remove_const, :VERSION)
+      @chef.const_set(:VERSION, @chef_version)
+    end
+
+    it 'loads config files via Chef::Config.from_file' do
+      expect(chef_run).to render_file('/etc/chef/client.rb') \
+        .with_content(/Chef::Config.from_file/)
+    end
+  end
+
   [
-    '/var/run',
-    '/var/chef/cache',
-    '/var/chef/backup',
+    '/var/run/chef',
+    '/var/cache/chef',
+    '/var/lib/chef',
     '/var/log/chef',
     '/etc/chef',
-    '/etc/chef/client.d'
+    '/etc/chef/client.d',
   ].each do |dir|
     it "contains #{dir} directory" do
       expect(chef_run).to create_directory(dir)
@@ -39,20 +79,20 @@ describe 'chef-client::config' do
   end
 
   context 'Custom Attributes' do
-    let(:chef_run) do
-      ChefSpec::ServerRunner.new do |node|
-        node.set['ohai']['disabled_plugins'] = [:passwd, 'dmi']
-        node.set['ohai']['plugin_path'] = '/etc/chef/ohai_plugins'
-        node.set['chef_client']['config']['log_level'] = ':debug'
-        node.set['chef_client']['config']['ssl_verify_mode'] = ':verify_none'
-        node.set['chef_client']['config']['exception_handlers'] = [{ class: 'SimpleReport::UpdatedResources', arguments: [] }]
-        node.set['chef_client']['config']['report_handlers'] = [{ class: 'SimpleReport::UpdatedResources', arguments: [] }]
-        node.set['chef_client']['config']['start_handlers'] = [{ class: 'SimpleReport::UpdatedResources', arguments: [] }]
-        node.set['chef_client']['config']['http_proxy'] = 'http://proxy.vmware.com:3128'
-        node.set['chef_client']['config']['https_proxy'] = 'http://proxy.vmware.com:3128'
-        node.set['chef_client']['config']['no_proxy'] = '*.vmware.com,10.*'
-        node.set['chef_client']['load_gems']['chef-handler-updated-resources']['require_name'] = 'chef/handler/updated_resources'
-        node.set['chef_client']['reload_config'] = false
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04') do |node|
+        node.normal['ohai']['disabled_plugins'] = [:passwd, 'dmi']
+        node.normal['ohai']['plugin_path'] = '/etc/chef/ohai_plugins'
+        node.normal['chef_client']['config']['log_level'] = ':debug'
+        node.normal['chef_client']['config']['ssl_verify_mode'] = ':verify_none'
+        node.normal['chef_client']['config']['exception_handlers'] = [{ class: 'SimpleReport::UpdatedResources', arguments: [] }]
+        node.normal['chef_client']['config']['report_handlers'] = [{ class: 'SimpleReport::UpdatedResources', arguments: [] }]
+        node.normal['chef_client']['config']['start_handlers'] = [{ class: 'SimpleReport::UpdatedResources', arguments: [] }]
+        node.normal['chef_client']['config']['http_proxy'] = 'http://proxy.vmware.com:3128'
+        node.normal['chef_client']['config']['https_proxy'] = 'http://proxy.vmware.com:3128'
+        node.normal['chef_client']['config']['no_proxy'] = '*.vmware.com,10.*'
+        node.normal['chef_client']['load_gems']['chef-handler-updated-resources']['require_name'] = 'chef/handler/updated_resources'
+        node.normal['chef_client']['reload_config'] = false
       end.converge(described_recipe)
     end
 

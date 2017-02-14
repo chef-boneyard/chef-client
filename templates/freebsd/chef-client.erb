@@ -10,6 +10,6 @@ name="chef"
 pidfile="<%= node["chef_client"]["run_path"] %>/${name}.pid"
 command="<%= @client_bin %>"
 command_interpreter="<%= RbConfig.ruby %>"
-command_args="-i <%= node["chef_client"]["interval"] %> -s <%= node["chef_client"]["splay"] %> -d -P <%= node["chef_client"]["run_path"] %>/${name}.pid"
+command_args="-i <%= node["chef_client"]["interval"] %> -s <%= node["chef_client"]["splay"] %> -d -P ${pidfile}"
 load_rc_config $name
 run_rc_command "$1"

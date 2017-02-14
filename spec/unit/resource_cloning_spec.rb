@@ -2,10 +2,7 @@ require 'spec_helper'
 
 describe 'chef-client::_unit_test_cloning_resource' do
   let(:chef_run) do
-    chef_run = ChefSpec::ServerRunner.new(platform: 'centos', version: '5.10') do |node|
-      node.set['root_group'] = 'root'
-    end
-    chef_run.converge(described_recipe)
+    ChefSpec::ServerRunner.new(platform: 'centos', version: '5.11').converge(described_recipe)
   end
 
   it 'Create Directory with fake values, without cloning it' do

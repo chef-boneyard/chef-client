@@ -1,7 +1,3 @@
-require 'serverspec'
-
-set :backend, :exec
-
 describe 'chef-server-directories' do
   describe file('/etc/opscode') do
     it { should be_directory }

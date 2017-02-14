@@ -2,10 +2,10 @@
 # Author:: Joshua Timberman (<joshua@chef.io>)
 # Author:: Seth Chisamore (<schisamo@chef.io>)
 # Author:: Bryan Berry (<bryan.berry@gmail.com>)
-# Cookbook Name:: chef-client
+# Cookbook::  chef-client
 # Recipe:: cron
 #
-# Copyright 2009-2016, Chef Software, Inc.
+# Copyright:: 2009-2016, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -41,16 +41,16 @@ dist_dir, conf_dir = value_for_platform_family(
 
 # let's create the service file so the :disable action doesn't fail
 case node['platform_family']
-when 'arch', 'debian', 'rhel', 'fedora', 'suse', 'openbsd', 'freebsd'
+when 'debian', 'rhel', 'fedora', 'suse'
   template '/etc/init.d/chef-client' do
     source "#{dist_dir}/init.d/chef-client.erb"
-    mode 0755
+    mode '755'
     variables(client_bin: client_bin)
   end
 
   template "/etc/#{conf_dir}/chef-client" do
     source "#{dist_dir}/#{conf_dir}/chef-client.erb"
-    mode 0644
+    mode '644'
   end
 
   service 'chef-client' do
@@ -65,6 +65,23 @@ when 'openindiana', 'opensolaris', 'nexentacore', 'solaris2', 'smartos', 'omnios
     action [:disable, :stop]
     provider Chef::Provider::Service::Solaris
     ignore_failure true
+  end
+
+when 'freebsd'
+  template '/etc/rc.d/chef-client' do
+    owner 'root'
+    group 'wheel'
+    variables client_bin: client_bin
+    mode '755'
+  end
+
+  file '/etc/rc.conf.d/chef' do
+    action :delete
+  end
+
+  service 'chef-client' do
+    supports status: true, restart: true
+    action [:stop]
   end
 end
 

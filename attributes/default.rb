@@ -1,10 +1,10 @@
 #
 # Author:: Joshua Timberman (<joshua@chef.io>)
 # Author:: Seth Chisamore (<schisamo@chef.io>)
-# Cookbook Name:: chef-client
+# Cookbook::  chef-client
 # Attributes:: default
 #
-# Copyright 2008-2015, Chef Software, Inc.
+# Copyright:: 2008-2016, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the 'License');
 # you may not use this file except in compliance with the License.
@@ -27,12 +27,11 @@ default['chef_client']['config'] = {
   'chef_server_url' => Chef::Config[:chef_server_url],
   'validation_client_name' => Chef::Config[:validation_client_name],
   'node_name' => Chef::Config[:node_name] == node['fqdn'] ? false : Chef::Config[:node_name],
-  'verify_api_cert' => true
+  'verify_api_cert' => true,
 }
 
-if Chef::Config.key?(:client_fork)
-  default['chef_client']['config']['client_fork'] = true
-end
+# should the client fork on runs
+default['chef_client']['config']['client_fork'] = true
 
 # log_file has no effect when using runit
 default['chef_client']['log_file']    = 'client.log'
@@ -46,7 +45,7 @@ default['chef_client']['bin']         = '/usr/bin/chef-client'
 default['chef_client']['log_dir']     = '/var/log/chef'
 
 # If log file is used, default permissions so everyone can read
-default['chef_client']['log_perm'] = 00640
+default['chef_client']['log_perm'] = '640'
 
 # Configuration for chef-client::cron recipe.
 default['chef_client']['cron'] = {
@@ -58,7 +57,7 @@ default['chef_client']['cron'] = {
   'log_file' => '/dev/null',
   'append_log' => false,
   'use_cron_d' => false,
-  'mailto' => nil
+  'mailto' => nil,
 }
 
 # Configuration for Windows scheduled task
@@ -82,6 +81,9 @@ default['chef_client']['daemon_options'] = []
 # so they can be set as an array in this attribute.
 default['ohai']['disabled_plugins'] = []
 
+# An additional path to load Ohai plugins from.
+default['ohai']['plugin_path'] = nil
+
 # Use logrotate_app definition on supported platforms via config recipe
 # when chef_client['log_file'] is set.
 # Default rotate: 12; frequency: weekly
@@ -96,31 +98,18 @@ when 'aix'
   default['chef_client']['cache_path']  = '/var/spool/chef'
   default['chef_client']['backup_path'] = '/var/lib/chef'
   default['chef_client']['log_dir']     = '/var/adm/chef'
-when 'arch'
-  default['chef_client']['init_style']  = 'systemd'
-  default['chef_client']['run_path']    = '/var/run/chef'
-  default['chef_client']['cache_path']  = '/var/cache/chef'
-  default['chef_client']['backup_path'] = '/var/lib/chef'
 when 'debian'
-  default['chef_client']['init_style'] = if node['platform_version'].to_i >= 8 && node.key?('init_package') && node['init_package'] == 'systemd'
-                                           'systemd'
-                                         else
-                                           'init'
-                                         end
+  default['chef_client']['init_style']  = node['init_package']
   default['chef_client']['run_path']    = '/var/run/chef'
   default['chef_client']['cache_path']  = '/var/cache/chef'
   default['chef_client']['backup_path'] = '/var/lib/chef'
 when 'suse'
-  default['chef_client']['init_style']  = 'init'
+  default['chef_client']['init_style']  = 'systemd'
   default['chef_client']['run_path']    = '/var/run/chef'
   default['chef_client']['cache_path']  = '/var/cache/chef'
   default['chef_client']['backup_path'] = '/var/lib/chef'
 when 'rhel'
-  default['chef_client']['init_style'] = if node['platform_version'].to_i >= 7 && node['platform'] != 'amazon'
-                                           'systemd'
-                                         else
-                                           'init'
-                                         end
+  default['chef_client']['init_style']  = node['init_package']
   default['chef_client']['run_path']    = '/var/run/chef'
   default['chef_client']['cache_path']  = '/var/cache/chef'
   default['chef_client']['backup_path'] = '/var/lib/chef'
@@ -131,13 +120,13 @@ when 'fedora'
   default['chef_client']['run_path']    = '/var/run/chef'
   default['chef_client']['cache_path']  = '/var/cache/chef'
   default['chef_client']['backup_path'] = '/var/lib/chef'
-when 'openbsd', 'freebsd'
+when 'freebsd'
   default['chef_client']['init_style']  = 'bsd'
   default['chef_client']['run_path']    = '/var/run'
   default['chef_client']['cache_path']  = '/var/chef/cache'
   default['chef_client']['backup_path'] = '/var/chef/backup'
 # don't use bsd paths per COOK-1379
-when 'mac_os_x', 'mac_os_x_server'
+when 'mac_os_x'
   default['chef_client']['init_style']  = 'launchd'
   default['chef_client']['log_dir']     = '/Library/Logs/Chef'
   # Launchd doesn't use pid files

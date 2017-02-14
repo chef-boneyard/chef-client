@@ -1,9 +1,9 @@
 #
 # Author:: Joshua Timberman <joshua@chef.io>
-# Cookbook Name:: chef
+# Cookbook::  chef
 # Recipe:: delete_validation
 #
-# Copyright 2010-2016, Chef Software, Inc.
+# Copyright:: 2010-2016, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,6 +19,16 @@
 
 class ::Chef::Recipe
   include ::Opscode::ChefClient::Helpers
+end
+
+# Don't do anything run running as solo. This can happen when using ChefSpec or
+# Test Kitchen.
+if Chef::Config[:solo]
+  if !ENV['TEST_KITCHEN'] && !defined?(ChefSpec)
+    Chef::Log.info('[chef-client::delete_validation] Skipping validation ' \
+      'delete because we are running under chef-solo')
+  end
+  return
 end
 
 unless Chef::Config[:validation_key].nil?

@@ -2,11 +2,11 @@
 # Author:: Joshua Timberman (<joshua@chef.io>)
 # Author:: Joshua Sierles (<joshua@37signals.com>)
 # Author:: Seth Chisamore (<schisamo@chef.io>)
-# Cookbook Name:: chef-client
+# Cookbook::  chef-client
 # Recipe:: config
 #
-# Copyright 2008-2016, Chef Software, Inc.
-# Copyright 2009, 37signals
+# Copyright:: 2008-2016, Chef Software, Inc.
+# Copyright:: 2009, 37signals
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -60,10 +60,14 @@ chef_requires = []
 node['chef_client']['load_gems'].each do |gem_name, gem_info_hash|
   gem_info_hash ||= {}
   chef_gem gem_name do
+    compile_time true
     action gem_info_hash[:action] || :install
     source gem_info_hash[:source] if gem_info_hash[:source]
     version gem_info_hash[:version] if gem_info_hash[:version]
     options gem_info_hash[:options] if gem_info_hash[:options]
+    retries gem_info_hash[:retries] if gem_info_hash[:retries]
+    retry_delay gem_info_hash[:retry_delay] if gem_info_hash[:retry_delay]
+    timeout gem_info_hash[:timeout] if gem_info_hash[:timeout]
   end
   chef_requires.push(gem_info_hash[:require_name] || gem_name)
 end
@@ -71,13 +75,12 @@ end
 # We need to set these local variables because the methods aren't
 # available in the Chef::Resource scope
 d_owner = root_owner
-d_group = node['root_group']
 
 template "#{node['chef_client']['conf_dir']}/client.rb" do
   source 'client.rb.erb'
   owner d_owner
-  group d_group
-  mode 00644
+  group node['root_group']
+  mode '644'
   variables(
     chef_config: node['chef_client']['config'],
     chef_requires: chef_requires,
@@ -96,8 +99,8 @@ end
 directory ::File.join(node['chef_client']['conf_dir'], 'client.d') do
   recursive true
   owner d_owner
-  group d_group
-  mode 00755
+  group node['root_group']
+  mode '755'
 end
 
 ruby_block 'reload_client_config' do

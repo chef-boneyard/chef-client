@@ -1,12 +1,20 @@
 sudo: required
+dist: trusty
 
-# install the pre-release chef-dk.  Use chef-stable-precise to install the stable release
+# install the pre-release chef-dk.  Use chef-stable-trusty to install the stable release
 addons:
   apt:
     sources:
-      - chef-current-precise
+      - chef-current-trusty
     packages:
       - chefdk
+
+# Don't `bundle install` which takes about 1.5 mins
+install: echo "skip bundle install"
+
+branches:
+  only:
+    - master
 
 services: docker
 
@@ -14,38 +22,37 @@ env:
   matrix:
   - INSTANCE=cron-ubuntu-1204
   - INSTANCE=cron-ubuntu-1404
+  - INSTANCE=cron-ubuntu-1604
+  - INSTANCE=cron-centos-5
   - INSTANCE=cron-centos-6
   - INSTANCE=cron-centos-7
-  - INSTANCE=config-ubuntu-1204
-  - INSTANCE=config-ubuntu-1404
-  - INSTANCE=config-centos-6
-  - INSTANCE=config-centos-7
-  - INSTANCE=delete-validation-ubuntu-1204
-  - INSTANCE=delete-validation-ubuntu-1404
-  - INSTANCE=delete-validation-centos-6
+  - INSTANCE=delete-validation-ubuntu-1604
   - INSTANCE=delete-validation-centos-7
   - INSTANCE=service-upstart-ubuntu-1204
   - INSTANCE=service-upstart-ubuntu-1404
   - INSTANCE=service-systemd-centos-7
-  - INSTANCE=service-init-ubuntu-1204
-  - INSTANCE=service-init-ubuntu-1404
+  - INSTANCE=service-systemd-debian-8
+  - INSTANCE=service-systemd-fedora-latest
+  - INSTANCE=service-systemd-opensuse-132
+  - INSTANCE=service-systemd-opensuse-421
+  - INSTANCE=service-systemd-ubuntu-1604
+  - INSTANCE=service-init-debian-7
+  - INSTANCE=service-init-centos-5
   - INSTANCE=service-init-centos-6
 
-# Don't `bundle install`
-install: echo "skip bundle install"
-
-# Ensure we make ChefDK's Ruby the default
 before_script:
-  # https://github.com/zuazo/kitchen-in-travis-native/issues/1#issuecomment-142230889
   - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
   - eval "$(/opt/chefdk/bin/chef shell-init bash)"
-  - /opt/chefdk/embedded/bin/chef gem install kitchen-docker
-  - /opt/chefdk/embedded/bin/chef gem install rubocop -v 0.37
-script:
-  - /opt/chefdk/embedded/bin/chef --version
-  - /opt/chefdk/embedded/bin/rubocop --version
-  - /opt/chefdk/embedded/bin/rubocop
-  - /opt/chefdk/embedded/bin/foodcritic --version
-  - /opt/chefdk/embedded/bin/foodcritic . --exclude spec
-  - /opt/chefdk/embedded/bin/rspec
-  - KITCHEN_LOCAL_YAML=.kitchen.docker.yml /opt/chefdk/embedded/bin/kitchen verify ${INSTANCE}
+
+script: KITCHEN_LOCAL_YAML=.kitchen.docker.yml /opt/chefdk/embedded/bin/kitchen verify ${INSTANCE}
+
+matrix:
+  include:
+    - before_script:
+      - eval "$(/opt/chefdk/bin/chef shell-init bash)"
+      - /opt/chefdk/embedded/bin/chef --version
+      - /opt/chefdk/embedded/bin/cookstyle --version
+      - /opt/chefdk/embedded/bin/foodcritic --version
+    - script:
+      - /opt/chefdk/bin/chef exec rake
+      env: UNIT_AND_LINT=1

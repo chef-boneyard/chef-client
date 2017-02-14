@@ -1,9 +1,9 @@
 #
 # Author:: John Dewey (<john@dewey.ws>)
-# Cookbook Name:: chef-client
+# Cookbook::  chef-client
 # Library:: helpers
 #
-# Copyright 2012, John Dewey
+# Copyright:: 2012, John Dewey
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,8 +20,7 @@ module Opscode
   module ChefClient
     # helper methods for use in chef-client recipe code
     module Helpers
-      include Chef::Mixin::Language if Chef::VERSION < '11.0.0'
-      include Chef::DSL::PlatformIntrospection if Chef::VERSION >= '11.0.0'
+      include Chef::DSL::PlatformIntrospection
 
       def wmi_property_from_query(wmi_property, wmi_query)
         @wmi = ::WIN32OLE.connect('winmgmts://')
@@ -52,7 +51,7 @@ module Opscode
           rescue Chef::Exceptions::ResourceNotFound
             directory node['chef_client'][dir] do
               recursive true
-              mode 00755 if dir == 'log_dir'
+              mode '755' if dir == 'log_dir'
               owner d_owner
               group node['root_group']
             end
