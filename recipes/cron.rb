@@ -5,7 +5,7 @@
 # Cookbook::  chef-client
 # Recipe:: cron
 #
-# Copyright:: 2009-2016, Chef Software, Inc.
+# Copyright:: 2009-2017, Chef Software Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -87,7 +87,7 @@ end
 
 # Generate a uniformly distributed unique number to sleep.
 if node['chef_client']['splay'].to_i > 0
-  checksum   = Digest::MD5.hexdigest(node['fqdn'] || 'unknown-hostname')
+  checksum   = Digest::MD5.hexdigest(node['node_name'])
   sleep_time = checksum.to_s.hex % node['chef_client']['splay'].to_i
 else
   sleep_time = nil
