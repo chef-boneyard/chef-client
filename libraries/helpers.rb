@@ -100,6 +100,17 @@ module Opscode
           raise "Could not locate the chef-client bin in any known path. Please set the proper path by overriding the node['chef_client']['bin'] attribute."
         end
       end
+
+      def self.data_bag_item(data_bag_name, data_bag_item, missing_ok=false)
+
+              Chef::EncryptedDataBagItem.load(data_bag_name, data_bag_item).to_hash.delete_if { |key, value| key == 'id' }
+
+            rescue Chef::Exceptions::ValidationFailed,
+                  Chef::Exceptions::InvalidDataBagPath,
+                  Net::HTTPServerException => error
+                     missing_ok ? nil : raise(error)
+                   end
+
     end
   end
 end

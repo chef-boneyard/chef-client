@@ -64,6 +64,19 @@ The following attributes affect the behavior of the chef-client program when run
 - `node['chef_client']['task']['user']` - The user the scheduled task will run as, defaults to `'SYSTEM'`.
 - `node['chef_client']['task']['password']` - The password for the user the scheduled task will run as, defaults to `nil` because the default user, `'SYSTEM'`, does not need a password.
 
+Optionally, for better security, task user and password can be defined in a data bag
+- `node['chef_client']['data_bag']['name']` - = The data bag name, defaults to `'chef_client'`.
+- `node['chef_client']['data_bag']['config_item']` - The daat bag item, defaults to `'config'`.
+```json
+{
+  "task": {
+    "user": "scheduled_task_username",
+    "password": "scheduled_task_password"
+  },
+  "id": "config"
+}
+```
+
 The following attributes are set on a per-platform basis, see the `attributes/default.rb` file for default values.
 
 - `node['chef_client']['init_style']` - Sets up the client service based on the style of init system to use. Default is based on platform and falls back to `'none'`. See [service recipes](#service-recipes).
