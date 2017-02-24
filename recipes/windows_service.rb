@@ -29,7 +29,7 @@ class ::Chef::Resource
 end
 
 # libraries/helpers.rb method to DRY directory creation resources
-create_directories
+create_chef_directories
 
 d_owner = root_owner
 install_command = "chef-service-manager -a install -c #{File.join(node['chef_client']['conf_dir'], 'client.service.rb')}"

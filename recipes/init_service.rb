@@ -7,7 +7,7 @@ end
 client_bin = find_chef_client
 Chef::Log.debug("Found chef-client in #{client_bin}")
 node.default['chef_client']['bin'] = client_bin
-create_directories
+create_chef_directories
 
 dist_dir, conf_dir = value_for_platform_family(
   ['debian'] => %w( debian default ),

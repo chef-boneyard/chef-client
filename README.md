@@ -334,15 +334,39 @@ Since launchd can run a service in interval mode, by default chef-client is not 
 
 This cookbook does not handle updating the chef-client, as that's out of the cookbook's current scope. To sensibly manage updates of the chef-client omnibus install, we refer you to:
 
-- [omnibus_updater](https://github.com/hw-cookbooks/omnibus_updater) - Heavy Water's cookbook for installing the omnibus Chef package and keeping your install up-to-date
+- [omnibus_updater](https://github.com/chef-cookbooks/omnibus_updater) - Cookbook for installing the omnibus Chef package and keeping your install up-to-date
 
 For more on why this cookbook does not support installs, see [Issue #102](https://github.com/chef-cookbooks/chef-client/pull/102)
+
+## Resources
+
+### chef_client_scheduled_task
+
+The chef_client_scheduled_task setups up chef-client to run as a scheduled task. This resource is what the task recipe calls under the hood. You can use this recipe directly when writing a wrapper cookbook. Additionally using this resource directly allows you to control where you store the user credentials instead of storing them as node attributes. This is useful if you want to store these credentials in an encrypted databag.
+
+### Actions
+
+- add
+- remove
+
+### Properties
+
+- `user` - The username to run the task as. default: 'System'
+- `password`, The password of the user to run the task as if not using the System user
+- `frequency` - Frequency with which to run the task (e.g., 'hourly', 'daily', etc.) Default is 'minute'
+- `frequency_modifier` Numeric value to go with the scheduled task frequency - default: '30'
+- `start_time` The start time for the task in HH:mm format. If the `frequency` is `minute` default start time will be `Time.now` plus the `frequency_modifier` number of minutes.
+- `splay` - A random number of seconds between 0 and X to add to interval. default: '300'
+- `config_directory` - The path to the Chef config directory. default: 'C:/chef'
+- `log_directory` - The path to the Chef log directory. default: 'CONFIG_DIRECTORY/log'
+- `chef_binary_path` - The path to the chef-client binary. default: 'C:/opscode/chef/bin/chef-client'
+- `daemon_options` - An optional array of extra options to pass to the chef-client
 
 ## License & Authors
 
 **Author:** Cookbook Engineering Team ([cookbooks@chef.io](mailto:cookbooks@chef.io))
 
-**Copyright:** 2010-2016, Chef Software, Inc.
+**Copyright:** 2010-2017, Chef Software, Inc.
 
 ```
 Licensed under the Apache License, Version 2.0 (the "License");

@@ -41,7 +41,7 @@ module Opscode
         end
       end
 
-      def create_directories
+      def create_chef_directories
         # root_owner is not in scope in the block below.
         d_owner = root_owner
         %w(run_path cache_path backup_path log_dir conf_dir).each do |dir|
@@ -103,3 +103,5 @@ module Opscode
     end
   end
 end
+
+Chef::DSL::Recipe.send(:include, Opscode::ChefClient::Helpers)

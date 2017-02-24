@@ -12,19 +12,12 @@ describe 'chef-client::service' do
     end
   end
 
-  context 'CentOS 5' do
-    let(:chef_run) do
-      ChefSpec::ServerRunner.new(platform: 'centos', version: '5.11') do |node|
-      end.converge(described_recipe)
-    end
-    it 'should use the init service' do
-      expect(chef_run).to include_recipe('chef-client::init_service')
-    end
-  end
-
   context 'CentOS 6' do
     let(:chef_run) do
       ChefSpec::ServerRunner.new(platform: 'centos', version: '6.8').converge(described_recipe)
+      it 'should use the init service' do
+        expect(chef_run).to include_recipe('chef-client::init_service')
+      end
     end
   end
 
@@ -36,21 +29,21 @@ describe 'chef-client::service' do
   end
 
   context 'Fedora' do
-    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'fedora', version: '23').converge(described_recipe) }
+    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'fedora', version: '25').converge(described_recipe) }
     it 'should use the systemd service' do
       expect(chef_run).to include_recipe('chef-client::systemd_service')
     end
   end
 
-  context 'FreeBSD 9' do
-    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'freebsd', version: '9.3').converge(described_recipe) }
+  context 'FreeBSD 10' do
+    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'freebsd', version: '10.3').converge(described_recipe) }
     it 'should use the bsd service' do
       expect(chef_run).to include_recipe('chef-client::bsd_service')
     end
   end
 
-  context 'FreeBSD 10' do
-    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'freebsd', version: '10.3').converge(described_recipe) }
+  context 'FreeBSD 11' do
+    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'freebsd', version: '11.0').converge(described_recipe) }
     it 'should use the bsd service' do
       expect(chef_run).to include_recipe('chef-client::bsd_service')
     end
@@ -63,19 +56,10 @@ describe 'chef-client::service' do
     end
   end
 
-  context 'openSUSE' do
-    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'opensuse', version: '13.2').converge(described_recipe) }
+  context 'openSUSE Leap' do
+    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'opensuse', version: '42.1').converge(described_recipe) }
     it 'should use the systemd service' do
       expect(chef_run).to include_recipe('chef-client::systemd_service')
-    end
-  end
-
-  context 'Ubuntu 12.04' do
-    let(:chef_run) do
-      ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '12.04').converge(described_recipe)
-    end
-    it 'should use the init service' do
-      expect(chef_run).to include_recipe('chef-client::init_service')
     end
   end
 

@@ -46,13 +46,13 @@ suites:
   run_list:
   - recipe[chef-client::config]
   - recipe[chef-client::init_service]
-  includes: ["centos-5.11", "centos-6.8", "debian-7.11", "sles-12-sp1"]
+  includes: ["centos-6.8", "debian-7.11", "sles-12-sp1"]
 
 - name: service_runit
   run_list:
   - recipe[runit]
   - recipe[chef-client::runit_service]
-  includes: ["centos-5.11", "centos-6.8", "debian-7.11"]
+  includes: ["centos-6.8", "debian-7.11"]
 
 - name: service_systemd
   run_list:
