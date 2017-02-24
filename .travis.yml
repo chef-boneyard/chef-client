@@ -30,7 +30,6 @@ env:
   - INSTANCE=service-systemd-centos-7
   - INSTANCE=service-systemd-debian-8
   - INSTANCE=service-systemd-fedora-latest
-  - INSTANCE=service-systemd-opensuse-132
   - INSTANCE=service-systemd-opensuse-leap
   - INSTANCE=service-systemd-ubuntu-1604
   - INSTANCE=service-init-debian-7
