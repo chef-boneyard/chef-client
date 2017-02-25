@@ -29,7 +29,7 @@ describe 'chef-client::service' do
   end
 
   context 'Fedora' do
-    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'fedora', version: '25').converge(described_recipe) }
+    let(:chef_run) { ChefSpec::ServerRunner.new(platform: 'fedora', version: '24').converge(described_recipe) }
     it 'should use the systemd service' do
       expect(chef_run).to include_recipe('chef-client::systemd_service')
     end
