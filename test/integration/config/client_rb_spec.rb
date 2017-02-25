@@ -1,8 +1,14 @@
-describe command('ohai virtualization -c /etc/chef/client.rb') do
+if os.windows?
+  config = 'C:\chef\client.rb'
+else
+  config = '/etc/chef/client.rb'
+end
+
+describe command("ohai virtualization -c #{config}") do
   its(:exit_status) { should eq(0) }
 end
 
-describe file('/etc/chef/client.rb') do
+describe file(config) do
   its('content') { should match(/ohai.disabled_plugins = \["Mdadm"\]/) }
   its('content') { should match(%r{ohai.plugin_path << "/tmp/kitchen/ohai/plugins"}) }
 end
