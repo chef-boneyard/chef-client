@@ -1,8 +1,8 @@
-if os.windows?
-  config = 'C:\chef\client.rb'
-else
-  config = '/etc/chef/client.rb'
-end
+config = if os.windows?
+           'C:\chef\client.rb'
+         else
+           '/etc/chef/client.rb'
+         end
 
 describe command("ohai virtualization -c #{config}") do
   its(:exit_status) { should eq(0) }
