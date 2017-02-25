@@ -9,7 +9,7 @@ require 'chef/version_constraint'
 client_bin = find_chef_client
 Chef::Log.debug("Found chef-client in #{client_bin}")
 node.default['chef_client']['bin'] = client_bin
-create_directories
+create_chef_directories
 
 file '/Library/LaunchDaemons/com.opscode.chef-client.plist' do
   action :delete

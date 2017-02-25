@@ -48,7 +48,7 @@ else
 end
 
 # libraries/helpers.rb method to DRY directory creation resources
-create_directories
+create_chef_directories
 
 if log_path != 'STDOUT' # ~FC023
   file log_path do

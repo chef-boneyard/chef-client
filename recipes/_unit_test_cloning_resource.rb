@@ -28,4 +28,4 @@ directory node['chef_client']['conf_dir'] do
   group 'fake'
 end
 
-create_directories
+create_chef_directories
