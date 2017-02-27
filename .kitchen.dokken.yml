@@ -1,14 +1,14 @@
 driver:
   name: dokken
-  chef_image: chef/chef
-  chef_version: current
   privileged: true # because Docker and SystemD/Upstart
+  chef_version: current
 
 transport:
   name: dokken
 
 provisioner:
   name: dokken
+  deprecations_as_errors: true
 
 verifier:
   name: inspec
@@ -51,7 +51,7 @@ platforms:
     image: fedora:latest
     pid_one_command: /usr/lib/systemd/systemd
     intermediate_instructions:
-      - RUN dnf -y install yum which systemd-sysv initscripts
+      - RUN dnf -y install which systemd-sysv initscripts
 
 - name: ubuntu-14.04
   driver:

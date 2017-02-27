@@ -3,6 +3,7 @@ driver:
 
 provisioner:
   name: chef_zero
+  deprecations_as_errors: true
 
 verifier:
   name: inspec
@@ -13,8 +14,8 @@ platforms:
   - name: debian-7.11
   - name: debian-8.6
   - name: fedora-25
-  - name: freebsd-9.3
   - name: freebsd-10.3
+  - name: freebsd-11.0
   - name: opensuse-leap-42.2
   - name: sles-12-sp1
     driver:
@@ -40,7 +41,7 @@ suites:
   run_list:
   - recipe[chef-client::config]
   - recipe[chef-client::bsd_service]
-  includes: ["freebsd-9.3", "freebsd-10.3"]
+  includes: ["freebsd-10.3", "freebsd-11.0"]
 
 - name: service_init
   run_list:
