@@ -34,7 +34,7 @@ create_chef_directories
 d_owner = root_owner
 install_command = "chef-service-manager -a install -c #{File.join(node['chef_client']['conf_dir'], 'client.service.rb')}"
 if Chef::VERSION <= '12.5.1'
-  install_command << " -L #{File.join(node['chef_client']['log_dir'], 'client.log')}"
+  install_command << " -L #{File.join(node['chef_client']['log_dir'], node['chef_client']['log_file'])}"
 end
 
 template "#{node['chef_client']['conf_dir']}/client.service.rb" do
