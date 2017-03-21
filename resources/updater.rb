@@ -38,7 +38,7 @@ action :update do
   end
 end
 
-action_class do
+action_class.class_eval do
   def load_mixlib_install
     require 'mixlib/install'
   rescue LoadError
