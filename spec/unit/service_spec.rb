@@ -12,16 +12,6 @@ describe 'chef-client::service' do
     end
   end
 
-  context 'CentOS 5' do
-    let(:chef_run) do
-      ChefSpec::ServerRunner.new(platform: 'centos', version: '5.11') do |node|
-      end.converge(described_recipe)
-    end
-    it 'should use the init service' do
-      expect(chef_run).to include_recipe('chef-client::init_service')
-    end
-  end
-
   context 'CentOS 6' do
     let(:chef_run) do
       ChefSpec::ServerRunner.new(platform: 'centos', version: '6.8').converge(described_recipe)
