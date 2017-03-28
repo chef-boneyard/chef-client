@@ -18,6 +18,7 @@
 #
 
 provides :chef_client_scheduled_task
+default_action :add
 
 property :user, String, required: true
 property :password, String
