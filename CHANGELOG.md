@@ -2,6 +2,13 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 7.2.1 (2017-03-29)
+
+- Testing updates for Chef 13
+- Test with local delivery and not Rake
+- Disable chef-client service if it exists in the windows schedule task recipe
+- Update cron recipe to use shard_seed when available, and node.name when not.
+
 ## 7.2.0 (2017-02-24)
 
 - Add a chef_client_scheduled_task custom resource. This is is used by the 'task' recipe, but can also be used directly in a wrapper cookbook. Why would I want to use this? Well when used in a wrapper cookbook you can directly pass the username/password to the resource, thus avoiding node attributes. This means you can store your credentials in any secure method you want.
