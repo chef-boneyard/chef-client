@@ -1,5 +1,0 @@
-# rubocop to-do
-
-Lint/AmbiguousRegexpLiteral:
-  Exclude:
-    - 'test/**/*'
