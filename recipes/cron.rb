@@ -87,8 +87,8 @@ end
 
 # Generate a uniformly distributed unique number to sleep.
 if node['chef_client']['splay'].to_i > 0
-  checksum   = Digest::MD5.hexdigest(node['hostname'])
-  sleep_time = checksum.to_s.hex % node['chef_client']['splay'].to_i
+  seed = node['shard_seed'] || Digest::MD5.hexdigest(node.name).to_s.hex
+  sleep_time = seed % node['chef_client']['splay'].to_i
 else
   sleep_time = nil
 end
