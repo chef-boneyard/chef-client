@@ -18,6 +18,12 @@
 # limitations under the License.
 #
 
+windows_service 'chef-client' do
+  startup_type :disabled
+  action :configure_startup
+  only_if { ::Win32::Service.exists?('chef-client') }
+end
+
 chef_client_scheduled_task 'Chef Client' do
   user node['chef_client']['task']['user']
   password node['chef_client']['task']['password']
