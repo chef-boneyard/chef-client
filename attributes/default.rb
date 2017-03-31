@@ -100,21 +100,25 @@ when 'aix'
   default['chef_client']['log_dir']     = '/var/adm/chef'
 when 'debian'
   default['chef_client']['init_style']  = node['init_package']
+  default['chef_client']['svc_name']    = 'chef-client'
   default['chef_client']['run_path']    = '/var/run/chef'
   default['chef_client']['cache_path']  = '/var/cache/chef'
   default['chef_client']['backup_path'] = '/var/lib/chef'
 when 'suse'
   default['chef_client']['init_style']  = 'systemd'
+  default['chef_client']['svc_name']    = 'chef-client'
   default['chef_client']['run_path']    = '/var/run/chef'
   default['chef_client']['cache_path']  = '/var/cache/chef'
   default['chef_client']['backup_path'] = '/var/lib/chef'
 when 'rhel'
   default['chef_client']['init_style']  = node['init_package']
+  default['chef_client']['svc_name']    = 'chef-client'
   default['chef_client']['run_path']    = '/var/run/chef'
   default['chef_client']['cache_path']  = '/var/cache/chef'
   default['chef_client']['backup_path'] = '/var/lib/chef'
 when 'fedora'
   default['chef_client']['init_style']  = 'systemd'
+  default['chef_client']['svc_name']    = 'chef-client'
   default['chef_client']['run_path']    = '/var/run/chef'
   default['chef_client']['cache_path']  = '/var/cache/chef'
   default['chef_client']['backup_path'] = '/var/lib/chef'
@@ -174,9 +178,9 @@ default['chef_client']['log_rotation']['options'] = ['compress']
 default['chef_client']['log_rotation']['prerotate'] = nil
 default['chef_client']['log_rotation']['postrotate'] =  case node['chef_client']['init_style']
                                                         when 'systemd'
-                                                          'systemctl reload chef-client.service >/dev/null || :'
+                                                          "systemctl reload #{node['chef_client']['svc_name']}.service >/dev/null || :"
                                                         when 'upstart'
-                                                          'initctl reload chef-client >/dev/null || :'
+                                                          "initctl reload #{node['chef_client']['svc_name']} >/dev/null || :"
                                                         else
-                                                          '/etc/init.d/chef-client reload >/dev/null || :'
+                                                          "/etc/init.d/#{node['chef_client']['svc_name']} reload >/dev/null || :"
                                                         end

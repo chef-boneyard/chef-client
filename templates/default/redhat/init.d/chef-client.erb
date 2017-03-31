@@ -1,12 +1,12 @@
 #!/bin/bash
 #
-# chef-client Startup script for the Chef client
+# <%= node["chef_client"]["svc_name"] %> Startup script for the Chef client
 #
 # chkconfig: - 98 02
 # description: Client component of the Chef systems integration framework.
 
 ### BEGIN INIT INFO
-# Provides: chef-client
+# Provides: <%= node["chef_client"]["svc_name"] %>
 # Required-Start: $local_fs $network $remote_fs
 # Required-Stop: $local_fs $network $remote_fs
 # Should-Start: $named $time
@@ -19,7 +19,7 @@
 . /etc/init.d/functions
 
 exec="<%= @client_bin %>"
-prog="chef-client"
+prog="<%= node["chef_client"]["svc_name"] %>"
 
 [ -e /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
 

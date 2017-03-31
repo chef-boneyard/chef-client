@@ -42,18 +42,19 @@ dist_dir, conf_dir = value_for_platform_family(
 # let's create the service file so the :disable action doesn't fail
 case node['platform_family']
 when 'debian', 'rhel', 'fedora', 'suse'
-  template '/etc/init.d/chef-client' do
+  template "/etc/init.d/#{node['chef_client']['svc_name']}" do
     source "#{dist_dir}/init.d/chef-client.erb"
     mode '755'
     variables(client_bin: client_bin)
   end
 
-  template "/etc/#{conf_dir}/chef-client" do
+  template "/etc/#{conf_dir}/#{node['chef_client']['svc_name']}" do
     source "#{dist_dir}/#{conf_dir}/chef-client.erb"
     mode '644'
   end
 
   service 'chef-client' do
+    service_name node['chef_client']['svc_name']
     supports status: true, restart: true
     provider Chef::Provider::Service::Upstart if node['chef_client']['init_style'] == 'upstart'
     action [:disable, :stop]
