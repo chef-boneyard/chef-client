@@ -60,6 +60,9 @@ default['chef_client']['cron'] = {
   'mailto' => nil,
 }
 
+# Configuration for chef-client::systemd_service recipe
+default['chef_client']['systemd']['timer'] = false
+
 # Configuration for Windows scheduled task
 default['chef_client']['task']['frequency'] = 'minute'
 default['chef_client']['task']['frequency_modifier'] = node['chef_client']['interval'].to_i / 60

@@ -33,6 +33,7 @@ Cron is a dependency, for default behavior of the `cron` recipe to work. This is
 - cron 1.7.0+
 - logrotate 1.9.0+
 - windows 1.42.0+
+- compat\_resource 12.16.0+
 
 See [USAGE](#usage).
 
@@ -58,6 +59,7 @@ The following attributes affect the behavior of the chef-client program when run
 - `node['chef_client']['cron']['mailto']` - If set, `MAILTO` env variable is set for cron definition
 - `node['chef_client']['reload_config']` - If true, reload Chef config of current Chef run when `client.rb` template changes (defaults to true)
 - `node['chef_client']['daemon_options']` - An array of additional options to pass to the chef-client service, empty by default, and must be an array if specified.
+- `node['chef_client']['systemd']['timer']` - If true, uses systemd timer to run chef frequently instead of chef-client daemon mode (defaults to false). This only works on platforms where systemd is installed and used.
 - `node['chef_client']['task']['frequency']` - Frequency with which to run the `chef-client` scheduled task (e.g., `'hourly'`, `'daily'`, etc.) Default is `'minute'`.
 - `node['chef_client']['task']['frequency_modifier']` - Numeric value to go with the scheduled task frequency. Default is `node['chef_client']['interval'].to_i / 60`
 - `node['chef_client']['task']['start_time']` - The start time for the task in `HH:mm` format. If the `frequency` is `minute` default start time will be `Time.now` plus the `frequency_modifier` number of minutes.
