@@ -16,11 +16,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+require 'chef/mixin/shell_out'
+
 module Opscode
   module ChefClient
     # helper methods for use in chef-client recipe code
     module Helpers
       include Chef::DSL::PlatformIntrospection
+      include Chef::Mixin::ShellOut
 
       def wmi_property_from_query(wmi_property, wmi_query)
         @wmi = ::WIN32OLE.connect('winmgmts://')
@@ -72,28 +76,12 @@ module Opscode
           Chef::Log.debug "Using executable? and 'which' since we're on Linux"
         end
 
-        chef_in_sane_path = lambda do
-          begin
-            Chef::Client::SANE_PATHS.map do |p|
-              p = "#{p}/chef-client"
-              p if ::File.send(existence_check, p)
-            end.compact.first
-          rescue NameError
-            false
-          end
-        end
-
-        # COOK-635 account for alternate gem paths
         # try to use the bin provided by the node attribute
         if ::File.send(existence_check, node['chef_client']['bin'])
           Chef::Log.debug 'Using chef-client bin from node attributes'
           node['chef_client']['bin']
-        # search for the bin in some sane paths
-        elsif Chef::Client.const_defined?('SANE_PATHS') && chef_in_sane_path.call
-          Chef::Log.debug 'Using chef-client bin from sane path'
-          chef_in_sane_path
         # last ditch search for a bin in PATH
-        elsif (chef_in_path = `#{which} chef-client`.chomp) && ::File.send(existence_check, chef_in_path) # ~FC048 Prefer Mixlib::ShellOut is ignored here
+        elsif (chef_in_path = shell_out("#{which} chef-client").stdout.chomp) && ::File.send(existence_check, chef_in_path)
           Chef::Log.debug 'Using chef-client bin from system path'
           chef_in_path
         else
