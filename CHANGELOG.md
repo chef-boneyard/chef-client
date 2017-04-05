@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 8.0.0 (2017-04-04)
+
+- Allow to use systemd timer instead of chef-client daemon mode
+- Remove compat_resource dependency and require Chef 12.11+
+- Switch from which to shell-out and remove Chef 10 compatibility code
+
 ## 7.2.1 (2017-03-29)
 
 - Testing updates for Chef 13
