@@ -16,11 +16,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+require 'chef/mixin/shell_out'
+
 module Opscode
   module ChefClient
     # helper methods for use in chef-client recipe code
     module Helpers
       include Chef::DSL::PlatformIntrospection
+      include Chef::Mixin::ShellOut
 
       def wmi_property_from_query(wmi_property, wmi_query)
         @wmi = ::WIN32OLE.connect('winmgmts://')
