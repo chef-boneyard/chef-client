@@ -45,7 +45,7 @@ action :add do
   start_time = new_resource.frequency == 'minute' ? (Time.now + 60 * new_resource.frequency_modifier).strftime('%H:%M') : nil
   windows_task 'chef-client' do
     run_level :highest
-    command "cmd /c \"#{client_cmd} ^> NUL 2^>^&1\""
+    command "cmd /c \"#{client_cmd}\""
 
     user               new_resource.user
     password           new_resource.password
