@@ -10,6 +10,7 @@ node.default['chef_client']['bin'] = client_bin
 create_chef_directories
 
 dist_dir, conf_dir = value_for_platform_family(
+  ['amazon'] => %w( redhat sysconfig ),
   ['debian'] => %w( debian default ),
   ['fedora'] => %w( redhat sysconfig ),
   ['rhel'] => %w( redhat sysconfig ),
