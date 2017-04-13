@@ -32,7 +32,7 @@ if node['chef_client']['log_file'].is_a?(String) && node['chef_client']['init_st
   node.default['chef_client']['config']['log_location'] = log_path
 
   case node['platform_family']
-  when 'rhel', 'debian', 'fedora'
+  when 'amazon', 'rhel', 'debian', 'fedora'
     logrotate_app 'chef-client' do
       path [log_path]
       rotate node['chef_client']['logrotate']['rotate']

@@ -33,6 +33,7 @@ node.default['chef_client']['bin'] = client_bin
 create_chef_directories
 
 dist_dir, conf_dir = value_for_platform_family(
+  ['amazon'] => %w( redhat sysconfig ),
   ['debian'] => %w( debian default ),
   ['rhel'] => %w( redhat sysconfig ),
   ['fedora'] => %w( redhat sysconfig ),
@@ -41,7 +42,7 @@ dist_dir, conf_dir = value_for_platform_family(
 
 # let's create the service file so the :disable action doesn't fail
 case node['platform_family']
-when 'debian', 'rhel', 'fedora', 'suse'
+when 'debian', 'amazon', 'rhel', 'fedora', 'suse'
   template '/etc/init.d/chef-client' do
     source "#{dist_dir}/init.d/chef-client.erb"
     mode '755'
