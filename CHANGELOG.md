@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 8.0.1 (2017-04-13)
+
+- Make chef_client_scheduled_task idempotent
+- Fix case statements to work on Chef 13 with Amazon Linux
+- Switch to a SPDX standard license string to resolve foodcritic warning
+
 ## 8.0.0 (2017-04-04)
 
 - Allow to use systemd timer instead of chef-client daemon mode
