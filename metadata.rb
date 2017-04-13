@@ -24,7 +24,7 @@ recipe 'chef-client::windows_service', 'Configures chef-client as a service on W
   supports os
 end
 
-depends 'cron', '>= 2.02.0.0'
+depends 'cron', '>= 2.0.0'
 depends 'logrotate', '>= 1.9.0'
 depends 'windows', '>= 2.0.0'
 

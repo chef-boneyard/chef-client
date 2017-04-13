@@ -30,10 +30,9 @@ The runit cookbook can be used with this cookbook but it is not explicitly requi
 
 Cron is a dependency, for default behavior of the `cron` recipe to work. This is a dependency because `cron` is cross platform, and doesn't carry additional dependencies, unlike the other cookbooks listed above.
 
-- cron 1.7.0+
+- cron 2.0+
 - logrotate 1.9.0+
-- windows 1.42.0+
-- compat\_resource 12.16.0+
+- windows 2.0+
 
 See [USAGE](#usage).
 
