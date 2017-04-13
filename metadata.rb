@@ -24,9 +24,6 @@ recipe 'chef-client::windows_service', 'Configures chef-client as a service on W
   supports os
 end
 
-# Runit is necessary if runit is being used, but is not explicitly required
-suggests 'runit' # ~FC052
-
 depends 'cron', '>= 1.7.0'
 depends 'logrotate', '>= 1.9.0'
 depends 'windows', '>= 1.42.0'
