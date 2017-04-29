@@ -42,6 +42,11 @@ service_unit_content = {
 
 service_unit_content['Service'].delete('Restart') if timer
 
+if node['chef_client']['systemd']['timeout']
+  service_unit_content['Service']['TimeoutSec'] =
+    node['chef_client']['systemd']['timeout']
+end
+
 systemd_unit 'chef-client.service' do
   content service_unit_content
   action :create
@@ -51,7 +56,7 @@ end
 template "/etc/#{conf_dir}/#{env_file}" do
   source "#{dist_dir}/#{conf_dir}/chef-client.erb"
   mode '644'
-  notifies :restart, 'service[chef-client]', :delayed unless node['chef_client']['systemd']['timer']
+  notifies :restart, 'service[chef-client]', :delayed unless timer
 end
 
 service 'chef-client' do

@@ -62,6 +62,8 @@ default['chef_client']['cron'] = {
 
 # Configuration for chef-client::systemd_service recipe
 default['chef_client']['systemd']['timer'] = false
+# Systemd timeout. Might be usefull for timer setups to avoid stalled chef runs
+default['chef_client']['systemd']['timeout'] = false
 # Restart mode when not running as a timer
 default['chef_client']['systemd']['restart'] = 'always'
 
