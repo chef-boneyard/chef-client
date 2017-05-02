@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 8.0.2 (2017-05-02)
+
+- Remove the suggests ‘runit’ from the metadata
+- Require a more modern windows and cron cookbook
+- Make sure SLES 11 gets the right init system
+
 ## 8.0.1 (2017-04-13)
 
 - Make chef_client_scheduled_task idempotent
