@@ -32,7 +32,7 @@ template '/etc/systemd/system/chef-client.service' do
     sysconfig_file: "/etc/#{conf_dir}/#{env_file}",
     type: (timer ? 'oneshot' : 'simple'),
     exec_options: exec_options,
-    restart_mode: (timer ? nil : 'on-failure')
+    restart_mode: (timer ? nil : node['chef_client']['systemd']['restart'])
   )
   notifies :restart, 'service[chef-client]', :delayed unless node['chef_client']['systemd']['timer']
 end
