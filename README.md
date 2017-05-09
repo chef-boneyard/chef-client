@@ -232,6 +232,11 @@ Or, if you're using Chef >= 12.4:
 log_location Chef::Log::Syslog.new('chef-client', ::Syslog::LOG_DAEMON)
 ```
 
+On Windows, with Chef >= 12.4:
+```ruby
+log_location Chef::Log::WinEvt.new
+```
+
 ### Requiring Gems
 
 Use the `load_gems` attribute to install gems that need to be required in the client.rb. This attribute should be a hash. The gem will also be installed with `chef_gem`. For example, suppose we want to use a Chef Handler Gem, `chef-handler-updated-resources`, which is used in the next heading. Set the attributes, e.g., in a role:
