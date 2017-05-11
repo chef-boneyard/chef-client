@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 8.1.1 (2017-05-10)
+
+- Default the systemd restart behavior to always
+
 ## 8.1.0 (2017-05-09)
 
 - Allow controlling systemd restart setting through an attribute
