@@ -69,8 +69,8 @@ systemd_unit 'chef-client.timer' do
   EOH
   enabled timer
   if timer
-    action [:create, :enable]
+    action [:create, :enable, :start]
   else
-    action [:disable, :delete]
+    action [:stop, :disable, :delete]
   end
 end
