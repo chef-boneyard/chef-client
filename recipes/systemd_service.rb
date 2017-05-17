@@ -45,32 +45,18 @@ end
 
 service 'chef-client' do
   supports status: true, restart: true
-  if timer
-    action [:disable, :stop]
-  else
-    action [:enable, :start]
-  end
+  action(timer ? [:disable, :stop] : [:enable, :start])
 end
 
 systemd_unit 'chef-client.timer' do
-  content <<-EOH.gsub('^  ', '')
-  [Unit]
-  Description=chef-client periodic run
-
-  [Install]
-  WantedBy=timers.target
-
-  [Timer]
-  OnBootSec=1min
-  OnUnitActiveSec=#{node['chef_client']['interval']}sec
-  # AccuracySec is available on all versions of systemd
-  # (whereas RandomizedDelaySec > 229) and will avoid the herd effect
-  AccuracySec=#{node['chef_client']['splay']}sec
-  EOH
-  enabled timer
-  if timer
-    action [:create, :enable]
-  else
-    action [:disable, :delete]
-  end
+  content(
+    'Unit' => { 'Description' => 'chef-client periodic run' },
+    'Install' => { 'WantedBy' => 'timers.target' },
+    'Timer' => {
+      'OnBootSec' => '1min',
+      'OnUnitActiveSec' => "#{node['chef_client']['interval']}sec",
+      'AccuracySec' => "#{node['chef_client']['splay']}sec",
+    }
+  )
+  action(timer ? [:create, :enable] : [:disable, :delete])
 end
