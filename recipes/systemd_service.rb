@@ -24,17 +24,28 @@ exec_options = if timer
                  '-c $CONFIG -i $INTERVAL -s $SPLAY $OPTIONS'
                end
 
-template '/etc/systemd/system/chef-client.service' do
-  source 'systemd/chef-client.service.erb'
-  mode '644'
-  variables(
-    client_bin: client_bin,
-    sysconfig_file: "/etc/#{conf_dir}/#{env_file}",
-    type: (timer ? 'oneshot' : 'simple'),
-    exec_options: exec_options,
-    restart_mode: (timer ? nil : node['chef_client']['systemd']['restart'])
-  )
-  notifies :restart, 'service[chef-client]', :delayed unless node['chef_client']['systemd']['timer']
+service_unit_content = {
+  'Unit' => {
+    'Description' => 'Chef Client daemon',
+    'After' => 'network.target auditd.service',
+  },
+  'Service' => {
+    'Type' => timer ? 'oneshot' : 'simple',
+    'EnvironmentFile' => "/etc/#{conf_dir}/#{env_file}",
+    'ExecStart' => "#{client_bin} #{exec_options}",
+    'ExecReload' => '/bin/kill -HUP $MAINPID',
+    'SuccessExitStatus' => 3,
+    'Restart' => node['chef_client']['systemd']['restart'],
+  },
+  'Install' => { 'WantedBy' => 'multi-user.target' },
+}
+
+service_unit_content['Service'].delete('Restart') if timer
+
+systemd_unit 'chef-client.service' do
+  content service_unit_content
+  action :create
+  notifies(:restart, 'service[chef-client]', :delayed) unless timer
 end
 
 template "/etc/#{conf_dir}/#{env_file}" do
