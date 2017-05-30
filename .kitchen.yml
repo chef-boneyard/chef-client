@@ -9,7 +9,7 @@ verifier:
   name: inspec
 
 platforms:
-  - name: centos-6.8
+  - name: centos-6.9
   - name: centos-7.3
   - name: debian-7.11
   - name: debian-8.7
@@ -47,13 +47,13 @@ suites:
   run_list:
   - recipe[chef-client::config]
   - recipe[chef-client::init_service]
-  includes: ["centos-6.8", "debian-7.11", "sles-12-sp1"]
+  includes: ["centos-6.9", "debian-7.11", "sles-12-sp1"]
 
 - name: service_runit
   run_list:
   - recipe[runit]
   - recipe[chef-client::runit_service]
-  includes: ["centos-6.8", "debian-7.11"]
+  includes: ["centos-6.9", "debian-7.11"]
 
 - name: service_systemd
   run_list:
@@ -116,7 +116,7 @@ suites:
   - recipe[chef-server]
   - recipe[chef-client::config]
   - recipe[chef-client::service]
-  includes: ["ubuntu-14.04", "centos-6.8", "centos-7.3"]
+  includes: ["ubuntu-14.04", "centos-6.9", "centos-7.3"]
 
 - name: task
   run_list:
