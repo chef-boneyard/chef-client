@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 8.1.2 (2017-05-30)
+
+- convert timer unit to hash syntax for readability,
+- use systemd_unit for chef-client.service
+
 ## 8.1.1 (2017-05-10)
 
 - Default the systemd restart behavior to always
