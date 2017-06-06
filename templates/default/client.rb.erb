@@ -77,3 +77,10 @@ Dir.glob(File.join(<%= node['chef_client']['conf_dir'].inspect %>, "client.d", "
   <% end -%>
 end
 <% end -%>
+
+<% unless @data_collector_server_url.nil? || @data_collector_server_url.empty? -%>
+data_collector.server_url '<%= @data_collector_server_url %>'
+<% end -%>
+<% unless @data_collector_token.nil? || @data_collector_token.empty? -%>
+data_collector.token '<%= @data_collector_token %>'
+<% end -%>

@@ -88,7 +88,9 @@ template "#{node['chef_client']['conf_dir']}/client.rb" do
     ohai_new_config_syntax: Gem::Requirement.new('>= 8.6.0').satisfied_by?(Gem::Version.new(Ohai::VERSION)),
     start_handlers: node['chef_client']['config']['start_handlers'],
     report_handlers: node['chef_client']['config']['report_handlers'],
-    exception_handlers: node['chef_client']['config']['exception_handlers']
+    exception_handlers: node['chef_client']['config']['exception_handlers'],
+    data_collector_server_url: node['chef_client']['config']['data_collector_server_url'],
+    data_collector_token: node['chef_client']['config']['data_collector_token']
   )
 
   if node['chef_client']['reload_config']
