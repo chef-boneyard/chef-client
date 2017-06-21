@@ -121,4 +121,7 @@ suites:
 - name: task
   run_list:
     - recipe[chef-client::task]
+  attributes:
+    chef_client:
+      interval: 900
   includes: ["windows-2008r2", "windows-2012r2"]

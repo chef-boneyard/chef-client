@@ -28,7 +28,7 @@ chef_client_scheduled_task 'Chef Client' do
   user node['chef_client']['task']['user']
   password node['chef_client']['task']['password']
   frequency node['chef_client']['task']['frequency']
-  frequency_modifier node['chef_client']['task']['frequency_modifier']
+  frequency_modifier lazy { node['chef_client']['task']['frequency_modifier'] }
   start_time node['chef_client']['task']['start_time']
   splay node['chef_client']['splay']
   config_directory node['chef_client']['conf_dir']
