@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 8.1.4 (2017-06-21)
+
+- Fix removing the chef-client schedule task
+
 ## 8.1.3 (2017-06-21)
 
 - Lazily eval the frequency so an update to interval attribute is respected when setting up a windows scheduled task
