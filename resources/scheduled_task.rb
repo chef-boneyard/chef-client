@@ -19,7 +19,7 @@
 
 provides :chef_client_scheduled_task
 
-property :user, String, required: true
+property :user, String, default: 'System'
 property :password, String
 property :frequency, String, default: 'minute'
 property :frequency_modifier, Integer, default: 30
