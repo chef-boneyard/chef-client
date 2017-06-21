@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 8.1.3 (2017-06-21)
+
+- Lazily eval the frequency so an update to interval attribute is respected when setting up a windows scheduled task
+
 ## 8.1.2 (2017-05-30)
 
 - convert timer unit to hash syntax for readability,
