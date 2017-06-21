@@ -57,6 +57,6 @@ end
 
 action :remove do
   windows_task 'chef-client' do
-    action :remove
+    action :delete
   end
 end
