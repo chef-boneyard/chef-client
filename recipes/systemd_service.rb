@@ -24,6 +24,12 @@ exec_options = if timer
                  '-c $CONFIG -i $INTERVAL -s $SPLAY $OPTIONS'
                end
 
+env_file = template "/etc/#{conf_dir}/#{env_file}" do
+  source "#{dist_dir}/#{conf_dir}/chef-client.erb"
+  mode '644'
+  notifies :restart, 'service[chef-client]', :delayed unless timer
+end
+
 service_unit_content = {
   'Unit' => {
     'Description' => 'Chef Client daemon',
@@ -31,7 +37,7 @@ service_unit_content = {
   },
   'Service' => {
     'Type' => timer ? 'oneshot' : 'simple',
-    'EnvironmentFile' => "/etc/#{conf_dir}/#{env_file}",
+    'EnvironmentFile' => env_file.path,
     'ExecStart' => "#{client_bin} #{exec_options}",
     'ExecReload' => '/bin/kill -HUP $MAINPID',
     'SuccessExitStatus' => 3,
@@ -46,12 +52,6 @@ systemd_unit 'chef-client.service' do
   content service_unit_content
   action :create
   notifies(:restart, 'service[chef-client]', :delayed) unless timer
-end
-
-template "/etc/#{conf_dir}/#{env_file}" do
-  source "#{dist_dir}/#{conf_dir}/chef-client.erb"
-  mode '644'
-  notifies :restart, 'service[chef-client]', :delayed unless node['chef_client']['systemd']['timer']
 end
 
 service 'chef-client' do
@@ -69,5 +69,6 @@ systemd_unit 'chef-client.timer' do
       'AccuracySec' => "#{node['chef_client']['splay']}sec",
     }
   )
-  action(timer ? [:create, :enable, :start] : [:disable, :delete])
+  action(timer ? [:create, :enable, :start] : [:stop, :disable, :delete])
+  notifies :restart, to_s, :delayed
 end
