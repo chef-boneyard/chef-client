@@ -26,7 +26,7 @@
   <true/>
 <%- end %>
   <key>StandardOutPath</key>
-  <string><%= node["chef_client"]["log_dir"] %>/client.log</string>
+  <string><%= node["chef_client"]["log_dir"] %>/<%= node['chef_client']['log_file'] %></string>
 </dict>
 
 </plist>

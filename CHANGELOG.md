@@ -5,6 +5,7 @@ This file is used to list changes made in each version of the chef-client cookbo
 ## 8.1.5 (2017-06-27)
 
 - Multiple improvements to systemd unit behavior of chef-client
+
   - stop the timer if timer is disabled
   - de-dupe env-file path referencing
   - ensure env file exists before service that references it
@@ -36,7 +37,7 @@ This file is used to list changes made in each version of the chef-client cookbo
 
 ## 8.0.2 (2017-05-02)
 
-- Remove the suggests ‘runit’ from the metadata
+- Remove the suggests 'runit' from the metadata
 - Require a more modern windows and cron cookbook
 - Make sure SLES 11 gets the right init system
 
