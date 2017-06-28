@@ -2,6 +2,14 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 8.1.5 (2017-06-27)
+
+- Multiple improvements to systemd unit behavior of chef-client
+  - stop the timer if timer is disabled
+  - de-dupe env-file path referencing
+  - ensure env file exists before service that references it
+  - restart timer if timer changed
+
 ## 8.1.4 (2017-06-21)
 
 - Fix removing the chef-client schedule task
