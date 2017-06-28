@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 8.1.6 (2017-06-27)
+
+- Use node['chef_client']['log_file'] in all recipes and templates
+- Add new attribute for timing out systemd timer to kill off hung chef-client runs
+
 ## 8.1.5 (2017-06-27)
 
 - Multiple improvements to systemd unit behavior of chef-client
