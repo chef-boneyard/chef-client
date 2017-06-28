@@ -48,6 +48,11 @@ service_unit_content = {
 
 service_unit_content['Service'].delete('Restart') if timer
 
+if node['chef_client']['systemd']['timeout']
+  service_unit_content['Service']['TimeoutSec'] =
+    node['chef_client']['systemd']['timeout']
+end
+
 systemd_unit 'chef-client.service' do
   content service_unit_content
   action :create
