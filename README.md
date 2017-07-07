@@ -10,6 +10,7 @@ This cookbook is used to configure a system as a Chef Client.
 
 - AIX 6+
 - Debian 7+
+- Clear Linux
 - Fedora
 - FreeBSD 9+
 - Mac OS X
