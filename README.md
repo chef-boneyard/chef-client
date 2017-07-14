@@ -90,18 +90,14 @@ This cookbook makes use of attribute-driven configuration with this attribute. S
 
 ### Chef Client Config
 
-The following attributes should be set using `['chef_client']['config']`. Setting them at the `['chef_client']` attribute level is **deprecated**.
+[For the most current information about Chef Client configuration, read the documentation.](https://docs.chef.io/config_rb_client.html).
 
-- `node['chef_client']['environment']` - Set the node's environment directly (useful for unattended installs when `knife bootstrap -E` is not an option).
-- `node['chef_client']['log_level']` - Not set anymore, use the default log level and output formatting in Chef 11+.
-- `node['chef_client']['server_url']` - Set by default with
-- `node['chef_client']['config']['chef_server_url']`
-- `node['chef_client']['validation_client_name']` - Set by default with `node['chef_client']['config']['validation_client_name']`.
-- `node['chef_client']['report_handlers']` - See [USAGE](#usage) for how to set handlers with the `config` attribute.
-- `node['chef_client']['exception_handlers']` - See [USAGE](#usage) for how to set handlers with the `config` attribute.
-- `node['chef_client']['checksum_cache_path']` - Use
-- `node['chef_client']['config']['cache_options']['path']`.
-- `node['chef_client']['verbose_logging']` - Not set anymore, we recommend using the default log level and output formatting in Chef 11+. This can still be set using `node['chef_client']['config']['verbose_logging']` if required.
+- `node['chef_client']['config']['chef_server_url']` - The URL for the Chef server.
+- `node['chef_client']['config']['validation_client_name']` - The name of the chef-validator key that is used by the chef-client to access the Chef server during the initial chef-client run.
+- `node['chef_client']['config']['verbose_logging']` - Set the log level. Options: true, nil, and false. When this is set to false, notifications about individual resources being processed are suppressed (and are output at the :info logging level). Setting this to false can be useful when a chef-client is run as a daemon. Default value: nil.
+- `node['chef_client']['config']['rubygems_url']` - The location to source rubygems. It can be set to a string or array of strings for URIs to set as rubygems sources. This allows individuals to setup an internal mirror of rubygems for "airgapped" environments. Default value: ``https://www.rubygems.org``.
+
+* See [USAGE](#usage) for how to set handlers with the `config` attribute.
 
 ## Recipes
 
