@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 8.1.7 (2017-07-13)
+
+- Add find_chef_client use to the task recipe so that chef_binary_path is defined.
+- Update documentation to reflect the rubygems_url usage.
+
 ## 8.1.6 (2017-06-27)
 
 - Use node['chef_client']['log_file'] in all recipes and templates
