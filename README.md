@@ -339,7 +339,7 @@ Since launchd can run a service in interval mode, by default chef-client is not 
 
 This cookbook does not handle updating the chef-client, as that's out of the cookbook's current scope. To sensibly manage updates of the chef-client omnibus install, we refer you to:
 
-- [omnibus_updater](https://github.com/chef-cookbooks/omnibus_updater) - Cookbook for installing the omnibus Chef package and keeping your install up-to-date
+- [chef_client_updater](https://github.com/chef-cookbooks/chef_client_updater) - Cookbook for installing the omnibus Chef package and keeping your install up-to-date
 
 For more on why this cookbook does not support installs, see [Issue #102](https://github.com/chef-cookbooks/chef-client/pull/102)
 
