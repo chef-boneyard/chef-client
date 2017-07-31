@@ -36,7 +36,6 @@ platforms:
       box: chef/windows-server-2012r2-standard # private box
 
 suites:
-
 - name: service_bsd
   run_list:
   - recipe[chef-client::config]
@@ -58,7 +57,7 @@ suites:
 - name: service_systemd
   run_list:
   - recipe[chef-client::systemd_service]
-  includes: ["centos-7.3", "debian-8.7", "fedora-25", "ubuntu-16.04", "opensuse-leap-42.2"]
+  includes: ["centos-7.3", "debian-8.8", "fedora-25", "ubuntu-16.04", "opensuse-leap-42.2"]
 
 - name: service_upstart
   run_list:
@@ -83,8 +82,7 @@ suites:
     chef_client:
       systemd:
         timer: true
-  includes: ["centos-7.3", "debian-8.7", "fedora-25", "ubuntu-16.04"]
-
+  includes: ["centos-7.3", "debian-8.8", "fedora-25", "ubuntu-16.04"]
 
 - name: config
   run_list:
