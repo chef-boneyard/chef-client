@@ -1,4 +1,4 @@
-if File.exists?(%q|<%= node["chef_client"]["conf_dir"] %>/client.rb|)
+if File.exist?(%q|<%= node["chef_client"]["conf_dir"] %>/client.rb|)
    Chef::Config.from_file(%q|<%= node["chef_client"]["conf_dir"] %>/client.rb|)
 end
 
