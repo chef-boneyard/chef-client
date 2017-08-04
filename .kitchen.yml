@@ -52,12 +52,6 @@ suites:
   - recipe[chef-client::init_service]
   includes: ["centos-6.9", "debian-7.11", "sles-12-sp1"]
 
-- name: service_runit
-  run_list:
-  - recipe[runit]
-  - recipe[chef-client::runit_service]
-  includes: ["centos-6.9", "debian-7.11"]
-
 - name: service_systemd
   run_list:
   - recipe[chef-client::systemd_service]
