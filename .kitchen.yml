@@ -108,14 +108,6 @@ suites:
         use_cron_d: true
   excludes: ["windows-2008r2", "windows-2012r2"]
 
-# Testing when we are using chef-client on a Chef Server
-- name: server
-  run_list:
-  - recipe[chef-server]
-  - recipe[chef-client::config]
-  - recipe[chef-client::service]
-  includes: ["ubuntu-14.04", "centos-6.9", "centos-7.3"]
-
 - name: task
   run_list:
     - recipe[chef-client::task]
