@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-provides :chef_client_scheduled_task
+resource_name :chef_client_scheduled_task
 
 property :user, String, default: 'System'
 property :password, String
