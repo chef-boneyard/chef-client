@@ -9,7 +9,7 @@ Chef::Log.debug("Found chef-client in #{client_bin}")
 node.default['chef_client']['bin'] = client_bin
 create_chef_directories
 
-template "/etc/init/chef-client.conf" do
+template '/etc/init/chef-client.conf' do
   source 'debian/init/chef-client.conf.erb'
   mode '0644'
   variables(

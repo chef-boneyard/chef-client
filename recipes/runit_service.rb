@@ -1,1 +1,1 @@
-raise 'Runit support in the chef-client cookbook has been removed. You may downgrade to the 8.1.X release of the cookbook for Runit suppor however we highly recommend you use a native init system instead.')
+raise 'Runit support in the chef-client cookbook has been removed. You may downgrade to the 8.1.X release of the cookbook for Runit suppor however we highly recommend you use a native init system instead.'
