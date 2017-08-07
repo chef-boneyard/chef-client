@@ -77,34 +77,26 @@ platforms:
 suites:
 - name: service_init
   run_list:
-  - recipe[chef-client::config]
-  - recipe[chef-client::init_service]
-  includes: ["debian-7", "centos-6"]
-
-- name: service_runit
-  run_list:
-  - recipe[runit]
-  - recipe[chef-client::runit_service]
-  includes: ["debian-7", "centos-6"]
+  - recipe[test::service]
+  includes: ["debian-7", "centos-6", "amazonlinux"]
 
 - name: service_systemd
   run_list:
-  - recipe[chef-client::systemd_service]
+  - recipe[test::service]
   includes: ["centos-7", "debian-8", "debian-9", "opensuse-leap", "fedora-latest", "ubuntu-16.04"]
 
 - name: service_upstart
   run_list:
-  - recipe[chef-client::upstart_service]
+  - recipe[test::service]
   includes: ["ubuntu-14.04"]
 
 - name: cron
   run_list:
-  - recipe[cron::default]
-  - recipe[chef-client::cron]
+  - recipe[test::cron]
 
 - name: config
   run_list:
-  - recipe[chef-client::config]
+  - recipe[test::config]
 
 - name: delete_validation
   run_list:
