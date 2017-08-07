@@ -1,2 +1,2 @@
-incude_recipe 'test::config'
-incude_recipe 'chef-client::service'
+include_recipe 'test::config'
+include_recipe 'chef-client::service'
