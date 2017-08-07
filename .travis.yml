@@ -34,7 +34,7 @@ env:
   - INSTANCE=service-systemd-ubuntu-1604
   - INSTANCE=service-init-debian-7
   - INSTANCE=service-init-centos-6
-  - INSTANCE=service-init-amazon-linux
+  - INSTANCE=service-init-amazonlinux
 
 before_script:
   - sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )

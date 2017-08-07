@@ -78,7 +78,7 @@ suites:
 - name: service_init
   run_list:
   - recipe[test::service]
-  includes: ["debian-7", "centos-6", "amazon-linux"]
+  includes: ["debian-7", "centos-6", "amazonlinux"]
 
 - name: service_systemd
   run_list:
