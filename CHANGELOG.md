@@ -2,6 +2,20 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 8.1.8 (2017-08-06)
+
+- Add testing for Amazon Linux and Debian 9 in Travis and switch all testing to the dokken images
+- Consolidate duplicate attributes to simplify the attributes file
+- Remove leftover template file for Arch Linux
+- Don't use deprecated Ruby exists? method
+- Move testing to a test recipe that looks more like how a user would write a wrapper cookbook
+- Move the resource cloning spec recipe into the test recipe so we don't ship it to clients
+- Remove the metadata for the deprecated windows service
+- Simplify the platform logic in the init service recipe and expand the specs for this logic
+- Use resource_name not provides in the scheduled task resource
+- Remove docs for the pre-Chef 12.4 syslog functionality
+- Point users to chef_client_updater not omnibus_updater in the docs
+
 ## 8.1.7 (2017-07-13)
 
 - Add find_chef_client use to the task recipe so that chef_binary_path is defined.
