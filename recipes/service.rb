@@ -25,7 +25,6 @@ supported_init_styles = %w(
   bsd
   init
   launchd
-  runit
   smf
   src
   systemd

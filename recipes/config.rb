@@ -27,7 +27,7 @@ end
 
 # chef_node_name = Chef::Config[:node_name] == node['fqdn'] ? false : Chef::Config[:node_name]
 
-if node['chef_client']['log_file'].is_a?(String) && node['chef_client']['init_style'] != 'runit'
+if node['chef_client']['log_file'].is_a?(String)
   log_path = File.join(node['chef_client']['log_dir'], node['chef_client']['log_file'])
   node.default['chef_client']['config']['log_location'] = log_path
 
