@@ -9,12 +9,9 @@ Chef::Log.debug("Found chef-client in #{client_bin}")
 node.default['chef_client']['bin'] = client_bin
 create_chef_directories
 
-upstart_job_dir = '/etc/init'
-upstart_job_suffix = '.conf'
-
-template "#{upstart_job_dir}/chef-client#{upstart_job_suffix}" do
+template '/etc/init/chef-client.conf' do
   source 'debian/init/chef-client.conf.erb'
-  mode '644'
+  mode '0644'
   variables(
     client_bin: client_bin
   )

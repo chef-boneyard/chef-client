@@ -26,10 +26,6 @@ This cookbook is used to configure a system as a Chef Client.
 
 ### Dependent Cookbooks
 
-The runit cookbook can be used with this cookbook but it is not explicitly required. The default settings in this cookbook do not require its use.
-
-Cron is a dependency, for default behavior of the `cron` recipe to work. This is a dependency because `cron` is cross platform, and doesn't carry additional dependencies, unlike the other cookbooks listed above.
-
 - cron 2.0+
 - logrotate 1.9.0+
 - windows 2.0+
@@ -117,18 +113,10 @@ The `chef-client::service` recipe includes one of the `chef-client::INIT_STYLE_s
 recipe[chef-client::init_service]
 ```
 
-To set up the chef-client under runit, the runit cookbook must be specified on the node or role's run list first, to ensure that the dependencies are resolved, as this cookbook does not directly depend on runit. For example:
-
-```
-recipe[runit]
-recipe[chef-client::runit_service]
-```
-
 Use this recipe on systems that should have a `chef-client` daemon running, such as when Knife bootstrap was used to install Chef on a new system.
 
 - `init` - uses the init script included in this cookbook, supported on debian and redhat family distributions.
 - `upstart` - uses the upstart job included in this cookbook, supported on ubuntu.
-- `runit` - sets up the service under runit, supported on ubuntu, debian, redhat family distributions, and gentoo.
 - `launchd` - sets up the service under launchd, supported on Mac OS X & Mac OS X Server.
 - `bsd` - prints a message about how to update BSD systems to enable the chef-client service.
 - `systemd` - sets up the service under systemd. Supported on systemd based distros.
@@ -293,36 +281,6 @@ This will render the following in `/etc/chef/client.rb`.
 ```ruby
 report_handlers << SimpleReport::UpdatedResources.new()
 ```
-
-### Alternate Init Styles
-
-The alternate init styles available are:
-
-- runit
-- none -- should be specified if you are running chef-client as cron job
-
-#### Runit
-
-To use runit, download the cookbook from Supermarket.
-
-Change the `init_style` to runit in the base role and add the runit recipe to the role's run list:
-
-```ruby
-name "base"
-description "Base role applied to all nodes"
-default_attributes(
-  "chef_client" => {
-    "init_style" => "runit"
-  }
-)
-run_list(
-  "recipe[chef-client::delete_validation]",
-  "recipe[runit]",
-  "recipe[chef-client]"
-)
-```
-
-The `chef-client` recipe will create the chef-client service configured with runit. The runit run script will be located in `/etc/sv/chef-client/run`. The output log will be in the runit service directory, `/etc/sv/chef-client/log/main/current`.
 
 #### Launchd
 
