@@ -49,20 +49,14 @@ no_proxy "<%= node["chef_client"]["config"]["no_proxy"] %>"
 
 # Do not crash if a handler is missing / not installed yet
 begin
-<% unless @start_handlers.nil? || @start_handlers.empty?-%>
-  <% @start_handlers.each do |handler| -%>
-start_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
-  <% end -%>
+<% @start_handlers.each do |handler| -%>
+  start_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
 <% end -%>
-<% unless @report_handlers.nil? || @report_handlers.empty? -%>
-  <% @report_handlers.each do |handler| -%>
-report_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
-  <% end -%>
+<% @report_handlers.each do |handler| -%>
+  report_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
 <% end -%>
-<% unless @exception_handlers.nil? || @exception_handlers.empty? -%>
-  <% @exception_handlers.each do |handler| -%>
-exception_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
-  <% end -%>
+<% @exception_handlers.each do |handler| -%>
+  exception_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
 <% end -%>
 rescue NameError => e
   Chef::Log.error e
