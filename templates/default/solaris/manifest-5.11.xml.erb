@@ -59,11 +59,16 @@
                 name='start'
                 exec='<%= node['chef_client']['method_dir'] %>/chef-client %m'
                 timeout_seconds='60'>
-                <% if node['chef_client']['locale'] %>
+                <% if node['chef_client']['locale'] || node["chef_client"]["ca_cert_path"] %>
                 <method_context>
                         <method_environment>
+                                <% if node['chef_client']['locale'] %>
                                 <envvar name="LANG" value="<%= node['chef_client']['locale'] %>"/>
                                 <envvar name="LC_ALL" value="<%= node['chef_client']['locale'] %>"/>
+                                <% end %>
+                                <% if node["chef_client"]["ca_cert_path"] %>
+                                <envvar name="SSL_CERT_FILE" value="<%= node["chef_client"]["ca_cert_path"] %>"/>
+                                <% end %>
                         </method_environment>
                 </method_context>
                 <% end %>

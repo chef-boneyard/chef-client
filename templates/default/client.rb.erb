@@ -12,7 +12,7 @@ end
   <% next if %w{ node_name exception_handlers report_handlers start_handlers http_proxy https_proxy no_proxy }.include?(option) -%>
   <% case option -%>
   <% when 'log_level', 'ssl_verify_mode', 'audit_mode' -%>
-<%= option %> <%= @chef_config[option].gsub(/^:/, '').to_sym.inspect %>
+<%= option %> <%= @chef_config[option].to_s.gsub(/^:/, '').to_sym.inspect %>
   <% when 'log_location' -%>
   <%   if @chef_config[option].instance_of? String -%>
 <%= option %> <%= @chef_config[option] == 'STDOUT' ? 'STDOUT' : @chef_config[option].inspect %>
@@ -49,20 +49,14 @@ no_proxy "<%= node["chef_client"]["config"]["no_proxy"] %>"
 
 # Do not crash if a handler is missing / not installed yet
 begin
-<% unless @start_handlers.nil? || @start_handlers.empty?-%>
-  <% @start_handlers.each do |handler| -%>
-start_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
-  <% end -%>
+<% @start_handlers.each do |handler| -%>
+  start_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
 <% end -%>
-<% unless @report_handlers.nil? || @report_handlers.empty? -%>
-  <% @report_handlers.each do |handler| -%>
-report_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
-  <% end -%>
+<% @report_handlers.each do |handler| -%>
+  report_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
 <% end -%>
-<% unless @exception_handlers.nil? || @exception_handlers.empty? -%>
-  <% @exception_handlers.each do |handler| -%>
-exception_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
-  <% end -%>
+<% @exception_handlers.each do |handler| -%>
+  exception_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
 <% end -%>
 rescue NameError => e
   Chef::Log.error e

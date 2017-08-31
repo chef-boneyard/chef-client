@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'chef-client::init_service' do
-  centos6 = { platform: 'centos', version: '6.8', conf_dir: 'sysconfig' }
+  centos6 = { platform: 'centos', version: '6.9', conf_dir: 'sysconfig' }
   ubuntu = { platform: 'ubuntu', version: '14.04', conf_dir: 'init.d' }
 
   context "#{centos6[:platform]} #{centos6[:version]}" do

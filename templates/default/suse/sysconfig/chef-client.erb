@@ -12,3 +12,7 @@ INTERVAL=<%= node["chef_client"]["interval"] %>
 SPLAY=<%= node["chef_client"]["splay"] %>
 # Any additional chef-client options.
 OPTIONS="<%= node["chef_client"]["daemon_options"].join(' ') %>"
+<% if node["chef_client"]["ca_cert_path"] %>
+SSL_CERT_FILE="<%= node["chef_client"]["ca_cert_path"] %>"
+export SSL_CERT_FILE
+<% end %>

@@ -9,16 +9,16 @@ This cookbook is used to configure a system as a Chef Client.
 ### Platforms
 
 - AIX 6+
-- Debian 7+
 - Clear Linux
+- Debian
 - Fedora
-- FreeBSD 9+
+- FreeBSD
 - Mac OS X
-- openSUSE 13+
+- openSUSE
 - SLES 12+
 - RHEL 5+
 - Solaris 10+
-- Ubuntu 12.04+
+- Ubuntu
 - Windows 2008 R2+
 
 ### Chef
@@ -26,10 +26,6 @@ This cookbook is used to configure a system as a Chef Client.
 - Chef 12.1+
 
 ### Dependent Cookbooks
-
-The runit cookbook can be used with this cookbook but it is not explicitly required. The default settings in this cookbook do not require its use.
-
-Cron is a dependency, for default behavior of the `cron` recipe to work. This is a dependency because `cron` is cross platform, and doesn't carry additional dependencies, unlike the other cookbooks listed above.
 
 - cron 2.0+
 - logrotate 1.9.0+
@@ -50,6 +46,7 @@ The following attributes affect the behavior of the chef-client program when run
 - `node['chef_client']['log_rotation']['postrotate']` - Set postrotate action for chef-client logrotation. Default to chef-client service reload depending on init system.
 - `node['chef_client']['conf_dir']` - Sets directory used via command-line option to a location where chef-client search for the client config file . Default "/etc/chef".
 - `node['chef_client']['bin']` - Sets the full path to the `chef-client` binary. Mainly used to set a specific path if multiple versions of chef-client exist on a system or the bin has been installed in a non-sane path. Default "/usr/bin/chef-client".
+- `node['chef_client']['ca_cert_path']` - Sets the full path to the PEM-encoded certificate trust store used by `chef-client` when daemonized. If not set, [default values](https://docs.chef.io/chef_client_security.html#ssl-cert-file) are used.
 - `node['chef_client']['cron']['minute']` - The minute that chef-client will run as a cron task. See [cron recipe](#cron)
 - `node['chef_client']['cron']['hour']` - The hour that chef-client will run as a cron task. See [cron recipe](#cron)
 - `node['chef_client']['cron']['weekday']` - The weekday that chef-client will run as a cron task. See [cron recipe](#cron)
@@ -96,9 +93,9 @@ This cookbook makes use of attribute-driven configuration with this attribute. S
 - `node['chef_client']['config']['chef_server_url']` - The URL for the Chef server.
 - `node['chef_client']['config']['validation_client_name']` - The name of the chef-validator key that is used by the chef-client to access the Chef server during the initial chef-client run.
 - `node['chef_client']['config']['verbose_logging']` - Set the log level. Options: true, nil, and false. When this is set to false, notifications about individual resources being processed are suppressed (and are output at the :info logging level). Setting this to false can be useful when a chef-client is run as a daemon. Default value: nil.
-- `node['chef_client']['config']['rubygems_url']` - The location to source rubygems. It can be set to a string or array of strings for URIs to set as rubygems sources. This allows individuals to setup an internal mirror of rubygems for "airgapped" environments. Default value: ``https://www.rubygems.org``.
+- `node['chef_client']['config']['rubygems_url']` - The location to source rubygems. It can be set to a string or array of strings for URIs to set as rubygems sources. This allows individuals to setup an internal mirror of rubygems for "airgapped" environments. Default value: `https://www.rubygems.org`.
 
-* See [USAGE](#usage) for how to set handlers with the `config` attribute.
+- See [USAGE](#usage) for how to set handlers with the `config` attribute.
 
 ## Recipes
 
@@ -118,18 +115,10 @@ The `chef-client::service` recipe includes one of the `chef-client::INIT_STYLE_s
 recipe[chef-client::init_service]
 ```
 
-To set up the chef-client under runit, the runit cookbook must be specified on the node or role's run list first, to ensure that the dependencies are resolved, as this cookbook does not directly depend on runit. For example:
-
-```
-recipe[runit]
-recipe[chef-client::runit_service]
-```
-
 Use this recipe on systems that should have a `chef-client` daemon running, such as when Knife bootstrap was used to install Chef on a new system.
 
 - `init` - uses the init script included in this cookbook, supported on debian and redhat family distributions.
 - `upstart` - uses the upstart job included in this cookbook, supported on ubuntu.
-- `runit` - sets up the service under runit, supported on ubuntu, debian, redhat family distributions, and gentoo.
 - `launchd` - sets up the service under launchd, supported on Mac OS X & Mac OS X Server.
 - `bsd` - prints a message about how to update BSD systems to enable the chef-client service.
 - `systemd` - sets up the service under systemd. Supported on systemd based distros.
@@ -223,16 +212,11 @@ Logger::Syslog.class_eval do
   attr_accessor :sync, :formatter
 end
 
-log_location Logger::Syslog.new('chef-client', ::Syslog::LOG_DAEMON)
-```
-
-Or, if you're using Chef >= 12.4:
-
-```ruby
 log_location Chef::Log::Syslog.new('chef-client', ::Syslog::LOG_DAEMON)
 ```
 
-On Windows, with Chef >= 12.4:
+On Windows:
+
 ```ruby
 log_location Chef::Log::WinEvt.new
 ```
@@ -300,36 +284,6 @@ This will render the following in `/etc/chef/client.rb`.
 report_handlers << SimpleReport::UpdatedResources.new()
 ```
 
-### Alternate Init Styles
-
-The alternate init styles available are:
-
-- runit
-- none -- should be specified if you are running chef-client as cron job
-
-#### Runit
-
-To use runit, download the cookbook from Supermarket.
-
-Change the `init_style` to runit in the base role and add the runit recipe to the role's run list:
-
-```ruby
-name "base"
-description "Base role applied to all nodes"
-default_attributes(
-  "chef_client" => {
-    "init_style" => "runit"
-  }
-)
-run_list(
-  "recipe[chef-client::delete_validation]",
-  "recipe[runit]",
-  "recipe[chef-client]"
-)
-```
-
-The `chef-client` recipe will create the chef-client service configured with runit. The runit run script will be located in `/etc/sv/chef-client/run`. The output log will be in the runit service directory, `/etc/sv/chef-client/log/main/current`.
-
 #### Launchd
 
 On Mac OS X and Mac OS X Server, the default service implementation is "launchd".
@@ -338,11 +292,9 @@ Since launchd can run a service in interval mode, by default chef-client is not 
 
 ## Installing and updating chef-client
 
-This cookbook does not handle updating the chef-client, as that's out of the cookbook's current scope. To sensibly manage updates of the chef-client omnibus install, we refer you to:
+This cookbook does not handle updating the chef-client, as that's out of the cookbook's current scope. To sensibly manage updates of the chef-client's install, we refer you to:
 
-- [omnibus_updater](https://github.com/chef-cookbooks/omnibus_updater) - Cookbook for installing the omnibus Chef package and keeping your install up-to-date
-
-For more on why this cookbook does not support installs, see [Issue #102](https://github.com/chef-cookbooks/chef-client/pull/102)
+- [chef_client_updater](https://github.com/chef-cookbooks/chef_client_updater) - Cookbook for keeping your install up-to-date
 
 ## Resources
 
@@ -367,7 +319,6 @@ The chef_client_scheduled_task setups up chef-client to run as a scheduled task.
 - `log_directory` - The path to the Chef log directory. default: 'CONFIG_DIRECTORY/log'
 - `chef_binary_path` - The path to the chef-client binary. default: 'C:/opscode/chef/bin/chef-client'
 - `daemon_options` - An optional array of extra options to pass to the chef-client
-
 
 ## Maintainers
 

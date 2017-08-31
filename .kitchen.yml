@@ -9,14 +9,18 @@ verifier:
   name: inspec
 
 platforms:
+  - name: amazon-linux
+    driver_config:
+      box: mvbcoding/awslinux
   - name: centos-6.9
   - name: centos-7.3
   - name: debian-7.11
-  - name: debian-8.8
+  - name: debian-8.9
+  - name: debian-9.0
   - name: fedora-25
   - name: freebsd-10.3
   - name: freebsd-11.0
-  - name: opensuse-leap-42.2
+  - name: opensuse-leap-42.3
   - name: sles-12-sp1
     driver:
       box: chef/sles-12-sp1-x86_64 # private box
@@ -36,44 +40,34 @@ platforms:
       box: chef/windows-server-2012r2-standard # private box
 
 suites:
-
 - name: service_bsd
   run_list:
-  - recipe[chef-client::config]
-  - recipe[chef-client::bsd_service]
+  - recipe[test::service]
   includes: ["freebsd-10.3", "freebsd-11.0"]
 
 - name: service_init
   run_list:
-  - recipe[chef-client::config]
-  - recipe[chef-client::init_service]
-  includes: ["centos-6.9", "debian-7.11", "sles-12-sp1"]
-
-- name: service_runit
-  run_list:
-  - recipe[runit]
-  - recipe[chef-client::runit_service]
-  includes: ["centos-6.9", "debian-7.11"]
+  - recipe[test::service]
+  includes: ["centos-6.9", "debian-7.11", "amazon-linux", "sles-12-sp1"]
 
 - name: service_systemd
   run_list:
-  - recipe[chef-client::systemd_service]
-  includes: ["centos-7.3", "debian-8.7", "fedora-25", "ubuntu-16.04", "opensuse-leap-42.2"]
+  - recipe[test::service]
+  includes: ["centos-7.3", "debian-8.9", "debian-9.0", "fedora-25", "ubuntu-16.04", "opensuse-leap-42.3"]
 
 - name: service_upstart
   run_list:
-  - recipe[chef-client::upstart_service]
+  - recipe[test::service]
   includes: ["ubuntu-14.04"]
 
 - name: service_smf
   run_list:
-  - recipe[chef-client::smf_service]
+  - recipe[test::service]
   includes: ["solaris-11.3", "solaris-10.11"]
 
 - name: cron
   run_list:
-  - recipe[cron::default]
-  - recipe[chef-client::cron]
+  - recipe[test::cron]
   excludes: ["windows-2008r2", "windows-2012r2"]
 
 - name: timer_systemd
@@ -83,17 +77,11 @@ suites:
     chef_client:
       systemd:
         timer: true
-  includes: ["centos-7.3", "debian-8.7", "fedora-25", "ubuntu-16.04"]
-
+  includes: ["centos-7.3", "debian-8.9", "debian-9.0", "fedora-25", "ubuntu-16.04"]
 
 - name: config
   run_list:
-  - recipe[chef-client::config]
-  attributes:
-    ohai:
-      disabled_plugins:
-        - Mdadm
-      plugin_path: "/tmp/kitchen/ohai/plugins"
+  - recipe[test::config]
 
 - name: delete_validation
   run_list:
@@ -102,26 +90,10 @@ suites:
 # Test that the we can use the cron_d directory
 - name: cook-use_cron_d
   run_list:
-  - recipe[cron::default]
-  - recipe[chef-client::cron]
-  attributes:
-    chef_client:
-      cron:
-        use_cron_d: true
+  - recipe[test::cook-use_cron_d]
   excludes: ["windows-2008r2", "windows-2012r2"]
-
-# Testing when we are using chef-client on a Chef Server
-- name: server
-  run_list:
-  - recipe[chef-server]
-  - recipe[chef-client::config]
-  - recipe[chef-client::service]
-  includes: ["ubuntu-14.04", "centos-6.9", "centos-7.3"]
 
 - name: task
   run_list:
-    - recipe[chef-client::task]
-  attributes:
-    chef_client:
-      interval: 900
+    - recipe[test::task]
   includes: ["windows-2008r2", "windows-2012r2"]

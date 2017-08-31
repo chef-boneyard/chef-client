@@ -6,6 +6,11 @@
 
 . /etc/rc.subr
 
+<% if node["chef_client"]["ca_cert_path"] %>
+SSL_CERT_FILE="<%= node["chef_client"]["ca_cert_path"] %>"
+export SSL_CERT_FILE
+<% end %>
+
 name="chef"
 pidfile="<%= node["chef_client"]["run_path"] %>/${name}.pid"
 command="<%= @client_bin %>"

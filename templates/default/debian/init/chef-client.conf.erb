@@ -19,5 +19,11 @@ script
         . /etc/default/locale
         export LANG LANGUAGE LC_MESSAGES LC_ALL
     fi
+
+    <% if node["chef_client"]["ca_cert_path"] %>
+    SSL_CERT_FILE="<%= node["chef_client"]["ca_cert_path"] %>"
+    export SSL_CERT_FILE
+
+    <% end %>
     exec <%= @client_bin %> -i <%= node["chef_client"]["interval"] %> -s <%= node["chef_client"]["splay"] %> <%= node["chef_client"]["daemon_options"].join(' ') %>
 end script
