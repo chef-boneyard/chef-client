@@ -108,7 +108,7 @@ when 'aix'
   default['chef_client']['cache_path']  = '/var/spool/chef'
   default['chef_client']['backup_path'] = '/var/lib/chef'
   default['chef_client']['log_dir']     = '/var/adm/chef'
-when 'amazon', 'rhel', 'fedora', 'debian', 'suse'
+when 'amazon', 'rhel', 'fedora', 'debian', 'suse', 'clearlinux'
   default['chef_client']['init_style']  = node['init_package']
   default['chef_client']['run_path']    = '/var/run/chef'
   default['chef_client']['cache_path']  = '/var/cache/chef'

@@ -9,6 +9,7 @@ This cookbook is used to configure a system as a Chef Client.
 ### Platforms
 
 - AIX 6+
+- Clear Linux
 - Debian
 - Fedora
 - FreeBSD

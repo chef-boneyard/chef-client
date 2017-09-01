@@ -13,7 +13,8 @@ dist_dir, conf_dir, env_file = value_for_platform_family(
   ['fedora'] => ['fedora', 'sysconfig', 'chef-client'],
   ['rhel'] => ['redhat', 'sysconfig', 'chef-client'],
   ['suse'] => ['redhat', 'sysconfig', 'chef-client'],
-  ['debian'] => ['debian', 'default', 'chef-client']
+  ['debian'] => ['debian', 'default', 'chef-client'],
+  ['clearlinux'] => ['clearlinux', 'chef', 'chef-client']
 )
 
 timer = node['chef_client']['systemd']['timer']
@@ -28,6 +29,14 @@ env_file = template "/etc/#{conf_dir}/#{env_file}" do
   source "#{dist_dir}/#{conf_dir}/chef-client.erb"
   mode '644'
   notifies :restart, 'service[chef-client]', :delayed unless timer
+end
+
+directory '/etc/systemd/system' do
+  owner 'root'
+  group 'root'
+  mode '0755'
+  recursive true
+  action :create
 end
 
 service_unit_content = {
