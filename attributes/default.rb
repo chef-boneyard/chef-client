@@ -113,6 +113,8 @@ when 'amazon', 'rhel', 'fedora', 'debian', 'suse', 'clearlinux'
   default['chef_client']['run_path']    = '/var/run/chef'
   default['chef_client']['cache_path']  = '/var/cache/chef'
   default['chef_client']['backup_path'] = '/var/lib/chef'
+  default['chef_client']['chkconfig']['start_order'] = 98
+  default['chef_client']['chkconfig']['stop_order']  = 02
 when 'freebsd'
   default['chef_client']['init_style']  = 'bsd'
   default['chef_client']['run_path']    = '/var/run'
