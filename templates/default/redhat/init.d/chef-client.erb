@@ -2,7 +2,7 @@
 #
 # chef-client Startup script for the Chef client
 #
-# chkconfig: - 98 02
+# chkconfig: - <%= @chkconfig_start_order -%> <%= @chkconfig_stop_order %>
 # description: Client component of the Chef systems integration framework.
 
 ### BEGIN INIT INFO
