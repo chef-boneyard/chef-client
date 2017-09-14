@@ -45,4 +45,5 @@ chef_client_scheduled_task 'Chef Client' do
   log_directory node['chef_client']['log_dir']
   chef_binary_path node['chef_client']['bin']
   daemon_options node['chef_client']['daemon_options']
+  not_if { ::File.exist?("C:\\Windows\\System32\\Tasks\\#{node['chef_client']['task']['task_name']}") }
 end
