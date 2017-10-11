@@ -56,7 +56,7 @@ suites:
 - name: service_systemd
   run_list:
   - recipe[test::service]
-  includes: ["centos-7", "debian-8", "debian-9", "fedora-25", "ubuntu-16.04", "opensuse-leap-42"]
+  includes: ["centos-7", "debian-8", "debian-9", "fedora-26", "ubuntu-16.04", "opensuse-leap-42"]
 
 - name: service_upstart
   run_list:
@@ -80,7 +80,7 @@ suites:
     chef_client:
       systemd:
         timer: true
-  includes: ["centos-7", "debian-8", "debian-9", "fedora-25", "ubuntu-16.04", "opensuse-leap-42"]
+  includes: ["centos-7", "debian-8", "debian-9", "fedora-26", "ubuntu-16.04", "opensuse-leap-42"]
 
 - name: config
   run_list:
