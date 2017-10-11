@@ -41,6 +41,9 @@ platforms:
   - name: windows-2012r2
     driver:
       box: chef/windows-server-2012r2-standard # private box
+  - name: windows-2016
+    driver:
+      box: chef/windows-server-2016-standard # private box
 
 suites:
 - name: service_bsd
@@ -71,7 +74,7 @@ suites:
 - name: cron
   run_list:
   - recipe[test::cron]
-  excludes: ["windows-2008r2", "windows-2012r2"]
+  excludes: ["windows-2008r2", "windows-2012r2", "windows-2016"]
 
 - name: timer_systemd
   run_list:
@@ -94,9 +97,9 @@ suites:
 - name: cook-use_cron_d
   run_list:
   - recipe[test::cook-use_cron_d]
-  excludes: ["windows-2008r2", "windows-2012r2"]
+  excludes: ["windows-2008r2", "windows-2012r2", "windows-2016"]
 
 - name: task
   run_list:
     - recipe[test::task]
-  includes: ["windows-2008r2", "windows-2012r2"]
+  includes: ["windows-2008r2", "windows-2012r2", "windows-2016"]
