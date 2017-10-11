@@ -21,6 +21,9 @@ platforms:
   - name: freebsd-10
   - name: freebsd-11
   - name: opensuse-leap-42
+  - name: sles-11-sp2
+    driver:
+      box: chef/sles-11-sp2-x86_64 # private box
   - name: sles-12-sp1
     driver:
       box: chef/sles-12-sp1-x86_64 # private box
@@ -48,7 +51,7 @@ suites:
 - name: service_init
   run_list:
   - recipe[test::service]
-  includes: ["centos-6", "debian-7", "amazon-linux", "sles-12-sp1"]
+  includes: ["centos-6", "debian-7", "amazon-linux", "sles-11-sp2", "sles-12-sp1"]
 
 - name: service_systemd
   run_list:
