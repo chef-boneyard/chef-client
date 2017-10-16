@@ -44,13 +44,13 @@ dist_dir, conf_dir = value_for_platform_family(
 if node['os'] == 'linux'
   template '/etc/init.d/chef-client' do
     source "#{dist_dir}/init.d/chef-client.erb"
-    mode '755'
+    mode '0755'
     variables(client_bin: client_bin)
   end
 
   template "/etc/#{conf_dir}/chef-client" do
     source "#{dist_dir}/#{conf_dir}/chef-client.erb"
-    mode '644'
+    mode '0644'
   end
 
   service 'chef-client' do
@@ -74,7 +74,7 @@ when 'freebsd'
     owner 'root'
     group 'wheel'
     variables client_bin: client_bin
-    mode '755'
+    mode '0755'
   end
 
   file '/etc/rc.conf.d/chef' do
