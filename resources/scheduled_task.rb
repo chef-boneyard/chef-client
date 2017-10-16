@@ -19,12 +19,12 @@
 
 resource_name :chef_client_scheduled_task
 
-property :user, String, default: 'System'
+property :user, String, default: node['chef_client']['task']['user']
 property :password, String
-property :frequency, String, default: 'minute'
-property :frequency_modifier, Integer, default: 30
-property :start_time, String
-property :splay, [Integer, String], default: 300
+property :frequency, String, default: node['chef_client']['task']['frequency']
+property :frequency_modifier, Integer, default: node['chef_client']['task']['frequency_modifier']
+property :start_time, String, default: node['chef_client']['task']['start_time']
+property :splay, [Integer, String], default: node['chef_client']['splay']
 property :config_directory, String, default: 'C:/chef'
 property :log_directory, String, default: lazy { |r| "#{r.config_directory}/log" }
 property :chef_binary_path, String, default: 'C:/opscode/chef/bin/chef-client'
@@ -42,7 +42,6 @@ action :add do
   # Add custom options
   client_cmd << " #{new_resource.daemon_options.join(' ')}" if new_resource.daemon_options.any?
 
-  start_time = new_resource.frequency == 'minute' ? (Time.now + 60 * new_resource.frequency_modifier).strftime('%H:%M') : nil
   windows_task 'chef-client' do
     run_level :highest
     command "cmd /c \"#{client_cmd}\""
@@ -51,12 +50,65 @@ action :add do
     password           new_resource.password
     frequency          new_resource.frequency.to_sym
     frequency_modifier new_resource.frequency_modifier
-    start_time         new_resource.start_time || start_time
+    start_time         new_resource.start_time
   end
 end
 
 action :remove do
   windows_task 'chef-client' do
     action :delete
+  end
+end
+
+action :create do
+  converge_if_changed :user do
+    windows_task 'chef-client' do
+      user new_resource.user
+    end
+  end
+  converge_if_changed :password do
+    windows_task 'chef-client' do
+      user new_resource.password
+    end
+  end
+  converge_if_changed :frequency do
+    windows_task 'chef-client' do
+      frequency new_resource.frequency
+    end
+  end
+  converge_if_changed :frequency_modifier do
+    windows_task 'chef-client' do
+      frequency_modifier new_resource.frequency_modifier
+    end
+  end
+  converge_if_changed :start_time do
+    windows_task 'chef-client' do
+      start_time new_resource.start_time
+    end
+  end
+  converge_if_changed :splay do
+    windows_task 'chef-client' do
+      command "cmd /c \"#{client_cmd}\""
+    end
+  end
+  converge_if_changed :config_directory do
+    windows_task 'chef-client' do
+      command "cmd /c \"#{client_cmd}\""
+    end
+  end
+  converge_if_changed :log_directory do
+    windows_task 'chef-client' do
+      command "cmd /c \"#{client_cmd}\""
+    end
+  end
+  converge_if_changed :chef_binary_path do
+    windows_task 'chef-client' do
+      command "cmd /c \"#{client_cmd}\""
+    end
+  end
+  converge_if_changed :daemon_options do
+    windows_task 'chef-client' do
+      command "cmd /c \"#{client_cmd}\""
+    end
   end
 end
