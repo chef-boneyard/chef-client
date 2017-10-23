@@ -1,5 +1,5 @@
-describe command('ps aux | grep che[f]') do
-  its(:stdout) { should match(/chef-client/) }
+describe processes('chef-client') do
+  it { should exist }
 end
 
 describe service('chef-client') do

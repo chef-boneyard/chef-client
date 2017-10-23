@@ -1,5 +1,5 @@
-describe command('/usr/local/etc/rc.d/chef-client status | grep "chef is running"') do
-  its(:exit_status) { should eq 0 }
+describe processes('chef-client') do
+  it { should exist }
 end
 
 describe service('chef-client') do
