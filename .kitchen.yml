@@ -48,27 +48,27 @@ platforms:
 suites:
 - name: service_bsd
   run_list:
-  - recipe[test::service]
+    - recipe[test::service]
   includes: ["freebsd-10.3", "freebsd-11.0"]
 
 - name: service_init
   run_list:
-  - recipe[test::service]
+    - recipe[test::service]
   includes: ["centos-6", "debian-7", "amazon-linux", "sles-11-sp2", "sles-12-sp1"]
 
 - name: service_systemd
   run_list:
-  - recipe[test::service]
+    - recipe[test::service]
   includes: ["centos-7", "debian-8", "debian-9", "fedora-26", "ubuntu-16.04", "opensuse-leap-42"]
 
 - name: service_upstart
   run_list:
-  - recipe[test::service]
+    - recipe[test::service]
   includes: ["ubuntu-14.04"]
 
 - name: service_smf
   run_list:
-  - recipe[test::service]
+    - recipe[test::service]
   includes: ["solaris-11.3", "solaris-10.11"]
 
 - name: cron
@@ -87,16 +87,17 @@ suites:
 
 - name: config
   run_list:
-  - recipe[test::config]
+    - recipe[test::config]
+  excludes: ["windows-2008r2", "windows-2012r2", "windows-2016"]
 
 - name: delete_validation
   run_list:
-  - recipe[chef-client::delete_validation]
+    - recipe[chef-client::delete_validation]
 
 # Test that the we can use the cron_d directory
-- name: cook-use_cron_d
+- name: use_cron_d
   run_list:
-  - recipe[test::cook-use_cron_d]
+    - recipe[test::cook-use_cron_d]
   excludes: ["windows-2008r2", "windows-2012r2", "windows-2016"]
 
 - name: task
