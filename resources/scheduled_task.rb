@@ -22,7 +22,7 @@ resource_name :chef_client_scheduled_task
 property :user, String, default: 'System'
 property :password, String
 property :frequency, String, default: 'minute'
-property :frequency_modifier, Integer, default: 30
+property :frequency_modifier, [Integer, String], default: 30
 property :start_time, String
 property :splay, [Integer, String], default: 300
 property :config_directory, String, default: 'C:/chef'
@@ -42,11 +42,10 @@ action :add do
   # Add custom options
   client_cmd << " #{new_resource.daemon_options.join(' ')}" if new_resource.daemon_options.any?
 
-  start_time = new_resource.frequency == 'minute' ? (Time.now + 60 * new_resource.frequency_modifier).strftime('%H:%M') : nil
+  start_time = new_resource.frequency == 'minute' ? (Time.now + 60 * new_resource.frequency_modifier.to_f).strftime('%H:%M') : nil
   windows_task 'chef-client' do
     run_level :highest
     command "cmd /c \"#{client_cmd}\""
-
     user               new_resource.user
     password           new_resource.password
     frequency          new_resource.frequency.to_sym
