@@ -3,3 +3,4 @@ node.override['chef_client']['task']['frequency_modifier'] = '31' # this is a st
 
 include_recipe 'test::config'
 include_recipe 'chef-client::task'
+include_recipe 'chef-client::delete_validation'

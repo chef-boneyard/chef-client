@@ -90,10 +90,6 @@ suites:
     - recipe[test::config]
   excludes: ["windows-2008r2", "windows-2012r2", "windows-2016"]
 
-- name: delete_validation
-  run_list:
-    - recipe[chef-client::delete_validation]
-
 # Test that the we can use the cron_d directory
 - name: use_cron_d
   run_list:
