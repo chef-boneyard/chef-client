@@ -21,7 +21,7 @@ resource_name :chef_client_scheduled_task
 
 property :user, String, default: 'System'
 property :password, String
-property :frequency, String, default: 'minute'
+property :frequency, String, default: 'minute', equal_to: ['minute', 'hourly', 'daily', 'monthly', 'once', 'on_logon', 'onstart', 'on_idle']
 property :frequency_modifier, [Integer, String], default: 30
 property :start_time, String
 property :splay, [Integer, String], default: 300
