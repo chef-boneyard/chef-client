@@ -22,7 +22,7 @@ recipe 'chef-client::upstart_service', 'Configures chef-client as a service unde
   supports os
 end
 
-depends 'cron', '>= 2.0.0'
+depends 'cron', '>= 4.2.0'
 depends 'logrotate', '>= 1.9.0'
 depends 'windows', '>= 2.0.0'
 
