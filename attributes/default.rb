@@ -71,6 +71,7 @@ default['chef_client']['task']['frequency'] = 'minute'
 default['chef_client']['task']['frequency_modifier'] = node['chef_client']['interval'].to_i / 60
 default['chef_client']['task']['user'] = 'SYSTEM'
 default['chef_client']['task']['password'] = nil # Password is only required for none system users
+default['chef_client']['task']['start_time'] = nil
 
 default['chef_client']['load_gems'] = {}
 
