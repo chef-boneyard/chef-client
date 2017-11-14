@@ -91,7 +91,7 @@ template "#{node['chef_client']['conf_dir']}/client.rb" do
   )
 
   if node['chef_client']['reload_config']
-    notifies :create, 'ruby_block[reload_client_config]', :immediately
+    notifies :run, 'ruby_block[reload_client_config]', :immediately
   end
 end
 
