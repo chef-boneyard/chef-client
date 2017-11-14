@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 9.0.2 (2017-11-14)
+
+- Resolve foodcritic warning in notification of ruby_block
+- Fix start_date functionality
+
 ## 9.0.1 (2017-11-14)
 
 - Require cron cookbook 4.2 which works on SLES 11
