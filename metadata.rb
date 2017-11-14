@@ -28,4 +28,4 @@ depends 'windows', '>= 2.0.0'
 
 source_url 'https://github.com/chef-cookbooks/chef-client'
 issues_url 'https://github.com/chef-cookbooks/chef-client/issues'
-chef_version '>= 12.11'
+chef_version '>= 12.11' if respond_to?(:chef_version)
