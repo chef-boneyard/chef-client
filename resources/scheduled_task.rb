@@ -23,7 +23,7 @@ property :user, String, default: 'System'
 property :password, String
 property :frequency, String, default: 'minute', equal_to: %w(minute hourly daily monthly once on_logon onstart on_idle)
 property :frequency_modifier, [Integer, String], default: 30
-property :start_time, String
+property :start_time, String, regex: [/^\d{2}:\d{2}$/]
 property :splay, [Integer, String], default: 300
 property :config_directory, String, default: 'C:/chef'
 property :log_directory, String, default: lazy { |r| "#{r.config_directory}/log" }
