@@ -304,8 +304,8 @@ The chef_client_scheduled_task setups up chef-client to run as a scheduled task.
 
 ### Actions
 
-- add
-- remove
+- `:add`
+- `:remove`
 
 ### Properties
 
