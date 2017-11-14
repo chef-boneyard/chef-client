@@ -2,6 +2,14 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 9.0.1 (2017-11-14)
+
+- Require cron cookbook 4.2 which works on SLES 11
+- Use a single log resource to warn in FreeBSD instead of two
+- Add respond_to to the chef_version in metadata for older clients
+- Add a regex to validate start_time passed into the task resource
+- Add ability to specify the start_date in task resource
+
 ## 9.0.0 (2017-10-23)
 
 ### Breaking changes
