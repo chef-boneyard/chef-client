@@ -52,7 +52,7 @@ action :add do
     frequency          new_resource.frequency.to_sym
     frequency_modifier new_resource.frequency_modifier
     start_time         new_resource.start_time || start_time
-    start_date         new_resource.start_time unless new_resource.start_time.nil?
+    start_day          new_resource.start_date unless new_resource.start_date.nil?
   end
 end
 
