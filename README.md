@@ -62,7 +62,8 @@ The following attributes affect the behavior of the chef-client program when run
 - `node['chef_client']['systemd']['restart']` - The string to use for systemd `Restart=` value when not running as a timer. Defaults to `always`. Other possible options: `no, on-success, on-failure, on-abnormal, on-watchdog, on-abort`.
 - `node['chef_client']['task']['frequency']` - Frequency with which to run the `chef-client` scheduled task (e.g., `'hourly'`, `'daily'`, etc.) Default is `'minute'`.
 - `node['chef_client']['task']['frequency_modifier']` - Numeric value to go with the scheduled task frequency. Default is `node['chef_client']['interval'].to_i / 60`
-- `node['chef_client']['task']['start_time']` - The start time for the task in `HH:mm` format. If the `frequency` is `minute` default start time will be `Time.now` plus the `frequency_modifier` number of minutes.
+- `node['chef_client']['task']['start_time']` - The start time for the task in `HH:mm` format (ex: 14:00). If the `frequency` is `minute` default start time will be `Time.now` plus the `frequency_modifier` number of minutes.
+- `node['chef_client']['task']['start_date']` - The start date for the task in `m:d:Y` format (ex: 12/17/2017). nil by default and isn't necessary if you're running a regular interval.
 - `node['chef_client']['task']['user']` - The user the scheduled task will run as, defaults to `'SYSTEM'`.
 - `node['chef_client']['task']['password']` - The password for the user the scheduled task will run as, defaults to `nil` because the default user, `'SYSTEM'`, does not need a password.
 
@@ -313,7 +314,8 @@ The chef_client_scheduled_task setups up chef-client to run as a scheduled task.
 - `password`, The password of the user to run the task as if not using the System user
 - `frequency` - Frequency with which to run the task (e.g., 'hourly', 'daily', etc.) Default is 'minute'
 - `frequency_modifier` Numeric value to go with the scheduled task frequency - default: '30'
-- `start_time` The start time for the task in HH:mm format (24 hour clock). If the `frequency` is `minute` default start time will be `Time.now` plus the `frequency_modifier` number of minutes.
+- `start_time` The start time for the task in HH:mm format (ex: 14:00). If the `frequency` is `minute` default start time will be `Time.now` plus the `frequency_modifier` number of minutes.
+- `start_date` - The start date for the task in `m:d:Y` format (ex: 12/17/2017). nil by default and isn't necessary if you're running a regular interval.
 - `splay` - A random number of seconds between 0 and X to add to interval. default: '300'
 - `config_directory` - The path to the Chef config directory. default: 'C:/chef'
 - `log_directory` - The path to the Chef log directory. default: 'CONFIG_DIRECTORY/log'

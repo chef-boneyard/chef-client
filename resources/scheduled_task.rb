@@ -23,6 +23,7 @@ property :user, String, default: 'System'
 property :password, String
 property :frequency, String, default: 'minute', equal_to: %w(minute hourly daily monthly once on_logon onstart on_idle)
 property :frequency_modifier, [Integer, String], default: 30
+property :start_date, String, regex: [%r{^[0-1][0-9]\/[0-3][0-9]\/\d{4}$}]
 property :start_time, String, regex: [/^\d{2}:\d{2}$/]
 property :splay, [Integer, String], default: 300
 property :config_directory, String, default: 'C:/chef'
@@ -51,6 +52,7 @@ action :add do
     frequency          new_resource.frequency.to_sym
     frequency_modifier new_resource.frequency_modifier
     start_time         new_resource.start_time || start_time
+    start_date         new_resource.start_time unless new_resource.start_time.nil?
   end
 end
 
