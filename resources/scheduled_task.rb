@@ -43,7 +43,6 @@ action :add do
   # Add custom options
   client_cmd << " #{new_resource.daemon_options.join(' ')}" if new_resource.daemon_options.any?
 
-  start_time = new_resource.frequency == 'minute' ? (Time.now + 60 * new_resource.frequency_modifier.to_f).strftime('%H:%M') : nil
   windows_task 'chef-client' do
     run_level :highest
     command "cmd /c \"#{client_cmd}\""
@@ -51,7 +50,7 @@ action :add do
     password           new_resource.password
     frequency          new_resource.frequency.to_sym
     frequency_modifier new_resource.frequency_modifier
-    start_time         new_resource.start_time || start_time
+    start_time         new_resource.start_time unless new_resource.start_time.nil?
     start_day          new_resource.start_date unless new_resource.start_date.nil?
   end
 end
