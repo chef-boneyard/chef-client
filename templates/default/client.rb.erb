@@ -47,6 +47,7 @@ no_proxy "<%= node["chef_client"]["config"]["no_proxy"] %>"
 <%= @ohai_new_config_syntax? 'ohai.disabled_plugins' : 'Ohai::Config[:disabled_plugins]' %> = [<%= @ohai_disabled_plugins.map { |k| k.match(/:/) ? k.gsub(/^:/, '').to_sym.inspect : k.inspect }.join(",") %>]
 <% end -%>
 
+<% if !@start_handlers.nil? || !@report_handlers.nil? || !@exception_handlers.nil? -%>
 # Do not crash if a handler is missing / not installed yet
 begin
 <% unless @start_handlers.nil? -%>
@@ -67,6 +68,7 @@ begin
 rescue NameError => e
   Chef::Log.error e
 end
+<% end -%>
 
 <% if Gem::Version.new(Chef::VERSION) < Gem::Version.new('12.8') -%>
 Dir.glob(File.join(<%= node['chef_client']['conf_dir'].inspect %>, "client.d", "*.rb")).each do |conf|
