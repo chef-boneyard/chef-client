@@ -25,7 +25,7 @@ if [ -f "/etc/sysconfig/chef-client" ]; then
 fi
 
 CONFIG=${CONFIG-<%= node["chef_client"]["conf_dir"] %>/client.rb}
-PIDFILE=${PIDFILE-<%= node["chef_client"]["run_dir"] %>/client.pid}
+PIDFILE=${PIDFILE-<%= node["chef_client"]["run_path"] %>/client.pid}
 LOCKFILE=${LOCKFILE-/var/lock/subsys/chef-client}
 INTERVAL=${INTERVAL-<%= node["chef_client"]["interval"] %>}
 SPLAY=${SPLAY-<%= node["chef_client"]["splay"] %>}
