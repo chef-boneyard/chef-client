@@ -45,7 +45,7 @@ action :add do
 
   windows_task 'chef-client' do
     run_level :highest
-    command "cmd /c \"#{client_cmd}\""
+    command "cmd /c \'#{client_cmd}\'"
     user               new_resource.user
     password           new_resource.password
     frequency          new_resource.frequency.to_sym
