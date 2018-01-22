@@ -27,9 +27,6 @@ platforms:
   - name: sles-12-sp1
     driver:
       box: chef/sles-12-sp1-x86_64 # private box
-  - name: solaris-10.11
-    driver:
-      box: chef/solaris-10.11 # private box
   - name: solaris-11.3
     driver:
       box: chef/solaris-11.3 # private box
