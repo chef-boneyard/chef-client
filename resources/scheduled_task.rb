@@ -50,7 +50,7 @@ action :add do
     password           new_resource.password
     frequency          new_resource.frequency.to_sym
     frequency_modifier new_resource.frequency_modifier
-    start_time         new_resource.start_time unless new_resource.start_time.nil?
+    start_time         start_time_value
     start_day          new_resource.start_date unless new_resource.start_date.nil?
   end
 end
@@ -58,5 +58,16 @@ end
 action :remove do
   windows_task 'chef-client' do
     action :delete
+  end
+end
+
+action_class do
+  # @todo this can all get removed when we don't support Chef 13.6 anymore
+  def start_time_value
+    if new_resource.start_time
+      new_resource.start_time
+    elsif Gem::Requirement.new('< 13.7.0').satisfied_by?(Gem::Version.new(Chef::VERSION))
+      new_resource.frequency == 'minute' ? (Time.now + 60 * new_resource.frequency_modifier.to_f).strftime('%H:%M') : nil
+    end
   end
 end
