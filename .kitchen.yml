@@ -18,7 +18,6 @@ platforms:
   - name: debian-8
   - name: debian-9
   - name: fedora-26
-  - name: freebsd-10
   - name: freebsd-11
   - name: opensuse-leap-42
   - name: sles-11-sp2
