@@ -37,8 +37,8 @@ execute "install #{node['chef_client']['svc_name']} in SRC" do
 end
 
 execute "enable #{node['chef_client']['svc_name']}" do
-  if node["chef_client"]["ca_cert_path"]
-    command "mkitab '#{node['chef_client']['svc_name']}:2:once:/usr/bin/startsrc -e \"SSL_CERT_FILE=#{node["chef_client"]["ca_cert_path"]}\" -s #{node['chef_client']['svc_name']} > /dev/console 2>&1'"
+  if node['chef_client']['ca_cert_path']
+    command "mkitab '#{node['chef_client']['svc_name']}:2:once:/usr/bin/startsrc -e \"SSL_CERT_FILE=#{node['chef_client']['ca_cert_path']}\" -s #{node['chef_client']['svc_name']} > /dev/console 2>&1'"
   else
     command "mkitab '#{node['chef_client']['svc_name']}:2:once:/usr/bin/startsrc -s #{node['chef_client']['svc_name']} > /dev/console 2>&1'"
   end
