@@ -69,11 +69,11 @@ module Opscode
           # Where will also return files that have extensions matching PATHEXT (e.g.
           # *.bat). We don't want the batch file wrapper, but the actual script.
           which = 'set PATHEXT=.exe & where'
-          Chef::Log.debug "Using exists? and 'where', since we're on Windows"
+          Chef::Log.debug "Using exists? and 'where' to find the chef-client binary since we're on Windows"
         else
           existence_check = :executable?
           which = 'which'
-          Chef::Log.debug "Using executable? and 'which' since we're on Linux"
+          Chef::Log.debug "Using executable? and 'which' to find the chef-client binary since we're on *nix"
         end
 
         # try to use the bin provided by the node attribute
