@@ -41,10 +41,10 @@ no_proxy "<%= node["chef_client"]["config"]["no_proxy"] %>"
 <% end -%>
 
 <% unless node["ohai"]["plugin_path"].nil? -%>
-<%= @ohai_new_config_syntax? 'ohai.plugin_path' : 'Ohai::Config[:plugin_path]' %> << "<%= node["ohai"]["plugin_path"] %>"
+ohai.plugin_path << "<%= node["ohai"]["plugin_path"] %>"
 <% end -%>
 <% unless @ohai_disabled_plugins.empty? -%>
-<%= @ohai_new_config_syntax? 'ohai.disabled_plugins' : 'Ohai::Config[:disabled_plugins]' %> = [<%= @ohai_disabled_plugins.map { |k| k.match(/:/) ? k.gsub(/^:/, '').to_sym.inspect : k.inspect }.join(",") %>]
+ohai.disabled_plugins = [<%= @ohai_disabled_plugins.map { |k| k.match(/:/) ? k.gsub(/^:/, '').to_sym.inspect : k.inspect }.join(",") %>]
 <% end -%>
 
 <% if !@start_handlers.nil? || !@report_handlers.nil? || !@exception_handlers.nil? -%>
@@ -67,15 +67,5 @@ begin
 <% end -%>
 rescue NameError => e
   Chef::Log.error e
-end
-<% end -%>
-
-<% if Gem::Version.new(Chef::VERSION) < Gem::Version.new('12.8') -%>
-Dir.glob(File.join(<%= node['chef_client']['conf_dir'].inspect %>, "client.d", "*.rb")).each do |conf|
-  <% if Gem::Version.new(Chef::VERSION) < Gem::Version.new('12.4.0') -%>
-  Chef::Config.from_file(conf)
-  <% else -%>
-  ChefConfig::Config.from_file(conf)
-  <% end -%>
 end
 <% end -%>
