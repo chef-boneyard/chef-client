@@ -2,6 +2,18 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 9.0.3 (2018-01-22)
+
+- Do not require start, report, or exception handlers to manage `client.rb`. Only write them out if we actually have them
+- remove the rendering of the begin rescue block when no handlers are defined.
+- Fix wrong daemon options at systemd config
+- Fix the SUSE init template to use the correct run_path node attribute
+- in the task resource escape the chef-client path with single quotes since you sometimes end up with double-quote escaped attributes
+- Improve log messages in the path helper
+- Remove code used to support Chef < 12.8, which already wasn't supported by this cookbook
+- Remove test kitchen configs for platforms Chef no longer officially supports
+- Make sure task doesn't fail on chef-client >= 13.7
+
 ## 9.0.2 (2017-11-14)
 
 - Resolve foodcritic warning in notification of ruby_block
