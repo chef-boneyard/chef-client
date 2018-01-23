@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 9.0.4 (2018-01-23)
+
+- Fixes to allow the windows_task resource to work on chef 13.7 while still working on < 13.7
+
 ## 9.0.3 (2018-01-22)
 
 - Do not require start, report, or exception handlers to manage `client.rb`. Only write them out if we actually have them
