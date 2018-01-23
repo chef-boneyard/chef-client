@@ -43,9 +43,17 @@ action :add do
   # Add custom options
   client_cmd << " #{new_resource.daemon_options.join(' ')}" if new_resource.daemon_options.any?
 
+  # This block is here due to the changes in windows_task in 13.7
+  # This can be removed once we no longer support < 13.7
+  if Gem::Requirement.new('< 13.7.0').satisfied_by?(Gem::Version.new(Chef::VERSION))
+    full_command = "cmd /c \"#{client_cmd}\""
+  else
+    full_command = "cmd /c \'#{client_cmd}\'"
+  end
+
   windows_task 'chef-client' do
     run_level :highest
-    command "cmd /c \'#{client_cmd}\'"
+    command full_command
     user               new_resource.user
     password           new_resource.password
     frequency          new_resource.frequency.to_sym
