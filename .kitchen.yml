@@ -14,7 +14,6 @@ platforms:
       box: mvbcoding/awslinux
   - name: centos-6
   - name: centos-7
-  - name: debian-7
   - name: debian-8
   - name: debian-9
   - name: fedora-26
@@ -37,17 +36,23 @@ platforms:
   - name: windows-2016
     driver:
       box: chef/windows-server-2016-standard # private box
+  - name: windows-2016-13.6
+    provisioner:
+      product_name: chef
+      product_version: 13.6
+    driver:
+      box: chef/windows-server-2016-standard # private box
 
 suites:
 - name: service_bsd
   run_list:
     - recipe[test::service]
-  includes: ["freebsd-10.3", "freebsd-11.0"]
+  includes: ["freebsd-11.0"]
 
 - name: service_init
   run_list:
     - recipe[test::service]
-  includes: ["centos-6", "debian-7", "amazon-linux", "sles-11-sp2", "sles-12-sp1"]
+  includes: ["centos-6", "amazon-linux", "sles-11-sp2", "sles-12-sp1"]
 
 - name: service_systemd
   run_list:
@@ -62,12 +67,12 @@ suites:
 - name: service_smf
   run_list:
     - recipe[test::service]
-  includes: ["solaris-11.3", "solaris-10.11"]
+  includes: ["solaris-11.3"]
 
 - name: cron
   run_list:
   - recipe[test::cron]
-  excludes: ["windows-2012r2", "windows-2016"]
+  excludes: ["windows-2012r2", "windows-2016", "windows-2016-13.6"]
 
 - name: timer_systemd
   run_list:
@@ -81,23 +86,15 @@ suites:
 - name: config
   run_list:
     - recipe[test::config]
-  excludes: ["windows-2012r2", "windows-2016"]
+  excludes: ["windows-2012r2", "windows-2016", "windows-2016-13.6"]
 
 # Test that the we can use the cron_d directory
 - name: use_cron_d
   run_list:
     - recipe[test::cook-use_cron_d]
-  excludes: ["windows-2012r2", "windows-2016"]
+  excludes: ["windows-2012r2", "windows-2016", "windows-2016-13.6"]
 
 - name: task
   run_list:
     - recipe[test::task]
-  includes: ["windows-2012r2", "windows-2016"]
-
-- name: task_13_6
-  run_list:
-    - recipe[test::task]
-  provisioner:
-    product_name: chef
-    product_version: 13.6
-  includes: ["windows-2012r2", "windows-2016"]
+  includes: ["windows-2012r2", "windows-2016", "windows-2016-13.6"]
