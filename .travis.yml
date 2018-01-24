@@ -32,7 +32,6 @@ env:
   - CHEF_VERSION=12 INSTANCE=service-systemd-fedora-latest
   - CHEF_VERSION=12 INSTANCE=service-systemd-opensuse-leap
   - CHEF_VERSION=12 INSTANCE=service-systemd-ubuntu-1604
-  - CHEF_VERSION=12 INSTANCE=service-init-debian-7
   - CHEF_VERSION=12 INSTANCE=service-init-centos-6
   - CHEF_VERSION=12 INSTANCE=service-init-amazonlinux
   - CHEF_VERSION=13 INSTANCE=cron-ubuntu-1404
@@ -42,13 +41,13 @@ env:
   - CHEF_VERSION=13 INSTANCE=delete-validation-ubuntu-1604
   - CHEF_VERSION=13 INSTANCE=delete-validation-centos-7
   - CHEF_VERSION=13 INSTANCE=service-upstart-ubuntu-1404
+  - CHEF_VERSION=13 INSTANCE=service-systemd-amazonlinux-2
   - CHEF_VERSION=13 INSTANCE=service-systemd-centos-7
   - CHEF_VERSION=13 INSTANCE=service-systemd-debian-8
   - CHEF_VERSION=13 INSTANCE=service-systemd-debian-9
   - CHEF_VERSION=13 INSTANCE=service-systemd-fedora-latest
   - CHEF_VERSION=13 INSTANCE=service-systemd-opensuse-leap
   - CHEF_VERSION=13 INSTANCE=service-systemd-ubuntu-1604
-  - CHEF_VERSION=13 INSTANCE=service-init-debian-7
   - CHEF_VERSION=13 INSTANCE=service-init-centos-6
   - CHEF_VERSION=13 INSTANCE=service-init-amazonlinux
 

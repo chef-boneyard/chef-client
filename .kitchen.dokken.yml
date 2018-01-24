@@ -19,12 +19,10 @@ platforms:
     image: dokken/amazonlinux
     pid_one_command: /sbin/init
 
-- name: debian-7
+- name: amazonlinux-2
   driver:
-    image: dokken/debian-7
-    pid_one_command: /sbin/init
-    intermediate_instructions:
-      - RUN /usr/bin/apt-get update
+    image: dokken/amazonlinux-2
+    pid_one_command: /usr/lib/systemd/systemd
 
 - name: debian-8
   driver:
@@ -78,12 +76,12 @@ suites:
 - name: service_init
   run_list:
     - recipe[test::service]
-  includes: ["debian-7", "centos-6", "amazonlinux"]
+  includes: ["centos-6", "amazonlinux"]
 
 - name: service_systemd
   run_list:
     - recipe[test::service]
-  includes: ["centos-7", "debian-8", "debian-9", "opensuse-leap", "fedora-latest", "ubuntu-16.04"]
+  includes: ["centos-7", "debian-8", "debian-9", "opensuse-leap", "fedora-latest", "ubuntu-16.04", "amazonlinux-2"]
 
 - name: service_upstart
   run_list:
