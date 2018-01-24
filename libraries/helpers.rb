@@ -33,10 +33,6 @@ module Opscode
         result.each.next.send(wmi_property)
       end
 
-      def chef_client_service_running
-        !wmi_property_from_query(:name, "select * from Win32_Service where name = 'chef-client'").nil?
-      end
-
       def root_owner
         if ['windows'].include?(node['platform'])
           wmi_property_from_query(:name, "select * from Win32_UserAccount where sid like 'S-1-5-21-%-500' and LocalAccount=True")
