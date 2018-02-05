@@ -36,7 +36,7 @@ action :add do
 
   # Build command line to pass to cmd.exe
   client_cmd = new_resource.chef_binary_path.dup
-  client_cmd << " -L #{::File.join(new_resource.log_directory, node['chef_client']['log_file'])}"
+  client_cmd << " -L #{::File.join(new_resource.log_directory, node['chef_client']['log_file'])}" unless node['chef_client']['log_file'].nil?
   client_cmd << " -c #{::File.join(new_resource.config_directory, 'client.rb')}"
   client_cmd << " -s #{new_resource.splay}"
 
