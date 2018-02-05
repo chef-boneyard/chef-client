@@ -2,6 +2,13 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 9.0.5 (2018-02-05)
+
+- Swap Debian 7 testing for Amazon Linux 2
+- Remove unused windows service helper method
+- Prevent using -L option if no location of log file is provided.
+- update start_date format attribute
+
 ## 9.0.4 (2018-01-23)
 
 - Fixes to allow the windows_task resource to work on chef 13.7 while still working on < 13.7
