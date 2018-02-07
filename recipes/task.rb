@@ -41,6 +41,7 @@ chef_client_scheduled_task 'Chef Client' do
   frequency_modifier lazy { node['chef_client']['task']['frequency_modifier'] }
   start_time node['chef_client']['task']['start_time']
   start_date node['chef_client']['task']['start_date']
+  random_delay node['chef_client']['task']['random_delay']
   splay node['chef_client']['splay']
   config_directory node['chef_client']['conf_dir']
   log_directory node['chef_client']['log_dir']

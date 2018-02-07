@@ -73,6 +73,7 @@ default['chef_client']['task']['user'] = 'SYSTEM'
 default['chef_client']['task']['password'] = nil # Password is only required for none system users
 default['chef_client']['task']['start_time'] = nil
 default['chef_client']['task']['start_date'] = nil
+default['chef_client']['task']['random_delay'] = nil
 
 default['chef_client']['load_gems'] = {}
 
