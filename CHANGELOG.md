@@ -2,6 +2,13 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 10.0.0 (2018-02-14)
+
+- The behavior of when to include the node name in the client.rb has been changed and the node name will now always be included to avoid various errors if we skip it. This is the correct behavior, but the cookbook has received a major version bump so users can properly test the new behavior.
+- Fix a frozen string warning when passing daemon options to a cron job
+- Don't include the daemon options if they don't exist.
+- Chefspec matchers have been removed since Chefspec now autogenerates these
+
 ## 9.0.5 (2018-02-05)
 
 - Swap Debian 7 testing for Amazon Linux 2
