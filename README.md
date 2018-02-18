@@ -16,14 +16,14 @@ This cookbook is used to configure a system as a Chef Client.
 - Mac OS X
 - openSUSE
 - SLES 12+
-- RHEL 5+
+- RHEL
 - Solaris 10+
 - Ubuntu
 - Windows 2008 R2+
 
 ### Chef
 
-- Chef 12.1+
+- Chef 12.11+
 
 ### Dependent Cookbooks
 
