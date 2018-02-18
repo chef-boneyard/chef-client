@@ -49,7 +49,7 @@ end
 # libraries/helpers.rb method to DRY directory creation resources
 create_chef_directories
 
-if log_path != 'STDOUT' # ~FC023
+if log_path != 'STDOUT'
   file log_path do
     mode node['chef_client']['log_perm']
   end
