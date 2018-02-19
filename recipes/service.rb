@@ -34,9 +34,6 @@ supported_init_styles = %w(
 
 init_style = node['chef_client']['init_style']
 
-# Services moved to recipes
-if supported_init_styles.include? init_style
-  include_recipe "chef-client::#{init_style}_service"
-else
-  log 'Could not determine service init style, manual intervention required to start up the chef-client service.'
-end
+raise "The init style specified at node['chef_client']['init_style'] is not supported by the chef-client cookbook. Supported values are: #{supported_init_styles.join(',')}." unless supported_init_styles.include?(init_style)
+
+include_recipe "chef-client::#{init_style}_service"
