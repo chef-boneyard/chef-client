@@ -2,6 +2,16 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 10.0.1 (2018-03-09)
+
+- Update the debug message for the chef-client binary
+- Update the recipe to state we require Chef 12.11 not 12.1
+- Add some specs for the SLES 11 init file
+- Add more specs for SLES 11 init script
+- Fail hard if the specified service type is not valid
+- handle mixed lines if log_location is nil in the config
+- handle empty (but not nil) handlers block in the config
+
 ## 10.0.0 (2018-02-14)
 
 - The behavior of when to include the node name in the client.rb has been changed and the node name will now always be included to avoid various errors if we skip it. This is the correct behavior, but the cookbook has received a major version bump so users can properly test the new behavior.
