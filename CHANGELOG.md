@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 10.0.2 (2018-03-18)
+
+- Fix systemd ignoring ca_cert_path on rhel
+
 ## 10.0.1 (2018-03-09)
 
 - Update the debug message for the chef-client binary

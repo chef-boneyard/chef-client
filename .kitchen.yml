@@ -16,7 +16,7 @@ platforms:
   - name: centos-7
   - name: debian-8
   - name: debian-9
-  - name: fedora-26
+  - name: fedora-27
   - name: freebsd-11
   - name: opensuse-leap-42
   - name: sles-11-sp2
