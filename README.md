@@ -192,15 +192,15 @@ default_attributes(
 The `/etc/chef/client.rb` file will include all the configuration files in `/etc/chef/client.d/*.rb`. To create custom configuration, simply render a file resource with `file` (and the `content` parameter), `template`, `remote_file`, or `cookbook_file`. For example, in your own cookbook that requires custom Chef client configuration, create the following `cookbook_file` resource:
 
 ```ruby
+include_recipe 'chef-client::config'
+
 chef_gem 'syslog-logger'
 
-cookbook_file "/etc/chef/client.d/myconfig.rb" do
-  source "myconfig.rb"
+cookbook_file '/etc/chef/client.d/myconfig.rb' do
+  source 'myconfig.rb'
   mode '0644'
-  notifies :create, "ruby_block[reload_client_config]"
+  notifies :create, 'ruby_block[reload_client_config]'
 end
-
-include_recipe 'chef-client::config'
 ```
 
 Then create `files/default/myconfig.rb` with the configuration content you want. For example, if you wish to create a configuration to log to syslog:
