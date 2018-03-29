@@ -23,6 +23,10 @@ env:
   - CHEF_VERSION=12 INSTANCE=cron-ubuntu-1604
   - CHEF_VERSION=12 INSTANCE=cron-centos-6
   - CHEF_VERSION=12 INSTANCE=cron-centos-7
+  - CHEF_VERSION=12 INSTANCE=config-ubuntu-1404
+  - CHEF_VERSION=12 INSTANCE=config-ubuntu-1604
+  - CHEF_VERSION=12 INSTANCE=config-centos-6
+  - CHEF_VERSION=12 INSTANCE=config-centos-7
   - CHEF_VERSION=12 INSTANCE=delete-validation-ubuntu-1604
   - CHEF_VERSION=12 INSTANCE=delete-validation-centos-7
   - CHEF_VERSION=12 INSTANCE=service-upstart-ubuntu-1404
@@ -38,6 +42,10 @@ env:
   - CHEF_VERSION=13 INSTANCE=cron-ubuntu-1604
   - CHEF_VERSION=13 INSTANCE=cron-centos-6
   - CHEF_VERSION=13 INSTANCE=cron-centos-7
+  - CHEF_VERSION=13 INSTANCE=config-ubuntu-1404
+  - CHEF_VERSION=13 INSTANCE=config-ubuntu-1604
+  - CHEF_VERSION=13 INSTANCE=config-centos-6
+  - CHEF_VERSION=13 INSTANCE=config-centos-7
   - CHEF_VERSION=13 INSTANCE=delete-validation-ubuntu-1604
   - CHEF_VERSION=13 INSTANCE=delete-validation-centos-7
   - CHEF_VERSION=13 INSTANCE=service-upstart-ubuntu-1404
