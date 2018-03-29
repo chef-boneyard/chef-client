@@ -7,7 +7,7 @@ chef_gem 'syslog-logger' do
   compile_time false
 end
 
-cookbook_file '/etc/chef/client.d/myconfig.rb' do
+cookbook_file "#{Chef::Config[:client_d_dir]}/myconfig.rb" do
   source 'myconfig.rb'
   mode '0644'
   notifies :create, 'ruby_block[reload_client_config]'
