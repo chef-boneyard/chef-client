@@ -3,7 +3,9 @@ node.override['ohai']['plugin_path'] = '/tmp/kitchen/ohai/plugins'
 
 include_recipe 'chef-client::config'
 
-chef_gem 'syslog-logger'
+chef_gem 'syslog-logger' do
+  compile_time false
+end
 
 cookbook_file '/etc/chef/client.d/myconfig.rb' do
   source 'myconfig.rb'
