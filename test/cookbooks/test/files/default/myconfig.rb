@@ -1,8 +1,7 @@
-require 'syslog-logger'
-require 'syslog'
+require 'logutils'
 
-Logger::Syslog.class_eval do
-  attr_accessor :sync, :formatter
+Chef.event_handler do
+  on :run_failed do |exception|
+    LogUtils::Logger.error("Hit an exception: #{exception.message}")
+  end
 end
-
-log_location Chef::Log::Syslog.new('chef-client', ::Syslog::LOG_DAEMON)
