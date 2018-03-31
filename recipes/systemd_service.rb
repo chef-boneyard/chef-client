@@ -80,7 +80,7 @@ systemd_unit 'chef-client.timer' do
     'Timer' => {
       'OnBootSec' => '1min',
       'OnUnitActiveSec' => "#{node['chef_client']['interval']}sec",
-      'AccuracySec' => "#{node['chef_client']['splay']}sec",
+      'RandomizedDelaySec' => "#{node['chef_client']['splay']}sec",
     }
   )
   action(timer ? [:create, :enable, :start] : [:stop, :disable, :delete])
