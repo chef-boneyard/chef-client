@@ -14,10 +14,10 @@ end
   <% when 'log_level', 'ssl_verify_mode', 'audit_mode' -%>
 <%= option %> <%= @chef_config[option].to_s.gsub(/^:/, '').to_sym.inspect %>
   <% when 'log_location' -%>
-  <%   if (@chef_config[option].instance_of? String) || @chef_config[option].nil? -%>
-<%= option %> <%= @chef_config[option] == 'STDOUT' ? 'STDOUT' : @chef_config[option].inspect %>
-  <%   else -%>
+  <%   if (@chef_config[option].instance_of? String) && @chef_config[option].match(/^(STDOUT|STDERR)$/) -%>
 <%= option %> <%= @chef_config[option] %>
+  <%   else -%>
+<%= option %> <%= @chef_config[option].inspect %>
   <%   end -%>
   <% else -%>
 <%= option %> <%= @chef_config[option].inspect %>
