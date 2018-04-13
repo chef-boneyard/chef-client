@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 10.0.3 (2018-04-13)
+
+- Fix the handling of log_locations that aren't strings
+- Use RandomizedDelaySec as it is better suited in systemd
+- Fix failures on Windows with Chef 14
+
 ## 10.0.2 (2018-03-18)
 
 - Fix systemd ignoring ca_cert_path on rhel
