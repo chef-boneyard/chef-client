@@ -46,15 +46,11 @@ module Opscode
         d_owner = root_owner
         %w(run_path cache_path backup_path log_dir conf_dir).each do |dir|
           # Do not redefine the resource if it exist
-          begin
-            resources(directory: node['chef_client'][dir])
-          rescue Chef::Exceptions::ResourceNotFound
-            directory node['chef_client'][dir] do
-              recursive true
-              mode '0755' if dir == 'log_dir'
-              owner d_owner
-              group node['root_group']
-            end
+          find_resource(:directory, node['chef_client'][dir]) do
+            recursive true
+            mode '0755' if dir == 'log_dir'
+            owner d_owner
+            group node['root_group']
           end
         end
       end
