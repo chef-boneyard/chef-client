@@ -73,7 +73,7 @@ module Opscode
           Chef::Log.debug 'Using chef-client bin from node attributes'
           node['chef_client']['bin']
         # last ditch search for a bin in PATH
-        elsif (chef_in_path = shell_out("#{which} chef-client").stdout.chomp) && ::File.send(existence_check, chef_in_path)
+        elsif (chef_in_path = shell_out("#{which} chef-client").stdout.chomp.split(/\r\n/).first) && ::File.send(existence_check, chef_in_path)
           Chef::Log.debug 'Using chef-client bin from system path'
           chef_in_path
         else
