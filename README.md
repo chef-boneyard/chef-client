@@ -66,6 +66,7 @@ The following attributes affect the behavior of the chef-client program when run
 - `node['chef_client']['task']['start_date']` - The start date for the task in `m:d:Y` format (ex: 12/17/2017). nil by default and isn't necessary if you're running a regular interval.
 - `node['chef_client']['task']['user']` - The user the scheduled task will run as, defaults to `'SYSTEM'`.
 - `node['chef_client']['task']['password']` - The password for the user the scheduled task will run as, defaults to `nil` because the default user, `'SYSTEM'`, does not need a password.
+- `node['chef_client']['task']['name']` - The name of the scheduled task, defaults to `chef-client`.
 
 The following attributes are set on a per-platform basis, see the `attributes/default.rb` file for default values.
 
@@ -321,6 +322,7 @@ The chef_client_scheduled_task setups up chef-client to run as a scheduled task.
 - `log_directory` - The path to the Chef log directory. default: 'CONFIG_DIRECTORY/log'
 - `chef_binary_path` - The path to the chef-client binary. default: 'C:/opscode/chef/bin/chef-client'
 - `daemon_options` - An optional array of extra options to pass to the chef-client
+- `name` - The name of the scheduled task. This allows for multiple chef_client_scheduled_task resources when it is used directly like in a wrapper cookbook. default: 'chef-client'
 
 ## Maintainers
 
