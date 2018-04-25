@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 10.0.4 (2018-04-24)
+
+- [GH-558] Add chef_client_scheduled_task name property
+- Fix FC108: Resource should not define a property named 'name'
+
 ## 10.0.3 (2018-04-13)
 
 - Fix the handling of log_locations that aren't strings
