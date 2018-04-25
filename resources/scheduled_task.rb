@@ -30,7 +30,7 @@ property :config_directory, String, default: 'C:/chef'
 property :log_directory, String, default: lazy { |r| "#{r.config_directory}/log" }
 property :chef_binary_path, String, default: 'C:/opscode/chef/bin/chef-client'
 property :daemon_options, Array, default: []
-property :name, String, default: 'chef-client'
+property :task_name, String, default: 'chef-client'
 
 action :add do
   create_chef_directories
@@ -52,7 +52,7 @@ action :add do
                    "cmd /c \'#{client_cmd}\'"
                  end
 
-  windows_task new_resource.name do
+  windows_task new_resource.task_name do
     run_level :highest
     command full_command
     user               new_resource.user
@@ -65,7 +65,7 @@ action :add do
 end
 
 action :remove do
-  windows_task new_resource.name do
+  windows_task new_resource.task_name do
     action :delete
   end
 end
