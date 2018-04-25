@@ -46,4 +46,5 @@ chef_client_scheduled_task 'Chef Client' do
   log_directory node['chef_client']['log_dir']
   chef_binary_path node['chef_client']['bin']
   daemon_options node['chef_client']['daemon_options']
+  task_name node['chef_client']['task']['name']
 end
