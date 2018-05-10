@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 10.0.5 (2018-05-10)
+
+- fix issues with a new instance where `chef-client` service is not found on Upstart systems (Ubuntu 14.04)
+
 ## 10.0.4 (2018-04-24)
 
 - [GH-558] Add chef_client_scheduled_task name property
