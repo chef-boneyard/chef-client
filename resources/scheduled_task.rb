@@ -19,8 +19,8 @@
 
 resource_name :chef_client_scheduled_task
 
-property :user, String, default: 'System', sensitive: true
-property :password, String, sensitive: true
+property :user, String, default: 'System'
+property :password, String
 property :frequency, String, default: 'minute', equal_to: %w(minute hourly daily monthly once on_logon onstart on_idle)
 property :frequency_modifier, [Integer, String], default: 30
 property :start_date, String, regex: [%r{^[0-1][0-9]\/[0-3][0-9]\/\d{4}$}]
