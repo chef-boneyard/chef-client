@@ -69,3 +69,25 @@ rescue NameError => e
   Chef::Log.error e
 end
 <% end -%>
+
+<% if !@handlers.empty? -%>
+# Do not crash if a handler is missing / not installed yet
+begin
+    <% @handlers.each do |handler| -%>
+    <%# Create a new instance of each handler class %>
+    <%# And add that new instance to the chef config %>
+  <%= "#{handler["class"].downcase.gsub!(/[^0-9a-z ]/i, '_')}_instance" %> = <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
+    <% if handler["handlers"].include?('start_handler') -%>
+  start_handlers << <%= "#{handler["class"].downcase.gsub!(/[^0-9a-z ]/i, '_')}_instance" %>
+    <% end -%>
+    <% if handler["handlers"].include?('report_handler') -%>
+  report_handlers << <%= "#{handler["class"].downcase.gsub!(/[^0-9a-z ]/i, '_')}_instance" %>
+    <% end -%>
+    <% if handler["handlers"].include?('exception_handler') -%>
+  exception_handlers << <%= "#{handler["class"].downcase.gsub!(/[^0-9a-z ]/i, '_')}_instance" %>
+    <% end -%>
+    <% end -%>
+rescue NameError => e
+  Chef::Log.error e
+end
+<% end -%>

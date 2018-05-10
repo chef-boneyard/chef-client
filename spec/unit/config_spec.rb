@@ -49,6 +49,7 @@ describe 'chef-client::config' do
         node.normal['chef_client']['config']['exception_handlers'] = [{ class: 'SimpleReport::UpdatedResources', arguments: [] }]
         node.normal['chef_client']['config']['report_handlers'] = [{ class: 'SimpleReport::UpdatedResources', arguments: [] }]
         node.normal['chef_client']['config']['start_handlers'] = [{ class: 'SimpleReport::UpdatedResources', arguments: [] }]
+        node.normal['chef_client']['config']['handlers'] = [{ class: 'SimpleHandler::Journalist', arguments: [], handlers: ["start_handler", "exception_handler"] }]
         node.normal['chef_client']['config']['http_proxy'] = 'http://proxy.vmware.com:3128'
         node.normal['chef_client']['config']['https_proxy'] = 'http://proxy.vmware.com:3128'
         node.normal['chef_client']['config']['no_proxy'] = '*.vmware.com,10.*'
@@ -85,6 +86,18 @@ describe 'chef-client::config' do
     it 'enables exception_handlers' do
       expect(chef_run).to render_file('/etc/chef/client.rb') \
         .with_content(%(exception_handlers << SimpleReport::UpdatedResources.new))
+    end
+
+    it 'enables handlers' do
+      expect(chef_run).to render_file('/etc/chef/client.rb') \
+        .with_content(%(simplehandler__journalist_instance = SimpleHandler::Journalist.new()))
+      expect(chef_run).to render_file('/etc/chef/client.rb') \
+        .with_content(%(start_handlers << simplehandler__journalist_instance))
+      expect(chef_run).to render_file('/etc/chef/client.rb') \
+        .with_content(%(exception_handlers << simplehandler__journalist_instance))
+      # Negative test
+      expect(chef_run).to_not render_file('/etc/chef/client.rb') \
+        .with_content(%(report_handlers << simplehandler__journalist_instance))
     end
 
     it 'requires handler libraries' do

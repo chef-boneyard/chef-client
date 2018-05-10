@@ -80,6 +80,7 @@ default['chef_client']['load_gems'] = {}
 default['chef_client']['config']['start_handlers'] = []
 default['chef_client']['config']['report_handlers'] = []
 default['chef_client']['config']['exception_handlers'] = []
+default['chef_client']['config']['handlers'] = []
 
 # If set to false, changes in the `client.rb` template won't trigger a reload
 # of those configs in the current Chef run.
