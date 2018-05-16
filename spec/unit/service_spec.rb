@@ -51,7 +51,6 @@ describe 'chef-client::service' do
     end
   end
 
-
   context 'Fedora' do
     let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'fedora', version: '27').converge(described_recipe) }
     it 'should use the systemd service' do
