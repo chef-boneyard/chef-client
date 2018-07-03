@@ -75,7 +75,7 @@ describe 'chef-client::cron' do
 
     it 'creates a cron job with a non-prioritized chef-client with an out-of-bounds priority' do
       expect(invalid_priority_chef_run).to create_cron('chef-client') \
-        .with(command: /sleep .*; .*chef-client/)
+        .with(command: /sleep \d+; .*chef-client/)
     end
 
     it 'creates a cron job with a prioritized chef-client with an in-bounds priority (string)' do
@@ -85,12 +85,12 @@ describe 'chef-client::cron' do
 
     it 'creates a cron job with a non-prioritized chef-client with an out-of-bounds priority (string)' do
       expect(string_but_invalid_chef_run).to create_cron('chef-client') \
-        .with(command: /sleep .*; .*chef-client/)
+        .with(command: /sleep \d+; .*chef-client/)
     end
 
     it 'creates a cron job with a non-prioritized chef-client with a garbled string value' do
       expect(gobbledeegook_chef_run).to create_cron('chef-client') \
-        .with(command: /sleep .*; .*chef-client/)
+        .with(command: /sleep \d+; .*chef-client/)
     end
   end
 end
