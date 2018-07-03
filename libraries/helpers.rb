@@ -81,6 +81,17 @@ module Opscode
         end
       end
 
+      # Return true/false if node['chef_client']['cron']['environment_variables']
+      # is defined.
+      def env?
+        !!node['chef_client']['cron']['environment_variables']
+      end
+
+      # Return node['chef_client']['cron']['environment_variables']
+      def env
+        node['chef_client']['cron']['environment_variables']
+      end
+
       # Return true/false if node['chef_client']['cron']['priority'] is defined.
       def prioritized?
         !!node['chef_client']['cron']['priority']
@@ -118,3 +129,4 @@ module Opscode
 end
 
 Chef::DSL::Recipe.send(:include, Opscode::ChefClient::Helpers)
+Chef::Resource.send(:include, Opscode::ChefClient::Helpers)
