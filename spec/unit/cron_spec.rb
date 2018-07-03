@@ -52,19 +52,19 @@ describe 'chef-client::cron' do
 
     cached(:string_but_valid_chef_run) do
       ChefSpec::ServerRunner.new(platform: 'redhat', version: '7.3') do |node|
-        node.normal['chef_client']['cron']['priority'] = "-5"
+        node.normal['chef_client']['cron']['priority'] = '-5'
       end.converge(described_recipe)
     end
 
     cached(:string_but_invalid_chef_run) do
       ChefSpec::ServerRunner.new(platform: 'redhat', version: '7.3') do |node|
-        node.normal['chef_client']['cron']['priority'] = "123"
+        node.normal['chef_client']['cron']['priority'] = '123'
       end.converge(described_recipe)
     end
 
     cached(:gobbledeegook_chef_run) do
       ChefSpec::ServerRunner.new(platform: 'redhat', version: '7.3') do |node|
-        node.normal['chef_client']['cron']['priority'] = "hibbitydibbity-123"
+        node.normal['chef_client']['cron']['priority'] = 'hibbitydibbity-123'
       end.converge(described_recipe)
     end
 

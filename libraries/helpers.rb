@@ -111,7 +111,7 @@ module Opscode
         # Convert strings to integers. If we see anything that doesn't match an
         # integer, bail.
         if priority.is_a?(String)
-          unless /^-?\d+$/.match(priority)
+          unless /^-?\d+$/ =~ priority
             Chef::Log.warn "Process priority (#{priority}) is invalid. It must be an integer in the range -20 to 19, inclusize."
             return nil
           end
