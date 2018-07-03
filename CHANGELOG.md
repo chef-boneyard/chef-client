@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 10.1.0 (2018-07-03)
+
+- Adds support for prioritizing `chef-client` via `nice`.
+
 ## 10.0.5 (2018-05-10)
 
 - fix issues with a new instance where `chef-client` service is not found on Upstart systems (Ubuntu 14.04)
