@@ -25,7 +25,7 @@ This cookbook is used to configure a system as a Chef Client.
 
 - Chef 12.11+
 
-### Dependent Cookbooks
+### Cookbooks
 
 - cron 2.0+
 - logrotate 1.9.0+
