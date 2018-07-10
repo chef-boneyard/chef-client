@@ -80,8 +80,53 @@ module Opscode
           raise "Could not locate the chef-client bin in any known path. Please set the proper path by overriding the node['chef_client']['bin'] attribute."
         end
       end
+
+      # Return true/false if node['chef_client']['cron']['environment_variables']
+      # is defined.
+      def env?
+        !!node['chef_client']['cron']['environment_variables']
+      end
+
+      # Return node['chef_client']['cron']['environment_variables']
+      def env
+        node['chef_client']['cron']['environment_variables']
+      end
+
+      # Return true/false if node['chef_client']['cron']['priority'] is defined.
+      def prioritized?
+        !!node['chef_client']['cron']['priority']
+      end
+
+      # Determine the process priority for chef-client.
+      # Guard against unwanted values, returning nil.
+      # Returns the desired priority to use with /bin/nice.
+      def process_priority
+        return nil unless prioritized?
+        if node['platform'] == 'windows'
+          Chef::Log.warn 'Cannot prioritize the chef-client process on Windows hosts.'
+          return nil
+        end
+
+        priority = node['chef_client']['cron']['priority']
+        # Convert strings to integers. If we see anything that doesn't match an
+        # integer, bail.
+        if priority.is_a?(String)
+          unless /^-?\d+$/ =~ priority
+            Chef::Log.warn "Process priority (#{priority}) is invalid. It must be an integer in the range -20 to 19, inclusize."
+            return nil
+          end
+          priority = priority.to_i
+        end
+
+        if priority < -20 || priority > 19
+          Chef::Log.warn "Process priority (#{priority}) is invalid. It must be an integer in the range -20 to 19, inclusize."
+          return nil
+        end
+        priority
+      end
     end
   end
 end
 
 Chef::DSL::Recipe.send(:include, Opscode::ChefClient::Helpers)
+Chef::Resource.send(:include, Opscode::ChefClient::Helpers)

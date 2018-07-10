@@ -94,7 +94,6 @@ if node['chef_client']['splay'].to_i > 0
 else
   sleep_time = nil
 end
-env        = node['chef_client']['cron']['environment_variables']
 log_file   = node['chef_client']['cron']['log_file']
 append_log = node['chef_client']['cron']['append_log'] ? '>>' : '>'
 daemon_options = " #{node['chef_client']['daemon_options'].join(' ')} " if node['chef_client']['daemon_options'].any?
@@ -115,7 +114,9 @@ if node['chef_client']['cron']['use_cron_d']
     user    'root'
     cmd = ''
     cmd << "/bin/sleep #{sleep_time}; " if sleep_time
-    cmd << "#{env} #{client_bin} #{daemon_options}#{append_log} #{log_file} 2>&1"
+    cmd << "#{env} " if env?
+    cmd << "/bin/nice -n #{process_priority} " if process_priority
+    cmd << "#{client_bin} #{daemon_options}#{append_log} #{log_file} 2>&1"
     command cmd
   end
 else
@@ -132,7 +133,9 @@ else
     user    'root'
     cmd = ''
     cmd << "/bin/sleep #{sleep_time}; " if sleep_time
-    cmd << "#{env} #{client_bin} #{daemon_options}#{append_log} #{log_file} 2>&1"
+    cmd << "#{env} " if env?
+    cmd << "/bin/nice -n #{process_priority} " if process_priority
+    cmd << "#{client_bin} #{daemon_options}#{append_log} #{log_file} 2>&1"
     command cmd
   end
 end
