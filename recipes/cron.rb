@@ -114,7 +114,7 @@ if node['chef_client']['cron']['use_cron_d']
     user    'root'
     cmd = ''
     cmd << "/bin/sleep #{sleep_time}; " if sleep_time
-    cmd << "#{env} " if env?
+    cmd << "#{env_vars} " if env_vars?
     cmd << "/bin/nice -n #{process_priority} " if process_priority
     cmd << "#{client_bin} #{daemon_options}#{append_log} #{log_file} 2>&1"
     command cmd
@@ -133,7 +133,7 @@ else
     user    'root'
     cmd = ''
     cmd << "/bin/sleep #{sleep_time}; " if sleep_time
-    cmd << "#{env} " if env?
+    cmd << "#{env_vars} " if env_vars?
     cmd << "/bin/nice -n #{process_priority} " if process_priority
     cmd << "#{client_bin} #{daemon_options}#{append_log} #{log_file} 2>&1"
     command cmd
