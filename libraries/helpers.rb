@@ -83,12 +83,12 @@ module Opscode
 
       # Return true/false if node['chef_client']['cron']['environment_variables']
       # is defined.
-      def env?
+      def env_vars?
         !!node['chef_client']['cron']['environment_variables']
       end
 
       # Return node['chef_client']['cron']['environment_variables']
-      def env
+      def env_vars
         node['chef_client']['cron']['environment_variables']
       end
 

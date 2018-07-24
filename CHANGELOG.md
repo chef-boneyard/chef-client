@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 10.1.1 (2018-07-13)
+
+- Renames the `env` helper method to `env_vars` to address a Windows bug introduced
+  in `10.1.0`.
+- Addresses issue #579.
+
 ## 10.1.0 (2018-07-03)
 
 - Adds support for prioritizing `chef-client` via `nice`.
