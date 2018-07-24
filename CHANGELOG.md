@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 10.1.2 (2018-07-23)
+
+- scheduled task user and password should be marked as sensitive
+- Renames helper method.
+
 ## 10.1.1 (2018-07-13)
 
 - Renames the `env` helper method to `env_vars` to address a Windows bug introduced
