@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 11.0.0 (2018-07-24)
+
+- Remove windows cookbook dep and require Chef 13.0 instead for the windowsd_task resource.
+
 ## 10.1.2 (2018-07-23)
 
 - scheduled task user and password should be marked as sensitive
