@@ -23,13 +23,12 @@ This cookbook is used to configure a system as a Chef Client.
 
 ### Chef
 
-- Chef 12.11+
+- Chef 13.0+
 
 ### Cookbooks
 
 - cron 2.0+
 - logrotate 1.9.0+
-- windows 2.0+
 
 See [USAGE](#usage).
 
@@ -55,9 +54,7 @@ The following attributes affect the behavior of the chef-client program when run
 - `node['chef_client']['cron']['append_log']` - Whether to append to the log. Default: `false` chef-client output.
 - `node['chef_client']['cron']['use_cron_d']` - If true, use the [`cron_d` resource](https://github.com/chef-cookbooks/cron). If false (default), use the cron resource built-in to Chef.
 - `node['chef_client']['cron']['mailto']` - If set, `MAILTO` env variable is set for cron definition
-- `node['chef_client']['cron']['priority']` - If set, defines the scheduling
-   priority for the `chef-client` process. MUST be a value between -20 and 19.
-   ONLY applies to \*nix-style operating systems.
+- `node['chef_client']['cron']['priority']` - If set, defines the scheduling priority for the `chef-client` process. MUST be a value between -20 and 19\. ONLY applies to *nix-style operating systems.
 - `node['chef_client']['reload_config']` - If true, reload Chef config of current Chef run when `client.rb` template changes (defaults to true)
 - `node['chef_client']['daemon_options']` - An array of additional options to pass to the chef-client service, empty by default, and must be an array if specified.
 - `node['chef_client']['systemd']['timer']` - If true, uses systemd timer to run chef frequently instead of chef-client daemon mode (defaults to false). This only works on platforms where systemd is installed and used.
