@@ -4,7 +4,7 @@ This file is used to list changes made in each version of the chef-client cookbo
 
 ## 11.0.0 (2018-07-24)
 
-- Remove windows cookbook dep and require Chef 13.0 instead for the windowsd_task resource.
+- Remove windows cookbook dep and require Chef 13.0 instead for the windows_task resource.
 
 ## 10.1.2 (2018-07-23)
 
