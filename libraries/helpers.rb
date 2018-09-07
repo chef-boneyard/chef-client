@@ -41,16 +41,25 @@ module Opscode
         end
       end
 
+      def root_group
+        if ['windows'].include?(node['platform'])
+          wmi_property_from_query(:name, "select * from win32_group where sid like 'S-1-5-32-544' and LocalAccount=True")
+        else
+          node['root_group']
+        end
+      end
+
       def create_chef_directories
-        # root_owner is not in scope in the block below.
+        # root_owner and root_group are not in scope in the block below.
         d_owner = root_owner
+        d_group = root_group
         %w(run_path cache_path backup_path log_dir conf_dir).each do |dir|
           # Do not redefine the resource if it exist
           find_resource(:directory, node['chef_client'][dir]) do
             recursive true
             mode '0755' if dir == 'log_dir'
             owner d_owner
-            group node['root_group']
+            group d_group
           end
         end
       end
