@@ -31,18 +31,35 @@ platforms:
   - name: ubuntu-14.04
   - name: ubuntu-16.04
   - name: ubuntu-18.04
-  - name: windows-2012r2
-    driver:
-      box: chef/windows-server-2012r2-standard # private box
   - name: windows-2016
-    driver:
-      box: chef/windows-server-2016-standard # private box
-  - name: windows-2016-13.6
     provisioner:
       product_name: chef
-      product_version: 13.6
+    transport:
+      name: winrm
+      elevated: true
     driver:
-      box: chef/windows-server-2016-standard # private box
+      box: chef/windows-server-2016-standard # private box      
+    transport:
+      name: winrm
+      elevated: true
+  - name: windows-2012r2-13
+    provisioner:
+      product_name: chef
+      product_version: 13
+    driver:
+      box: chef/windows-server-2012r2-standard # private box
+    transport:
+      name: winrm
+      elevated: true
+  - name: windows-2012r2-14
+    provisioner:
+      product_name: chef
+      product_version: 14
+    driver:
+      box: chef/windows-server-2012r2-standard # private box
+    transport:
+      name: winrm
+      elevated: true
 
 suites:
 - name: service_bsd
@@ -73,7 +90,7 @@ suites:
 - name: cron
   run_list:
   - recipe[test::cron]
-  excludes: ["windows-2012r2", "windows-2016", "windows-2016-13.6"]
+  excludes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016"]
 
 - name: cron_daemon
   run_list:
@@ -81,7 +98,7 @@ suites:
   attributes:
     chef_client:
       daemon_options: ["--run-lock-timeout 0"]
-  excludes: ["windows-2012r2", "windows-2016", "windows-2016-13.6"]
+  excludes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016"]
 
 - name: timer_systemd
   run_list:
@@ -95,15 +112,15 @@ suites:
 - name: config
   run_list:
     - recipe[test::config]
-  excludes: ["windows-2012r2", "windows-2016", "windows-2016-13.6"]
+  excludes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016"]
 
 # Test that the we can use the cron_d directory
 - name: use_cron_d
   run_list:
     - recipe[test::cook-use_cron_d]
-  excludes: ["windows-2012r2", "windows-2016", "windows-2016-13.6"]
+  excludes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016"]
 
 - name: task
   run_list:
     - recipe[test::task]
-  includes: ["windows-2012r2", "windows-2016", "windows-2016-13.6"]
+  includes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016"]
