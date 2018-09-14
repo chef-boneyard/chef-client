@@ -44,9 +44,9 @@ action :add do
   # Add custom options
   client_cmd << " #{new_resource.daemon_options.join(' ')}" if new_resource.daemon_options.any?
 
-  # This block is here due to the changes in windows_task in 13.7
-  # This can be removed once we no longer support < 13.7
-  full_command = if Gem::Requirement.new('< 13.7.0').satisfied_by?(Gem::Version.new(Chef::VERSION))
+  # Between Chef Client 13.7 and 14.3 we required the command to be surrounded in single quotes
+  # due to parsing problems with windows_task. Since 14.4 resolved we require double quotes around the command.
+  full_command = if Gem::Requirement.new('< 13.7.0').satisfied_by?(Gem::Version.new(Chef::VERSION)) || Gem::Requirement.new('>= 14.4.0').satisfied_by?(Gem::Version.new(Chef::VERSION))
                    "cmd /c \"#{client_cmd}\""
                  else
                    "cmd /c \'#{client_cmd}\'"
