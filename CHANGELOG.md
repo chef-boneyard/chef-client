@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 11.0.1 (2018-09-14)
+
+- [cron] Be notified of chef-client failure if mailto is defined
+- Chef 14.4.0 requires double quotes around command for scheduled task
+
 ## 11.0.0 (2018-07-24)
 
 - Remove windows cookbook dep and require Chef 13.0 instead for the windows_task resource.
