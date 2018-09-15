@@ -49,8 +49,14 @@ end
 # libraries/helpers.rb method to DRY directory creation resources
 create_chef_directories
 
+# We need to set these local variables because the methods aren't
+# available in the Chef::Resource scope
+d_owner = root_owner
+
 if log_path != 'STDOUT'
   file log_path do
+    owner d_owner
+    group node['root_group']
     mode node['chef_client']['log_perm']
   end
 end
@@ -70,10 +76,6 @@ node['chef_client']['load_gems'].each do |gem_name, gem_info_hash|
   end
   chef_requires.push(gem_info_hash[:require_name] || gem_name)
 end
-
-# We need to set these local variables because the methods aren't
-# available in the Chef::Resource scope
-d_owner = root_owner
 
 template "#{node['chef_client']['conf_dir']}/client.rb" do
   source 'client.rb.erb'
