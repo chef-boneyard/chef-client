@@ -33,8 +33,6 @@ property :daemon_options, Array, default: []
 property :task_name, String, default: 'chef-client'
 
 action :add do
-  create_chef_directories
-
   # Build command line to pass to cmd.exe
   client_cmd = new_resource.chef_binary_path.dup
   client_cmd << " -L #{::File.join(new_resource.log_directory, node['chef_client']['log_file'])}" unless node['chef_client']['log_file'].nil?
