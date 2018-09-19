@@ -21,8 +21,9 @@ resource_name :chef_client_scheduled_task
 
 property :user, String, default: 'System', sensitive: true
 property :password, String, sensitive: true
-property :frequency, String, default: 'minute', equal_to: %w(minute hourly daily monthly once on_logon onstart on_idle)
+property :frequency, String, default: 'minute', equal_to: %w(minute hourly daily monthly once on_logon on_idle)
 property :frequency_modifier, [Integer, String], default: 30
+property :onstart, [true, false], default: false
 property :start_date, String, regex: [%r{^[0-1][0-9]\/[0-3][0-9]\/\d{4}$}]
 property :start_time, String, regex: [/^\d{2}:\d{2}$/]
 property :splay, [Integer, String], default: 300
@@ -60,9 +61,24 @@ action :add do
     start_time         start_time_value
     start_day          new_resource.start_date unless new_resource.start_date.nil?
   end
+
+  if new_resource.onstart
+    windows_task "#{new_resource.task_name}-onstart" do
+      run_level :highest
+      command   full_command
+      user      new_resource.user
+      password  new_resource.password
+      frequency :onstart
+    end
+  end
 end
 
 action :remove do
+  if new_resource.onstart
+    windows_task "#{new_resource.task_name}-onstart" do
+      action :delete
+    end
+  end
   windows_task new_resource.task_name do
     action :delete
   end
