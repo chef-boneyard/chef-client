@@ -16,6 +16,8 @@ end
   <% when 'log_location' -%>
   <%   if (@chef_config[option].instance_of? String) && @chef_config[option].match(/^(STDOUT|STDERR)$/) -%>
 <%= option %> <%= @chef_config[option] %>
+  <%   elsif (@chef_config[option].instance_of? String) && @chef_config[option].match(/^:?(syslog|win_evt)$/) -%>
+<%= option %> <%= @chef_config[option].to_s.gsub(/^:/, '').to_sym.inspect %>
   <%   else -%>
 <%= option %> <%= @chef_config[option].inspect %>
   <%   end -%>

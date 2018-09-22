@@ -54,7 +54,7 @@ The following attributes affect the behavior of the chef-client program when run
 - `node['chef_client']['cron']['append_log']` - Whether to append to the log. Default: `false` chef-client output.
 - `node['chef_client']['cron']['use_cron_d']` - If true, use the [`cron_d` resource](https://github.com/chef-cookbooks/cron). If false (default), use the cron resource built-in to Chef.
 - `node['chef_client']['cron']['mailto']` - If set, `MAILTO` env variable is set for cron definition
-- `node['chef_client']['cron']['priority']` - If set, defines the scheduling priority for the `chef-client` process. MUST be a value between -20 and 19\. ONLY applies to *nix-style operating systems.
+- `node['chef_client']['cron']['priority']` - If set, defines the scheduling priority for the `chef-client` process. MUST be a value between -20 and 19\. ONLY applies to \*nix-style operating systems.
 - `node['chef_client']['reload_config']` - If true, reload Chef config of current Chef run when `client.rb` template changes (defaults to true)
 - `node['chef_client']['daemon_options']` - An array of additional options to pass to the chef-client service, empty by default, and must be an array if specified.
 - `node['chef_client']['systemd']['timer']` - If true, uses systemd timer to run chef frequently instead of chef-client daemon mode (defaults to false). This only works on platforms where systemd is installed and used.
@@ -127,7 +127,7 @@ Use this recipe on systems that should have a `chef-client` daemon running, such
 
 ### default
 
-Includes the `chef-client::service` recipe by default on *nix platforms and the task recipe for Windows hosts.
+Includes the `chef-client::service` recipe by default on \*nix platforms and the task recipe for Windows hosts.
 
 ### delete_validation
 
@@ -187,6 +187,68 @@ default_attributes(
   }
 )
 ```
+
+### Special Behavior
+
+Because attributes are strings and the `/etc/chef/client.rb` can use settings that are not string, such as symbols, some configuration attributes have resulting lines with special behavior:
+
+* the `audit_mode`, `log_level`, and `ssl_verify_mode` attributes are converted to symbols. The attribute need not include an initial colon. For example:
+
+```ruby
+default_attributes(
+  "chef_client" => {
+    "config" => {
+      "ssl_verify_mode" => ":verify_peer",
+      "log_level" => "debug"
+    }
+  }
+)
+```
+
+will render the following configuration (`/etc/chef/client.rb`):
+
+```ruby
+ssl_verify_mode :verify_peer
+log_level :debug
+```
+
+* the `log_level` setting can be either a string representing a file path or one of the symbols `STDOUT`, `STDERR`, `:syslog`, and `:win_evt`. If the `log_level` attribute is a string suggestive of one of these symbols, the resulting configuration line will use the symbol. For example,
+
+```ruby
+default_attributes(
+  "chef_client" => {
+    "config" => {
+      "log_location" => "STDOUT"
+    }
+  }
+)
+```
+
+will render the following configuration (`/etc/chef/client.rb`):
+
+```ruby
+log_location STDOUT
+```
+
+and
+
+```ruby
+default_attributes(
+  "chef_client" => {
+    "config" => {
+      "log_location" => ":syslog"
+    }
+  }
+)
+```
+
+will render the following configuration (`/etc/chef/client.rb`):
+
+```ruby
+log_location :syslog
+```
+
+The strings "syslog" and "win_evt" will become the symbols `:syslog` and `:win_evt` regardless of whether they have an initial colon.
 
 ### Configuration Includes
 

@@ -138,4 +138,37 @@ describe 'chef-client::config' do
         .with_content(/^log_location :syslog$/)
     end
   end
+
+  context 'Stringy Symbol-ized Log Location' do
+    # use let instead of cached because we're going to change an attribute
+    let(:chef_run) do
+      ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04') do |node|
+        node.normal['chef_client']['config']['log_level'] = ':debug'
+        node.normal['chef_client']['config']['log_location'] = log_location
+        node.normal['chef_client']['config']['ssl_verify_mode'] = ':verify_none'
+      end.converge(described_recipe)
+    end
+
+    %w(:syslog syslog).each do |string|
+      context "with #{string}" do
+        let(:log_location) { string }
+
+        it 'renders log_location as a symbol' do
+          expect(chef_run).to render_file('/etc/chef/client.rb') \
+            .with_content(/^log_location :syslog$/)
+        end
+      end
+    end
+
+    %w(:win_evt win_evt).each do |string|
+      context "with #{string}" do
+        let(:log_location) { string }
+
+        it 'renders log_location as a symbol' do
+          expect(chef_run).to render_file('/etc/chef/client.rb') \
+            .with_content(/^log_location :win_evt$/)
+        end
+      end
+    end
+  end
 end
