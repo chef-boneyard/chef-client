@@ -123,9 +123,9 @@ if node['chef_client']['cron']['use_cron_d']
 else
   # AIX does not support cron.d so we won't try to remove a cron_d resource.
   unless node['platform_family'] == 'aix'
-  	cron_d 'chef-client' do
-  	  action :delete
-  	end
+    cron_d 'chef-client' do
+      action :delete
+    end
   end
 
   cron 'chef-client' do
