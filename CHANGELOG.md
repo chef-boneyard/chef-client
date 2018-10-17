@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 11.0.2 (2018-10-12)
+
+- Do not attempt to delete a cron_d resource on AIX hosts.
+
 ## 11.0.1 (2018-09-14)
 
 - [cron] Be notified of chef-client failure if mailto is defined
