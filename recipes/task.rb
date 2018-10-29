@@ -23,6 +23,13 @@ class ::Chef::Recipe
   include ::Opscode::ChefClient::Helpers
 end
 
+# create a directory in case the log director does not exist
+directory 'C:\chef\log' do
+  inherits true
+  recursive true
+  action :create
+end
+
 # libraries/helpers.rb method to DRY directory creation resources
 client_bin = find_chef_client
 Chef::Log.info("Using chef-client binary at #{client_bin}")
