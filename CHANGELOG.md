@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 11.0.3 (2018-10-29)
+
+- Fix duplicate daemon options
+- Create the Chef log directory if missing. Otherwise scheduled tasks fail.
+
 ## 11.0.2 (2018-10-12)
 
 - Do not attempt to delete a cron_d resource on AIX hosts.
