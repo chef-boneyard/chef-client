@@ -38,7 +38,7 @@ platforms:
       name: winrm
       elevated: true
     driver:
-      box: chef/windows-server-2016-standard # private box      
+      box: chef/windows-server-2016-standard # private box
     transport:
       name: winrm
       elevated: true
@@ -47,7 +47,7 @@ platforms:
       product_name: chef
       product_version: 13
     driver:
-      box: chef/windows-server-2012r2-standard # private box
+      box: tas50/windows_2012r2
     transport:
       name: winrm
       elevated: true
@@ -56,7 +56,7 @@ platforms:
       product_name: chef
       product_version: 14
     driver:
-      box: chef/windows-server-2012r2-standard # private box
+      box: tas50/windows_2012r2
     transport:
       name: winrm
       elevated: true
