@@ -23,9 +23,14 @@ template '/Library/LaunchDaemons/com.chef.chef-client.plist' do
     launchd_mode: node['chef_client']['launchd_mode'],
     client_bin: client_bin
   )
+  notifies :reload, 'service[com.chef.chef-client]'
 end
 
 service 'com.opscode.chef-client' do
+  action :nothing
+end
+
+service 'com.chef.chef-client' do
   action :nothing
 end
 
