@@ -42,12 +42,15 @@ action :add do
   # Add custom options
   client_cmd << " #{new_resource.daemon_options.join(' ')}" if new_resource.daemon_options.any?
 
+  # Fetch path of cmd.exe through environment variable comspec
+  cmd_path = ENV['COMSPEC']
+
   # Between Chef Client 13.7 and 14.3 we required the command to be surrounded in single quotes
   # due to parsing problems with windows_task. Since 14.4 resolved we require double quotes around the command.
   full_command = if Gem::Requirement.new('< 13.7.0').satisfied_by?(Gem::Version.new(Chef::VERSION)) || Gem::Requirement.new('>= 14.4.0').satisfied_by?(Gem::Version.new(Chef::VERSION))
-                   "cmd /c \"#{client_cmd}\""
+                   "#{cmd_path} /c \"#{client_cmd}\""
                  else
-                   "cmd /c \'#{client_cmd}\'"
+                   "#{cmd_path} /c \'#{client_cmd}\'"
                  end
 
   windows_task new_resource.task_name do
