@@ -62,7 +62,7 @@ action :add do
     frequency_modifier new_resource.frequency_modifier
     start_time         start_time_value
     start_day          new_resource.start_date unless new_resource.start_date.nil?
-    action             [ :create, :enable]
+    action             [ :create, :enable ]
   end
 end
 
