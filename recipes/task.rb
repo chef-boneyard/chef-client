@@ -24,7 +24,7 @@ class ::Chef::Recipe
 end
 
 # create a directory in case the log director does not exist
-directory 'C:\chef\log' do
+directory node['chef_client']['log_dir'] do
   inherits true
   recursive true
   action :create
