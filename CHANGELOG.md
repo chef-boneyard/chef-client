@@ -2,6 +2,13 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 11.0.4 (2019-01-11)
+
+- Prepend :: to File call - [@jasonwbarnett](https://github.com/jasonwbarnett)
+- Fix missing log_dir attribute in task recipe for windows - [@pschaumburg](https://github.com/pschaumburg)
+- Fix for specifying known path for cmd.exe on a windows system to avoid nefarious PATH settings
+- Fix idempotency in the task resource - [@pschaumburg](https://github.com/pschaumburg)
+
 ## 11.0.3 (2018-10-29)
 
 - Fix duplicate daemon options
