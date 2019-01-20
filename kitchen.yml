@@ -28,7 +28,6 @@ platforms:
   - name: solaris-11.3
     driver:
       box: chef/solaris-11.3 # private box
-  - name: ubuntu-14.04
   - name: ubuntu-16.04
   - name: ubuntu-18.04
   - name: windows-2016
@@ -76,11 +75,6 @@ suites:
   run_list:
     - recipe[test::service]
   includes: ["centos-7", "debian-8", "debian-9", "fedora-28", "ubuntu-16.04", "opensuse-leap-42"]
-
-- name: service_upstart
-  run_list:
-    - recipe[test::service]
-  includes: ["ubuntu-14.04"]
 
 - name: service_smf
   run_list:
