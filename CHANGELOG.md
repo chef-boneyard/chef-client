@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 11.0.5 (2019-01-25)
+
+- Changes systemd timer to trigger on OnActiveSec - [@ngharo](https://github.com/ngharo)
+
 ## 11.0.4 (2019-01-11)
 
 - Prepend :: to File call - [@jasonwbarnett](https://github.com/jasonwbarnett)
