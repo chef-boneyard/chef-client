@@ -1,18 +1,41 @@
-describe systemd_service('chef-client.timer') do
-  it { should be_enabled }
-  it { should be_running }
+control 'timer is active' do
+  describe systemd_service('chef-client.timer') do
+    it { should be_enabled }
+    it { should be_running }
+  end
 end
 
-describe command('systemctl show -p Triggers chef-client.timer') do
-  its('stdout') { should match 'Triggers=chef-client.service' }
+control 'has expected unit content' do
+  describe file('/etc/systemd/system/chef-client.timer') do
+    its('content') { should match 'OnBootSec = 1min' }
+    its('content') { should match 'OnUnitInactiveSec = 30sec' }
+    its('content') { should match 'RandomizedDelaySec = 5sec' }
+  end
 end
 
-describe command('systemctl show -p NextElapseUSecMonotonic chef-client.timer') do
-  its('stdout') { should_not match 'NextElapseUSecMonotonic=infinity' }
+control 'timer targets service unit' do
+  describe command('systemctl show -p Triggers chef-client.timer') do
+    its('stdout') { should match 'Triggers=chef-client.service' }
+  end
 end
 
-describe file('/etc/systemd/system/chef-client.timer') do
-  its('content') { should match 'OnBootSec = 1min' }
-  its('content') { should match 'OnUnitInactiveSec = 1800sec' }
-  its('content') { should match 'RandomizedDelaySec = 300sec' }
+control 'schedules trigger on-boot' do
+  describe command('systemctl show -p NextElapseUSecMonotonic chef-client.timer') do
+    before { sleep 5 }
+    its('stdout') { should_not match 'NextElapseUSecMonotonic=infinity' }
+  end
+end
+
+control 'schedules interval-based trigger after on-boot' do
+  describe command('systemctl show -p NextElapseUSecMonotonic chef-client.timer') do
+    before { sleep 75 }
+    its('stdout') { should_not match 'NextElapseUSecMonotonic=infinity' }
+  end
+end
+
+control 'schedules additional interval-based trigger' do
+  describe command('systemctl show -p NextElapseUSecMonotonic chef-client.timer') do
+    before { sleep 125 }
+    its('stdout') { should_not match 'NextElapseUSecMonotonic=infinity' }
+  end
 end
