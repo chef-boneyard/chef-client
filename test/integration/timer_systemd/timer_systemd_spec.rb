@@ -25,17 +25,3 @@ control 'schedules trigger on-boot' do
     its('stdout') { should_not match 'NextElapseUSecMonotonic=infinity' }
   end
 end
-
-control 'schedules interval-based trigger after on-boot' do
-  describe command('systemctl show -p NextElapseUSecMonotonic chef-client.timer') do
-    before { sleep 75 }
-    its('stdout') { should_not match 'NextElapseUSecMonotonic=infinity' }
-  end
-end
-
-control 'schedules additional interval-based trigger' do
-  describe command('systemctl show -p NextElapseUSecMonotonic chef-client.timer') do
-    before { sleep 125 }
-    its('stdout') { should_not match 'NextElapseUSecMonotonic=infinity' }
-  end
-end
