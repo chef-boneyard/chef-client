@@ -8,7 +8,7 @@ describe command('systemctl show -p Triggers chef-client.timer') do
 end
 
 describe command('systemctl show -p NextElapseUSecMonotonic chef-client.timer') do
-  its('stdout') { should_not match 'infinity' }
+  its('stdout') { should_not match 'NextElapseUSecMonotonic=infinity' }
 end
 
 describe file('/etc/systemd/system/chef-client.timer') do
