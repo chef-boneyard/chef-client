@@ -41,9 +41,6 @@ platforms:
       gui: false
       customize:
         memory: 2048
-    transport:
-      name: winrm
-      elevated: true
   - name: windows-2012r2-13
     provisioner:
       product_name: chef
