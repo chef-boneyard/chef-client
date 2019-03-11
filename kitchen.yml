@@ -37,18 +37,10 @@ platforms:
       name: winrm
       elevated: true
     driver:
-      box: chef/windows-server-2016-standard # private box
-    transport:
-      name: winrm
-      elevated: true
-  - name: windows-2016
-    provisioner:
-      product_name: chef
-    transport:
-      name: winrm
-      elevated: true
-    driver:
-      box: tas50/windows-server-2016-standard # private box
+      box: tas50/windows_2016
+      gui: false
+      customize:
+        memory: 2048
     transport:
       name: winrm
       elevated: true
