@@ -56,8 +56,8 @@ action :add do
   # According to https://docs.microsoft.com/en-us/windows/desktop/taskschd/schtasks,
   # the :once, :onstart, :onlogon, and :onidle schedules don't accept schedule modifiers
   windows_task new_resource.task_name do
-    run_level :highest
-    command   full_command
+    run_level          :highest
+    command            full_command
     user               new_resource.user
     password           new_resource.password
     frequency          new_resource.frequency.to_sym
