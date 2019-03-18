@@ -12,6 +12,10 @@ unless os.release.to_f == 6.1
   describe windows_task('chef-client') do
     it { should be_enabled }
     its('run_as_user') { should eq 'SYSTEM' }
-    its('task_to_run') { should match 'cmd /c C:/opscode/chef/bin/chef-client -L C:/chef/log/client.log -c C:/chef/client.rb -s 300' }
+    its('task_to_run') { should match 'cmd.exe /c C:/opscode/chef/bin/chef-client -L C:/chef/log/client.log -c C:/chef/client.rb -s 300' }
+  end
+
+  describe windows_task('chef-client-onstart') do
+    it { should be_enabled }
   end
 end

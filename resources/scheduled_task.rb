@@ -53,13 +53,15 @@ action :add do
                    "#{cmd_path} /c \'#{client_cmd}\'"
                  end
 
+  # According to https://docs.microsoft.com/en-us/windows/desktop/taskschd/schtasks,
+  # the :once, :onstart, :onlogon, and :onidle schedules don't accept schedule modifiers
   windows_task new_resource.task_name do
-    run_level :highest
-    command full_command
+    run_level          :highest
+    command            full_command
     user               new_resource.user
     password           new_resource.password
     frequency          new_resource.frequency.to_sym
-    frequency_modifier new_resource.frequency_modifier
+    frequency_modifier new_resource.frequency_modifier unless %w(once on_logon onstart on_idle).include?(new_resource.frequency)
     start_time         start_time_value
     start_day          new_resource.start_date unless new_resource.start_date.nil?
     action             [ :create, :enable ]
