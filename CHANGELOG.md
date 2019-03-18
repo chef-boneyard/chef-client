@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 11.1.0 (2019-03-18)
+
+- Add windows 2016 vagrant testing to the kitchen config - [@tas50](https://github.com/tas50)
+- Added `onstart` scheduled task to test recipe and updated `chef_client_scheduled_task` resource - [@gdavison](https://github.com/gdavison)
+- Update Kitchen testing to include our new amazonlinux-2 box - [@tas50](https://github.com/tas50)
+
 ## 11.0.5 (2019-01-25)
 
 - Changes systemd timer to trigger on OnActiveSec - [@ngharo](https://github.com/ngharo)
