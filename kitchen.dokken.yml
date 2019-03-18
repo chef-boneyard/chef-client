@@ -83,6 +83,17 @@ suites:
     - recipe[test::service]
   includes: ["centos-7", "debian-8", "debian-9", "opensuse-leap", "fedora-latest", "ubuntu-16.04", "amazonlinux-2"]
 
+- name: timer_systemd
+  run_list:
+  - recipe[chef-client::systemd_service]
+  attributes:
+    chef_client:
+      interval: 30
+      splay: 5
+      systemd:
+        timer: true
+  includes: ["centos-7", "debian-8", "debian-9", "opensuse-leap", "fedora-latest", "ubuntu-16.04", "amazonlinux-2"]
+
 - name: cron
   run_list:
     - recipe[test::cron]

@@ -79,7 +79,7 @@ systemd_unit 'chef-client.timer' do
     'Install' => { 'WantedBy' => 'timers.target' },
     'Timer' => {
       'OnBootSec' => '1min',
-      'OnActiveSec' => "#{node['chef_client']['interval']}sec",
+      'OnUnitInactiveSec' => "#{node['chef_client']['interval']}sec",
       'RandomizedDelaySec' => "#{node['chef_client']['splay']}sec",
     }
   )
