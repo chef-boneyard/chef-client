@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 11.1.1 (2019-03-18)
+
+- fix systemd timer activation - [@nathwill](https://github.com/nathwill)
+
 ## 11.1.0 (2019-03-18)
 
 - Add windows 2016 vagrant testing to the kitchen config - [@tas50](https://github.com/tas50)
