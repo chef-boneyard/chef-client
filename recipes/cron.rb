@@ -121,8 +121,9 @@ if node['chef_client']['cron']['use_cron_d']
     command cmd
   end
 else
-  # AIX does not support cron.d so we won't try to remove a cron_d resource.
-  unless node['platform_family'] == 'aix'
+  # Non-linux platforms don't support cron.d so we won't try to remove a cron_d resource.
+  # https://github.com/chef-cookbooks/cron/blob/master/resources/d.rb#L55
+  if node['os'] == 'linux'
     cron_d 'chef-client' do
       action :delete
     end
