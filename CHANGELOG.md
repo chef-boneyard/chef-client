@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 11.1.2 (2019-04-02)
+
+- Restart daemon on macOS if configuration is changed - [@pludi](https://github.com/pludi)
+- Skip managing cron.d on any non-Linux platform not just non-AIX platforms - [@jjustice6](https://github.com/jjustice6)
+
 ## 11.1.1 (2019-03-18)
 
 - fix systemd timer activation - [@nathwill](https://github.com/nathwill)
