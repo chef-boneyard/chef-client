@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 11.1.3 (2019-04-08)
+
+- Replace :reload with :restart - [@americanhanko](https://github.com/americanhanko)
+- Update the macos launchd plist to use instance vars - [@americanhanko](https://github.com/americanhanko)
+- Unit tests for launchd_service recipe - [@americanhanko](https://github.com/americanhanko)
+
 ## 11.1.2 (2019-04-02)
 
 - Restart daemon on macOS if configuration is changed - [@pludi](https://github.com/pludi)
