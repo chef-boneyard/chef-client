@@ -9,33 +9,39 @@ require 'chef/version_constraint'
 client_bin = find_chef_client
 Chef::Log.debug("Using chef-client binary at #{client_bin}")
 node.default['chef_client']['bin'] = client_bin
+
 create_chef_directories
 
 file '/Library/LaunchDaemons/com.opscode.chef-client.plist' do
   action :delete
-  notifies :stop, 'service[com.opscode.chef-client]'
+  notifies :stop, 'macosx_service[com.opscode.chef-client]'
 end
 
 template '/Library/LaunchDaemons/com.chef.chef-client.plist' do
   source 'com.chef.chef-client.plist.erb'
   mode '0644'
   variables(
+    client_bin: client_bin,
+    daemon_options: node['chef_client']['daemon_options'],
+    interval: node['chef_client']['interval'],
     launchd_mode: node['chef_client']['launchd_mode'],
-    client_bin: client_bin
+    log_dir: node['chef_client']['log_dir'],
+    log_file: node['chef_client']['log_file'],
+    splay: node['chef_client']['splay']
   )
-  notifies :reload, 'service[com.chef.chef-client]'
+  notifies :restart, 'macosx_service[com.chef.chef-client]'
 end
 
-service 'com.opscode.chef-client' do
+macosx_service 'com.opscode.chef-client' do
   action :nothing
 end
 
-service 'com.chef.chef-client' do
+macosx_service 'com.chef.chef-client' do
   action :nothing
 end
 
-service 'chef-client' do
+macosx_service 'chef-client' do
   service_name 'com.chef.chef-client'
-  provider Chef::Provider::Service::Macosx
+  plist '/Library/LaunchDaemons/com.chef.chef-client.plist'
   action :start
 end
