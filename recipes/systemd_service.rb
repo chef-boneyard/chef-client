@@ -84,5 +84,5 @@ systemd_unit 'chef-client.timer' do
     }
   )
   action(timer ? [:create, :enable, :start] : [:stop, :disable, :delete])
-  notifies :restart, to_s, :delayed
+  notifies :restart, to_s, :delayed unless timer
 end
