@@ -92,6 +92,7 @@ This cookbook makes use of attribute-driven configuration with this attribute. S
 
 [For the most current information about Chef Client configuration, read the documentation.](https://docs.chef.io/config_rb_client.html).
 
+- `node['chef_client']['license']` - Set to 'accept' or 'accept-no-persist' to accept the [license](https://docs.chef.io/chef_license.html) before upgrading to Chef 15.
 - `node['chef_client']['config']['chef_server_url']` - The URL for the Chef server.
 - `node['chef_client']['config']['validation_client_name']` - The name of the chef-validator key that is used by the chef-client to access the Chef server during the initial chef-client run.
 - `node['chef_client']['config']['verbose_logging']` - Set the log level. Options: true, nil, and false. When this is set to false, notifications about individual resources being processed are suppressed (and are output at the :info logging level). Setting this to false can be useful when a chef-client is run as a daemon. Default value: nil.
@@ -146,6 +147,8 @@ Use this recipe to run chef-client on Windows nodes as a scheduled task. Without
 Use the recipes as described above to configure your systems to run Chef as a service via cron / scheduled task or one of the service management systems supported by the recipes.
 
 The `chef-client::config` recipe is only _required_ with init style `init` (default setting for the attribute on debian/redhat family platforms, because the init script doesn't include the `pid_file` option which is set in the config.
+
+If you wish to accept the [Chef license](https://docs.chef.io/chef_license.html) before upgrading to Chef 15 you must use the `chef-client::config` recipe or set the `chef_license` value in your config manually. See [Accepting the Chef license](https://docs.chef.io/chef_license_accept.html) for more details or other ways to accept the license.
 
 The config recipe is used to dynamically generate the `/etc/chef/client.rb` config file. The template walks all attributes in `node['chef_client']['config']` and writes them out as key:value pairs. The key should be the configuration directive. For example, the following attributes (in a role):
 

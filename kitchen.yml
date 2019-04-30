@@ -109,6 +109,10 @@ suites:
     - recipe[test::config]
   excludes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016"]
 
+- name: license
+  run_list:
+    - recipe[test::license]
+
 # Test that the we can use the cron_d directory
 - name: use_cron_d
   run_list:

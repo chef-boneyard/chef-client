@@ -102,6 +102,10 @@ suites:
   run_list:
     - recipe[test::config]
 
+- name: license
+  run_list:
+    - recipe[test::license]
+
 - name: delete_validation
   run_list:
     - recipe[chef-client::delete_validation]

@@ -5,6 +5,11 @@ describe 'chef-client::config' do
     ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04').converge(described_recipe)
   end
 
+  it 'does not accept the chef license by default' do
+    expect(chef_run).to render_file('/etc/chef/client.rb') \
+      .with_content { |content| expect(content).to_not match(/chef_license/)}
+  end
+
   it 'contains the default chef_server_url setting' do
     expect(chef_run).to render_file('/etc/chef/client.rb') \
       .with_content(/chef_server_url/)
@@ -41,6 +46,7 @@ describe 'chef-client::config' do
   context 'Custom Attributes' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04') do |node|
+        node.normal['chef_client']['chef_license'] = "accept-no-persist"
         node.normal['ohai']['disabled_plugins'] = [:passwd, 'dmi']
         node.normal['ohai']['plugin_path'] = '/etc/chef/ohai_plugins'
         node.normal['chef_client']['config']['log_level'] = ':debug'
@@ -55,6 +61,11 @@ describe 'chef-client::config' do
         node.normal['chef_client']['load_gems']['chef-handler-updated-resources']['require_name'] = 'chef/handler/updated_resources'
         node.normal['chef_client']['reload_config'] = false
       end.converge(described_recipe)
+    end
+
+    it "accepts the chef license" do
+      expect(chef_run).to render_file('/etc/chef/client.rb') \
+        .with_content(/chef_license "accept-no-persist"/)
     end
 
     it 'disables ohai 6 & 7 plugins' do
