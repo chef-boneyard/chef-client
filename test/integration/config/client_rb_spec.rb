@@ -11,4 +11,5 @@ end
 describe file(config) do
   its('content') { should match(/ohai.disabled_plugins = \["Mdadm"\]/) }
   its('content') { should match(%r{ohai.plugin_path << "/tmp/kitchen/ohai/plugins"}) }
+  its('content') { should_not match(/chef_license/) }
 end

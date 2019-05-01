@@ -8,6 +8,10 @@
 end
 
 <% end -%>
+
+<% unless @chef_license.nil? -%>
+chef_license "<%= @chef_license %>"
+<% end -%>
 <% @chef_config.keys.sort.each do |option| -%>
   <% next if %w{ node_name exception_handlers report_handlers start_handlers http_proxy https_proxy no_proxy }.include?(option) -%>
   <% case option -%>

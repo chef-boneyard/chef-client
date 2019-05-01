@@ -30,6 +30,9 @@ default['chef_client']['config'] = {
   'verify_api_cert' => true,
 }
 
+# Accept the chef license when running the chef service
+default['chef_client']['chef_license'] = nil
+
 # should the client fork on runs
 default['chef_client']['config']['client_fork'] = true
 
