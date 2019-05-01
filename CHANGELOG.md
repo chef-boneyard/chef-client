@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 11.2.0 (2019-04-30)
+
+- Added the ability to accept upcoming Chef 15+ license via attribute - [@tyler-ball](https://github.com/tyler-ball)
+
 ## 11.1.3 (2019-04-08)
 
 - Replace :reload with :restart - [@americanhanko](https://github.com/americanhanko)
