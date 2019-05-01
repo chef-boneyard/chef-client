@@ -89,7 +89,7 @@ template "#{node['chef_client']['conf_dir']}/client.rb" do
     start_handlers: node['chef_client']['config']['start_handlers'],
     report_handlers: node['chef_client']['config']['report_handlers'],
     exception_handlers: node['chef_client']['config']['exception_handlers'],
-    chef_license: node['chef_client']['chef_license'],
+    chef_license: node['chef_client']['chef_license']
   )
 
   if node['chef_client']['reload_config']

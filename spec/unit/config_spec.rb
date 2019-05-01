@@ -7,7 +7,7 @@ describe 'chef-client::config' do
 
   it 'does not accept the chef license by default' do
     expect(chef_run).to render_file('/etc/chef/client.rb') \
-      .with_content { |content| expect(content).to_not match(/chef_license/)}
+      .with_content { |content| expect(content).to_not match(/chef_license/) }
   end
 
   it 'contains the default chef_server_url setting' do
@@ -46,7 +46,7 @@ describe 'chef-client::config' do
   context 'Custom Attributes' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04') do |node|
-        node.normal['chef_client']['chef_license'] = "accept-no-persist"
+        node.normal['chef_client']['chef_license'] = 'accept-no-persist'
         node.normal['ohai']['disabled_plugins'] = [:passwd, 'dmi']
         node.normal['ohai']['plugin_path'] = '/etc/chef/ohai_plugins'
         node.normal['chef_client']['config']['log_level'] = ':debug'
@@ -63,7 +63,7 @@ describe 'chef-client::config' do
       end.converge(described_recipe)
     end
 
-    it "accepts the chef license" do
+    it 'accepts the chef license' do
       expect(chef_run).to render_file('/etc/chef/client.rb') \
         .with_content(/chef_license "accept-no-persist"/)
     end
