@@ -62,6 +62,11 @@ if node['chef_client']['systemd']['timeout']
     node['chef_client']['systemd']['timeout']
 end
 
+if node['chef_client']['systemd']['killmode']
+  service_unit_content['KillMode'] =
+    node['chef_client']['systemd']['killmode']
+end
+
 systemd_unit 'chef-client.service' do
   content service_unit_content
   action :create
