@@ -92,7 +92,7 @@ This cookbook makes use of attribute-driven configuration with this attribute. S
 
 [For the most current information about Chef Client configuration, read the documentation.](https://docs.chef.io/config_rb_client.html).
 
-- `node['chef_client']['license']` - Set to 'accept' or 'accept-no-persist' to accept the [license](https://docs.chef.io/chef_license.html) before upgrading to Chef 15.
+- `node['chef_client']['chef_license']` - Set to 'accept' or 'accept-no-persist' to accept the [license](https://docs.chef.io/chef_license.html) before upgrading to Chef 15.
 - `node['chef_client']['config']['chef_server_url']` - The URL for the Chef server.
 - `node['chef_client']['config']['validation_client_name']` - The name of the chef-validator key that is used by the chef-client to access the Chef server during the initial chef-client run.
 - `node['chef_client']['config']['verbose_logging']` - Set the log level. Options: true, nil, and false. When this is set to false, notifications about individual resources being processed are suppressed (and are output at the :info logging level). Setting this to false can be useful when a chef-client is run as a daemon. Default value: nil.
