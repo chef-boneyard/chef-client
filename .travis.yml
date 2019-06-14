@@ -1,12 +1,14 @@
 addons:
   apt:
     sources:
-      - chef-current-trusty
+      - chef-current-xenial
     packages:
-      - chefdk
+      - chef-workstation
 
-# Don't `bundle install` which takes about 1.5 mins
 install: echo "skip bundle install"
+
+env:
+  - CHEF_LICENSE=accept
 
 branches:
   only:
@@ -27,14 +29,14 @@ env:
   - CHEF_VERSION=14 INSTANCE=service-systemd-debian-8
   - CHEF_VERSION=14 INSTANCE=service-systemd-debian-9
   - CHEF_VERSION=14 INSTANCE=service-systemd-fedora-latest
-  - CHEF_VERSION=14 INSTANCE=service-systemd-opensuse-leap
+  - CHEF_VERSION=14 INSTANCE=service-systemd-opensuse-leap-42
   - CHEF_VERSION=14 INSTANCE=service-systemd-ubuntu-1604
   - CHEF_VERSION=14 INSTANCE=timer-systemd-debian-8
   - CHEF_VERSION=14 INSTANCE=timer-systemd-debian-9
   - CHEF_VERSION=14 INSTANCE=timer-systemd-centos-7
   - CHEF_VERSION=14 INSTANCE=timer-systemd-fedora-latest
   - CHEF_VERSION=14 INSTANCE=timer-systemd-ubuntu-1604
-  - CHEF_VERSION=14 INSTANCE=timer-systemd-opensuse-leap
+  - CHEF_VERSION=14 INSTANCE=timer-systemd-opensuse-leap-42
   - CHEF_VERSION=14 INSTANCE=service-init-centos-6
   - CHEF_VERSION=14 INSTANCE=service-init-amazonlinux
   - CHEF_VERSION=13 INSTANCE=cron-ubuntu-1604
@@ -47,7 +49,7 @@ env:
   - CHEF_VERSION=13 INSTANCE=service-systemd-debian-8
   - CHEF_VERSION=13 INSTANCE=service-systemd-debian-9
   - CHEF_VERSION=13 INSTANCE=service-systemd-fedora-latest
-  - CHEF_VERSION=13 INSTANCE=service-systemd-opensuse-leap
+  - CHEF_VERSION=13 INSTANCE=service-systemd-opensuse-leap-42
   - CHEF_VERSION=13 INSTANCE=service-systemd-ubuntu-1604
   - CHEF_VERSION=13 INSTANCE=timer-systemd-debian-8
   - CHEF_VERSION=13 INSTANCE=timer-systemd-debian-9
@@ -71,4 +73,6 @@ matrix:
   include:
     - script:
       - chef exec delivery local all
-      env: UNIT_AND_LINT=1
+      env:
+        - UNIT_AND_LINT=1
+        - CHEF_LICENSE=accept
