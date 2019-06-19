@@ -22,9 +22,8 @@ recipe 'chef-client::upstart_service', 'Configures chef-client as a service unde
   supports os
 end
 
-depends 'cron', '>= 4.2.0'
 depends 'logrotate', '>= 1.9.0'
 
 source_url 'https://github.com/chef-cookbooks/chef-client'
 issues_url 'https://github.com/chef-cookbooks/chef-client/issues'
-chef_version '>= 13.0'
+chef_version '>= 14.0'
