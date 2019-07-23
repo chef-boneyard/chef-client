@@ -9,12 +9,12 @@ node.default['chef_client']['bin'] = client_bin
 create_chef_directories
 
 dist_dir, conf_dir, env_file = value_for_platform_family(
-  ['amazon'] => ['redhat', 'sysconfig', 'chef-client'],
-  ['fedora'] => ['fedora', 'sysconfig', 'chef-client'],
-  ['rhel'] => ['redhat', 'sysconfig', 'chef-client'],
-  ['suse'] => ['redhat', 'sysconfig', 'chef-client'],
-  ['debian'] => ['debian', 'default', 'chef-client'],
-  ['clearlinux'] => ['clearlinux', 'chef', 'chef-client']
+  ['amazon'] => %w(redhat sysconfig chef-client),
+  ['fedora'] => %w(fedora sysconfig chef-client),
+  ['rhel'] => %w(redhat sysconfig chef-client),
+  ['suse'] => %w(redhat sysconfig chef-client),
+  ['debian'] => %w(debian default chef-client),
+  ['clearlinux'] => %w(clearlinux chef chef-client)
 )
 
 timer = node['chef_client']['systemd']['timer']
