@@ -87,7 +87,7 @@ suites:
 - name: service_systemd
   run_list:
     - recipe[test::service]
-  includes: ["centos-7", "debian-8", "debian-9", "opensuse-leap", "fedora-latest", "ubuntu-16.04", "amazonlinux-2"]
+  includes: ["centos-7", "debian-9", "debian-10", "opensuse-leap-42", "opensuse-leap-15", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "amazonlinux-2"]
 
 - name: timer_systemd
   run_list:
@@ -98,7 +98,7 @@ suites:
       splay: 5
       systemd:
         timer: true
-  includes: ["centos-7", "debian-8", "debian-9", "opensuse-leap", "fedora-latest", "ubuntu-16.04", "amazonlinux-2"]
+  includes: ["centos-7", "debian-9", "debian-10", "opensuse-leap-42", "opensuse-leap-15", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "amazonlinux-2"]
 
 - name: cron
   run_list:
