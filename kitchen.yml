@@ -32,6 +32,19 @@ platforms:
       box: chef/solaris-11.3 # private box
   - name: ubuntu-16.04
   - name: ubuntu-18.04
+  - name: ubuntu-18.10
+  - name: ubuntu-19.04
+  - name: windows-2010
+    provisioner:
+      product_name: chef
+    transport:
+      name: winrm
+      elevated: true
+    driver:
+      box: tas50/windows_2019
+      gui: false
+      customize:
+        memory: 2048
   - name: windows-2016
     provisioner:
       product_name: chef
