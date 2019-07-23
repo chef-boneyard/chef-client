@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'chef-client::config' do
   cached(:chef_run) do
-    ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04').converge(described_recipe)
+    ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '18.04').converge(described_recipe)
   end
 
   it 'does not accept the chef license by default' do
@@ -45,7 +45,7 @@ describe 'chef-client::config' do
 
   context 'Custom Attributes' do
     cached(:chef_run) do
-      ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04') do |node|
+      ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '18.04') do |node|
         node.normal['chef_client']['chef_license'] = 'accept-no-persist'
         node.normal['ohai']['disabled_plugins'] = [:passwd, 'dmi']
         node.normal['ohai']['plugin_path'] = '/etc/chef/ohai_plugins'
@@ -122,7 +122,7 @@ describe 'chef-client::config' do
 
   context 'STDOUT Log Location' do
     cached(:chef_run) do
-      ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04') do |node|
+      ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '18.04') do |node|
         node.normal['chef_client']['config']['log_level'] = ':debug'
         node.normal['chef_client']['config']['log_location'] = 'STDOUT'
         node.normal['chef_client']['config']['ssl_verify_mode'] = ':verify_none'
@@ -137,7 +137,7 @@ describe 'chef-client::config' do
 
   context 'Symbol-ized Log Location' do
     cached(:chef_run) do
-      ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '16.04') do |node|
+      ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '18.04') do |node|
         node.normal['chef_client']['config']['log_level'] = ':debug'
         node.normal['chef_client']['config']['log_location'] = :syslog
         node.normal['chef_client']['config']['ssl_verify_mode'] = ':verify_none'

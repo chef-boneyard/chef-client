@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'chef-client::launchd_service' do
   let(:chef_run) do
-    ChefSpec::ServerRunner.new(platform: 'mac_os_x', version: '10.14') do |node|
+    ChefSpec::ServerRunner.new(platform: 'mac_os_x') do |node|
     end.converge(described_recipe)
   end
 
