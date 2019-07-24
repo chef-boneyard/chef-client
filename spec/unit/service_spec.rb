@@ -13,7 +13,7 @@ describe 'chef-client::service' do
   end
 
   context 'Amazon Linux 201X' do
-    let(:chef_run) {ChefSpec::SoloRunner.new(platform: 'amazon', version: '2018.03').converge(described_recipe)}
+    let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'amazon', version: '2018.03').converge(described_recipe) }
     it 'should use the init service' do
       expect(chef_run).to include_recipe('chef-client::init_service')
     end
