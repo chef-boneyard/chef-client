@@ -63,7 +63,7 @@ if node['chef_client']['systemd']['timeout']
 end
 
 if node['chef_client']['systemd']['killmode']
-  service_unit_content['KillMode'] =
+  service_unit_content['Service']['KillMode'] =
     node['chef_client']['systemd']['killmode']
 end
 
