@@ -64,7 +64,7 @@ default['chef_client']['cron'] = {
 
 # Configuration for chef-client::systemd_service recipe
 default['chef_client']['systemd']['timer'] = false
-# Systemd timeout. Might be usefull for timer setups to avoid stalled chef runs
+# Systemd timeout. Might be useful for timer setups to avoid stalled chef runs
 default['chef_client']['systemd']['timeout'] = false
 # Restart mode when not running as a timer
 default['chef_client']['systemd']['restart'] = 'always'
@@ -73,7 +73,7 @@ default['chef_client']['systemd']['restart'] = 'always'
 default['chef_client']['task']['frequency'] = 'minute'
 default['chef_client']['task']['frequency_modifier'] = node['chef_client']['interval'].to_i / 60
 default['chef_client']['task']['user'] = 'SYSTEM'
-default['chef_client']['task']['password'] = nil # Password is only required for none system users
+default['chef_client']['task']['password'] = nil # Password is only required for non-system users
 default['chef_client']['task']['start_time'] = nil
 default['chef_client']['task']['start_date'] = nil
 default['chef_client']['task']['name'] = 'chef-client'
@@ -86,7 +86,6 @@ default['chef_client']['config']['exception_handlers'] = []
 
 # If set to false, changes in the `client.rb` template won't trigger a reload
 # of those configs in the current Chef run.
-#
 default['chef_client']['reload_config'] = true
 
 # Any additional daemon options can be set as an array. This will be
