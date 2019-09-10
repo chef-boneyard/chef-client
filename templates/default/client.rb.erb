@@ -51,25 +51,26 @@ ohai.plugin_path << "<%= node["ohai"]["plugin_path"] %>"
 ohai.disabled_plugins = [<%= @ohai_disabled_plugins.map { |k| k.match(/:/) ? k.gsub(/^:/, '').to_sym.inspect : k.inspect }.join(",") %>]
 <% end -%>
 
-<% if !@start_handlers.empty? || !@report_handlers.empty? || !@exception_handlers.empty? -%>
 # Do not crash if a handler is missing / not installed yet
 begin
-<% unless @start_handlers.nil? -%>
-<% @start_handlers.each do |handler| -%>
-  start_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
+<% if @start_handlers.is_a?(Array) && !@start_handlers.empty? -%>
+  <% @start_handlers.each do |handler| -%>
+    start_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
+  <% end -%>
 <% end -%>
+
+<% if @report_handlers.is_a?(Array) && !@report_handlers.empty? -%>
+  <% @report_handlers.each do |handler| -%>
+    report_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
+  <% end -%>
 <% end -%>
-<% unless @report_handlers.nil? -%>
-<% @report_handlers.each do |handler| -%>
-  report_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
-<% end -%>
-<% end -%>
-<% unless @exception_handlers.nil? -%>
-<% @exception_handlers.each do |handler| -%>
-  exception_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
-<% end -%>
+
+<% if @exception_handlers.is_a?(Array) && !@exception_handlers.empty? -%>
+  <% @exception_handlers.each do |handler| -%>
+    exception_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
+  <% end -%>
 <% end -%>
 rescue NameError => e
   Chef::Log.error e
 end
-<% end -%>
+
