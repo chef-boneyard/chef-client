@@ -53,19 +53,19 @@ ohai.disabled_plugins = [<%= @ohai_disabled_plugins.map { |k| k.match(/:/) ? k.g
 
 # Do not crash if a handler is missing / not installed yet
 begin
-<% if @start_handlers.is_a?(Array) && !@start_handlers.empty? -%>
+<% if @start_handlers.is_a?(Array) -%>
   <% @start_handlers.each do |handler| -%>
     start_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
   <% end -%>
 <% end -%>
 
-<% if @report_handlers.is_a?(Array) && !@report_handlers.empty? -%>
+<% if @report_handlers.is_a?(Array) -%>
   <% @report_handlers.each do |handler| -%>
     report_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
   <% end -%>
 <% end -%>
 
-<% if @exception_handlers.is_a?(Array) && !@exception_handlers.empty? -%>
+<% if @exception_handlers.is_a?(Array) -%>
   <% @exception_handlers.each do |handler| -%>
     exception_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
   <% end -%>
