@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 11.3.1 (2019-09-17)
+
+- MSYS-1092 Fix for nil class error if chef client handlers are not defined. - [@Vasu1105](https://github.com/Vasu1105)
+- Removed unwanted condition - [@Vasu1105](https://github.com/Vasu1105)
+- Fix for nil class error if chef client handlers are not defined. (#635) - [@lamont-granquist](https://github.com/lamont-granquist)
+
 ## 11.3.0 (2019-08-19)
 - Added KillMode option for systemd - [@kimbernator](https://github.com/kimbernator)
 
