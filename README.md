@@ -42,7 +42,7 @@ The following attributes affect the behavior of the chef-client program when run
 - `node['chef_client']['log_dir']` - Sets directory used to store chef-client logs. Default "/var/log/chef".
 - `node['chef_client']['log_rotation']['options']` - Set options to logrotation of chef-client log file. Default `['compress']`.
 - `node['chef_client']['log_rotation']['prerotate']` - Set prerotate action for chef-client logrotation. Default to `nil`.
-- `node['chef_client']['log_rotation']['postrotate']` - Set postrotate action for chef-client logrotation. Default to chef-client service reload depending on init system.
+- `node['chef_client']['log_rotation']['postrotate']` - Set postrotate action for chef-client logrotation. Default to chef-client service reload depending on init system. It should be empty to skip reloading chef-client service in case if `node['chef_client']['systemd']['timer']` is true.
 - `node['chef_client']['conf_dir']` - Sets directory used via command-line option to a location where chef-client search for the client config file . Default "/etc/chef".
 - `node['chef_client']['bin']` - Sets the full path to the `chef-client` binary. Mainly used to set a specific path if multiple versions of chef-client exist on a system or the bin has been installed in a non-sane path. Default "/usr/bin/chef-client".
 - `node['chef_client']['ca_cert_path']` - Sets the full path to the PEM-encoded certificate trust store used by `chef-client` when daemonized. If not set, [default values](https://docs.chef.io/chef_client_security.html#ssl-cert-file) are used.

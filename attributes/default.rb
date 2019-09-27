@@ -175,10 +175,8 @@ end
 default['chef_client']['log_rotation']['options'] = ['compress']
 default['chef_client']['log_rotation']['prerotate'] = nil
 default['chef_client']['log_rotation']['postrotate'] =  case node['chef_client']['init_style']
-                                                        when 'systemd' && node['chef_client']['systemd']['timer']
-                                                          ''
                                                         when 'systemd'
-                                                          'systemctl reload chef-client.service >/dev/null || :'
+                                                          node['chef_client']['systemd']['timer'] ? '' : 'systemctl reload chef-client.service >/dev/null || :'
                                                         when 'upstart'
                                                           'initctl reload chef-client >/dev/null || :'
                                                         else
