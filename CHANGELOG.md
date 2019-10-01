@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 11.3.2 (2019-10-01)
+
+- Remove long_description and recipe metadata from metadata.rb - [@tas50](https://github.com/tas50)
+- Fix chef-client.service reload - [@dheerajd-msys](https://github.com/dheerajd-msys)
+
 ## 11.3.1 (2019-09-17)
 
 - MSYS-1092 Fix for nil class error if chef client handlers are not defined. - [@Vasu1105](https://github.com/Vasu1105)
