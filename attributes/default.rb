@@ -60,6 +60,7 @@ default['chef_client']['cron'] = {
   'append_log' => false,
   'use_cron_d' => false,
   'mailto' => nil,
+  'nice_path' => '/bin/nice',
 }
 
 # Configuration for chef-client::systemd_service recipe
