@@ -73,11 +73,6 @@ systemd_unit 'chef-client.service' do
   notifies(:restart, 'service[chef-client]', :delayed) unless timer
 end
 
-service 'chef-client' do
-  supports status: true, restart: true
-  action(timer ? [:disable, :stop] : [:enable, :start])
-end
-
 systemd_unit 'chef-client.timer' do
   content(
     'Unit' => { 'Description' => 'chef-client periodic run' },
@@ -89,5 +84,10 @@ systemd_unit 'chef-client.timer' do
     }
   )
   action(timer ? [:create, :enable, :start] : [:stop, :disable, :delete])
-  notifies :restart, to_s, :delayed
+  notifies :restart, to_s, :delayed unless timer
+end
+
+service 'chef-client' do
+  supports status: true, restart: true
+  action(timer ? [:disable, :stop] : [:enable, :start])
 end
