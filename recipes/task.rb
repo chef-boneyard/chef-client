@@ -53,5 +53,6 @@ end
 windows_service 'chef-client' do
   startup_type :disabled
   action [:configure_startup, :stop]
+  ignore_failure true
   only_if { ::Win32::Service.exists?('chef-client') }
 end
