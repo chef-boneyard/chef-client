@@ -2,6 +2,13 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 11.3.3 (2019-10-01)
+
+- Stop chef-client windows service after creating scheduled task - [@jasonwbarnett](https://github.com/jasonwbarnett)
+- Allow changing nice path - [@scalp42](https://github.com/scalp42)
+- Do not restart try to restart the timer when switching to service mode - [@Annih](https://github.com/Annih)
+- Restart chef-client service after only when timer is setup - [@Annih](https://github.com/Annih)
+
 ## 11.3.2 (2019-10-01)
 
 - Remove long_description and recipe metadata from metadata.rb - [@tas50](https://github.com/tas50)
