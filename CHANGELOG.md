@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 11.3.4 (2019-10-01)
+
+- Add ignore_failure to the windows_service stop - [@tas50](https://github.com/tas50)
+
 ## 11.3.3 (2019-10-01)
 
 - Stop chef-client windows service after creating scheduled task - [@jasonwbarnett](https://github.com/jasonwbarnett)
