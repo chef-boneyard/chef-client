@@ -25,6 +25,13 @@ platforms:
     image: dokken/amazonlinux-2
     pid_one_command: /usr/lib/systemd/systemd
 
+- name: debian-8
+  driver:
+    image: dokken/debian-8
+    pid_one_command: /bin/systemd
+    intermediate_instructions:
+      - RUN /usr/bin/apt-get update
+
 - name: debian-9
   driver:
     image: dokken/debian-9
@@ -49,6 +56,26 @@ platforms:
     image: dokken/centos-7
     pid_one_command: /usr/lib/systemd/systemd
 
+- name: centos-8
+  driver:
+    image: dokken/centos-8
+    pid_one_command: /usr/lib/systemd/systemd
+
+- name: oraclelinux-6
+  driver:
+    image: dokken/oraclelinux-6
+    pid_one_command: /sbin/init
+
+- name: oraclelinux-7
+  driver:
+    image: dokken/oraclelinux-7
+    pid_one_command: /usr/lib/systemd/systemd
+
+- name: oraclelinux-8
+  driver:
+    image: dokken/oraclelinux-8
+    pid_one_command: /usr/lib/systemd/systemd
+
 - name: fedora-latest
   driver:
     image: dokken/fedora-latest
@@ -68,11 +95,6 @@ platforms:
     intermediate_instructions:
       - RUN /usr/bin/apt-get update
 
-- name: opensuse-leap-42
-  driver:
-    image: dokken/opensuse-leap-42
-    pid_one_command: /bin/systemd
-
 - name: opensuse-leap-15
   driver:
     image: dokken/opensuse-leap-15
@@ -87,7 +109,7 @@ suites:
 - name: service_systemd
   run_list:
     - recipe[test::service]
-  includes: ["centos-7", "debian-9", "debian-10", "opensuse-leap-42", "opensuse-leap-15", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "amazonlinux-2"]
+  includes: ["centos-7", "debian-9", "debian-10", "opensuse-leap-15", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "amazonlinux-2"]
 
 - name: timer_systemd
   run_list:
@@ -98,7 +120,7 @@ suites:
       splay: 5
       systemd:
         timer: true
-  includes: ["centos-7", "debian-9", "debian-10", "opensuse-leap-42", "opensuse-leap-15", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "amazonlinux-2"]
+  includes: ["centos-7", "debian-9", "debian-10", "opensuse-leap-15", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "amazonlinux-2"]
 
 - name: cron
   run_list:
