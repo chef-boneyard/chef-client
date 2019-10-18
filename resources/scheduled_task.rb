@@ -2,7 +2,7 @@
 # Cookbook:: chef-client
 # resource:: chef_client_scheduled_task
 #
-# Copyright:: 2017, Chef Software, Inc.
+# Copyright:: 2017-2019, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
