@@ -2,6 +2,13 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 11.3.5 (2019-10-18)
+
+- convert symbol-like log_location to symbols - [@dwmarshall](https://github.com/dwmarshall)
+- make sure node[chef_client][cron][nice_path] is used everywhere - [@scalp42](https://github.com/scalp42)
+- Update the platforms we test on in Test Kitchen - [@tas50](https://github.com/tas50)
+- Remove the EOL platform opensuse from the metadata - [@tas50](https://github.com/tas50)
+
 ## 11.3.4 (2019-10-01)
 
 - Add ignore_failure to the windows_service stop - [@tas50](https://github.com/tas50)
