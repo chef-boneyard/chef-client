@@ -90,7 +90,7 @@ suites:
 - name: service_systemd
   run_list:
     - recipe[test::service]
-  includes: ["centos-7", "debian-9", "debian-10", "fedora-29", "ubuntu-16.04", "ubuntu-18.04", "opensuse-leap-42", "opensuse-leap-15"]
+  includes: ["centos-7", "debian-9", "debian-10", "fedora-29", "ubuntu-16.04", "ubuntu-18.04", "opensuse-leap-15"]
 
 - name: service_smf
   run_list:
@@ -117,7 +117,7 @@ suites:
     chef_client:
       systemd:
         timer: true
-  includes: ["centos-7", "debian-9", "debian-10", "fedora-29", "ubuntu-16.04", "ubuntu-18.04", "opensuse-leap-42", "opensuse-leap-15"]
+  includes: ["centos-7", "debian-9", "debian-10", "fedora-29", "ubuntu-16.04", "ubuntu-18.04", "opensuse-leap-15"]
 
 - name: config
   run_list:
