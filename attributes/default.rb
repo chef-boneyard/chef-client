@@ -4,7 +4,7 @@
 # Cookbook::  chef-client
 # Attributes:: default
 #
-# Copyright:: 2008-2019, Chef Software, Inc.
+# Copyright:: 2008-2019, Chef Software Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the 'License');
 # you may not use this file except in compliance with the License.
@@ -34,7 +34,9 @@ default['chef_client']['config'] = {
 default['chef_client']['chef_license'] = nil
 
 # should the client fork on runs
-default['chef_client']['config']['client_fork'] = true
+# NOTE: overriding this value to true or false is discouraged since it forces the
+# setting for both command line and daemon-running situations.
+default['chef_client']['config']['client_fork'] = nil
 
 default['chef_client']['log_file']    = 'client.log'
 default['chef_client']['interval']    = '1800'
