@@ -2,6 +2,14 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 11.3.6 (2019-10-24)
+
+This release removes `default['chef_client']['config']['client_fork'] = true` from the attributes file.
+
+Having this default value in place adds --fork to the chef-client run,  which forces --fork on cli use of chef-client as well. This causes additional issues for CLI use where the supervisor chef-client process is not necessary or required. The use of the --interval flag or --once or similar flags correctly gets the default setting of fork/no-fork right and that behavior inside the chef-client should be left alone.
+
+A concrete example of the kind of problems this causes is that running the chef_client_updater cookbook from the command line will send SIGKILL to the PPID if it is running with client_fork. that is the correct behavior, but for some reason that can SIGKILL the shell running chef-client as well, which is some kind of weird process-group leader issue -- one which i don't have the time to research so the best solution is that CLI invocation of the client should never fork (because the supervisor process on a CLI invocation is super duper 100.% useless) but with client_fork true that means everyone needs to know to use --no-fork on every command line invocation -- but forking works fine for 99% of the time until you hit the use cases where it doesn't.
+
 ## 11.3.5 (2019-10-18)
 
 - convert symbol-like log_location to symbols - [@dwmarshall](https://github.com/dwmarshall)

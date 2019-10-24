@@ -3,7 +3,7 @@ maintainer        'Chef Software, Inc.'
 maintainer_email  'cookbooks@chef.io'
 license           'Apache-2.0'
 description       'Manages client.rb configuration and chef-client service'
-version           '11.3.5'
+version           '11.3.6'
 
 %w( aix amazon centos fedora freebsd debian oracle mac_os_x redhat suse opensuseleap ubuntu windows zlinux ).each do |os|
   supports os
