@@ -19,12 +19,9 @@ platforms:
   - name: centos-8
   - name: debian-9
   - name: debian-10
-  - name: fedora-29
+  - name: fedora-latest
   - name: freebsd-12
   - name: opensuse-leap-15
-  - name: sles-11-sp2
-    driver:
-      box: chef/sles-11-sp2-x86_64 # private box
   - name: sles-12-sp1
     driver:
       box: chef/sles-12-sp1-x86_64 # private box
@@ -85,12 +82,12 @@ suites:
 - name: service_init
   run_list:
     - recipe[test::service]
-  includes: ["centos-6", "amazon-linux", "sles-11-sp2", "sles-12-sp1"]
+  includes: ["centos-6", "amazon-linux", "sles-12-sp1"]
 
 - name: service_systemd
   run_list:
     - recipe[test::service]
-  includes: ["centos-7", "debian-9", "debian-10", "fedora-29", "ubuntu-16.04", "ubuntu-18.04", "opensuse-leap-42", "opensuse-leap-15"]
+  includes: ["centos-7", "debian-9", "debian-10", "fedora-29", "ubuntu-16.04", "ubuntu-18.04", "opensuse-leap-15"]
 
 - name: service_smf
   run_list:
@@ -117,7 +114,7 @@ suites:
     chef_client:
       systemd:
         timer: true
-  includes: ["centos-7", "debian-9", "debian-10", "fedora-29", "ubuntu-16.04", "ubuntu-18.04", "opensuse-leap-42", "opensuse-leap-15"]
+  includes: ["centos-7", "debian-9", "debian-10", "fedora-29", "ubuntu-16.04", "ubuntu-18.04", "opensuse-leap-15"]
 
 - name: config
   run_list:
