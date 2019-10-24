@@ -33,11 +33,6 @@ default['chef_client']['config'] = {
 # Accept the chef license when running the chef service
 default['chef_client']['chef_license'] = nil
 
-# should the client fork on runs
-# NOTE: overriding this value to true or false is discouraged since it forces the
-# setting for both command line and daemon-running situations.
-default['chef_client']['config']['client_fork'] = nil
-
 default['chef_client']['log_file']    = 'client.log'
 default['chef_client']['interval']    = '1800'
 default['chef_client']['splay']       = '300'
