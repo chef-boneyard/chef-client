@@ -94,6 +94,10 @@ default['chef_client']['daemon_options'] = []
 # so they can be set as an array in this attribute.
 default['ohai']['disabled_plugins'] = []
 
+# Ohai plugins to be enabled are configured in /etc/chef/client.rb,
+# so they can be set as an array in this attribute.
+default['ohai']['optional_plugins'] = []
+
 # An additional path to load Ohai plugins from.
 default['ohai']['plugin_path'] = nil
 

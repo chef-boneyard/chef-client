@@ -48,6 +48,7 @@ describe 'chef-client::config' do
       ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '18.04') do |node|
         node.normal['chef_client']['chef_license'] = 'accept-no-persist'
         node.normal['ohai']['disabled_plugins'] = [:passwd, 'dmi']
+        node.normal['ohai']['optional_plugins'] = [:mdadm]
         node.normal['ohai']['plugin_path'] = '/etc/chef/ohai_plugins'
         node.normal['chef_client']['config']['log_level'] = ':debug'
         node.normal['chef_client']['config']['log_location'] = '/dev/null'
@@ -71,6 +72,11 @@ describe 'chef-client::config' do
     it 'disables ohai 6 & 7 plugins' do
       expect(chef_run).to render_file('/etc/chef/client.rb') \
         .with_content(/ohai.disabled_plugins =\s+\[:passwd,"dmi"\]/)
+    end
+
+    it 'enables ohai 6 & 7 plugins' do
+      expect(chef_run).to render_file('/etc/chef/client.rb') \
+        .with_content(/ohai.optional_plugins =\s+\[:mdadm\]/)
     end
 
     it 'specifies an ohai plugin path' do
