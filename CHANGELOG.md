@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 11.4.0 (2019-11-13)
+
+- Add support for ohai.optional_plugins with a new attribute - [@cnaude](https://github.com/cnaude)
+
 ## 11.3.6 (2019-10-24)
 
 This release removes `default['chef_client']['config']['client_fork'] = true` from the attributes file.
