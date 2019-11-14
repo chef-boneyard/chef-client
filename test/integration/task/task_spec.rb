@@ -4,6 +4,7 @@ end
 
 describe file('C:/chef/client.rb') do
   its('content') { should match(/ohai.disabled_plugins = \["Mdadm"\]/) }
+  its('content') { should match(/ohai.optional_plugins = \["Passwd"\]/) }
   its('content') { should match(%r{ohai.plugin_path << "/tmp/kitchen/ohai/plugins"}) }
 end
 

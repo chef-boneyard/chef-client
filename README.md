@@ -87,6 +87,7 @@ This cookbook makes use of attribute-driven configuration with this attribute. S
 - `node['chef_client']['config']` - A hash of Chef::Config keys and their values, rendered dynamically in `/etc/chef/client.rb`.
 - `node['chef_client']['load_gems']` - Hash of gems to load into chef via the client.rb file
 - `node['ohai']['disabled_plugins']` - An array of ohai plugins to disable, empty by default, and must be an array if specified. Ohai 6 plugins should be specified as a string (ie. "dmi"). Ohai 7+ plugins should be specified as a symbol within quotation marks (ie. ":Passwd").
+- `node['ohai']['optional_plugins']` - An array of optional ohai plugins to enable, empty by default, and must be an array if specified. Ohai 6 plugins should be specified as a string (ie. "dmi"). Ohai 7+ plugins should be specified as a symbol within quotation marks (ie. ":Passwd").
 - `node['ohai']['plugin_path']` - An additional path to load Ohai plugins from. Necessary if you use the ohai_plugin resource in the Ohai cookbook to install your own ohai plugins.
 
 ### Chef Client Config
