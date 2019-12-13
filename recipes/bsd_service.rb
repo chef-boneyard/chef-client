@@ -12,9 +12,7 @@ Chef::Log.debug("Using chef-client binary at #{client_bin}")
 node.default['chef_client']['bin'] = client_bin
 create_chef_directories
 
-case node['platform_family']
-when 'freebsd'
-
+if platform_family?('freebsd')
   directory '/etc/rc.conf.d' do
     owner 'root'
     group 'wheel'
