@@ -73,7 +73,6 @@ env:
   - CHEF_VERSION=13 INSTANCE=service-systemd-debian-9
   - CHEF_VERSION=13 INSTANCE=service-systemd-debian-10
   - CHEF_VERSION=13 INSTANCE=service-systemd-fedora-latest
-  - CHEF_VERSION=13 INSTANCE=service-systemd-opensuse-leap-15
   - CHEF_VERSION=13 INSTANCE=service-systemd-ubuntu-1604
   - CHEF_VERSION=13 INSTANCE=service-systemd-ubuntu-1804
   - CHEF_VERSION=13 INSTANCE=timer-systemd-amazonlinux-2
@@ -94,7 +93,7 @@ script: KITCHEN_LOCAL_YAML=kitchen.dokken.yml CHEF_VERSION=${CHEF_VERSION} kitch
 matrix:
   include:
     - script:
-      - chef exec delivery local all
+      - delivery local all
       env:
         - UNIT_AND_LINT=1
         - CHEF_LICENSE=accept
