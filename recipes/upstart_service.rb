@@ -21,7 +21,7 @@ template '/etc/init/chef-client.conf' do
   variables(
     client_bin: client_bin
   )
-  notifies :run, 'execute[initctl-reload-configuration]', :immediate
+  notifies :run, 'execute[initctl-reload-configuration]', :immediately
   notifies :restart, 'service[chef-client]', :delayed
 end
 
