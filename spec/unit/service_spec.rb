@@ -40,6 +40,13 @@ describe 'chef-client::service' do
     end
   end
 
+  context 'CentOS 8' do
+    let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '8').converge(described_recipe) }
+    it 'should use the systemd service' do
+      expect(chef_run).to include_recipe('chef-client::systemd_service')
+    end
+  end
+
   context 'Debian 8' do
     let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'debian', version: '8').converge(described_recipe) }
     it 'should use the systemd service' do
@@ -82,22 +89,15 @@ describe 'chef-client::service' do
     end
   end
 
-  context 'SLES 11' do
-    let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'suse', version: '11').converge(described_recipe) }
-    it 'should use the systemd service' do
-      expect(chef_run).to include_recipe('chef-client::init_service')
-    end
-  end
-
-  context 'SLES 12' do
-    let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'suse', version: '12').converge(described_recipe) }
+  context 'SLES' do
+    let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'suse').converge(described_recipe) }
     it 'should use the systemd service' do
       expect(chef_run).to include_recipe('chef-client::systemd_service')
     end
   end
 
   context 'openSUSE Leap' do
-    let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'opensuse', version: '42').converge(described_recipe) }
+    let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'opensuse').converge(described_recipe) }
     it 'should use the systemd service' do
       expect(chef_run).to include_recipe('chef-client::systemd_service')
     end
