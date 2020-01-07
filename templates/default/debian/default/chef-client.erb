@@ -1,3 +1,4 @@
 CONFIG=<%= node["chef_client"]["conf_dir"] %>/client.rb
 INTERVAL=<%= node["chef_client"]["interval"] %>
 SPLAY=<%= node["chef_client"]["splay"] %>
+OPTIONS="<%= node["chef_client"]["daemon_options"].join(' ') %>"
