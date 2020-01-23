@@ -2,6 +2,14 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 11.5.0 (2020-01-22)
+
+- Simplify platform checks by using platform? helper - [@tas50](https://github.com/tas50)
+- Notify :immediately not :immediate - [@tas50](https://github.com/tas50)
+- Update the chefignore to include more files - [@tas50](https://github.com/tas50)
+- Remove SLES 11 specs since it's EOL - [@tas50](https://github.com/tas50)
+- Specify OPTIONS in /etc/defaults for Debian systemd platforms - [@e1ven](https://github.com/e1ven)
+
 ## 11.4.0 (2019-11-13)
 
 - Add support for ohai.optional_plugins with a new attribute - [@cnaude](https://github.com/cnaude)
