@@ -37,7 +37,7 @@ See [USAGE](#usage).
 The following attributes affect the behavior of the chef-client program when running as a service through one of the service recipes, or in cron with the cron recipe, or are used in the recipes for various settings that require flexibility.
 
 - `node['chef_client']['interval']` - Sets `Chef::Config[:interval]` via command-line option for number of seconds between chef-client daemon runs. Default 1800.
-- `node['chef_client']['splay']` - Sets `Chef::Config[:splay]` via command-line option for a random amount of seconds to add to interval. Default 300.
+- `node['chef_client']['splay']` - Sets `Chef::Config[:splay]` via command-line option for a random amount of seconds to add to interval. On windows, this value is used for the scheduled task's random delay. Default 300.
 - `node['chef_client']['log_file']` - Sets the file name used to store chef-client logs. Default "client.log".
 - `node['chef_client']['log_dir']` - Sets directory used to store chef-client logs. Default "/var/log/chef".
 - `node['chef_client']['log_rotation']['options']` - Set options to logrotation of chef-client log file. Default `['compress']`.
