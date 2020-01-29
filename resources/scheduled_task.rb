@@ -37,7 +37,6 @@ action :add do
   client_cmd = new_resource.chef_binary_path.dup
   client_cmd << " -L #{::File.join(new_resource.log_directory, node['chef_client']['log_file'])}" unless node['chef_client']['log_file'].nil?
   client_cmd << " -c #{::File.join(new_resource.config_directory, 'client.rb')}"
-  client_cmd << " -s #{new_resource.splay}"
 
   # Add custom options
   client_cmd << " #{new_resource.daemon_options.join(' ')}" if new_resource.daemon_options.any?
@@ -64,6 +63,7 @@ action :add do
     frequency_modifier new_resource.frequency_modifier unless %w(once on_logon onstart on_idle).include?(new_resource.frequency)
     start_time         start_time_value
     start_day          new_resource.start_date unless new_resource.start_date.nil?
+    random_delay       new_resource.splay
     action             [ :create, :enable ]
   end
 end
