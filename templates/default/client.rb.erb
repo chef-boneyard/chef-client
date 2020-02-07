@@ -56,8 +56,6 @@ ohai.disabled_plugins = [<%= @ohai_disabled_plugins.map { |k| k.match(/:/) ? k.g
 ohai.optional_plugins = [<%= @ohai_optional_plugins.map { |k| k.match(/:/) ? k.gsub(/^:/, '').to_sym.inspect : k.inspect }.join(",") %>]
 <% end -%>
 
-# Do not crash if a handler is missing / not installed yet
-begin
 <% if @start_handlers.is_a?(Array) -%>
   <% @start_handlers.each do |handler| -%>
     start_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
@@ -75,7 +73,9 @@ begin
     exception_handlers << <%= handler["class"] %>.new(<%= handler["arguments"].join(',') %>)
   <% end -%>
 <% end -%>
-rescue NameError => e
-  Chef::Log.error e
-end
-
+<% unless node['chef_client']['file_cache_path'].nil? -%>
+file_cache_path "<%= node['chef_client']['file_cache_path'] %>"
+<% end -%>
+<% unless node['chef_client']['file_backup_path'].nil? -%>
+file_backup_path "<%= node['chef_client']['file_backup_path'] %>"
+<% end -%>
