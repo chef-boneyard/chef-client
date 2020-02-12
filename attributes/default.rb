@@ -112,29 +112,29 @@ when 'aix'
   default['chef_client']['init_style']  = 'src'
   default['chef_client']['svc_name']    = 'chef'
   default['chef_client']['run_path']    = '/var/run/chef'
-  default['chef_client']['cache_path']  = '/var/spool/chef'
-  default['chef_client']['backup_path'] = '/var/lib/chef'
+  default['chef_client']['file_cache_path'] = '/var/spool/chef'
+  default['chef_client']['file_backup_path'] = '/var/lib/chef'
   default['chef_client']['log_dir']     = '/var/adm/chef'
 when 'amazon', 'rhel', 'fedora', 'debian', 'suse', 'clearlinux'
   default['chef_client']['init_style']  = node['init_package']
   default['chef_client']['run_path']    = '/var/run/chef'
-  default['chef_client']['cache_path']  = '/var/cache/chef'
-  default['chef_client']['backup_path'] = '/var/lib/chef'
+  default['chef_client']['file_cache_path'] = '/var/cache/chef'
+  default['chef_client']['file_backup_path'] = '/var/lib/chef'
   default['chef_client']['chkconfig']['start_order'] = 98
   default['chef_client']['chkconfig']['stop_order']  = 02
 when 'freebsd'
   default['chef_client']['init_style']  = 'bsd'
   default['chef_client']['run_path']    = '/var/run'
-  default['chef_client']['cache_path']  = '/var/chef/cache'
-  default['chef_client']['backup_path'] = '/var/chef/backup'
+  default['chef_client']['file_cache_path'] = '/var/chef/cache'
+  default['chef_client']['file_backup_path'] = '/var/chef/backup'
 # don't use bsd paths per COOK-1379
 when 'mac_os_x'
   default['chef_client']['init_style']  = 'launchd'
   default['chef_client']['log_dir']     = '/Library/Logs/Chef'
   # Launchd doesn't use pid files
   default['chef_client']['run_path']    = '/var/run/chef'
-  default['chef_client']['cache_path']  = '/Library/Caches/Chef'
-  default['chef_client']['backup_path'] = '/Library/Caches/Chef/Backup'
+  default['chef_client']['file_cache_path'] = '/Library/Caches/Chef'
+  default['chef_client']['file_backup_path'] = '/Library/Caches/Chef/Backup'
   # Set to 'daemon' if you want chef-client to run
   # continuously with the -d and -s options, or leave
   # as 'interval' if you want chef-client to be run
@@ -143,8 +143,8 @@ when 'mac_os_x'
 when 'openindiana', 'opensolaris', 'nexentacore', 'solaris2', 'omnios'
   default['chef_client']['init_style']  = 'smf'
   default['chef_client']['run_path']    = '/var/run/chef'
-  default['chef_client']['cache_path']  = '/var/chef/cache'
-  default['chef_client']['backup_path'] = '/var/chef/backup'
+  default['chef_client']['file_cache_path'] = '/var/chef/cache'
+  default['chef_client']['file_backup_path'] = '/var/chef/backup'
   default['chef_client']['method_dir'] = '/lib/svc/method'
   default['chef_client']['bin_dir'] = '/usr/bin'
   default['chef_client']['locale'] = 'en_US.UTF-8'
@@ -152,8 +152,8 @@ when 'openindiana', 'opensolaris', 'nexentacore', 'solaris2', 'omnios'
 when 'smartos'
   default['chef_client']['init_style']  = 'smf'
   default['chef_client']['run_path']    = '/var/run/chef'
-  default['chef_client']['cache_path']  = '/var/chef/cache'
-  default['chef_client']['backup_path'] = '/var/chef/backup'
+  default['chef_client']['file_cache_path'] = '/var/chef/cache'
+  default['chef_client']['file_backup_path'] = '/var/chef/backup'
   default['chef_client']['method_dir'] = '/opt/local/lib/svc/method'
   default['chef_client']['bin_dir'] = '/opt/local/bin'
   default['chef_client']['locale'] = 'en_US.UTF-8'
@@ -162,15 +162,15 @@ when 'windows'
   default['chef_client']['init_style']  = 'windows'
   default['chef_client']['conf_dir']    = 'C:/chef'
   default['chef_client']['run_path']    = "#{node['chef_client']['conf_dir']}/run"
-  default['chef_client']['cache_path']  = "#{node['chef_client']['conf_dir']}/cache"
-  default['chef_client']['backup_path'] = "#{node['chef_client']['conf_dir']}/backup"
+  default['chef_client']['file_cache_path'] = "#{node['chef_client']['conf_dir']}/cache"
+  default['chef_client']['file_backup_path'] = "#{node['chef_client']['conf_dir']}/backup"
   default['chef_client']['log_dir']     = "#{node['chef_client']['conf_dir']}/log"
   default['chef_client']['bin']         = 'C:/opscode/chef/bin/chef-client'
 else
   default['chef_client']['init_style']  = 'none'
   default['chef_client']['run_path']    = '/var/run'
-  default['chef_client']['cache_path']  = '/var/chef/cache'
-  default['chef_client']['backup_path'] = '/var/chef/backup'
+  default['chef_client']['file_cache_path'] = '/var/chef/cache'
+  default['chef_client']['file_backup_path'] = '/var/chef/backup'
 end
 
 # Must appear after init_style to take effect correctly
