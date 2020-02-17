@@ -79,3 +79,9 @@ file_cache_path "<%= node['chef_client']['file_cache_path'] %>"
 <% unless node['chef_client']['file_backup_path'].nil? -%>
 file_backup_path "<%= node['chef_client']['file_backup_path'] %>"
 <% end -%>
+<% unless node['chef_client']['run_path'].nil? -%>
+run_path "<%= node['chef_client']['run_path'] %>"
+<% end -%>
+<% unless node['chef_client']['run_path'].nil? -%>
+lockfile "<%= node['chef_client']['run_path'] %>/client.pid"
+<% end -%>
