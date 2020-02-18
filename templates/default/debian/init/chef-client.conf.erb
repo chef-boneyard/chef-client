@@ -25,5 +25,5 @@ script
     export SSL_CERT_FILE
 
     <% end %>
-    exec <%= @client_bin %> -i <%= node["chef_client"]["interval"] %> -s <%= node["chef_client"]["splay"] %> <%= node["chef_client"]["daemon_options"].join(' ') %>
+    exec <%= @client_bin %> -i <%= node["chef_client"]["interval"] %> -s <%= node["chef_client"]["splay"] %> -P "<%= node['chef_client']['run_path'] %>/client.pid" <%= node["chef_client"]["daemon_options"].join(' ') %>
 end script
