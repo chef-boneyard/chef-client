@@ -116,8 +116,8 @@ if node['chef_client']['cron']['use_cron_d']
     cmd << "/bin/sleep #{sleep_time}; " if sleep_time
     cmd << "#{env_vars} " if env_vars?
     cmd << "#{node['chef_client']['cron']['nice_path']} -n #{process_priority} " if process_priority
-    cmd << "#{client_bin} #{daemon_options}#{append_log} #{log_file} 2>&1 "
-    cmd << '|| echo "Chef client execution failed"' if node['chef_client']['cron']['mailto']
+    cmd << "#{client_bin} #{daemon_options}#{append_log} #{log_file} 2>&1"
+    cmd << ' || echo "Chef client execution failed"' if node['chef_client']['cron']['mailto']
     command cmd
   end
 else
@@ -140,8 +140,8 @@ else
     cmd << "/bin/sleep #{sleep_time}; " if sleep_time
     cmd << "#{env_vars} " if env_vars?
     cmd << "#{node['chef_client']['cron']['nice_path']} -n #{process_priority} " if process_priority
-    cmd << "#{client_bin} #{daemon_options}#{append_log} #{log_file} 2>&1 "
-    cmd << '|| echo "Chef client execution failed"' if node['chef_client']['cron']['mailto']
+    cmd << "#{client_bin} #{daemon_options}#{append_log} #{log_file} 2>&1"
+    cmd << ' || echo "Chef client execution failed"' if node['chef_client']['cron']['mailto']
     command cmd
   end
 end
