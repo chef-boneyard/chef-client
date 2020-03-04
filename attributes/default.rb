@@ -173,6 +173,9 @@ else
   default['chef_client']['file_backup_path'] = '/var/chef/backup'
 end
 
+# Need to set this Option in client.rb
+default['chef_client']['file_staging_uses_destdir'] = true
+
 # Must appear after init_style to take effect correctly
 default['chef_client']['log_rotation']['options'] = ['compress']
 default['chef_client']['log_rotation']['prerotate'] = nil

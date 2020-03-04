@@ -75,13 +75,12 @@ The following attributes are set on a per-platform basis, see the `attributes/de
 - `node['chef_client']['run_path']` - Directory location where chef-client should write the PID file. Default based on platform, falls back to "/var/run".
 - `node['chef_client']['cache_path']` - Directory location for `Chef::Config[:file_cache_path]` where chef-client will cache various files. Default is based on platform, falls back to "/var/chef/cache".
 - `node['chef_client']['backup_path']` - Directory location for `Chef::Config[:file_backup_path]` where chef-client will backup templates and cookbook files. Default is based on platform, falls back to "/var/chef/backup".
+- `node['chef_client']['file_staging_uses_destdir']` - How file staging (via temporary files) is done. When true, temporary files are created in the directory in which files will reside. When false, temporary files are created under ENV['TMP']. Default value: true.
+This cookbook makes use of attribute-driven configuration with this attribute. See [USAGE](#usage) for examples.
 - `node['chef_client']['launchd_mode']` - (Only for Mac OS X) if set to `'daemon'`, runs chef-client with `-d` and `-s` options; defaults to `'interval'`.
 - When `chef_client['log_file']` is set and running on a [logrotate](https://supermarket.chef.io/cookbooks/logrotate) supported platform (debian, rhel, fedora family), use the following attributes to tune log rotation.
-
   - `node['chef_client']['logrotate']['rotate']` - Number of rotated logs to keep on disk, default 12.
   - `node['chef_client']['logrotate']['frequency']` - How often to rotate chef client logs, default weekly.
-
-This cookbook makes use of attribute-driven configuration with this attribute. See [USAGE](#usage) for examples.
 
 - `node['chef_client']['config']` - A hash of Chef::Config keys and their values, rendered dynamically in `/etc/chef/client.rb`.
 - `node['chef_client']['load_gems']` - Hash of gems to load into chef via the client.rb file

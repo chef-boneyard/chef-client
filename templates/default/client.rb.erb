@@ -79,3 +79,6 @@ file_cache_path "<%= node['chef_client']['file_cache_path'] %>"
 <% unless node['chef_client']['file_backup_path'].nil? -%>
 file_backup_path "<%= node['chef_client']['file_backup_path'] %>"
 <% end -%>
+<% unless node['chef_client']['file_staging_uses_destdir'].nil? -%>
+file_staging_uses_destdir "<%= node['chef_client']['file_staging_uses_destdir'] %>"
+<% end -%>
