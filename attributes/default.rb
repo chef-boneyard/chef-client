@@ -140,6 +140,8 @@ when 'mac_os_x'
   # as 'interval' if you want chef-client to be run
   # periodically by launchd
   default['chef_client']['launchd_mode'] = 'interval'
+  default['chef_client']['launchd_directory'] = '/var/root'
+  default['chef_client']['launchd_reload'] = false
 when 'openindiana', 'opensolaris', 'nexentacore', 'solaris2', 'omnios'
   default['chef_client']['init_style']  = 'smf'
   default['chef_client']['run_path']    = '/var/run/chef'
