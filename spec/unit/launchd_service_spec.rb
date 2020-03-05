@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe 'chef-client::launchd_service' do
-  context 'when self-update attribute is true' do 
+  context 'when self-update attribute is true' do
     let(:chef_run) do
       ChefSpec::ServerRunner.new(platform: 'mac_os_x') do |node|
-      node.normal['chef_client']['launchd_self-update'] = true
+        node.normal['chef_client']['launchd_self-update'] = true
       end.converge(described_recipe)
     end
 
@@ -23,10 +23,10 @@ describe 'chef-client::launchd_service' do
 end
 
 describe 'chef-client::launchd_service' do
- context 'when self-update attribute is false' do 
+  context 'when self-update attribute is false' do
     let(:chef_run) do
       ChefSpec::ServerRunner.new(platform: 'mac_os_x') do |node|
-      node.normal['chef_client']['launchd_self-update'] = false
+        node.normal['chef_client']['launchd_self-update'] = false
       end.converge(described_recipe)
     end
 
