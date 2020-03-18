@@ -84,7 +84,7 @@ suites:
 - name: service_systemd
   run_list:
     - recipe[test::service]
-  includes: ["centos-7", "debian-9", "debian-10", "fedora-29", "ubuntu-16.04", "ubuntu-18.04", "opensuse-leap-15"]
+  includes: ["centos-7", "centos-8", "debian-9", "debian-10", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "opensuse-leap-15"]
 
 - name: service_smf
   run_list:
@@ -111,7 +111,7 @@ suites:
     chef_client:
       systemd:
         timer: true
-  includes: ["centos-7", "debian-9", "debian-10", "fedora-29", "ubuntu-16.04", "ubuntu-18.04", "opensuse-leap-15"]
+  includes: ["centos-7", "centos-8", "debian-9", "debian-10", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "opensuse-leap-15"]
 
 - name: config
   run_list:
@@ -122,7 +122,7 @@ suites:
 - name: use_cron_d
   run_list:
     - recipe[test::cook-use_cron_d]
-  excludes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016", "windows-2019"]
+  excludes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016", "windows-2019", "solaris-11.3"]
 
 - name: task
   run_list:
