@@ -5,6 +5,7 @@ provisioner:
   name: chef_zero
   deprecations_as_errors: true
   chef_license: accept-no-persist
+  # log_level: :debug
 
 verifier:
   name: inspec
@@ -32,9 +33,7 @@ platforms:
   - name: ubuntu-18.04
   - name: ubuntu-18.10
   - name: ubuntu-19.04
-  - name: windows-2010
-    provisioner:
-      product_name: chef
+  - name: windows-2019
     transport:
       name: winrm
       elevated: true
@@ -44,8 +43,6 @@ platforms:
       customize:
         memory: 2048
   - name: windows-2016
-    provisioner:
-      product_name: chef
     transport:
       name: winrm
       elevated: true
