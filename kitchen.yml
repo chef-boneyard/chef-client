@@ -96,12 +96,9 @@ suites:
   - recipe[test::cron]
   excludes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016", "windows-2019"]
 
-- name: cron_daemon
+- name: cron_resource
   run_list:
-  - recipe[test::cron]
-  attributes:
-    chef_client:
-      daemon_options: ["--run-lock-timeout 0"]
+  - recipe[test::cron_resource]
   excludes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016", "windows-2019"]
 
 - name: timer_systemd
