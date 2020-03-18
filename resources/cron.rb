@@ -21,8 +21,8 @@ resource_name :chef_client_cron
 
 property :user, String, default: 'root'
 
-property :minute, [String, Integer], default: 0
-property :hour, [String, Integer], default: '0,4,8,12,16,20'
+property :minute, [String, Integer], default: '0,30'
+property :hour, [String, Integer], default: '*'
 property :weekday, [String, Integer], default: '*'
 property :mailto, String
 
