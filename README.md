@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/chef-cookbooks/chef-client.svg?branch=master)](https://travis-ci.org/chef-cookbooks/chef-client) [![Cookbook Version](https://img.shields.io/cookbook/v/chef-client.svg)](https://supermarket.chef.io/cookbooks/chef-client)
 
-This cookbook is used to configure a system as a Chef Client.
+This cookbook is used to configure a system to run the Chef Infra Client.
 
 ## Requirements
 
@@ -31,6 +31,62 @@ This cookbook is used to configure a system as a Chef Client.
 - logrotate 1.9.0+
 
 See [USAGE](#usage).
+
+
+## Resources
+
+The chef-client cookbook provides several resources for setting up Chef Infra Client to run on a schedule. When possible these resources should be used instead of the legacy attributes / recipes as these same resources will be included in Chef Infra Client 16+ out of the box.
+
+### chef_client_scheduled_task
+
+The chef_client_scheduled_task resource setups up Chef Infra Client to run as a scheduled task on Windows. You can use this resource directly in any of your own recipes. Using this resource to configure Chef Infra Client running as a scheduled task allows you to control where you store the user credentials instead of storing them as node attributes. This is useful if you want to store these credentials in an encrypted databag or other secrets store.
+
+### Actions
+
+- `:add`
+- `:remove`
+
+### Properties
+
+- `user` - The username to run the task as. default: 'System'
+- `password`, The password of the user to run the task as if not using the System user
+- `frequency` - Frequency with which to run the task (e.g., 'hourly', 'daily', etc.) Default is 'minute'
+- `frequency_modifier` Numeric value to go with the scheduled task frequency - default: '30'
+- `start_time` The start time for the task in HH:mm format (ex: 14:00). If the `frequency` is `minute` default start time will be `Time.now` plus the `frequency_modifier` number of minutes.
+- `start_date` - The start date for the task in `m:d:Y` format (ex: 12/17/2017). nil by default and isn't necessary if you're running a regular interval.
+- `splay` - A random number of seconds between 0 and X to add to interval. default: '300'
+- `config_directory` - The path to the Chef config directory. default: 'C:/chef'
+- `log_file_name` - The name of the log file. default: 'chef-client.log'
+- `log_directory` - The path to the Chef log directory. default: 'CONFIG_DIRECTORY/log'
+- `chef_binary_path` - The path to the chef-client binary. default: 'C:/opscode/chef/bin/chef-client'
+- `daemon_options` - An optional array of extra options to pass to the chef-client
+- `task_name` - The name of the scheduled task. This allows for multiple chef_client_scheduled_task resources when it is used directly like in a wrapper cookbook. default: 'chef-client'
+
+### chef_client_cron
+
+The chef_client cron resource setups up Chef Infra Client to run as a cron job using a cron.d configuration file. You can use this resource directly in any of your own recipes.
+
+### Actions
+
+- `:add`
+- `:remove`
+
+### Properties
+
+- `user` - The username to run the task as. default: 'root'
+- `minute` - The minute that Chef Infra Client will run as a cron task.
+- `hour` - The hour that Chef Infra Client will run as a cron task.
+- `weekday` - The weekday that Chef Infra Client will run as a cron task.
+- `mailto` - The e-mail address to e-mail any cron task failures to.
+- `job_name` - The name of the cron task to create. This allows you to have schedules with different options if necessary. default: 'chef-client'
+- `splay` - A random number of seconds between 0 and X to add to interval. default: '300'
+- `env_vars` - A hash of environment variables to pass to chef-client's execution (e.g. `SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt chef-client`)
+- `config_directory` - The path to the Chef config directory. default: '/etc/chef/'
+- `log_file_name` - The name of the log file. default: 'chef-client.log'
+- `log_directory` - The path to the Chef log directory. default: '/var/log/chef' on *nix or '/Library/Logs/Chef' on macOS
+- `append_log_file` - Whether to append to the log. Default: `false` chef-client output.
+- `chef_binary_path` - The path to the chef-client binary. default: '/opt/chef/bin/chef-client'
+- `daemon_options` - An optional array of extra command line options to pass to the chef-client
 
 ## Attributes
 
@@ -365,33 +421,6 @@ Since launchd can run a service in interval mode, by default chef-client is not 
 This cookbook does not handle updating the chef-client, as that's out of the cookbook's current scope. To sensibly manage updates of the chef-client's install, we refer you to:
 
 - [chef_client_updater](https://github.com/chef-cookbooks/chef_client_updater) - Cookbook for keeping your install up-to-date
-
-## Resources
-
-### chef_client_scheduled_task
-
-The chef_client_scheduled_task setups up chef-client to run as a scheduled task. This resource is what the task recipe calls under the hood. You can use this recipe directly when writing a wrapper cookbook. Additionally using this resource directly allows you to control where you store the user credentials instead of storing them as node attributes. This is useful if you want to store these credentials in an encrypted databag.
-
-### Actions
-
-- `:add`
-- `:remove`
-
-### Properties
-
-- `user` - The username to run the task as. default: 'System'
-- `password`, The password of the user to run the task as if not using the System user
-- `frequency` - Frequency with which to run the task (e.g., 'hourly', 'daily', etc.) Default is 'minute'
-- `frequency_modifier` Numeric value to go with the scheduled task frequency - default: '30'
-- `start_time` The start time for the task in HH:mm format (ex: 14:00). If the `frequency` is `minute` default start time will be `Time.now` plus the `frequency_modifier` number of minutes.
-- `start_date` - The start date for the task in `m:d:Y` format (ex: 12/17/2017). nil by default and isn't necessary if you're running a regular interval.
-- `splay` - A random number of seconds between 0 and X to add to interval. default: '300'
-- `config_directory` - The path to the Chef config directory. default: 'C:/chef'
-- `log_file_name` - The name of the log file. default: 'chef-client.log'
-- `log_directory` - The path to the Chef log directory. default: 'CONFIG_DIRECTORY/log'
-- `chef_binary_path` - The path to the chef-client binary. default: 'C:/opscode/chef/bin/chef-client'
-- `daemon_options` - An optional array of extra options to pass to the chef-client
-- `task_name` - The name of the scheduled task. This allows for multiple chef_client_scheduled_task resources when it is used directly like in a wrapper cookbook. default: 'chef-client'
 
 ## Maintainers
 
