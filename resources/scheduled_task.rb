@@ -68,10 +68,10 @@ action :add do
     user               new_resource.user
     password           new_resource.password
     frequency          new_resource.frequency.to_sym
-    frequency_modifier new_resource.frequency_modifier unless %w(once on_logon onstart on_idle).include?(new_resource.frequency)
+    frequency_modifier new_resource.frequency_modifier if frequency_supports_frequency_modifier?
     start_time         start_time_value
     start_day          new_resource.start_date unless new_resource.start_date.nil?
-    random_delay       new_resource.splay
+    random_delay       new_resource.splay if frequency_supports_random_delay?
     action             [ :create, :enable ]
   end
 end
@@ -83,6 +83,25 @@ action :remove do
 end
 
 action_class do
+  #
+  # not all frequencies in the windows_task resource support random_delay
+  #
+  # @return [boolean]
+  #
+  def frequency_supports_random_delay?
+    %w(once minute hourly daily weekly monthly).include?(new_resource.frequency)
+  end
+
+  #
+  # not all frequencies in the windows_task resource support frequency_modifier
+  #
+  # @return [boolean]
+  #
+  def frequency_supports_frequency_modifier?
+    # these are the only ones that don't
+    !%w(once on_logon onstart on_idle).include?(new_resource.frequency)
+  end
+
   # @todo this can all get removed when we don't support Chef 13.6 anymore
   def start_time_value
     if new_resource.start_time
