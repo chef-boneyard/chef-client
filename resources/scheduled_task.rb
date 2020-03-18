@@ -28,6 +28,7 @@ property :start_time, String, regex: [/^\d{2}:\d{2}$/]
 property :splay, [Integer, String], default: 300
 property :config_directory, String, default: 'C:/chef'
 property :log_directory, String, default: lazy { |r| "#{r.config_directory}/log" }
+property :log_file_name, String, default: 'client.log'
 property :chef_binary_path, String, default: 'C:/opscode/chef/bin/chef-client'
 property :daemon_options, Array, default: []
 property :task_name, String, default: 'chef-client'
@@ -35,7 +36,7 @@ property :task_name, String, default: 'chef-client'
 action :add do
   # Build command line to pass to cmd.exe
   client_cmd = new_resource.chef_binary_path.dup
-  client_cmd << " -L #{::File.join(new_resource.log_directory, node['chef_client']['log_file'])}" unless node['chef_client']['log_file'].nil?
+  client_cmd << " -L #{::File.join(new_resource.log_directory, new_resource.log_file_name)}"
   client_cmd << " -c #{::File.join(new_resource.config_directory, 'client.rb')}"
 
   # Add custom options
