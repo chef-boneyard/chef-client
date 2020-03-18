@@ -64,7 +64,7 @@ action_class do
     cmd = ''
     cmd << "/bin/sleep #{splay_sleep_time(new_resource.splay)}; "
     cmd << "#{new_resource.env_vars} " if new_resource.env_vars
-    cmd << "#{new_resource.chef_binary_path} #{new_resource.daemon_options}"
+    cmd << "#{new_resource.chef_binary_path} #{new_resource.daemon_options.join(' ')}"
     cmd << " #{new_resource.append_log_file ? '>>' : '>'} #{::File.join(new_resource.log_directory, new_resource.log_file_name)} 2>&1"
     cmd << ' || echo "Chef Infra Client execution failed"' if new_resource.mailto
     cmd
