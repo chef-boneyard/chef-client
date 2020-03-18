@@ -25,12 +25,21 @@ module Opscode
     module Helpers
       include Chef::DSL::PlatformIntrospection
       include Chef::Mixin::ShellOut
+      require 'digest/md5'
 
       def wmi_property_from_query(wmi_property, wmi_query)
         @wmi = ::WIN32OLE.connect('winmgmts://')
         result = @wmi.ExecQuery(wmi_query)
         return nil unless result.each.count > 0
         result.each.next.send(wmi_property)
+      end
+
+      # Generate a uniformly distributed unique number to sleep.
+      def splay_sleep_time(splay)
+        if splay.to_i > 0
+          seed = node['shard_seed'] || Digest::MD5.hexdigest(node.name).to_s.hex
+          seed % splay.to_i
+        end
       end
 
       def root_owner
