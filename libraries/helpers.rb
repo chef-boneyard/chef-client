@@ -17,14 +17,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'chef/mixin/shell_out'
-
 module Opscode
   module ChefClient
     # helper methods for use in chef-client recipe code
     module Helpers
-      include Chef::DSL::PlatformIntrospection
-      include Chef::Mixin::ShellOut
       require 'digest/md5'
 
       def wmi_property_from_query(wmi_property, wmi_query)
@@ -43,7 +39,7 @@ module Opscode
       end
 
       def root_owner
-        if ['windows'].include?(node['platform'])
+        if platform?('windows')
           wmi_property_from_query(:name, "select * from Win32_UserAccount where sid like 'S-1-5-21-%-500' and LocalAccount=True")
         else
           'root'
@@ -65,7 +61,7 @@ module Opscode
       end
 
       def find_chef_client
-        if node['platform'] == 'windows'
+        if platform?('windows')
           existence_check = :exists?
           # Where will also return files that have extensions matching PATHEXT (e.g.
           # *.bat). We don't want the batch file wrapper, but the actual script.
