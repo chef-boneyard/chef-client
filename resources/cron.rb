@@ -32,7 +32,7 @@ property :splay, [Integer, String], default: 300
 property :env_vars, Hash
 
 property :config_directory, String, default: '/etc/chef'
-property :log_directory, String, default: platform?('mac_os_x') ? '/Library/Logs/Chef' : '/var/log/chef'
+property :log_directory, String, default: lazy { platform?('mac_os_x') ? '/Library/Logs/Chef' : '/var/log/chef' }
 property :log_file_name, String, default: 'client.log'
 property :append_log_file, [true, false], default: false
 property :chef_binary_path, String, default: '/opt/chef/bin/chef-client'
