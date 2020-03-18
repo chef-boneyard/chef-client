@@ -61,29 +61,10 @@ module Opscode
       end
 
       def find_chef_client
-        if platform?('windows')
-          existence_check = :exists?
-          # Where will also return files that have extensions matching PATHEXT (e.g.
-          # *.bat). We don't want the batch file wrapper, but the actual script.
-          which = 'set PATHEXT=.exe & where'
-          Chef::Log.debug "Using exists? and 'where' to find the chef-client binary since we're on Windows"
-        else
-          existence_check = :executable?
-          which = 'which'
-          Chef::Log.debug "Using executable? and 'which' to find the chef-client binary since we're on *nix"
-        end
+        path = which('chef-client')
+        return path unless path.nil?
 
-        # try to use the bin provided by the node attribute
-        if ::File.send(existence_check, node['chef_client']['bin'])
-          Chef::Log.debug 'Using chef-client bin from node attributes'
-          node['chef_client']['bin']
-        # last ditch search for a bin in PATH
-        elsif (chef_in_path = shell_out("#{which} chef-client").stdout.chomp) && ::File.send(existence_check, chef_in_path)
-          Chef::Log.debug 'Using chef-client bin from system path'
-          chef_in_path
-        else
-          raise "Could not locate the chef-client bin in any known path. Please set the proper path by overriding the node['chef_client']['bin'] attribute."
-        end
+        raise "Could not locate the chef-client bin in any known path. Please set the proper path by overriding the node['chef_client']['bin'] attribute."
       end
 
       # Return true/false if node['chef_client']['cron']['environment_variables']
