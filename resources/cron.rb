@@ -21,8 +21,8 @@ resource_name :chef_client_cron
 
 property :user, String, default: 'root'
 
-property :minute, [String, Integer], default: 0
-property :hour, [String, Integer], default: '0,4,8,12,16,20'
+property :minute, [String, Integer], default: '0,30'
+property :hour, [String, Integer], default: '*'
 property :weekday, [String, Integer], default: '*'
 property :mailto, String
 
@@ -32,7 +32,7 @@ property :splay, [Integer, String], default: 300
 property :env_vars, Hash
 
 property :config_directory, String, default: '/etc/chef'
-property :log_directory, String, default: platform?('mac_os_x') ? '/Library/Logs/Chef' : '/var/log/chef'
+property :log_directory, String, default: lazy { platform?('mac_os_x') ? '/Library/Logs/Chef' : '/var/log/chef' }
 property :log_file_name, String, default: 'client.log'
 property :append_log_file, [true, false], default: false
 property :chef_binary_path, String, default: '/opt/chef/bin/chef-client'
