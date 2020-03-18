@@ -49,7 +49,7 @@ The chef_client_scheduled_task resource setups up Chef Infra Client to run as a 
 ### Properties
 
 - `user` - The username to run the task as. default: 'System'
-- `password`, The password of the user to run the task as if not using the System user
+- `password` The password of the user to run the task as if not using the System user
 - `frequency` - Frequency with which to run the task (e.g., 'hourly', 'daily', etc.) Default is 'minute'
 - `frequency_modifier` Numeric value to go with the scheduled task frequency - default: '30'
 - `start_time` The start time for the task in HH:mm format (ex: 14:00). If the `frequency` is `minute` default start time will be `Time.now` plus the `frequency_modifier` number of minutes.
