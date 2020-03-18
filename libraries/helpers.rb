@@ -62,10 +62,16 @@ module Opscode
       end
 
       def find_chef_client
-        path = which('chef-client')
-        return path unless path.nil?
+        # executable on windows really means it ends in .exec/.bat
+        existence_check = platform?('windows') ? :exist? : :executable?
 
-        raise "Could not locate the chef-client bin in any known path. Please set the proper path by overriding the node['chef_client']['bin'] attribute."
+        if ::File.send(existence_check, node['chef_client']['bin'])
+          Chef::Log.debug 'Using chef-client bin from node attributes'
+          node['chef_client']['bin']
+        else
+          Chef::Log.debug "Searching path for chef-client bin as node['chef_client']['bin'] does not exist"
+          which('chef-client') || raise("Could not locate the chef-client bin in any known path. Please set the proper path by overriding the node['chef_client']['bin'] attribute.")
+        end
       end
 
       # Return true/false if node['chef_client']['cron']['environment_variables']
