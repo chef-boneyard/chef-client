@@ -87,13 +87,7 @@ when 'freebsd'
   end
 end
 
-# Generate a uniformly distributed unique number to sleep.
-if node['chef_client']['splay'].to_i > 0
-  seed = node['shard_seed'] || Digest::MD5.hexdigest(node.name).to_s.hex
-  sleep_time = seed % node['chef_client']['splay'].to_i
-else
-  sleep_time = nil
-end
+sleep_time = splay_sleep_time(node['chef_client']['splay'])
 log_file   = node['chef_client']['cron']['log_file']
 append_log = node['chef_client']['cron']['append_log'] ? '>>' : '>'
 daemon_options = " #{node['chef_client']['daemon_options'].join(' ')} " if node['chef_client']['daemon_options'].any?
