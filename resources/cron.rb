@@ -53,10 +53,6 @@ action :remove do
   cron_d new_resource.job_name do
     action :delete
   end
-
-  cron new_resource.job_name do
-    action :delete
-  end
 end
 
 action_class do
