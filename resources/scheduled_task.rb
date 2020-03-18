@@ -2,7 +2,7 @@
 # Cookbook:: chef-client
 # resource:: chef_client_scheduled_task
 #
-# Copyright:: 2017-2019, Chef Software, Inc.
+# Copyright:: 2017-2020, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -34,6 +34,13 @@ property :daemon_options, Array, default: []
 property :task_name, String, default: 'chef-client'
 
 action :add do
+  # create a directory in case the log director does not exist
+  directory new_resource.log_directory do
+    inherits true
+    recursive true
+    action :create
+  end
+
   # Build command line to pass to cmd.exe
   client_cmd = new_resource.chef_binary_path.dup
   client_cmd << " -L #{::File.join(new_resource.log_directory, new_resource.log_file_name)}"
