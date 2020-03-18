@@ -1,6 +1,6 @@
 #
 # Author:: John Dewey (<john@dewey.ws>)
-# Cookbook::  chef-client
+# Cookbook:: chef-client
 # Library:: helpers
 #
 # Copyright:: 2012-2017, John Dewey
@@ -21,6 +21,7 @@ module Opscode
   module ChefClient
     # helper methods for use in chef-client recipe code
     module Helpers
+      include Chef::Mixin::Which
       require 'digest/md5'
 
       def wmi_property_from_query(wmi_property, wmi_query)
