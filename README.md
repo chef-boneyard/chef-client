@@ -13,13 +13,13 @@ This cookbook is used to configure a system as a Chef Client.
 - Debian
 - Fedora
 - FreeBSD
-- Mac OS X
+- macOS
 - openSUSE
 - SLES 12+
 - RHEL
 - Solaris 10+
 - Ubuntu
-- Windows 2008 R2+
+- Windows
 
 ### Chef
 
