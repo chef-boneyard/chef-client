@@ -384,6 +384,7 @@ The chef_client_scheduled_task setups up chef-client to run as a scheduled task.
 - `start_date` - The start date for the task in `m:d:Y` format (ex: 12/17/2017). nil by default and isn't necessary if you're running a regular interval.
 - `splay` - A random number of seconds between 0 and X to add to interval. default: '300'
 - `config_directory` - The path to the Chef config directory. default: 'C:/chef'
+- `log_file_name` - The name of the log file. default: 'chef-client.log'
 - `log_directory` - The path to the Chef log directory. default: 'CONFIG_DIRECTORY/log'
 - `chef_binary_path` - The path to the chef-client binary. default: 'C:/opscode/chef/bin/chef-client'
 - `daemon_options` - An optional array of extra options to pass to the chef-client
@@ -395,7 +396,7 @@ This cookbook is maintained by Chef's Community Cookbook Engineering team. Our g
 
 ## License
 
-**Copyright:** 2010-2017, Chef Software, Inc.
+**Copyright:** 2010-2020, Chef Software, Inc.
 
 ```
 Licensed under the Apache License, Version 2.0 (the "License");
