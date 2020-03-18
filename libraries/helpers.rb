@@ -25,6 +25,7 @@ module Opscode
     module Helpers
       include Chef::DSL::PlatformIntrospection
       include Chef::Mixin::ShellOut
+      require 'digest/md5'
 
       def wmi_property_from_query(wmi_property, wmi_query)
         @wmi = ::WIN32OLE.connect('winmgmts://')

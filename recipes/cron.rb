@@ -20,8 +20,6 @@
 # limitations under the License.
 #
 
-require 'digest/md5'
-
 # include helper methods
 class ::Chef::Recipe
   include ::Opscode::ChefClient::Helpers
