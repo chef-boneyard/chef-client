@@ -79,12 +79,12 @@ suites:
 - name: service_init
   run_list:
     - recipe[test::service]
-  includes: ["centos-6", "amazon-linux", "sles-12-sp1"]
+  includes: ["centos-6", "amazon-linux"]
 
 - name: service_systemd
   run_list:
     - recipe[test::service]
-  includes: ["centos-7", "centos-8", "debian-9", "debian-10", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "opensuse-leap-15"]
+  includes: ["centos-7", "centos-8", "debian-9", "debian-10", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "opensuse-leap-15", "sles-12-sp1"]
 
 - name: service_smf
   run_list:
