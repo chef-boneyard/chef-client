@@ -18,6 +18,28 @@ services: docker
 
 env:
   matrix:
+  - CHEF_VERSION=current INSTANCE=cron-ubuntu-1604
+  - CHEF_VERSION=current INSTANCE=cron-ubuntu-1804
+  - CHEF_VERSION=current INSTANCE=cron-centos-6
+  - CHEF_VERSION=current INSTANCE=cron-centos-7
+  - CHEF_VERSION=current INSTANCE=cron-opensuse-leap-15
+  - CHEF_VERSION=current INSTANCE=delete-validation-ubuntu-1804
+  - CHEF_VERSION=current INSTANCE=service-systemd-amazonlinux-2
+  - CHEF_VERSION=current INSTANCE=service-systemd-centos-7
+  - CHEF_VERSION=current INSTANCE=service-systemd-debian-9
+  - CHEF_VERSION=current INSTANCE=service-systemd-debian-10
+  - CHEF_VERSION=current INSTANCE=service-systemd-fedora-latest
+  - CHEF_VERSION=current INSTANCE=service-systemd-opensuse-leap-15
+  - CHEF_VERSION=current INSTANCE=service-systemd-ubuntu-1604
+  - CHEF_VERSION=current INSTANCE=service-systemd-ubuntu-1804
+  - CHEF_VERSION=current INSTANCE=timer-systemd-amazonlinux-2
+  - CHEF_VERSION=current INSTANCE=timer-systemd-centos-7
+  - CHEF_VERSION=current INSTANCE=timer-systemd-debian-9
+  - CHEF_VERSION=current INSTANCE=timer-systemd-debian-10
+  - CHEF_VERSION=current INSTANCE=timer-systemd-fedora-latest
+  - CHEF_VERSION=current INSTANCE=timer-systemd-opensuse-leap-15
+  - CHEF_VERSION=current INSTANCE=timer-systemd-ubuntu-1604
+  - CHEF_VERSION=current INSTANCE=timer-systemd-ubuntu-1804
   - CHEF_VERSION=15 INSTANCE=cron-ubuntu-1604
   - CHEF_VERSION=15 INSTANCE=cron-ubuntu-1804
   - CHEF_VERSION=15 INSTANCE=cron-centos-6
