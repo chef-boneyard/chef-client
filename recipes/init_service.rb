@@ -1,4 +1,4 @@
-raise "The chef_client::init_service recipe only supports RHEL / Amazon platform families. All other platforms should run chef-client as a service using systemd or a scheduled job using cron / systemd timers." unless platform_family?('rhel', 'amazon')
+raise 'The chef_client::init_service recipe only supports RHEL / Amazon platform families. All other platforms should run chef-client as a service using systemd or a scheduled job using cron / systemd timers.' unless platform_family?('rhel', 'amazon')
 
 # include helper methods
 class ::Chef::Recipe
@@ -12,7 +12,7 @@ node.default['chef_client']['bin'] = client_bin
 create_chef_directories
 
 template '/etc/init.d/chef-client' do
-  source "redhat/init.d/chef-client.erb"
+  source 'redhat/init.d/chef-client.erb'
   mode '0755'
   variables(client_bin: client_bin,
             chkconfig_start_order: node['chef_client']['chkconfig']['start_order'],
@@ -20,8 +20,8 @@ template '/etc/init.d/chef-client' do
   notifies :restart, 'service[chef-client]', :delayed
 end
 
-template "/etc/sysconfig/chef-client" do
-  source "redhat/sysconfig/chef-client.erb"
+template '/etc/sysconfig/chef-client' do
+  source 'redhat/sysconfig/chef-client.erb'
   mode '0644'
   notifies :restart, 'service[chef-client]', :delayed
 end
