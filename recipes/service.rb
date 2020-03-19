@@ -28,7 +28,6 @@ supported_init_styles = %w(
   smf
   src
   systemd
-  upstart
   windows
 )
 

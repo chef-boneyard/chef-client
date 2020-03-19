@@ -53,7 +53,6 @@ if node['os'] == 'linux'
 
   service 'chef-client' do
     supports status: true, restart: true
-    provider Chef::Provider::Service::Upstart if node['chef_client']['init_style'] == 'upstart'
     action [:disable, :stop]
   end
 end
