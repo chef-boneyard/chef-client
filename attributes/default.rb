@@ -37,7 +37,7 @@ default['chef_client']['log_file']    = 'client.log'
 default['chef_client']['interval']    = '1800'
 default['chef_client']['splay']       = '300'
 default['chef_client']['conf_dir']    = '/etc/chef'
-default['chef_client']['bin']         = '/usr/bin/chef-client'
+default['chef_client']['bin']         = '/opt/chef/bin/chef-client'
 
 # Set a sane default log directory location, overriden by specific
 # platforms below.
