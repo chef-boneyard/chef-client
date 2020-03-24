@@ -40,7 +40,7 @@ property :comment, String
 property :config_directory, String, default: '/etc/chef'
 property :log_directory, String, default: lazy { platform?('mac_os_x') ? '/Library/Logs/Chef' : '/var/log/chef' }
 property :log_file_name, String, default: 'client.log'
-property :append_log_file, [true, false], default: false
+property :append_log_file, [true, false], default: true
 property :chef_binary_path, String, default: '/opt/chef/bin/chef-client'
 property :daemon_options, Array, default: []
 
@@ -74,13 +74,31 @@ action :remove do
 end
 
 action_class do
+  #
+  # The complete cron command to run
+  #
+  # @return [String]
+  #
   def cron_command
     cmd = ''
     cmd << "/bin/sleep #{splay_sleep_time(new_resource.splay)}; "
     cmd << "#{new_resource.chef_binary_path} "
     cmd << "#{new_resource.daemon_options.join(' ')} " unless new_resource.daemon_options.empty?
-    cmd << "#{new_resource.append_log_file ? '>>' : '>'} #{::File.join(new_resource.log_directory, new_resource.log_file_name)} 2>&1"
+    cmd << log_command
     cmd << " || echo \"#{Chef::Dist::PRODUCT} execution failed\"" if new_resource.mailto
     cmd
+  end
+
+  #
+  # The portion of the overall cron job that handles logging based on the append_log_file property
+  #
+  # @return [String]
+  #
+  def log_command
+    if new_resource.append_log_file
+      "-L #{::File.join(new_resource.log_directory, new_resource.log_file_name)}"
+    else
+      "> #{::File.join(new_resource.log_directory, new_resource.log_file_name)} 2>&1"
+    end
   end
 end

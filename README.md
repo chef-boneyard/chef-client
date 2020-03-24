@@ -87,7 +87,7 @@ The chef_client cron resource setups up Chef Infra Client to run as a cron job u
 - `config_directory` - The path to the Chef config directory. default: '/etc/chef/'
 - `log_file_name` - The name of the log file. default: 'chef-client.log'
 - `log_directory` - The path to the Chef log directory. default: '/var/log/chef' on *nix or '/Library/Logs/Chef' on macOS
-- `append_log_file` - Whether to append to the log. Default: `false` chef-client output.
+- `append_log_file` - Whether to append to the log. Default: `true` chef-client output.
 - `chef_binary_path` - The path to the chef-client binary. default: '/opt/chef/bin/chef-client'
 - `daemon_options` - An optional array of extra command line options to pass to the chef-client
 
