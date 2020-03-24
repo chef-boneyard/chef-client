@@ -183,7 +183,7 @@ recipe[chef-client::init_service]
 Use this recipe on systems that should have a `chef-client` daemon running, such as when Knife bootstrap was used to install Chef on a new system.
 
 - `init` - uses the init script included in this cookbook, supported on debian and redhat family distributions.
-- `launchd` - sets up the service under launchd, supported on Mac OS X & Mac OS X Server.
+- `launchd` - sets up the service under launchd, supported on macOS
 - `bsd` - prints a message about how to update BSD systems to enable the chef-client service.
 - `systemd` - sets up the service under systemd. Supported on systemd based distros.
 
@@ -414,7 +414,7 @@ report_handlers << SimpleReport::UpdatedResources.new()
 
 #### Launchd
 
-On Mac OS X and Mac OS X Server, the default service implementation is "launchd".
+On macOS and macOS Server, the default service implementation is "launchd".
 
 Since launchd can run a service in interval mode, by default chef-client is not started in daemon mode like on Debian or Ubuntu. Keep this in mind when you look at your process list and check for a running chef process! If you wish to run chef-client in daemon mode, set attribute `chef_client.launchd_mode` to "daemon".
 
