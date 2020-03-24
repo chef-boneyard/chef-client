@@ -30,14 +30,6 @@ client_bin = find_chef_client
 node.default['chef_client']['bin'] = client_bin
 create_chef_directories
 
-dist_dir, conf_dir = value_for_platform_family(
-  ['amazon'] => %w( redhat sysconfig ),
-  ['debian'] => %w( debian default ),
-  ['rhel'] => %w( redhat sysconfig ),
-  ['fedora'] => %w( redhat sysconfig ),
-  ['suse'] => %w( suse sysconfig )
-)
-
 # Stop any running chef-client services
 if node['os'] == 'linux'
   service 'chef-client' do
