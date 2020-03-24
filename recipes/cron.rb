@@ -41,13 +41,13 @@ dist_dir, conf_dir = value_for_platform_family(
 # Stop any running chef-client services
 if node['os'] == 'linux'
   template '/etc/init.d/chef-client' do
-    source "#{dist_dir}/init.d/chef-client.erb"
+    source "default/#{dist_dir}/init.d/chef-client.erb"
     mode '0755'
     variables(client_bin: client_bin)
   end
 
   template "/etc/#{conf_dir}/chef-client" do
-    source "#{dist_dir}/#{conf_dir}/chef-client.erb"
+    source "default/#{dist_dir}/#{conf_dir}/chef-client.erb"
     mode '0644'
   end
 
@@ -84,11 +84,6 @@ when 'freebsd'
   end
 end
 
-sleep_time = splay_sleep_time(node['chef_client']['splay'])
-log_file   = node['chef_client']['cron']['log_file']
-append_log = node['chef_client']['cron']['append_log'] ? '>>' : '>'
-daemon_options = " #{node['chef_client']['daemon_options'].join(' ')} " if node['chef_client']['daemon_options'].any?
-
 # If "use_cron_d" is set to true, delete the cron entry that uses the cron
 # resource built in to Chef and instead use the cron_d LWRP.
 if node['chef_client']['cron']['use_cron_d']
@@ -96,20 +91,16 @@ if node['chef_client']['cron']['use_cron_d']
     action :delete
   end
 
-  cron_d 'chef-client' do
-    minute  node['chef_client']['cron']['minute']
-    hour    node['chef_client']['cron']['hour']
-    weekday node['chef_client']['cron']['weekday']
-    path    node['chef_client']['cron']['path'] if node['chef_client']['cron']['path']
-    mailto  node['chef_client']['cron']['mailto'] if node['chef_client']['cron']['mailto']
-    user    'root'
-    cmd = ''
-    cmd << "/bin/sleep #{sleep_time}; " if sleep_time
-    cmd << "#{env_vars} " if env_vars?
-    cmd << "#{node['chef_client']['cron']['nice_path']} -n #{process_priority} " if process_priority
-    cmd << "#{client_bin} #{daemon_options}#{append_log} #{log_file} 2>&1"
-    cmd << ' || echo "Chef client execution failed"' if node['chef_client']['cron']['mailto']
-    command cmd
+  chef_client_cron 'chef-client cron.d job' do
+    minute            node['chef_client']['cron']['minute']
+    hour              node['chef_client']['cron']['hour']
+    weekday           node['chef_client']['cron']['weekday']
+    chef_binary_path  node['chef_client']['cron']['path'] if node['chef_client']['cron']['path']
+    mailto            node['chef_client']['cron']['mailto'] if node['chef_client']['cron']['mailto']
+    splay             node['chef_client']['splay']
+    log_file_name     node['chef_client']['cron']['log_file']
+    append_log_file   node['chef_client']['cron']['append_log']
+    daemon_options    node['chef_client']['daemon_options']
   end
 else
   # Non-linux platforms don't support cron.d so we won't try to remove a cron_d resource.
@@ -119,6 +110,11 @@ else
       action :delete
     end
   end
+
+  sleep_time = splay_sleep_time(node['chef_client']['splay'].to_i)
+  log_file   = node['chef_client']['cron']['log_file']
+  append_log = node['chef_client']['cron']['append_log'] ? '>>' : '>'
+  daemon_options = " #{node['chef_client']['daemon_options'].join(' ')} " if node['chef_client']['daemon_options'].any?
 
   cron 'chef-client' do
     minute  node['chef_client']['cron']['minute']
