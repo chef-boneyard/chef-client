@@ -33,10 +33,9 @@ module Opscode
 
       # Generate a uniformly distributed unique number to sleep.
       def splay_sleep_time(splay)
-        if splay.to_i > 0
-          seed = node['shard_seed'] || Digest::MD5.hexdigest(node.name).to_s.hex
-          seed % splay.to_i
-        end
+        seed = node['shard_seed'] || Digest::MD5.hexdigest(node.name).to_s.hex
+        random = Random.new(seed.to_i)
+        random.rand(splay)
       end
 
       def root_owner
