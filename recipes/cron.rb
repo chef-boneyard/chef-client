@@ -40,20 +40,14 @@ dist_dir, conf_dir = value_for_platform_family(
 
 # Stop any running chef-client services
 if node['os'] == 'linux'
-  template '/etc/init.d/chef-client' do
-    source "default/#{dist_dir}/init.d/chef-client.erb"
-    mode '0755'
-    variables(client_bin: client_bin)
-  end
-
-  template "/etc/#{conf_dir}/chef-client" do
-    source "default/#{dist_dir}/#{conf_dir}/chef-client.erb"
-    mode '0644'
-  end
-
   service 'chef-client' do
     supports status: true, restart: true
     action [:disable, :stop]
+    ignore_failure true
+  end
+
+  file '/etc/init.d/chef-client' do
+    action :delete
   end
 end
 
@@ -62,7 +56,6 @@ when 'openindiana', 'opensolaris', 'nexentacore', 'solaris2', 'smartos', 'omnios
   service 'chef-client' do
     supports status: true, restart: true
     action [:disable, :stop]
-    provider Chef::Provider::Service::Solaris
     ignore_failure true
   end
 
