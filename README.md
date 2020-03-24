@@ -76,11 +76,14 @@ The chef_client cron resource setups up Chef Infra Client to run as a cron job u
 - `user` - The username to run the task as. default: 'root'
 - `minute` - The minute that Chef Infra Client will run as a cron task. default: '0,30' (every 30 minutes)
 - `hour` - The hour that Chef Infra Client will run as a cron task. default: '*'
+- `day` - The day that Chef Infra Client will run as a cron task. default: '*'
+- `month` - The month that Chef Infra Client will run as a cron task. default: '*'
 - `weekday` - The weekday that Chef Infra Client will run as a cron task. default: '*'
+- `comment` - A comment to add to the cron file.
 - `mailto` - The e-mail address to e-mail any cron task failures to.
 - `job_name` - The name of the cron task to create. This allows you to have schedules with different options if necessary. default: 'chef-client'
 - `splay` - A random number of seconds between 0 and X to add to interval. default: '300'
-- `env_vars` - A hash of environment variables to pass to chef-client's execution (e.g. `SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt chef-client`)
+- `environment` - A hash of environment variables to pass to chef-client's execution (e.g. `SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt chef-client`)
 - `config_directory` - The path to the Chef config directory. default: '/etc/chef/'
 - `log_file_name` - The name of the log file. default: 'chef-client.log'
 - `log_directory` - The path to the Chef log directory. default: '/var/log/chef' on *nix or '/Library/Logs/Chef' on macOS

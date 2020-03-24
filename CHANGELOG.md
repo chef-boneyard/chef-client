@@ -17,6 +17,7 @@ This file is used to list changes made in each version of the chef-client cookbo
 
 ### Other Changes
 
+- The splay time generation for cron jobs has been corrected
 - The `chef_client_scheduled_task` resource will no longer fail if the `frequency` property is set to a value other than `once`, `minute`, `hourly`, `daily`, `weekly`, or `monthly`
 - The `chef_client_scheduled_task` resource now creates the log directory specified in the resource.
 - A new `chef_client_cron` has been added for setting up Chef Infra Client to run as a cron job.
