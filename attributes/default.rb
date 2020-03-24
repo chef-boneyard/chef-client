@@ -60,6 +60,9 @@ default['chef_client']['cron'] = {
   'nice_path' => '/bin/nice',
 }
 
+# on linux we should use cron_d instead of crontab
+default['chef_client']['cron']['use_cron_d'] = true if node['os'] == 'linux'
+
 # Configuration for chef-client::systemd_service recipe
 default['chef_client']['systemd']['timer'] = false
 # Systemd timeout. Might be useful for timer setups to avoid stalled chef runs
