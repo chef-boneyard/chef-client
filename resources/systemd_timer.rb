@@ -30,6 +30,7 @@ property :splay, [Integer, String], default: 300,
                                     callbacks: { 'should be a positive number' => proc { |v| v > 0 } }
 
 property :description, String, default: 'Chef Infra Client periodic execution'
+property :run_on_battery, [true, false], default: true
 
 property :log_directory, String, default: '/var/log/chef'
 property :log_file_name, String, default: 'client.log'
@@ -102,7 +103,7 @@ action_class do
   # @return [Hash]
   #
   def service_content
-    {
+    unit = {
       'Unit' => {
         'Description' => new_resource.description,
         'After' => 'network.target auditd.service',
@@ -114,5 +115,9 @@ action_class do
       },
       'Install' => { 'WantedBy' => 'multi-user.target' },
     }
+
+    unit['Service']['ConditionACPower'] = 'true' unless new_resource.run_on_battery
+
+    unit
   end
 end
