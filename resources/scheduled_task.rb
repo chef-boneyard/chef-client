@@ -27,6 +27,7 @@ property :frequency_modifier, [Integer, String], default: 30,
                                                  coerce: proc { |x| Integer(x) },
                                                  callbacks: { 'should be a positive number' => proc { |v| v > 0 } }
 
+property :accept_chef_license, [true, false], default: false
 property :start_date, String, regex: [%r{^[0-1][0-9]\/[0-3][0-9]\/\d{4}$}]
 property :start_time, String, regex: [/^\d{2}:\d{2}$/]
 property :splay, [Integer, String], default: 300
@@ -44,25 +45,6 @@ action :add do
     recursive true
     action :create
   end
-
-  # Build command line to pass to cmd.exe
-  client_cmd = new_resource.chef_binary_path.dup
-  client_cmd << " -L #{::File.join(new_resource.log_directory, new_resource.log_file_name)}"
-  client_cmd << " -c #{::File.join(new_resource.config_directory, 'client.rb')}"
-
-  # Add custom options
-  client_cmd << " #{new_resource.daemon_options.join(' ')}" if new_resource.daemon_options.any?
-
-  # Fetch path of cmd.exe through environment variable comspec
-  cmd_path = ENV['COMSPEC']
-
-  # Between Chef Client 13.7 and 14.3 we required the command to be surrounded in single quotes
-  # due to parsing problems with windows_task. Since 14.4 resolved we require double quotes around the command.
-  full_command = if Gem::Requirement.new('< 13.7.0').satisfied_by?(Gem::Version.new(Chef::VERSION)) || Gem::Requirement.new('>= 14.4.0').satisfied_by?(Gem::Version.new(Chef::VERSION))
-                   "#{cmd_path} /c \"#{client_cmd}\""
-                 else
-                   "#{cmd_path} /c \'#{client_cmd}\'"
-                 end
 
   # According to https://docs.microsoft.com/en-us/windows/desktop/taskschd/schtasks,
   # the :once, :onstart, :onlogon, and :onidle schedules don't accept schedule modifiers
@@ -87,6 +69,40 @@ action :remove do
 end
 
 action_class do
+  #
+  # The full command to run in the scheduled task
+  #
+  # Between Chef Client 13.7 and 14.3 we required the command to be surrounded in single quotes
+  # due to parsing problems with windows_task. Since 14.4 resolved we require double quotes around the command.
+  #
+  # @return [String]
+  #
+  def full_command
+    # Fetch path of cmd.exe through environment variable comspec
+    cmd_path = ENV['COMSPEC']
+
+    if Gem::Requirement.new('< 13.7.0').satisfied_by?(Gem::Version.new(Chef::VERSION)) || Gem::Requirement.new('>= 14.4.0').satisfied_by?(Gem::Version.new(Chef::VERSION))
+      "#{cmd_path} /c \"#{client_cmd}\""
+    else
+      "#{cmd_path} /c \'#{client_cmd}\'"
+    end
+  end
+
+  #
+  # Build command line to pass to cmd.exe
+  #
+  # @return [String]
+  #
+  def client_cmd
+    cmd = new_resource.chef_binary_path.dup
+    cmd << " -L #{::File.join(new_resource.log_directory, new_resource.log_file_name)}"
+    cmd << " -c #{::File.join(new_resource.config_directory, 'client.rb')}"
+
+    # Add custom options
+    cmd << " #{new_resource.daemon_options.join(' ')}" if new_resource.daemon_options.any?
+    cmd <<  '--chef-license accept ' if new_resource.accept_chef_license && Gem::Requirement.new('>= 14.12.9').satisfied_by?(Gem::Version.new(Chef::VERSION))
+  end
+
   #
   # not all frequencies in the windows_task resource support random_delay
   #
