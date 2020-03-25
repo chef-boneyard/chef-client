@@ -85,6 +85,11 @@ suites:
     - recipe[test::service]
   includes: ["amazonlinux-2", "centos-7", "centos-8", "debian-9", "debian-10", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "ubuntu-19.04", "opensuse-leap-15", "sles-12-sp1"]
 
+- name: systemd_timer_resource
+  run_list:
+    - recipe[test::systemd_timer_resource]
+  includes: ["amazonlinux-2", "centos-7", "centos-8", "debian-9", "debian-10", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "ubuntu-19.04", "opensuse-leap-15", "sles-12-sp1"]
+
 - name: service_smf
   run_list:
     - recipe[test::service]
