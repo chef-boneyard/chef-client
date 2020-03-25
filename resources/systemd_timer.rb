@@ -25,6 +25,8 @@ property :job_name, String, default: 'chef-client'
 property :delay_after_boot, String, default: '1min'
 property :interval, String, default: '30min'
 
+property :accept_chef_license, [true, false], default: false
+
 property :splay, [Integer, String], default: 300,
                                     coerce: proc { |x| Integer(x) },
                                     callbacks: { 'should be a positive number' => proc { |v| v > 0 } }
@@ -77,6 +79,7 @@ action_class do
     cmd = "#{new_resource.chef_binary_path} "
     cmd << "#{new_resource.daemon_options.join(' ')} " unless new_resource.daemon_options.empty?
     cmd << "-L #{::File.join(new_resource.log_directory, new_resource.log_file_name)}"
+    cmd << '--chef-license accept ' if new_resource.accept_chef_license && Gem::Requirement.new('>= 14.12.9').satisfied_by?(Gem::Version.new(Chef::VERSION))
     cmd
   end
 
