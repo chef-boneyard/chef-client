@@ -28,6 +28,8 @@ property :month, [Integer, String], default: '*'
 property :weekday, [String, Integer], default: '*'
 property :mailto, String
 
+property :accept_chef_license, [true, false], default: false
+
 property :job_name, String, default: 'chef-client'
 property :splay, [Integer, String], default: 300,
                                     coerce: proc { |x| Integer(x) },
@@ -83,6 +85,7 @@ action_class do
     cmd << "/bin/sleep #{splay_sleep_time(new_resource.splay)}; "
     cmd << "#{new_resource.chef_binary_path} "
     cmd << "#{new_resource.daemon_options.join(' ')} " unless new_resource.daemon_options.empty?
+    cmd << '--chef-license accept ' if new_resource.accept_chef_license && Gem::Requirement.new('>= 14.12.9').satisfied_by?(Gem::Version.new(Chef::VERSION))
     cmd << log_command
     cmd << " || echo \"#{Chef::Dist::PRODUCT} execution failed\"" if new_resource.mailto
     cmd
