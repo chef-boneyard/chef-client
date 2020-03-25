@@ -22,7 +22,11 @@ resource_name :chef_client_scheduled_task
 property :user, String, default: 'System', sensitive: true
 property :password, String, sensitive: true
 property :frequency, String, default: 'minute', equal_to: %w(minute hourly daily monthly once on_logon onstart on_idle)
-property :frequency_modifier, [Integer, String], default: 30
+
+property :frequency_modifier, [Integer, String], default: 30,
+                                                 coerce: proc { |x| Integer(x) },
+                                                 callbacks: { 'should be a positive number' => proc { |v| v > 0 } }
+
 property :start_date, String, regex: [%r{^[0-1][0-9]\/[0-3][0-9]\/\d{4}$}]
 property :start_time, String, regex: [/^\d{2}:\d{2}$/]
 property :splay, [Integer, String], default: 300
