@@ -31,6 +31,7 @@ property :accept_chef_license, [true, false], default: false
 property :start_date, String, regex: [%r{^[0-1][0-9]\/[0-3][0-9]\/\d{4}$}]
 property :start_time, String, regex: [/^\d{2}:\d{2}$/]
 property :splay, [Integer, String], default: 300
+property :run_on_battery, [true, false], default: true
 property :config_directory, String, default: 'C:/chef'
 property :log_directory, String, default: lazy { |r| "#{r.config_directory}/log" }
 property :log_file_name, String, default: 'client.log'
@@ -49,16 +50,17 @@ action :add do
   # According to https://docs.microsoft.com/en-us/windows/desktop/taskschd/schtasks,
   # the :once, :onstart, :onlogon, and :onidle schedules don't accept schedule modifiers
   windows_task new_resource.task_name do
-    run_level          :highest
-    command            full_command
-    user               new_resource.user
-    password           new_resource.password
-    frequency          new_resource.frequency.to_sym
-    frequency_modifier new_resource.frequency_modifier if frequency_supports_frequency_modifier?
-    start_time         start_time_value
-    start_day          new_resource.start_date unless new_resource.start_date.nil?
-    random_delay       new_resource.splay if frequency_supports_random_delay?
-    action             [ :create, :enable ]
+    run_level                      :highest
+    command                        full_command
+    user                           new_resource.user
+    password                       new_resource.password
+    frequency                      new_resource.frequency.to_sym
+    frequency_modifier             new_resource.frequency_modifier if frequency_supports_frequency_modifier?
+    start_time                     start_time_value
+    start_day                      new_resource.start_date unless new_resource.start_date.nil?
+    random_delay                   new_resource.splay if frequency_supports_random_delay?
+    disallow_start_if_on_batteries new_resource.splay unless new_resource.run_on_battery || Gem::Requirement.new('< 14.4').satisfied_by?(Gem::Version.new(Chef::VERSION))
+    action                         [ :create, :enable ]
   end
 end
 
