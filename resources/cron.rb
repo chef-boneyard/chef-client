@@ -39,6 +39,7 @@ property :environment, Hash, default: lazy { {} }
 
 property :comment, String
 
+property :config_directory, String, default: '/etc/chef'
 property :log_directory, String, default: lazy { platform?('mac_os_x') ? '/Library/Logs/Chef' : '/var/log/chef' }
 property :log_file_name, String, default: 'client.log'
 property :append_log_file, [true, false], default: true
@@ -85,6 +86,7 @@ action_class do
     cmd << "/bin/sleep #{splay_sleep_time(new_resource.splay)}; "
     cmd << "#{new_resource.chef_binary_path} "
     cmd << "#{new_resource.daemon_options.join(' ')} " unless new_resource.daemon_options.empty?
+    cmd << "-c #{::File.join(new_resource.config_directory, 'client.rb')} "
     cmd << '--chef-license accept ' if new_resource.accept_chef_license && Gem::Requirement.new('>= 14.12.9').satisfied_by?(Gem::Version.new(Chef::VERSION))
     cmd << log_command
     cmd << " || echo \"#{Chef::Dist::PRODUCT} execution failed\"" if new_resource.mailto

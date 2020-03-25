@@ -34,6 +34,7 @@ property :splay, [Integer, String], default: 300,
 property :description, String, default: 'Chef Infra Client periodic execution'
 property :run_on_battery, [true, false], default: true
 
+property :config_directory, String, default: '/etc/chef'
 property :log_directory, String, default: '/var/log/chef'
 property :log_file_name, String, default: 'client.log'
 property :chef_binary_path, String, default: '/opt/chef/bin/chef-client'
@@ -78,8 +79,9 @@ action_class do
   def chef_client_cmd
     cmd = "#{new_resource.chef_binary_path} "
     cmd << "#{new_resource.daemon_options.join(' ')} " unless new_resource.daemon_options.empty?
-    cmd << "-L #{::File.join(new_resource.log_directory, new_resource.log_file_name)}"
+    cmd << "-c #{::File.join(new_resource.config_directory, 'client.rb')} "
     cmd << '--chef-license accept ' if new_resource.accept_chef_license && Gem::Requirement.new('>= 14.12.9').satisfied_by?(Gem::Version.new(Chef::VERSION))
+    cmd << "-c #{::File.join(new_resource.config_directory, 'client.rb')} "
     cmd
   end
 
