@@ -53,6 +53,7 @@ when 'openindiana', 'opensolaris', 'nexentacore', 'solaris2', 'smartos', 'omnios
 
 when 'freebsd'
   template '/etc/rc.d/chef-client' do
+    source 'default/freebsd/chef-client.erb'
     owner 'root'
     group 'wheel'
     variables client_bin: client_bin
