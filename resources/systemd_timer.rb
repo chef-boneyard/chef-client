@@ -79,7 +79,6 @@ action_class do
   def chef_client_cmd
     cmd = "#{new_resource.chef_binary_path} "
     cmd << "#{new_resource.daemon_options.join(' ')} " unless new_resource.daemon_options.empty?
-    cmd << "-c #{::File.join(new_resource.config_directory, 'client.rb')} "
     cmd << '--chef-license accept ' if new_resource.accept_chef_license && Gem::Requirement.new('>= 14.12.9').satisfied_by?(Gem::Version.new(Chef::VERSION))
     cmd << "-c #{::File.join(new_resource.config_directory, 'client.rb')} "
     cmd
