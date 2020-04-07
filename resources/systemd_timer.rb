@@ -35,8 +35,6 @@ property :description, String, default: 'Chef Infra Client periodic execution'
 property :run_on_battery, [true, false], default: true
 
 property :config_directory, String, default: '/etc/chef'
-property :log_directory, String, default: '/var/log/chef'
-property :log_file_name, String, default: 'client.log'
 property :chef_binary_path, String, default: '/opt/chef/bin/chef-client'
 property :daemon_options, Array, default: []
 
