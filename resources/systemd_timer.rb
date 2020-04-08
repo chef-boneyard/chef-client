@@ -37,6 +37,7 @@ property :run_on_battery, [true, false], default: true
 property :config_directory, String, default: '/etc/chef'
 property :chef_binary_path, String, default: '/opt/chef/bin/chef-client'
 property :daemon_options, Array, default: []
+property :environment, Hash, default: lazy { {} }
 
 action :add do
   systemd_unit "#{new_resource.job_name}.service" do
@@ -111,7 +112,7 @@ action_class do
     }
 
     unit['Service']['ConditionACPower'] = 'true' unless new_resource.run_on_battery
-
+    unit['Service']['Environment'] = new_resource.environment.collect { |k, v| "\"#{k}=#{v}\"" } unless new_resource.environment.empty?
     unit
   end
 end
