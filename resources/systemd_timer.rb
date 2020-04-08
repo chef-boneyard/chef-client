@@ -105,7 +105,7 @@ action_class do
       'Service' => {
         'Type' => 'oneshot',
         'ExecStart' => chef_client_cmd,
-        'SuccessExitStatus' => 3,
+        'SuccessExitStatus' => [3,213,35,37,41]
       },
       'Install' => { 'WantedBy' => 'multi-user.target' },
     }
