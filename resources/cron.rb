@@ -19,6 +19,9 @@
 
 resource_name :chef_client_cron
 
+property :job_name, String, default: 'chef-client'
+property :comment, String
+
 property :user, String, default: 'root'
 
 property :minute, [String, Integer], default: '0,30'
@@ -27,17 +30,11 @@ property :day, [Integer, String], default: '*'
 property :month, [Integer, String], default: '*'
 property :weekday, [String, Integer], default: '*'
 property :mailto, String
-
-property :accept_chef_license, [true, false], default: false
-
-property :job_name, String, default: 'chef-client'
 property :splay, [Integer, String], default: 300,
                                     coerce: proc { |x| Integer(x) },
                                     callbacks: { 'should be a positive number' => proc { |v| v > 0 } }
 
-property :environment, Hash, default: lazy { {} }
-
-property :comment, String
+property :accept_chef_license, [true, false], default: false
 
 property :config_directory, String, default: '/etc/chef'
 property :log_directory, String, default: lazy { platform?('mac_os_x') ? '/Library/Logs/Chef' : '/var/log/chef' }
@@ -45,6 +42,7 @@ property :log_file_name, String, default: 'client.log'
 property :append_log_file, [true, false], default: true
 property :chef_binary_path, String, default: '/opt/chef/bin/chef-client'
 property :daemon_options, Array, default: []
+property :environment, Hash, default: lazy { {} }
 
 action :add do
   unless ::Dir.exist?(new_resource.log_directory)

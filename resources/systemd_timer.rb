@@ -19,19 +19,19 @@
 
 resource_name :chef_client_systemd_timer
 
+property :job_name, String, default: 'chef-client'
+property :description, String, default: 'Chef Infra Client periodic execution'
+
 property :user, String, default: 'root'
 
-property :job_name, String, default: 'chef-client'
 property :delay_after_boot, String, default: '1min'
 property :interval, String, default: '30min'
-
-property :accept_chef_license, [true, false], default: false
-
 property :splay, [Integer, String], default: 300,
                                     coerce: proc { |x| Integer(x) },
                                     callbacks: { 'should be a positive number' => proc { |v| v > 0 } }
 
-property :description, String, default: 'Chef Infra Client periodic execution'
+property :accept_chef_license, [true, false], default: false
+
 property :run_on_battery, [true, false], default: true
 
 property :config_directory, String, default: '/etc/chef'
