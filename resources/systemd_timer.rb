@@ -39,14 +39,6 @@ property :chef_binary_path, String, default: '/opt/chef/bin/chef-client'
 property :daemon_options, Array, default: []
 
 action :add do
-  unless ::Dir.exist?(new_resource.log_directory)
-    directory new_resource.log_directory do
-      owner new_resource.user
-      mode '0640'
-      recursive true
-    end
-  end
-
   systemd_unit "#{new_resource.job_name}.service" do
     content service_content
     action :create
