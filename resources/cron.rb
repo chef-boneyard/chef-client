@@ -53,7 +53,7 @@ action :add do
     end
   end
 
-  cron_d new_resource.job_name do
+  declare_resource(cron_resource_type, new_resource.job_name) do
     minute      new_resource.minute
     hour        new_resource.hour
     day         new_resource.day
@@ -102,5 +102,9 @@ action_class do
     else
       "> #{::File.join(new_resource.log_directory, new_resource.log_file_name)} 2>&1"
     end
+  end
+
+  def cron_resource_type
+    node['os'] == 'linux' ? :cron_d : :cron
   end
 end
