@@ -25,15 +25,14 @@ property :comment, String
 property :user, String, default: 'root'
 
 property :minute, [String, Integer], default: '0,30'
-property :hour, [String, Integer], default: '*'
+property :hour, [Integer, String], default: '*'
 property :day, [Integer, String], default: '*'
 property :month, [Integer, String], default: '*'
-property :weekday, [String, Integer], default: '*'
-property :mailto, String
+property :weekday, [Integer, String], default: '*'
 property :splay, [Integer, String], default: 300,
                                     coerce: proc { |x| Integer(x) },
                                     callbacks: { 'should be a positive number' => proc { |v| v > 0 } }
-
+property :mailto, String
 property :accept_chef_license, [true, false], default: false
 
 property :config_directory, String, default: '/etc/chef'

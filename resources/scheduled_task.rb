@@ -19,6 +19,7 @@
 
 resource_name :chef_client_scheduled_task
 
+property :task_name, String, default: 'chef-client'
 property :user, String, default: 'System', sensitive: true
 property :password, String, sensitive: true
 property :frequency, String, default: 'minute', equal_to: %w(minute hourly daily monthly once on_logon onstart on_idle)
@@ -37,7 +38,6 @@ property :log_directory, String, default: lazy { |r| "#{r.config_directory}/log"
 property :log_file_name, String, default: 'client.log'
 property :chef_binary_path, String, default: 'C:/opscode/chef/bin/chef-client'
 property :daemon_options, Array, default: []
-property :task_name, String, default: 'chef-client'
 
 action :add do
   # create a directory in case the log director does not exist
