@@ -120,5 +120,5 @@ module Opscode
   end
 end
 
-Chef::DSL::Recipe.send(:include, Opscode::ChefClient::Helpers)
-Chef::Resource.send(:include, Opscode::ChefClient::Helpers)
+Chef::DSL::Recipe.include Opscode::ChefClient::Helpers
+Chef::Resource.include Opscode::ChefClient::Helpers
