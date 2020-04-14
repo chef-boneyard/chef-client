@@ -4,6 +4,8 @@ This file is used to list changes made in each version of the chef-client cookbo
 
 ## UNRELEASED
 
+- resolved cookstyle error: libraries/helpers.rb:123:19 warning: `Lint/SendWithMixinArgument`
+- resolved cookstyle error: libraries/helpers.rb:124:16 warning: `Lint/SendWithMixinArgument`
 ### Breaking Changes
 
 - Default cron times have been updated to run every 30 minutes instead of every 4 hours
