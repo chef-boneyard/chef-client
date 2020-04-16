@@ -5,6 +5,7 @@ provisioner:
   name: chef_zero
   deprecations_as_errors: true
   chef_license: accept-no-persist
+  # log_level: :debug
 
 verifier:
   name: inspec
@@ -30,11 +31,8 @@ platforms:
       box: chef/solaris-11.3 # private box
   - name: ubuntu-16.04
   - name: ubuntu-18.04
-  - name: ubuntu-18.10
   - name: ubuntu-19.04
-  - name: windows-2010
-    provisioner:
-      product_name: chef
+  - name: windows-2019
     transport:
       name: winrm
       elevated: true
@@ -44,8 +42,6 @@ platforms:
       customize:
         memory: 2048
   - name: windows-2016
-    provisioner:
-      product_name: chef
     transport:
       name: winrm
       elevated: true
@@ -82,12 +78,17 @@ suites:
 - name: service_init
   run_list:
     - recipe[test::service]
-  includes: ["centos-6", "amazon-linux", "sles-12-sp1"]
+  includes: ["centos-6", "amazon-linux"]
 
 - name: service_systemd
   run_list:
     - recipe[test::service]
-  includes: ["centos-7", "debian-9", "debian-10", "fedora-29", "ubuntu-16.04", "ubuntu-18.04", "opensuse-leap-15"]
+  includes: ["amazonlinux-2", "centos-7", "centos-8", "debian-9", "debian-10", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "ubuntu-19.04", "opensuse-leap-15", "sles-12-sp1"]
+
+- name: systemd_timer_resource
+  run_list:
+    - recipe[test::systemd_timer_resource]
+  includes: ["amazonlinux-2", "centos-7", "centos-8", "debian-9", "debian-10", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "ubuntu-19.04", "opensuse-leap-15", "sles-12-sp1"]
 
 - name: service_smf
   run_list:
@@ -99,12 +100,9 @@ suites:
   - recipe[test::cron]
   excludes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016", "windows-2019"]
 
-- name: cron_daemon
+- name: cron_resource
   run_list:
-  - recipe[test::cron]
-  attributes:
-    chef_client:
-      daemon_options: ["--run-lock-timeout 0"]
+  - recipe[test::cron_resource]
   excludes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016", "windows-2019"]
 
 - name: timer_systemd
@@ -114,17 +112,11 @@ suites:
     chef_client:
       systemd:
         timer: true
-  includes: ["centos-7", "debian-9", "debian-10", "fedora-29", "ubuntu-16.04", "ubuntu-18.04", "opensuse-leap-15"]
+  includes: ["amazonlinux-2", "centos-7", "centos-8", "debian-9", "debian-10", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "ubuntu-19.04", "opensuse-leap-15", "sles-12-sp1"]
 
 - name: config
   run_list:
     - recipe[test::config]
-  excludes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016", "windows-2019"]
-
-# Test that the we can use the cron_d directory
-- name: use_cron_d
-  run_list:
-    - recipe[test::cook-use_cron_d]
   excludes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016", "windows-2019"]
 
 - name: task

@@ -26,7 +26,7 @@ exec_options = if timer
                end
 
 env_file = template "/etc/#{conf_dir}/#{env_file}" do
-  source "#{dist_dir}/#{conf_dir}/chef-client.erb"
+  source "default/#{dist_dir}/#{conf_dir}/chef-client.erb"
   mode '0644'
   notifies :restart, 'service[chef-client]', :delayed unless timer
 end
@@ -41,7 +41,7 @@ end
 
 service_unit_content = {
   'Unit' => {
-    'Description' => 'Chef Client daemon',
+    'Description' => 'Chef Infra Client',
     'After' => 'network.target auditd.service',
   },
   'Service' => {
@@ -54,6 +54,9 @@ service_unit_content = {
   },
   'Install' => { 'WantedBy' => 'multi-user.target' },
 }
+
+# add "daemon to the description when we're creating a timer unit
+service_unit_content['Unit']['Description'] << ' daemon' unless timer
 
 service_unit_content['Service'].delete('Restart') if timer
 

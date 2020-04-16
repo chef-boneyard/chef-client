@@ -21,6 +21,7 @@ if platform_family?('freebsd')
   end
 
   template '/usr/local/etc/rc.d/chef-client' do
+    source 'default/freebsd/chef-client.erb'
     owner 'root'
     group 'wheel'
     variables client_bin: client_bin
@@ -33,6 +34,7 @@ if platform_family?('freebsd')
   end
 
   template '/etc/rc.conf.d/chef' do
+    source 'default/freebsd/chef.erb'
     mode '0644'
     notifies :start, 'service[chef-client]', :delayed
   end

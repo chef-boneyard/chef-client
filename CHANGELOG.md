@@ -2,6 +2,28 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## UNRELEASED
+
+- resolved cookstyle error: libraries/helpers.rb:123:19 warning: `Lint/SendWithMixinArgument`
+- resolved cookstyle error: libraries/helpers.rb:124:16 warning: `Lint/SendWithMixinArgument`
+### Breaking Changes
+
+- Default cron times have been updated to run every 30 minutes instead of every 4 hours
+- The default binary path on Linux, macOS and other *nix operating systems has been changed from `/usr/bin/chef-client` to `/opt/chef/bin/chef-client`
+- The upstart service recipe has been removed as Ubuntu 14.04 is now EOL
+- Support for non-RHEL platforms in the init service recipe has been removed as only RHEL 6 / Amazon 201x should need sys-v init support at this point
+- The `node['chef_client']['cache_path']` attribute has been renamed to `node['chef_client']['file_cache_path']` and will properly be set in the client.rb if changed now.
+- The `node['chef_client']['backup_path']` attribute has been renamed to `node['chef_client']['file_backup_path']` and will properly be set in the client.rb if changed now.
+- The `chef_client_scheduled_task` resource no longer uses the `node['chef_client']['log_file']` to set the log file name and intead had a new `log_file_name` property that defaults to `chef-client.log` matching the attributes default value.
+- A new `client.rb` configuration option `file_staging_uses_destdir` is set via `node['chef_client']['file_staging_uses_destdir']`, which defaults to true.
+
+### Other Changes
+
+- The splay time generation for cron jobs has been corrected
+- The `chef_client_scheduled_task` resource will no longer fail if the `frequency` property is set to a value other than `once`, `minute`, `hourly`, `daily`, `weekly`, or `monthly`
+- The `chef_client_scheduled_task` resource now creates the log directory specified in the resource.
+- A new `chef_client_cron` has been added for setting up Chef Infra Client to run as a cron job.
+
 ## 11.5.0 (2020-01-22)
 
 - Simplify platform checks by using platform? helper - [@tas50](https://github.com/tas50)

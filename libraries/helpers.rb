@@ -1,6 +1,6 @@
 #
 # Author:: John Dewey (<john@dewey.ws>)
-# Cookbook::  chef-client
+# Cookbook:: chef-client
 # Library:: helpers
 #
 # Copyright:: 2012-2017, John Dewey
@@ -17,14 +17,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'chef/mixin/shell_out'
-
 module Opscode
   module ChefClient
     # helper methods for use in chef-client recipe code
     module Helpers
-      include Chef::DSL::PlatformIntrospection
-      include Chef::Mixin::ShellOut
+      include Chef::Mixin::Which
+      require 'digest/md5'
 
       def wmi_property_from_query(wmi_property, wmi_query)
         @wmi = ::WIN32OLE.connect('winmgmts://')
@@ -33,8 +31,15 @@ module Opscode
         result.each.next.send(wmi_property)
       end
 
+      # Generate a uniformly distributed unique number to sleep.
+      def splay_sleep_time(splay)
+        seed = node['shard_seed'] || Digest::MD5.hexdigest(node.name).to_s.hex
+        random = Random.new(seed.to_i)
+        random.rand(splay)
+      end
+
       def root_owner
-        if ['windows'].include?(node['platform'])
+        if platform?('windows')
           wmi_property_from_query(:name, "select * from Win32_UserAccount where sid like 'S-1-5-21-%-500' and LocalAccount=True")
         else
           'root'
@@ -56,28 +61,15 @@ module Opscode
       end
 
       def find_chef_client
-        if node['platform'] == 'windows'
-          existence_check = :exists?
-          # Where will also return files that have extensions matching PATHEXT (e.g.
-          # *.bat). We don't want the batch file wrapper, but the actual script.
-          which = 'set PATHEXT=.exe & where'
-          Chef::Log.debug "Using exists? and 'where' to find the chef-client binary since we're on Windows"
-        else
-          existence_check = :executable?
-          which = 'which'
-          Chef::Log.debug "Using executable? and 'which' to find the chef-client binary since we're on *nix"
-        end
+        # executable on windows really means it ends in .exec/.bat
+        existence_check = platform?('windows') ? :exist? : :executable?
 
-        # try to use the bin provided by the node attribute
         if ::File.send(existence_check, node['chef_client']['bin'])
           Chef::Log.debug 'Using chef-client bin from node attributes'
           node['chef_client']['bin']
-        # last ditch search for a bin in PATH
-        elsif (chef_in_path = shell_out("#{which} chef-client").stdout.chomp) && ::File.send(existence_check, chef_in_path)
-          Chef::Log.debug 'Using chef-client bin from system path'
-          chef_in_path
         else
-          raise "Could not locate the chef-client bin in any known path. Please set the proper path by overriding the node['chef_client']['bin'] attribute."
+          Chef::Log.debug "Searching path for chef-client bin as node['chef_client']['bin'] does not exist"
+          which('chef-client') || raise("Could not locate the chef-client bin in any known path. Please set the proper path by overriding the node['chef_client']['bin'] attribute.")
         end
       end
 
@@ -128,5 +120,5 @@ module Opscode
   end
 end
 
-Chef::DSL::Recipe.send(:include, Opscode::ChefClient::Helpers)
-Chef::Resource.send(:include, Opscode::ChefClient::Helpers)
+Chef::DSL::Recipe.include Opscode::ChefClient::Helpers
+Chef::Resource.include Opscode::ChefClient::Helpers

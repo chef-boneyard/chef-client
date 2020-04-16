@@ -12,6 +12,7 @@ chef_client_scheduled_task 'Chef Client on start' do
   frequency        'onstart'
   config_directory node['chef_client']['conf_dir']
   log_directory    node['chef_client']['log_dir']
+  log_file_name    node['chef_client']['log_file']
   chef_binary_path node['chef_client']['bin']
   daemon_options   node['chef_client']['daemon_options']
   task_name        "#{node['chef_client']['task']['name']}-onstart"

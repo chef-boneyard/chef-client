@@ -1,6 +1,6 @@
 driver:
   name: dokken
-  privileged: true # because Docker and SystemD/Upstart
+  privileged: true # because Docker and SystemD
   chef_version: <%= ENV['CHEF_VERSION'] || 'current' %>
   chef_license: accept-no-persist
 
@@ -111,13 +111,16 @@ suites:
     - recipe[test::service]
   includes: ["centos-7", "debian-9", "debian-10", "opensuse-leap-15", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "amazonlinux-2"]
 
+- name: systemd_timer_resource
+  run_list:
+    - recipe[test::systemd_timer_resource]
+  includes: ["centos-7", "debian-9", "debian-10", "opensuse-leap-15", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "amazonlinux-2"]
+
 - name: timer_systemd
   run_list:
-  - recipe[chef-client::systemd_service]
+    - recipe[chef-client::systemd_service]
   attributes:
     chef_client:
-      interval: 30
-      splay: 5
       systemd:
         timer: true
   includes: ["centos-7", "debian-9", "debian-10", "opensuse-leap-15", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "amazonlinux-2"]

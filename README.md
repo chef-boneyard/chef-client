@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/chef-cookbooks/chef-client.svg?branch=master)](https://travis-ci.org/chef-cookbooks/chef-client) [![Cookbook Version](https://img.shields.io/cookbook/v/chef-client.svg)](https://supermarket.chef.io/cookbooks/chef-client)
 
-This cookbook is used to configure a system as a Chef Client.
+This cookbook is used to configure a system to run the Chef Infra Client.
 
 ## Requirements
 
@@ -13,13 +13,13 @@ This cookbook is used to configure a system as a Chef Client.
 - Debian
 - Fedora
 - FreeBSD
-- Mac OS X
+- macOS
 - openSUSE
 - SLES 12+
 - RHEL
 - Solaris 10+
 - Ubuntu
-- Windows 2008 R2+
+- Windows
 
 ### Chef
 
@@ -31,6 +31,65 @@ This cookbook is used to configure a system as a Chef Client.
 - logrotate 1.9.0+
 
 See [USAGE](#usage).
+
+
+## Resources
+
+The chef-client cookbook provides several resources for setting up Chef Infra Client to run on a schedule. When possible these resources should be used instead of the legacy attributes / recipes as these same resources will be included in Chef Infra Client 16+ out of the box.
+
+### chef_client_scheduled_task
+
+The chef_client_scheduled_task resource setups up Chef Infra Client to run as a scheduled task on Windows. You can use this resource directly in any of your own recipes. Using this resource to configure Chef Infra Client running as a scheduled task allows you to control where you store the user credentials instead of storing them as node attributes. This is useful if you want to store these credentials in an encrypted databag or other secrets store.
+
+### Actions
+
+- `:add`
+- `:remove`
+
+### Properties
+
+- `user` - The username to run the task as. default: 'System'
+- `password` The password of the user to run the task as if not using the System user
+- `frequency` - Frequency with which to run the task (e.g., 'hourly', 'daily', etc.) Default is 'minute'
+- `frequency_modifier` Numeric value to go with the scheduled task frequency - default: '30'
+- `start_time` The start time for the task in HH:mm format (ex: 14:00). If the `frequency` is `minute` default start time will be `Time.now` plus the `frequency_modifier` number of minutes.
+- `start_date` - The start date for the task in `m:d:Y` format (ex: 12/17/2017). nil by default and isn't necessary if you're running a regular interval.
+- `splay` - A random number of seconds between 0 and X to add to interval. default: '300'
+- `config_directory` - The path to the Chef config directory. default: 'C:/chef'
+- `log_file_name` - The name of the log file. default: 'chef-client.log'
+- `log_directory` - The path to the Chef log directory. default: 'CONFIG_DIRECTORY/log'
+- `chef_binary_path` - The path to the chef-client binary. default: 'C:/opscode/chef/bin/chef-client'
+- `daemon_options` - An optional array of extra options to pass to the chef-client
+- `task_name` - The name of the scheduled task. This allows for multiple chef_client_scheduled_task resources when it is used directly like in a wrapper cookbook. default: 'chef-client'
+
+### chef_client_cron
+
+The chef_client cron resource setups up Chef Infra Client to run as a cron job using a cron.d configuration file. You can use this resource directly in any of your own recipes.
+
+### Actions
+
+- `:add`
+- `:remove`
+
+### Properties
+
+- `user` - The username to run the task as. default: 'root'
+- `minute` - The minute that Chef Infra Client will run as a cron task. default: '0,30' (every 30 minutes)
+- `hour` - The hour that Chef Infra Client will run as a cron task. default: '*'
+- `day` - The day that Chef Infra Client will run as a cron task. default: '*'
+- `month` - The month that Chef Infra Client will run as a cron task. default: '*'
+- `weekday` - The weekday that Chef Infra Client will run as a cron task. default: '*'
+- `comment` - A comment to add to the cron file.
+- `mailto` - The e-mail address to e-mail any cron task failures to.
+- `job_name` - The name of the cron task to create. This allows you to have schedules with different options if necessary. default: 'chef-client'
+- `splay` - A random number of seconds between 0 and X to add to interval. default: '300'
+- `environment` - A hash of environment variables to pass to chef-client's execution (e.g. `SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt chef-client`)
+- `config_directory` - The path to the Chef config directory. default: '/etc/chef/'
+- `log_file_name` - The name of the log file. default: 'chef-client.log'
+- `log_directory` - The path to the Chef log directory. default: '/var/log/chef' on *nix or '/Library/Logs/Chef' on macOS
+- `append_log_file` - Whether to append to the log. Default: `true` chef-client output.
+- `chef_binary_path` - The path to the chef-client binary. default: '/opt/chef/bin/chef-client'
+- `daemon_options` - An optional array of extra command line options to pass to the chef-client
 
 ## Attributes
 
@@ -44,7 +103,7 @@ The following attributes affect the behavior of the chef-client program when run
 - `node['chef_client']['log_rotation']['prerotate']` - Set prerotate action for chef-client logrotation. Default to `nil`.
 - `node['chef_client']['log_rotation']['postrotate']` - Set postrotate action for chef-client logrotation. Default to chef-client service reload depending on init system. It should be empty to skip reloading chef-client service in case if `node['chef_client']['systemd']['timer']` is true.
 - `node['chef_client']['conf_dir']` - Sets directory used via command-line option to a location where chef-client search for the client config file . Default "/etc/chef".
-- `node['chef_client']['bin']` - Sets the full path to the `chef-client` binary. Mainly used to set a specific path if multiple versions of chef-client exist on a system or the bin has been installed in a non-sane path. Default "/usr/bin/chef-client".
+- `node['chef_client']['bin']` - Sets the full path to the `chef-client` binary. Mainly used to set a specific path if multiple versions of chef-client exist on a system or the bin has been installed in a non-sane path. Default "/opt/chef/bin/chef-client".
 - `node['chef_client']['ca_cert_path']` - Sets the full path to the PEM-encoded certificate trust store used by `chef-client` when daemonized. If not set, [default values](https://docs.chef.io/chef_client_security.html#ssl-cert-file) are used.
 - `node['chef_client']['cron']['minute']` - The minute that chef-client will run as a cron task. See [cron recipe](#cron)
 - `node['chef_client']['cron']['hour']` - The hour that chef-client will run as a cron task. See [cron recipe](#cron)
@@ -124,8 +183,7 @@ recipe[chef-client::init_service]
 Use this recipe on systems that should have a `chef-client` daemon running, such as when Knife bootstrap was used to install Chef on a new system.
 
 - `init` - uses the init script included in this cookbook, supported on debian and redhat family distributions.
-- `upstart` - uses the upstart job included in this cookbook, supported on ubuntu.
-- `launchd` - sets up the service under launchd, supported on Mac OS X & Mac OS X Server.
+- `launchd` - sets up the service under launchd, supported on macOS
 - `bsd` - prints a message about how to update BSD systems to enable the chef-client service.
 - `systemd` - sets up the service under systemd. Supported on systemd based distros.
 
@@ -356,7 +414,7 @@ report_handlers << SimpleReport::UpdatedResources.new()
 
 #### Launchd
 
-On Mac OS X and Mac OS X Server, the default service implementation is "launchd".
+On macOS and macOS Server, the default service implementation is "launchd".
 
 Since launchd can run a service in interval mode, by default chef-client is not started in daemon mode like on Debian or Ubuntu. Keep this in mind when you look at your process list and check for a running chef process! If you wish to run chef-client in daemon mode, set attribute `chef_client.launchd_mode` to "daemon".
 
@@ -366,39 +424,13 @@ This cookbook does not handle updating the chef-client, as that's out of the coo
 
 - [chef_client_updater](https://github.com/chef-cookbooks/chef_client_updater) - Cookbook for keeping your install up-to-date
 
-## Resources
-
-### chef_client_scheduled_task
-
-The chef_client_scheduled_task setups up chef-client to run as a scheduled task. This resource is what the task recipe calls under the hood. You can use this recipe directly when writing a wrapper cookbook. Additionally using this resource directly allows you to control where you store the user credentials instead of storing them as node attributes. This is useful if you want to store these credentials in an encrypted databag.
-
-### Actions
-
-- `:add`
-- `:remove`
-
-### Properties
-
-- `user` - The username to run the task as. default: 'System'
-- `password`, The password of the user to run the task as if not using the System user
-- `frequency` - Frequency with which to run the task (e.g., 'hourly', 'daily', etc.) Default is 'minute'
-- `frequency_modifier` Numeric value to go with the scheduled task frequency - default: '30'
-- `start_time` The start time for the task in HH:mm format (ex: 14:00). If the `frequency` is `minute` default start time will be `Time.now` plus the `frequency_modifier` number of minutes.
-- `start_date` - The start date for the task in `m:d:Y` format (ex: 12/17/2017). nil by default and isn't necessary if you're running a regular interval.
-- `splay` - A random number of seconds between 0 and X to add to interval. default: '300'
-- `config_directory` - The path to the Chef config directory. default: 'C:/chef'
-- `log_directory` - The path to the Chef log directory. default: 'CONFIG_DIRECTORY/log'
-- `chef_binary_path` - The path to the chef-client binary. default: 'C:/opscode/chef/bin/chef-client'
-- `daemon_options` - An optional array of extra options to pass to the chef-client
-- `task_name` - The name of the scheduled task. This allows for multiple chef_client_scheduled_task resources when it is used directly like in a wrapper cookbook. default: 'chef-client'
-
 ## Maintainers
 
 This cookbook is maintained by Chef's Community Cookbook Engineering team. Our goal is to improve cookbook quality and to aid the community in contributing to cookbooks. To learn more about our team, process, and design goals see our [team documentation](https://github.com/chef-cookbooks/community_cookbook_documentation/blob/master/COOKBOOK_TEAM.MD). To learn more about contributing to cookbooks like this see our [contributing documentation](https://github.com/chef-cookbooks/community_cookbook_documentation/blob/master/CONTRIBUTING.MD), or if you have general questions about this cookbook come chat with us in #cookbok-engineering on the [Chef Community Slack](http://community-slack.chef.io/)
 
 ## License
 
-**Copyright:** 2010-2017, Chef Software, Inc.
+**Copyright:** 2010-2020, Chef Software, Inc.
 
 ```
 Licensed under the Apache License, Version 2.0 (the "License");

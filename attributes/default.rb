@@ -37,7 +37,7 @@ default['chef_client']['log_file']    = 'client.log'
 default['chef_client']['interval']    = '1800'
 default['chef_client']['splay']       = '300'
 default['chef_client']['conf_dir']    = '/etc/chef'
-default['chef_client']['bin']         = '/usr/bin/chef-client'
+default['chef_client']['bin']         = '/opt/chef/bin/chef-client'
 
 # Set a sane default log directory location, overriden by specific
 # platforms below.
@@ -48,8 +48,8 @@ default['chef_client']['log_perm'] = '640'
 
 # Configuration for chef-client::cron recipe.
 default['chef_client']['cron'] = {
-  'minute' => '0',
-  'hour' => '0,4,8,12,16,20',
+  'minute' => '0,30',
+  'hour' => '*',
   'weekday' => '*',
   'path' => nil,
   'environment_variables' => nil,
@@ -59,6 +59,9 @@ default['chef_client']['cron'] = {
   'mailto' => nil,
   'nice_path' => '/bin/nice',
 }
+
+# on linux we should use cron_d instead of crontab
+default['chef_client']['cron']['use_cron_d'] = true if node['os'] == 'linux'
 
 # Configuration for chef-client::systemd_service recipe
 default['chef_client']['systemd']['timer'] = false
@@ -184,8 +187,6 @@ default['chef_client']['log_rotation']['prerotate'] = nil
 default['chef_client']['log_rotation']['postrotate'] =  case node['chef_client']['init_style']
                                                         when 'systemd'
                                                           node['chef_client']['systemd']['timer'] ? '' : 'systemctl reload chef-client.service >/dev/null || :'
-                                                        when 'upstart'
-                                                          'initctl reload chef-client >/dev/null || :'
                                                         else
                                                           '/etc/init.d/chef-client reload >/dev/null || :'
                                                         end
