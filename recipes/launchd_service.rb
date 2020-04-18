@@ -27,9 +27,10 @@ template '/Library/LaunchDaemons/com.chef.chef-client.plist' do
     launchd_mode: node['chef_client']['launchd_mode'],
     log_dir: node['chef_client']['log_dir'],
     log_file: node['chef_client']['log_file'],
-    splay: node['chef_client']['splay']
+    splay: node['chef_client']['splay'],
+    working_dir: node['chef_client']['launchd_working_dir']
   )
-  notifies :restart, 'macosx_service[com.chef.chef-client]'
+  notifies :restart, 'macosx_service[com.chef.chef-client]' if node['chef_client']['launchd_self-update']
 end
 
 macosx_service 'com.opscode.chef-client' do
