@@ -32,6 +32,9 @@ platforms:
   - name: ubuntu-16.04
   - name: ubuntu-18.04
   - name: ubuntu-19.04
+  - name: macos-10.15
+    driver:
+      box: tas50/macos_10.15
   - name: windows-2019
     transport:
       name: winrm
@@ -95,15 +98,20 @@ suites:
     - recipe[test::service]
   includes: ["solaris-11.3"]
 
+- name: service_launchd
+  run_list:
+    - recipe[test::service]
+  includes: ["macos-10.15"]
+
 - name: cron
   run_list:
   - recipe[test::cron]
-  excludes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016", "windows-2019"]
+  excludes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016", "windows-2019", "macos-10.15"]
 
 - name: cron_resource
   run_list:
   - recipe[test::cron_resource]
-  excludes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016", "windows-2019"]
+  excludes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016", "windows-2019", "macos-10.15"]
 
 - name: timer_systemd
   run_list:
@@ -117,7 +125,7 @@ suites:
 - name: config
   run_list:
     - recipe[test::config]
-  excludes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016", "windows-2019"]
+  excludes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016", "windows-2019", "macos-10.15"]
 
 - name: task
   run_list:
