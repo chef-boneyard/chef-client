@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-resource_name :chef_client_systemd_timer
+provides :chef_client_systemd_timer
 
 property :job_name, String, default: 'chef-client'
 property :description, String, default: 'Chef Infra Client periodic execution'
