@@ -4,6 +4,9 @@ This file is used to list changes made in each version of the chef-client cookbo
 
 ## UNRELEASED
 
+- resolved cookstyle error: resources/cron.rb:20:1 warning: `ChefDeprecations/ResourceUsesOnlyResourceName`
+- resolved cookstyle error: resources/scheduled_task.rb:20:1 warning: `ChefDeprecations/ResourceUsesOnlyResourceName`
+- resolved cookstyle error: resources/systemd_timer.rb:20:1 warning: `ChefDeprecations/ResourceUsesOnlyResourceName`
 - resolved cookstyle error: libraries/helpers.rb:123:19 warning: `Lint/SendWithMixinArgument`
 - resolved cookstyle error: libraries/helpers.rb:124:16 warning: `Lint/SendWithMixinArgument`
 ### Breaking Changes
