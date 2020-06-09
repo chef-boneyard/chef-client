@@ -18,6 +18,7 @@
 #
 
 provides :chef_client_scheduled_task
+resource_name :chef_client_scheduled_task
 
 property :task_name, String, default: 'chef-client'
 property :user, String, default: 'System', sensitive: true

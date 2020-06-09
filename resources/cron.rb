@@ -18,6 +18,7 @@
 #
 
 provides :chef_client_cron
+resource_name :chef_client_cron
 
 property :job_name, String, default: 'chef-client'
 property :comment, String
