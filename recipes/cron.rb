@@ -32,27 +32,27 @@ create_chef_directories
 
 # Stop any running chef-client services
 if node['os'] == 'linux'
-  service 'chef-client' do
+  service "#{node['chef_client']['dist']}-client" do
     supports status: true, restart: true
     action [:disable, :stop]
     ignore_failure true
   end
 
-  file '/etc/init.d/chef-client' do
+  file "/etc/init.d/#{node['chef_client']['dist']}-client" do
     action :delete
   end
 end
 
 case node['platform_family']
 when 'openindiana', 'opensolaris', 'nexentacore', 'solaris2', 'smartos', 'omnios'
-  service 'chef-client' do
+  service "#{node['chef_client']['dist']}-client" do
     supports status: true, restart: true
     action [:disable, :stop]
     ignore_failure true
   end
 
 when 'freebsd'
-  template '/etc/rc.d/chef-client' do
+  template "/etc/rc.d/#{node['chef_client']['dist']}-client" do
     source 'default/freebsd/chef-client.erb'
     owner 'root'
     group 'wheel'
@@ -60,11 +60,11 @@ when 'freebsd'
     mode '0755'
   end
 
-  file '/etc/rc.conf.d/chef' do
+  file "/etc/rc.conf.d/#{node['chef_client']['dist']}" do
     action :delete
   end
 
-  service 'chef-client' do
+  service "#{node['chef_client']['dist']}-client" do
     supports status: true, restart: true
     action [:stop]
   end
@@ -73,11 +73,12 @@ end
 # If "use_cron_d" is set to true, delete the cron entry that uses the cron
 # resource built in to Chef and instead use the cron_d LWRP.
 if node['chef_client']['cron']['use_cron_d']
-  cron 'chef-client' do
+  cron "#{node['chef_client']['dist']}-client" do
     action :delete
   end
 
-  chef_client_cron 'chef-client cron.d job' do
+  chef_client_cron "#{node['chef_client']['dist']}-client cron.d job" do
+    job_name          "#{node['chef_client']['dist']}-client"
     minute            node['chef_client']['cron']['minute']
     hour              node['chef_client']['cron']['hour']
     weekday           node['chef_client']['cron']['weekday']
@@ -92,7 +93,7 @@ else
   # Non-linux platforms don't support cron.d so we won't try to remove a cron_d resource.
   # https://github.com/chef-cookbooks/cron/blob/master/resources/d.rb#L55
   if node['os'] == 'linux'
-    cron_d 'chef-client' do
+    cron_d "#{node['chef_client']['dist']}-client" do
       action :delete
     end
   end
@@ -102,7 +103,7 @@ else
   append_log = node['chef_client']['cron']['append_log'] ? '>>' : '>'
   daemon_options = " #{node['chef_client']['daemon_options'].join(' ')} " if node['chef_client']['daemon_options'].any?
 
-  cron 'chef-client' do
+  cron "#{node['chef_client']['dist']}-client" do
     minute  node['chef_client']['cron']['minute']
     hour    node['chef_client']['cron']['hour']
     weekday node['chef_client']['cron']['weekday']
@@ -114,7 +115,7 @@ else
     cmd << "#{env_vars} " if env_vars?
     cmd << "#{node['chef_client']['cron']['nice_path']} -n #{process_priority} " if process_priority
     cmd << "#{client_bin} #{daemon_options}#{append_log} #{log_file} 2>&1"
-    cmd << ' || echo "Chef client execution failed"' if node['chef_client']['cron']['mailto']
+    cmd << " || echo \"#{node['chef_client']['dist']} client execution failed\"" if node['chef_client']['cron']['mailto']
     command cmd
   end
 end

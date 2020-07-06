@@ -4,17 +4,17 @@ end
 
 # libraries/helpers.rb method to DRY directory creation resources
 client_bin = find_chef_client
-Chef::Log.debug("Using chef-client binary at #{client_bin}")
+Chef::Log.debug("Using #{node['chef_client']['dist']}-client binary at #{client_bin}")
 node.default['chef_client']['bin'] = client_bin
 create_chef_directories
 
 dist_dir, conf_dir, env_file = value_for_platform_family(
-  ['amazon'] => %w(redhat sysconfig chef-client),
-  ['fedora'] => %w(fedora sysconfig chef-client),
-  ['rhel'] => %w(redhat sysconfig chef-client),
-  ['suse'] => %w(redhat sysconfig chef-client),
-  ['debian'] => %w(debian default chef-client),
-  ['clearlinux'] => %w(clearlinux chef chef-client)
+  ['amazon'] => ['redhat', 'sysconfig', "#{node['chef_client']['dist']}-client"],
+  ['fedora'] => ['fedora', 'sysconfig', "#{node['chef_client']['dist']}-client"],
+  ['rhel'] => ['redhat', 'sysconfig', "#{node['chef_client']['dist']}-client"],
+  ['suse'] => ['redhat', 'sysconfig', "#{node['chef_client']['dist']}-client"],
+  ['debian'] => ['debian', 'default', "#{node['chef_client']['dist']}-client"],
+  ['clearlinux'] => ['clearlinux', 'chef', "#{node['chef_client']['dist']}-client"]
 )
 
 timer = node['chef_client']['systemd']['timer']
@@ -28,7 +28,7 @@ exec_options = if timer
 env_file = template "/etc/#{conf_dir}/#{env_file}" do
   source "default/#{dist_dir}/#{conf_dir}/chef-client.erb"
   mode '0644'
-  notifies :restart, 'service[chef-client]', :delayed unless timer
+  notifies :restart, "service[#{node['chef_client']['dist']}-client]", :delayed unless timer
 end
 
 directory '/etc/systemd/system' do
@@ -41,7 +41,7 @@ end
 
 service_unit_content = {
   'Unit' => {
-    'Description' => 'Chef Infra Client',
+    'Description' => "#{node['chef_client']['dist'].capitalize} Infra Client",
     'After' => 'network.target auditd.service',
   },
   'Service' => {
@@ -70,13 +70,13 @@ if node['chef_client']['systemd']['killmode']
     node['chef_client']['systemd']['killmode']
 end
 
-systemd_unit 'chef-client.service' do
+systemd_unit "#{node['chef_client']['dist']}-client.service" do
   content service_unit_content
   action :create
-  notifies(:restart, 'service[chef-client]', :delayed) unless timer
+  notifies(:restart, "service[#{node['chef_client']['dist']}-client]", :delayed) unless timer
 end
 
-systemd_unit 'chef-client.timer' do
+systemd_unit "#{node['chef_client']['dist']}-client.timer" do
   content(
     'Unit' => { 'Description' => 'chef-client periodic run' },
     'Install' => { 'WantedBy' => 'timers.target' },
@@ -90,7 +90,7 @@ systemd_unit 'chef-client.timer' do
   notifies :restart, to_s, :delayed unless timer
 end
 
-service 'chef-client' do
+service "#{node['chef_client']['dist']}-client" do
   supports status: true, restart: true
   action(timer ? [:disable, :stop] : [:enable, :start])
 end
