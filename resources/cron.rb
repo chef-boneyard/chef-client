@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+chef_version_for_provides '< 16.0' if respond_to?(:chef_version_for_provides)
+
 provides :chef_client_cron
 resource_name :chef_client_cron
 
