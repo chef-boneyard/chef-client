@@ -39,12 +39,12 @@ default['chef_client']['chef_license'] = nil
 default['chef_client']['log_file']    = 'client.log'
 default['chef_client']['interval']    = '1800'
 default['chef_client']['splay']       = '300'
-default['chef_client']['conf_dir']    = "/etc/chef"
-default['chef_client']['bin']         = "/opt/chef/bin/chef-client"
+default['chef_client']['conf_dir']    = '/etc/chef'
+default['chef_client']['bin']         = '/opt/chef/bin/chef-client'
 
 # Set a sane default log directory location, overriden by specific
 # platforms below.
-default['chef_client']['log_dir']     = "/var/log/chef"
+default['chef_client']['log_dir']     = '/var/log/chef'
 
 # If log file is used, default permissions so everyone can read
 default['chef_client']['log_perm'] = '640'
@@ -80,7 +80,7 @@ default['chef_client']['task']['user'] = 'SYSTEM'
 default['chef_client']['task']['password'] = nil # Password is only required for non-system users
 default['chef_client']['task']['start_time'] = nil
 default['chef_client']['task']['start_date'] = nil
-default['chef_client']['task']['name'] = "chef-client"
+default['chef_client']['task']['name'] = 'chef-client'
 
 default['chef_client']['load_gems'] = {}
 
@@ -117,28 +117,28 @@ case node['platform_family']
 when 'aix'
   default['chef_client']['init_style']  = 'src'
   default['chef_client']['svc_name']    = node['chef_client']['dist']
-  default['chef_client']['run_path']    = "/var/run/chef"
-  default['chef_client']['file_cache_path'] = "/var/spool/chef"
-  default['chef_client']['file_backup_path'] = "/var/lib/chef"
-  default['chef_client']['log_dir']     = "/var/adm/chef"
+  default['chef_client']['run_path']    = '/var/run/chef'
+  default['chef_client']['file_cache_path'] = '/var/spool/chef'
+  default['chef_client']['file_backup_path'] = '/var/lib/chef'
+  default['chef_client']['log_dir']     = '/var/adm/chef'
 when 'amazon', 'rhel', 'fedora', 'debian', 'suse', 'clearlinux'
   default['chef_client']['init_style']  = node['init_package']
-  default['chef_client']['run_path']    = "/var/run/chef"
-  default['chef_client']['file_cache_path'] = "/var/cache/chef"
-  default['chef_client']['file_backup_path'] = "/var/lib/chef"
+  default['chef_client']['run_path']    = '/var/run/chef'
+  default['chef_client']['file_cache_path'] = '/var/cache/chef'
+  default['chef_client']['file_backup_path'] = '/var/lib/chef'
   default['chef_client']['chkconfig']['start_order'] = 98
   default['chef_client']['chkconfig']['stop_order']  = 02
 when 'freebsd'
   default['chef_client']['init_style']  = 'bsd'
   default['chef_client']['run_path']    = '/var/run'
-  default['chef_client']['file_cache_path'] = "/var/chef/cache"
-  default['chef_client']['file_backup_path'] = "/var/chef/backup"
+  default['chef_client']['file_cache_path'] = '/var/chef/cache'
+  default['chef_client']['file_backup_path'] = '/var/chef/backup'
 # don't use bsd paths per COOK-1379
 when 'mac_os_x'
   default['chef_client']['init_style']  = 'launchd'
   default['chef_client']['log_dir']     = "/Library/Logs/#{node['chef_client']['dist'].capitalize}"
   # Launchd doesn't use pid files
-  default['chef_client']['run_path']    = "/var/run/chef"
+  default['chef_client']['run_path']    = '/var/run/chef'
   default['chef_client']['file_cache_path'] = "/Library/Caches/#{node['chef_client']['dist'].capitalize}"
   default['chef_client']['file_backup_path'] = "/Library/Caches/#{node['chef_client']['dist'].capitalize}/Backup"
   # Set to 'daemon' if you want chef-client to run
@@ -150,25 +150,25 @@ when 'mac_os_x'
   default['chef_client']['launchd_self-update'] = false
 when 'openindiana', 'opensolaris', 'nexentacore', 'solaris2', 'omnios'
   default['chef_client']['init_style']  = 'smf'
-  default['chef_client']['run_path']    = "/var/run/chef"
-  default['chef_client']['file_cache_path'] = "/var/chef/cache"
-  default['chef_client']['file_backup_path'] = "/var/chef/backup"
+  default['chef_client']['run_path']    = '/var/run/chef'
+  default['chef_client']['file_cache_path'] = '/var/chef/cache'
+  default['chef_client']['file_backup_path'] = '/var/chef/backup'
   default['chef_client']['method_dir'] = '/lib/svc/method'
   default['chef_client']['bin_dir'] = '/usr/bin'
   default['chef_client']['locale'] = 'en_US.UTF-8'
   default['chef_client']['env_path'] = '/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin'
 when 'smartos'
   default['chef_client']['init_style']  = 'smf'
-  default['chef_client']['run_path']    = "/var/run/chef"
-  default['chef_client']['file_cache_path'] = "/var/chef/cache"
-  default['chef_client']['file_backup_path'] = "/var/chef/backup"
+  default['chef_client']['run_path']    = '/var/run/chef'
+  default['chef_client']['file_cache_path'] = '/var/chef/cache'
+  default['chef_client']['file_backup_path'] = '/var/chef/backup'
   default['chef_client']['method_dir'] = '/opt/local/lib/svc/method'
   default['chef_client']['bin_dir'] = '/opt/local/bin'
   default['chef_client']['locale'] = 'en_US.UTF-8'
   default['chef_client']['env_path'] = '/usr/local/sbin:/usr/local/bin:/opt/local/sbin:/opt/local/bin:/usr/sbin:/usr/bin:/sbin'
 when 'windows'
   default['chef_client']['init_style']  = 'windows'
-  default['chef_client']['conf_dir']    = "C:/chef"
+  default['chef_client']['conf_dir']    = 'C:/chef'
   default['chef_client']['run_path']    = "#{node['chef_client']['conf_dir']}/run"
   default['chef_client']['file_cache_path'] = "#{node['chef_client']['conf_dir']}/cache"
   default['chef_client']['file_backup_path'] = "#{node['chef_client']['conf_dir']}/backup"
@@ -177,8 +177,8 @@ when 'windows'
 else
   default['chef_client']['init_style']  = 'none'
   default['chef_client']['run_path']    = '/var/run'
-  default['chef_client']['file_cache_path'] = "/var/chef/cache"
-  default['chef_client']['file_backup_path'] = "/var/chef/backup"
+  default['chef_client']['file_cache_path'] = '/var/chef/cache'
+  default['chef_client']['file_backup_path'] = '/var/chef/backup'
 end
 
 # Need to set this Option in client.rb
@@ -189,7 +189,7 @@ default['chef_client']['log_rotation']['options'] = ['compress']
 default['chef_client']['log_rotation']['prerotate'] = nil
 default['chef_client']['log_rotation']['postrotate'] =  case node['chef_client']['init_style']
                                                         when 'systemd'
-                                                          node['chef_client']['systemd']['timer'] ? '' : "systemctl reload chef-client.service >/dev/null || :"
+                                                          node['chef_client']['systemd']['timer'] ? '' : 'systemctl reload chef-client.service >/dev/null || :'
                                                         else
-                                                          "/etc/init.d/chef-client reload >/dev/null || :"
+                                                          '/etc/init.d/chef-client reload >/dev/null || :'
                                                         end
