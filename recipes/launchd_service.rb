@@ -7,12 +7,12 @@ require 'chef/version_constraint'
 
 # libraries/helpers.rb method to DRY directory creation resources
 client_bin = find_chef_client
-Chef::Log.debug("Using chef-client binary at #{client_bin}")
+Chef::Log.debug("Using #{node['chef_client']['dist']}-client binary at #{client_bin}")
 node.default['chef_client']['bin'] = client_bin
 
 create_chef_directories
 
-template '/Library/LaunchDaemons/com.chef.chef-client.plist' do
+template "/Library/LaunchDaemons/com.#{node['chef_client']['dist']}.#{node['chef_client']['dist']}-client.plist" do
   source 'com.chef.chef-client.plist.erb'
   mode '0644'
   variables(
@@ -25,15 +25,15 @@ template '/Library/LaunchDaemons/com.chef.chef-client.plist' do
     splay: node['chef_client']['splay'],
     working_dir: node['chef_client']['launchd_working_dir']
   )
-  notifies :restart, 'macosx_service[com.chef.chef-client]' if node['chef_client']['launchd_self-update']
+  notifies :restart, "macosx_service[com.#{node['chef_client']['dist']}.#{node['chef_client']['dist']}-client]" if node['chef_client']['launchd_self-update']
 end
 
-macosx_service 'com.chef.chef-client' do
+macosx_service "com.#{node['chef_client']['dist']}.#{node['chef_client']['dist']}-client" do
   action :nothing
 end
 
-macosx_service 'chef-client' do
-  service_name 'com.chef.chef-client'
-  plist '/Library/LaunchDaemons/com.chef.chef-client.plist'
+macosx_service "#{node['chef_client']['dist']}-client" do
+  service_name "com.#{node['chef_client']['dist']}.#{node['chef_client']['dist']}-client"
+  plist "/Library/LaunchDaemons/com.#{node['chef_client']['dist']}.#{node['chef_client']['dist']}-client.plist"
   action :start
 end

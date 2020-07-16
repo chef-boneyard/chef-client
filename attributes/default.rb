@@ -30,6 +30,8 @@ default['chef_client']['config'] = {
   'verify_api_cert' => true,
 }
 
+default['chef_client']['dist'] = Gem::Requirement.new('>= 15.0.225').satisfied_by?(Gem::Version.new(Chef::VERSION)) ? Chef::Dist::EXEC : 'chef'
+
 # Accept the chef license when running the chef service
 default['chef_client']['chef_license'] = nil
 
@@ -113,7 +115,7 @@ default['chef_client']['logrotate']['frequency'] = 'weekly'
 case node['platform_family']
 when 'aix'
   default['chef_client']['init_style']  = 'src'
-  default['chef_client']['svc_name']    = 'chef'
+  default['chef_client']['svc_name']    = node['chef_client']['dist']
   default['chef_client']['run_path']    = '/var/run/chef'
   default['chef_client']['file_cache_path'] = '/var/spool/chef'
   default['chef_client']['file_backup_path'] = '/var/lib/chef'
@@ -133,11 +135,11 @@ when 'freebsd'
 # don't use bsd paths per COOK-1379
 when 'mac_os_x'
   default['chef_client']['init_style']  = 'launchd'
-  default['chef_client']['log_dir']     = '/Library/Logs/Chef'
+  default['chef_client']['log_dir']     = "/Library/Logs/#{node['chef_client']['dist'].capitalize}"
   # Launchd doesn't use pid files
   default['chef_client']['run_path']    = '/var/run/chef'
-  default['chef_client']['file_cache_path'] = '/Library/Caches/Chef'
-  default['chef_client']['file_backup_path'] = '/Library/Caches/Chef/Backup'
+  default['chef_client']['file_cache_path'] = "/Library/Caches/#{node['chef_client']['dist'].capitalize}"
+  default['chef_client']['file_backup_path'] = "/Library/Caches/#{node['chef_client']['dist'].capitalize}/Backup"
   # Set to 'daemon' if you want chef-client to run
   # continuously with the -d and -s options, or leave
   # as 'interval' if you want chef-client to be run

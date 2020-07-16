@@ -11,7 +11,7 @@ Chef::Log.debug("Using chef-client binary at #{client_bin}")
 node.default['chef_client']['bin'] = client_bin
 create_chef_directories
 
-template '/etc/init.d/chef-client' do
+template "/etc/init.d/#{node['chef_client']['dist']}-client" do
   source 'redhat/init.d/chef-client.erb'
   mode '0755'
   variables(client_bin: client_bin,
@@ -20,13 +20,13 @@ template '/etc/init.d/chef-client' do
   notifies :restart, 'service[chef-client]', :delayed
 end
 
-template '/etc/sysconfig/chef-client' do
+template "/etc/sysconfig/#{node['chef_client']['dist']}-client" do
   source 'redhat/sysconfig/chef-client.erb'
   mode '0644'
-  notifies :restart, 'service[chef-client]', :delayed
+  notifies :restart, "service[#{node['chef_client']['dist']}-client]", :delayed
 end
 
-service 'chef-client' do
+service "#{node['chef_client']['dist']}-client" do
   supports status: true, restart: true
   action [:enable, :start]
 end

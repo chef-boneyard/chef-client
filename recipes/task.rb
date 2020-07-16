@@ -25,10 +25,11 @@ end
 
 # libraries/helpers.rb method to DRY directory creation resources
 client_bin = find_chef_client
-Chef::Log.info("Using chef-client binary at #{client_bin}")
+Chef::Log.info("Using #{node['chef_client']['dist']}-client binary at #{client_bin}")
 node.default['chef_client']['bin'] = client_bin
 
 chef_client_scheduled_task 'Chef Client' do
+  task_name "#{node['chef_client']['dist']}-client"
   user node['chef_client']['task']['user']
   password node['chef_client']['task']['password']
   frequency node['chef_client']['task']['frequency']
@@ -47,5 +48,5 @@ windows_service 'chef-client' do
   startup_type :disabled
   action [:configure_startup, :stop]
   ignore_failure true
-  only_if { ::Win32::Service.exists?('chef-client') }
+  only_if { ::Win32::Service.exists?("#{node['chef_client']['dist']}-client") }
 end

@@ -8,7 +8,7 @@ end
 
 # libraries/helpers.rb method to DRY directory creation resources
 client_bin = find_chef_client
-Chef::Log.debug("Using chef-client binary at #{client_bin}")
+Chef::Log.debug("Using #{node['chef_client']['dist']}-client binary at #{client_bin}")
 node.default['chef_client']['bin'] = client_bin
 create_chef_directories
 
@@ -20,7 +20,7 @@ if platform_family?('freebsd')
     action :create
   end
 
-  template '/usr/local/etc/rc.d/chef-client' do
+  template "/usr/local/etc/rc.d/#{node['chef_client']['dist']}-client" do
     source 'default/freebsd/chef-client.erb'
     owner 'root'
     group 'wheel'
@@ -29,21 +29,21 @@ if platform_family?('freebsd')
   end
 
   # Remove wrong rc.d script created by an older version of cookbook
-  file '/etc/rc.d/chef-client' do
+  file "/etc/rc.d/#{node['chef_client']['dist']}-client" do
     action :delete
   end
 
-  template '/etc/rc.conf.d/chef' do
+  template "/etc/rc.conf.d/#{node['chef_client']['dist']}" do
     source 'default/freebsd/chef.erb'
     mode '0644'
-    notifies :start, 'service[chef-client]', :delayed
+    notifies :start, "service[#{node['chef_client']['dist']}-client]", :delayed
   end
 
-  service 'chef-client' do
+  service "#{node['chef_client']['dist']}-client" do
     supports status: true, restart: true
     action [:start]
   end
 
 else
-  log "You specified service style 'bsd'. You will need to set up your rc.local file. Hint: chef-client -i #{node['chef_client']['client_interval']} -s #{node['chef_client']['client_splay']}"
+  log "You specified service style 'bsd'. You will need to set up your rc.local file. Hint: #{node['chef_client']['dist']}-client -i #{node['chef_client']['client_interval']} -s #{node['chef_client']['client_splay']}"
 end

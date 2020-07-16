@@ -32,7 +32,7 @@ if node['chef_client']['log_file'].is_a?(String)
   node.default['chef_client']['config']['log_location'] = log_path
 
   if node['os'] == 'linux'
-    logrotate_app 'chef-client' do
+    logrotate_app "#{node['chef_client']['dist']}-client" do
       path [log_path]
       rotate node['chef_client']['logrotate']['rotate']
       frequency node['chef_client']['logrotate']['frequency']

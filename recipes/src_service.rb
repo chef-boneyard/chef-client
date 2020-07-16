@@ -26,7 +26,7 @@ end
 
 # libraries/helpers.rb method to DRY directory creation resources
 client_bin = find_chef_client
-Chef::Log.debug("Using chef-client binary at #{client_bin}")
+Chef::Log.debug("Using #{node['chef_client']['dist']}-client binary at #{client_bin}")
 node.default['chef_client']['bin'] = client_bin
 create_chef_directories
 
