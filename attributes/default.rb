@@ -30,8 +30,7 @@ default['chef_client']['config'] = {
   'verify_api_cert' => true,
 }
 
-# If you're using a community maintained fork of Chef, then set this to the appropriate name.
-default['chef_client']['dist'] = 'chef'
+default['chef_client']['dist'] = Gem::Requirement.new('>= 15.0.225').satisfied_by?(Gem::Version.new(Chef::VERSION)) ? Chef::Dist::EXEC : 'chef'
 
 # Accept the chef license when running the chef service
 default['chef_client']['chef_license'] = nil
