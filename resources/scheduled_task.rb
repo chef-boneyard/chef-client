@@ -86,11 +86,7 @@ action_class do
     # Fetch path of cmd.exe through environment variable comspec
     cmd_path = ENV['COMSPEC']
 
-    if Gem::Requirement.new('< 13.7.0').satisfied_by?(Gem::Version.new(Chef::VERSION)) || Gem::Requirement.new('>= 14.4.0').satisfied_by?(Gem::Version.new(Chef::VERSION))
-      "#{cmd_path} /c \"#{client_cmd}\""
-    else
-      "#{cmd_path} /c \'#{client_cmd}\'"
-    end
+    "#{cmd_path} /c \"#{client_cmd}\""
   end
 
   #
@@ -106,7 +102,6 @@ action_class do
     # Add custom options
     cmd << " #{new_resource.daemon_options.join(' ')}" if new_resource.daemon_options.any?
     cmd << ' --chef-license accept' if new_resource.accept_chef_license && Gem::Requirement.new('>= 14.12.9').satisfied_by?(Gem::Version.new(Chef::VERSION))
-
     cmd
   end
 
