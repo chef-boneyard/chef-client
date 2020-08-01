@@ -5,8 +5,8 @@ describe 'chef-client::cron' do
 
   [
     '/var/run/chef',
-    '/var/cache/chef',
-    '/var/cache/chef',
+    # '/var/cache/chef',
+    # '/var/cache/chef',
     '/var/log/chef',
     '/etc/chef',
   ].each do |dir|
