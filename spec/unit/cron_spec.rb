@@ -23,6 +23,7 @@ describe 'chef-client::cron' do
       ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '18.04') do |node|
         node.normal['chef_client']['cron']['environment_variables'] = 'FOO=BAR'
         node.normal['chef_client']['cron']['append_log'] = true
+        node.normal['chef_client']['cron']['use_cron_d'] = false
       end.converge(described_recipe)
     end
 
@@ -41,30 +42,35 @@ describe 'chef-client::cron' do
     cached(:redhat_chef_run) do
       ChefSpec::ServerRunner.new(platform: 'redhat', version: '7') do |node|
         node.normal['chef_client']['cron']['priority'] = 19
+        node.normal['chef_client']['cron']['use_cron_d'] = false
       end.converge(described_recipe)
     end
 
     cached(:invalid_priority_chef_run) do
       ChefSpec::ServerRunner.new(platform: 'redhat', version: '7') do |node|
         node.normal['chef_client']['cron']['priority'] = 42
+        node.normal['chef_client']['cron']['use_cron_d'] = false
       end.converge(described_recipe)
     end
 
     cached(:string_but_valid_chef_run) do
       ChefSpec::ServerRunner.new(platform: 'redhat', version: '7') do |node|
         node.normal['chef_client']['cron']['priority'] = '-5'
+        node.normal['chef_client']['cron']['use_cron_d'] = false
       end.converge(described_recipe)
     end
 
     cached(:string_but_invalid_chef_run) do
       ChefSpec::ServerRunner.new(platform: 'redhat', version: '7') do |node|
         node.normal['chef_client']['cron']['priority'] = '123'
+        node.normal['chef_client']['cron']['use_cron_d'] = false
       end.converge(described_recipe)
     end
 
     cached(:gobbledeegook_chef_run) do
       ChefSpec::ServerRunner.new(platform: 'redhat', version: '7') do |node|
         node.normal['chef_client']['cron']['priority'] = 'hibbitydibbity-123'
+        node.normal['chef_client']['cron']['use_cron_d'] = false
       end.converge(described_recipe)
     end
 
