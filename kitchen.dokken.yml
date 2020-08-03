@@ -102,22 +102,22 @@ platforms:
     pid_one_command: /bin/systemd
 
 suites:
-- name: service_init
+- name: service-init
   run_list:
     - recipe[test::service]
   includes: ["oraclelinux-6", "amazonlinux", "centos-6"]
 
-- name: service_systemd
+- name: service-systemd
   run_list:
     - recipe[test::service]
   excludes: ["oraclelinux-6", "amazonlinux", "centos-6"]
 
-- name: systemd_timer_resource
+- name: systemd-timer-resource
   run_list:
     - recipe[test::systemd_timer_resource]
   excludes: ["oraclelinux-6", "amazonlinux", "centos-6"]
 
-- name: timer_systemd
+- name: timer-systemd
   run_list:
     - recipe[chef-client::systemd_service]
   attributes:

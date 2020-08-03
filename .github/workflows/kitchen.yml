@@ -27,14 +27,15 @@ jobs:
           - 'cron'
           - 'cron_resource'
           - 'config'
+          - 'timer_systemd'
           - 'systemd_timer_resource'
           - 'service_systemd'
       fail-fast: false
 
     steps:
-      - name: Check out code
+      - name: Check out cookbook code
         uses: actions/checkout@master
-      - name: Install Chef
+      - name: Install Chef Infra Client
         uses: actionshub/chef-install@master
       - name: Dokken
         uses: actionshub/kitchen-dokken@master
