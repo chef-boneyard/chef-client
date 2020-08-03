@@ -102,33 +102,37 @@ platforms:
     pid_one_command: /bin/systemd
 
 suites:
-- name: service_init
+- name: service-init
   run_list:
     - recipe[test::service]
-  includes: ["centos-6", "amazonlinux"]
+  includes: ["oraclelinux-6", "amazonlinux", "centos-6"]
 
-- name: service_systemd
+- name: service-systemd
   run_list:
     - recipe[test::service]
-  includes: ["centos-7", "debian-9", "debian-10", "opensuse-leap-15", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "amazonlinux-2"]
+  excludes: ["oraclelinux-6", "amazonlinux", "centos-6"]
 
-- name: systemd_timer_resource
+- name: systemd-timer-resource
   run_list:
     - recipe[test::systemd_timer_resource]
-  includes: ["centos-7", "debian-9", "debian-10", "opensuse-leap-15", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "amazonlinux-2"]
+  excludes: ["oraclelinux-6", "amazonlinux", "centos-6"]
 
-- name: timer_systemd
+- name: timer-systemd
   run_list:
     - recipe[chef-client::systemd_service]
   attributes:
     chef_client:
       systemd:
         timer: true
-  includes: ["centos-7", "debian-9", "debian-10", "opensuse-leap-15", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "amazonlinux-2"]
+  excludes: ["oraclelinux-6", "amazonlinux", "centos-6"]
 
 - name: cron
   run_list:
     - recipe[test::cron]
+
+- name: cron-resource
+  run_list:
+    - recipe[test::cron_resource]
 
 - name: config
   run_list:

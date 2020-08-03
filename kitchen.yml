@@ -11,9 +11,6 @@ verifier:
   name: inspec
 
 platforms:
-  - name: amazonlinux
-    driver_config:
-      box: mvbcoding/awslinux
   - name: amazonlinux-2
   - name: centos-6
   - name: centos-7
@@ -23,9 +20,6 @@ platforms:
   - name: fedora-latest
   - name: freebsd-12
   - name: opensuse-leap-15
-  - name: sles-12-sp1
-    driver:
-      box: chef/sles-12-sp1-x86_64 # private box
   - name: ubuntu-16.04
   - name: ubuntu-18.04
   - name: ubuntu-20.04
@@ -70,32 +64,27 @@ platforms:
       elevated: true
 
 suites:
-- name: service_bsd
+- name: service-bsd
   run_list:
     - recipe[test::service]
   includes: ["freebsd-12"]
 
-- name: service_init
+- name: service-init
   run_list:
     - recipe[test::service]
   includes: ["centos-6", "amazon-linux"]
 
-- name: service_systemd
+- name: service-systemd
   run_list:
     - recipe[test::service]
-  includes: ["amazonlinux-2", "centos-7", "centos-8", "debian-9", "debian-10", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "ubuntu-19.04", "opensuse-leap-15", "sles-12-sp1"]
+  excludes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016", "windows-2019", "macos-10.15", "freebsd-12"]
 
-- name: systemd_timer_resource
+- name: systemd-timer-resource
   run_list:
     - recipe[test::systemd_timer_resource]
-  includes: ["amazonlinux-2", "centos-7", "centos-8", "debian-9", "debian-10", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "ubuntu-19.04", "opensuse-leap-15", "sles-12-sp1"]
+  excludes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016", "windows-2019", "macos-10.15", "freebsd-12"]
 
-- name: service_smf
-  run_list:
-    - recipe[test::service]
-  includes: ["solaris-11.3"]
-
-- name: service_launchd
+- name: service-launchd
   run_list:
     - recipe[test::service]
   includes: ["macos-10.15"]
@@ -105,19 +94,19 @@ suites:
   - recipe[test::cron]
   excludes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016", "windows-2019", "macos-10.15"]
 
-- name: cron_resource
+- name: cron-resource
   run_list:
   - recipe[test::cron_resource]
   excludes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016", "windows-2019", "macos-10.15"]
 
-- name: timer_systemd
+- name: timer-systemd
   run_list:
   - recipe[chef-client::systemd_service]
   attributes:
     chef_client:
       systemd:
         timer: true
-  includes: ["amazonlinux-2", "centos-7", "centos-8", "debian-9", "debian-10", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "ubuntu-19.04", "opensuse-leap-15", "sles-12-sp1"]
+  excludes: ["windows-2012r2-13", "windows-2012r2-14", "windows-2016", "windows-2019", "macos-10.15", "freebsd-12"]
 
 - name: config
   run_list:

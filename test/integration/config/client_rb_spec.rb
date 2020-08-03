@@ -4,7 +4,13 @@ config = if os.windows?
            '/etc/chef/client.rb'
          end
 
-describe command("ohai virtualization -c #{config}") do
+path = if os.windows?
+         'C:\opscode\chef\embedded\bin\ohai.bat'
+       else
+         '/opt/chef/embedded/bin/ohai'
+       end
+
+describe command("#{path} virtualization -c #{config}") do
   its(:exit_status) { should eq(0) }
 end
 
