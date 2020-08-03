@@ -25,11 +25,11 @@ jobs:
           - 'ubuntu-2004'
         suite:
           - 'cron'
-          - 'cron_resource'
+          - 'cron-resource'
           - 'config'
-          - 'timer_systemd'
-          - 'systemd_timer_resource'
-          - 'service_systemd'
+          - 'timer-systemd'
+          - 'systemd-timer-resource'
+          - 'service-systemd'
       fail-fast: false
 
     steps:

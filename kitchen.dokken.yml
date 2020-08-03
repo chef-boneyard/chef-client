@@ -130,6 +130,10 @@ suites:
   run_list:
     - recipe[test::cron]
 
+- name: cron-resource
+  run_list:
+    - recipe[test::cron_resource]
+
 - name: config
   run_list:
     - recipe[test::config]
