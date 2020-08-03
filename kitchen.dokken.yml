@@ -105,17 +105,17 @@ suites:
 - name: service_init
   run_list:
     - recipe[test::service]
-  includes: ["centos-6", "amazonlinux"]
+  includes: ["oraclelinux-6", "amazonlinux", "centos-6"]
 
 - name: service_systemd
   run_list:
     - recipe[test::service]
-  includes: ["centos-7", "debian-9", "debian-10", "opensuse-leap-15", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "amazonlinux-2"]
+  excludes: ["oraclelinux-6", "amazonlinux", "centos-6"]
 
 - name: systemd_timer_resource
   run_list:
     - recipe[test::systemd_timer_resource]
-  includes: ["centos-7", "debian-9", "debian-10", "opensuse-leap-15", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "amazonlinux-2"]
+  excludes: ["oraclelinux-6", "amazonlinux", "centos-6"]
 
 - name: timer_systemd
   run_list:
@@ -124,7 +124,7 @@ suites:
     chef_client:
       systemd:
         timer: true
-  includes: ["centos-7", "debian-9", "debian-10", "opensuse-leap-15", "fedora-latest", "ubuntu-16.04", "ubuntu-18.04", "amazonlinux-2"]
+  excludes: ["oraclelinux-6", "amazonlinux", "centos-6"]
 
 - name: cron
   run_list:
