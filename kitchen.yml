@@ -26,9 +26,6 @@ platforms:
   - name: sles-12-sp1
     driver:
       box: chef/sles-12-sp1-x86_64 # private box
-  - name: solaris-11.3
-    driver:
-      box: chef/solaris-11.3 # private box
   - name: ubuntu-16.04
   - name: ubuntu-18.04
   - name: ubuntu-20.04
