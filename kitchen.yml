@@ -31,7 +31,7 @@ platforms:
       box: chef/solaris-11.3 # private box
   - name: ubuntu-16.04
   - name: ubuntu-18.04
-  - name: ubuntu-19.04
+  - name: ubuntu-20.04
   - name: macos-10.15
     driver:
       box: tas50/macos_10.15
