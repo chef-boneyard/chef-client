@@ -22,7 +22,7 @@ describe 'chef-client::config' do
 
   [
     '/var/run/chef',
-    '/var/cache/chef',
+    # '/var/cache/chef',
     '/var/lib/chef',
     '/var/log/chef',
     '/etc/chef',

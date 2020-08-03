@@ -50,6 +50,7 @@ module Opscode
         # root_owner is not in scope in the block below.
         d_owner = root_owner
         %w(run_path file_cache_path file_backup_path log_dir conf_dir).each do |dir|
+          next if node['chef_client'][dir].nil?
           # Do not redefine the resource if it exist
           find_resource(:directory, node['chef_client'][dir]) do
             recursive true
