@@ -15,7 +15,7 @@ This file is used to list changes made in each version of the chef-client cookbo
 - The default binary path on Linux, macOS and other *nix operating systems has been changed from `/usr/bin/chef-client` to `/opt/chef/bin/chef-client`
 - The upstart service recipe has been removed as Ubuntu 14.04 is now EOL
 - Support for non-RHEL platforms in the init service recipe has been removed as only RHEL 6 / Amazon 201x should need sys-v init support at this point
-- The `node['chef_client']['cache_path']` attribute has been renamed to `node['chef_client']['file_cache_path']` and will properly be set in the client.rb if changed now.
+- The `node['chef_client']['cache_path']` attribute has been renamed to `node['chef_client']['file_cache_path']` and will properly be set in the client.rb if changed now. However, this attribute is unset by default as it causes issues on first client runs. Enable it at your own risk.
 - The `node['chef_client']['backup_path']` attribute has been renamed to `node['chef_client']['file_backup_path']` and will properly be set in the client.rb if changed now.
 - The `chef_client_scheduled_task` resource no longer uses the `node['chef_client']['log_file']` to set the log file name and intead had a new `log_file_name` property that defaults to `chef-client.log` matching the attributes default value.
 - A new `client.rb` configuration option `file_staging_uses_destdir` is set via `node['chef_client']['file_staging_uses_destdir']`, which defaults to true.

@@ -132,8 +132,8 @@ The following attributes are set on a per-platform basis, see the `attributes/de
 
 - `node['chef_client']['init_style']` - Sets up the client service based on the style of init system to use. Default is based on platform and falls back to `'none'`. See [service recipes](#service-recipes).
 - `node['chef_client']['run_path']` - Directory location where chef-client should write the PID file. Default based on platform, falls back to "/var/run".
-- `node['chef_client']['cache_path']` - Directory location for `Chef::Config[:file_cache_path]` where chef-client will cache various files. Default is based on platform, falls back to "/var/chef/cache".
-- `node['chef_client']['backup_path']` - Directory location for `Chef::Config[:file_backup_path]` where chef-client will backup templates and cookbook files. Default is based on platform, falls back to "/var/chef/backup".
+- `node['chef_client']['file_cache_path']` - Directory location for `Chef::Config[:file_cache_path]` where chef-client will cache various files. Default is unset as it causes problems on first chef runs. The default location is typically "/var/cache/cache" but could be different based on the platform. Use this attribute at your own risk.
+- `node['chef_client']['file_backup_path']` - Directory location for `Chef::Config[:file_backup_path]` where chef-client will backup templates and cookbook files. Default is based on platform, falls back to "/var/chef/backup".
 - `node['chef_client']['file_staging_uses_destdir']` - How file staging (via temporary files) is done. When true, temporary files are created in the directory in which files will reside. When false, temporary files are created under ENV['TMP']. Default value: true.
 This cookbook makes use of attribute-driven configuration with this attribute. See [USAGE](#usage) for examples.
 - `node['chef_client']['launchd_mode']` - (only for macOS) If set to `'daemon'`, runs chef-client with `-d` and `-s` options; defaults to `'interval'`.
