@@ -1,0 +1,45 @@
+---
+name: kitchen
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  dokken:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os:
+          - 'amazonlinux-2'
+          - 'centos-7'
+          - 'centos-8'
+          - 'debian-10'
+          - 'debian-9'
+          - 'fedora-latest'
+          - 'opensuse-leap-15'
+          - 'ubuntu-1604'
+          - 'ubuntu-1804'
+          - 'ubuntu-2004'
+        suite:
+          - 'cron'
+          - 'cron_resource'
+          - 'config'
+          - 'systemd_timer_resource'
+          - 'service_systemd'
+      fail-fast: false
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@master
+      - name: Install Chef
+        uses: actionshub/chef-install@master
+      - name: Dokken
+        uses: actionshub/kitchen-dokken@master
+        env:
+          CHEF_LICENSE: accept-no-persist
+        with:
+          suite: ${{ matrix.suite }}
+          os: ${{ matrix.os }}
