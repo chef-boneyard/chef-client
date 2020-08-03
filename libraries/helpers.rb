@@ -95,7 +95,7 @@ module Opscode
       # Returns the desired priority to use with /bin/nice.
       def process_priority
         return nil unless prioritized?
-        if node['platform'] == 'windows'
+        if platform?('windows')
           Chef::Log.warn 'Cannot prioritize the chef-client process on Windows hosts.'
           return nil
         end
