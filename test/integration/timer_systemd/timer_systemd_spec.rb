@@ -8,8 +8,8 @@ end
 control 'has expected unit content' do
   describe file('/etc/systemd/system/chef-client.timer') do
     its('content') { should match 'OnBootSec = 1min' }
-    its('content') { should match 'OnUnitInactiveSec = 30sec' }
-    its('content') { should match 'RandomizedDelaySec = 5sec' }
+    its('content') { should match 'OnUnitInactiveSec = 1800sec' }
+    its('content') { should match 'RandomizedDelaySec = 300sec' }
   end
 end
 
