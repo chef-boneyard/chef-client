@@ -2,13 +2,8 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
-## UNRELEASED
+## 12.0.0 (2020-08-05)
 
-- resolved cookstyle error: resources/cron.rb:20:1 warning: `ChefDeprecations/ResourceUsesOnlyResourceName`
-- resolved cookstyle error: resources/scheduled_task.rb:20:1 warning: `ChefDeprecations/ResourceUsesOnlyResourceName`
-- resolved cookstyle error: resources/systemd_timer.rb:20:1 warning: `ChefDeprecations/ResourceUsesOnlyResourceName`
-- resolved cookstyle error: libraries/helpers.rb:123:19 warning: `Lint/SendWithMixinArgument`
-- resolved cookstyle error: libraries/helpers.rb:124:16 warning: `Lint/SendWithMixinArgument`
 ### Breaking Changes
 
 - Default cron times have been updated to run every 30 minutes instead of every 4 hours
@@ -19,6 +14,29 @@ This file is used to list changes made in each version of the chef-client cookbo
 - The `node['chef_client']['backup_path']` attribute has been renamed to `node['chef_client']['file_backup_path']` and will properly be set in the client.rb if changed now.
 - The `chef_client_scheduled_task` resource no longer uses the `node['chef_client']['log_file']` to set the log file name and intead had a new `log_file_name` property that defaults to `chef-client.log` matching the attributes default value.
 - A new `client.rb` configuration option `file_staging_uses_destdir` is set via `node['chef_client']['file_staging_uses_destdir']`, which defaults to true.
+- Enable cron_d support on Linux by default - [@tas50](https://github.com/tas50)
+- Append to the chef-client log by default - [@tas50](https://github.com/tas50)
+
+### Other changes
+
+- Add `chef_client_cron` and `chef_client_systemd_timer` resources from Chef Infra Client 16 - [@tas50](https://github.com/tas50)
+- Use `random_delay` property in windows_task for splay
+- Update the cron recipe to use chef_client_cron resource - [@tas50](https://github.com/tas50)
+- Simplify how we disable the existing service in cron recipe - [@tas50](https://github.com/tas50)
+- Prevent chef-client launchd from unloading itself and add Catalina workaround (#651) - [@jazaval](https://github.com/jazaval)
+- Additional space removed from cron recipe - [@sanga1794](https://github.com/sanga1794)
+- Add log_file_name property to chef_client_scheduled_task to match Chef Infra Client 16  - [@tas50](https://github.com/tas50)
+- Make sure to create the log directory in chef_client_scheduled_task - [@tas50](https://github.com/tas50)
+- Update the task recipe to use the log_file attribute - [@tas50](https://github.com/tas50)
+- chef_client_cron: Don't cleanup legacy cron entries. The legacy recipe code we're cleaning up here was replaced many years ago - [@tas50](https://github.com/tas50)
+- Add a new property `accept_chef_license` to the resources - [@tas50](https://github.com/tas50)
+- Prevent failures when setting certain frequency types - [@tas50](https://github.com/tas50)
+- Add `run_on_battery` property to scheduled_task - [@tas50](https://github.com/tas50)
+- Remove the legacy service name cleanup for launchd - [@tas50](https://github.com/tas50)
+- Ensure we have resource_name in addition to provides in resources - [@tas50](https://github.com/tas50)
+- Use windows? helper where we can - [@tas50](https://github.com/tas50)
+- Switch testing from Travis to GitHub Actions
+- Various Cookstyle fixes
 
 ### Other Changes
 
