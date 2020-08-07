@@ -2,6 +2,13 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 12.0.1 (2020-08-07)
+
+- Ensure that client config reloads in kitchen across multiple runs. - [@jjustice6](https://github.com/jjustice6)
+- Fix quoting behavior in Windows Scheduled Task jobs - [@patcable](https://github.com/patcable)
+- Fix systemd_timer_resource :remove action failures - [@tas50](https://github.com/tas50)
+- Fix the location of the FreeBSD templates - [@tas50](https://github.com/tas50)
+
 ## 12.0.0 (2020-08-05)
 
 ### Breaking Changes
