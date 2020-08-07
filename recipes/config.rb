@@ -93,7 +93,7 @@ template "#{node['chef_client']['conf_dir']}/client.rb" do
     chef_license: node['chef_client']['chef_license']
   )
 
-  if node['chef_client']['reload_config']
+  if node['chef_client']['reload_config'] || ENV['TEST_KITCHEN']
     notifies :run, 'ruby_block[reload_client_config]', :immediately
   end
 end
