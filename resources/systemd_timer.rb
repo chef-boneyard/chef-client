@@ -56,11 +56,11 @@ end
 
 action :remove do
   systemd_unit "#{new_resource.job_name}.service" do
-    action :remove
+    action :delete
   end
 
   systemd_unit "#{new_resource.job_name}.timer" do
-    action :remove
+    action :delete
   end
 end
 
