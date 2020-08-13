@@ -4,7 +4,7 @@
 # Cookbook::  chef-client
 # Attributes:: default
 #
-# Copyright:: 2008-2019, Chef Software Inc.
+# Copyright:: Copyright (c) Chef Software Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the 'License');
 # you may not use this file except in compliance with the License.
@@ -169,9 +169,6 @@ else
   default['chef_client']['run_path']    = '/var/run'
   default['chef_client']['file_backup_path'] = '/var/chef/backup'
 end
-
-# Need to set this Option in client.rb
-default['chef_client']['file_staging_uses_destdir'] = true
 
 # Must appear after init_style to take effect correctly
 default['chef_client']['log_rotation']['options'] = ['compress']
