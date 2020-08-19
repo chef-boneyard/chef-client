@@ -44,7 +44,6 @@ end
 action :remove do
   file cert_path do
     action :delete
-    mode '0640'
   end
 end
 
