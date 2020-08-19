@@ -2,6 +2,11 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 12.1.0 (2020-08-19)
+
+- Remove the `file_staging_uses_destdir` since this should not be set for most users - [@lamont-granquist](https://github.com/lamont-granquist)
+- Add new `chef_client_trusted_certificate` resource for adding certificates for use within the client - [@tas50](https://github.com/tas50)
+
 ## 12.0.1 (2020-08-07)
 
 - Ensure that client config reloads in kitchen across multiple runs. - [@jjustice6](https://github.com/jjustice6)
