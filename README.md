@@ -64,7 +64,7 @@ The chef_client_scheduled_task resource setups up Chef Infra Client to run as a 
 
 ### chef_client_cron
 
-The chef_client cron resource setups up Chef Infra Client to run as a cron job using a cron.d configuration file. You can use this resource directly in any of your own recipes.
+The chef_client_cron resource sets up Chef Infra Client to run as a cron job using a cron.d configuration file on Linux hosts or a job in /etc/crontab for other Unix operating systems. You can use this resource directly in any of your own recipes.
 
 ### Actions
 
@@ -90,6 +90,50 @@ The chef_client cron resource setups up Chef Infra Client to run as a cron job u
 - `append_log_file` - Whether to append to the log. Default: `true` chef-client output.
 - `chef_binary_path` - The path to the chef-client binary. default: '/opt/chef/bin/chef-client'
 - `daemon_options` - An optional array of extra command line options to pass to the chef-client
+
+### chef_client_trusted_certificate
+
+The chef_client_trusted_certificate allows you to add a certificate to Chef Infra Client's set of trusted certificates. This is helpful when adding internal certificates for systems that the Chef Infra Client will later need to communicate with using SSL. You can use this resource directly in any of your own recipes.
+
+### Actions
+
+- `:add`
+- `:remove`
+
+### Properties
+
+- `cert_name` - The name on disk for the cert file. If not specified the resource name will be used (and .pem appended if necessary)
+- `certificate` - The text content of the certificate file
+
+### Examples
+
+```ruby
+chef_client_trusted_certificate 'self-signed.badssl.com' do
+  certificate <<~CERT
+  -----BEGIN CERTIFICATE-----
+  MIIDeTCCAmGgAwIBAgIJAPziuikCTox4MA0GCSqGSIb3DQEBCwUAMGIxCzAJBgNV
+  BAYTAlVTMRMwEQYDVQQIDApDYWxpZm9ybmlhMRYwFAYDVQQHDA1TYW4gRnJhbmNp
+  c2NvMQ8wDQYDVQQKDAZCYWRTU0wxFTATBgNVBAMMDCouYmFkc3NsLmNvbTAeFw0x
+  OTEwMDkyMzQxNTJaFw0yMTEwMDgyMzQxNTJaMGIxCzAJBgNVBAYTAlVTMRMwEQYD
+  VQQIDApDYWxpZm9ybmlhMRYwFAYDVQQHDA1TYW4gRnJhbmNpc2NvMQ8wDQYDVQQK
+  DAZCYWRTU0wxFTATBgNVBAMMDCouYmFkc3NsLmNvbTCCASIwDQYJKoZIhvcNAQEB
+  BQADggEPADCCAQoCggEBAMIE7PiM7gTCs9hQ1XBYzJMY61yoaEmwIrX5lZ6xKyx2
+  PmzAS2BMTOqytMAPgLaw+XLJhgL5XEFdEyt/ccRLvOmULlA3pmccYYz2QULFRtMW
+  hyefdOsKnRFSJiFzbIRMeVXk0WvoBj1IFVKtsyjbqv9u/2CVSndrOfEk0TG23U3A
+  xPxTuW1CrbV8/q71FdIzSOciccfCFHpsKOo3St/qbLVytH5aohbcabFXRNsKEqve
+  ww9HdFxBIuGa+RuT5q0iBikusbpJHAwnnqP7i/dAcgCskgjZjFeEU4EFy+b+a1SY
+  QCeFxxC7c3DvaRhBB0VVfPlkPz0sw6l865MaTIbRyoUCAwEAAaMyMDAwCQYDVR0T
+  BAIwADAjBgNVHREEHDAaggwqLmJhZHNzbC5jb22CCmJhZHNzbC5jb20wDQYJKoZI
+  hvcNAQELBQADggEBAGlwCdbPxflZfYOaukZGCaxYK6gpincX4Lla4Ui2WdeQxE95
+  w7fChXvP3YkE3UYUE7mupZ0eg4ZILr/A0e7JQDsgIu/SRTUE0domCKgPZ8v99k3A
+  vka4LpLK51jHJJK7EFgo3ca2nldd97GM0MU41xHFk8qaK1tWJkfrrfcGwDJ4GQPI
+  iLlm6i0yHq1Qg1RypAXJy5dTlRXlCLd8ufWhhiwW0W75Va5AEnJuqpQrKwl3KQVe
+  wGj67WWRgLfSr+4QG1mNvCZb2CkjZWmxkGPuoP40/y7Yu5OFqxP5tAjj4YixCYTW
+  EVA0pmzIzgBg+JIe3PdRy27T0asgQW/F4TY61Yk=
+  -----END CERTIFICATE-----
+  CERT
+end
+```
 
 ## Attributes
 
@@ -138,8 +182,7 @@ The following attributes are set on a per-platform basis, see the `attributes/de
 This cookbook makes use of attribute-driven configuration with this attribute. See [USAGE](#usage) for examples.
 - `node['chef_client']['launchd_mode']` - (only for macOS) If set to `'daemon'`, runs chef-client with `-d` and `-s` options; defaults to `'interval'`.
 - `node['chef_client']['launchd_working_dir']` - (only for macOS) Sets the working directory for the launchd user (generally `root`); defaults to `/var/root`.
-- `node['chef_client']['launchd_self-update']` - (only for macOS) Determines whether chef-client should attempt to `:restart` itself when changes are made to the launchd plist during converge. Note that the [current implementation](https://github.com/chef/chef/blob/129a6f3982218e5eadcd33b272ba738b317bbcae/lib/chef/provider/service/macosx.rb#L128) of 
-`macosx_service` `:restart` unloads the daemon, which stops the current chef-client run and requires an external process to resume the service. Defaults to `false`.
+- `node['chef_client']['launchd_self-update']` - (only for macOS) Determines whether chef-client should attempt to `:restart` itself when changes are made to the launchd plist during converge. Note that the [current implementation](https://github.com/chef/chef/blob/129a6f3982218e5eadcd33b272ba738b317bbcae/lib/chef/provider/service/macosx.rb#L128) of `macosx_service` `:restart` unloads the daemon, which stops the current chef-client run and requires an external process to resume the service. Defaults to `false`.
 - When `chef_client['log_file']` is set and running on a [logrotate](https://supermarket.chef.io/cookbooks/logrotate) supported platform (debian, rhel, fedora family), use the following attributes to tune log rotation.
   - `node['chef_client']['logrotate']['rotate']` - Number of rotated logs to keep on disk, default 12.
   - `node['chef_client']['logrotate']['frequency']` - How often to rotate chef client logs, default weekly.
