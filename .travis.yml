@@ -69,7 +69,6 @@ env:
   - CHEF_VERSION=13 INSTANCE=cron-ubuntu-1804
   - CHEF_VERSION=13 INSTANCE=cron-centos-6
   - CHEF_VERSION=13 INSTANCE=cron-centos-7
-  - CHEF_VERSION=13 INSTANCE=cron-opensuse-leap-15
   - CHEF_VERSION=13 INSTANCE=delete-validation-ubuntu-1804
   - CHEF_VERSION=13 INSTANCE=service-systemd-amazonlinux-2
   - CHEF_VERSION=13 INSTANCE=service-systemd-centos-7
