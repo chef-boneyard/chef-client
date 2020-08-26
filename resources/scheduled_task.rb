@@ -22,25 +22,55 @@ chef_version_for_provides '< 16.0' if respond_to?(:chef_version_for_provides)
 provides :chef_client_scheduled_task
 resource_name :chef_client_scheduled_task
 
-property :task_name, String, default: 'chef-client'
-property :user, String, default: 'System', sensitive: true
-property :password, String, sensitive: true
-property :frequency, String, default: 'minute', equal_to: %w(minute hourly daily monthly once on_logon onstart on_idle)
+property :task_name, String,
+  default: 'chef-client'
 
-property :frequency_modifier, [Integer, String], default: 30,
-                                                 coerce: proc { |x| Integer(x) },
-                                                 callbacks: { 'should be a positive number' => proc { |v| v > 0 } }
+property :user, String,
+  default: 'System', sensitive: true
 
-property :accept_chef_license, [true, false], default: false
-property :start_date, String, regex: [%r{^[0-1][0-9]\/[0-3][0-9]\/\d{4}$}]
-property :start_time, String, regex: [/^\d{2}:\d{2}$/]
-property :splay, [Integer, String], default: 300
-property :run_on_battery, [true, false], default: true
-property :config_directory, String, default: 'C:/chef'
-property :log_directory, String, default: lazy { |r| "#{r.config_directory}/log" }
-property :log_file_name, String, default: 'client.log'
-property :chef_binary_path, String, default: 'C:/opscode/chef/bin/chef-client'
-property :daemon_options, Array, default: []
+property :password, String,
+  sensitive: true
+
+property :frequency, String,
+  default: 'minute',
+  equal_to: %w(minute hourly daily monthly once on_logon onstart on_idle)
+
+property :frequency_modifier, [Integer, String],
+  coerce: proc { |x| Integer(x) },
+  callbacks: { 'should be a positive number' => proc { |v| v > 0 } },
+  default: lazy { frequency == 'minute' ? 30 : 1 }
+
+property :accept_chef_license, [true, false],
+  default: false
+
+property :start_date, String,
+  regex: [%r{^[0-1][0-9]\/[0-3][0-9]\/\d{4}$}]
+
+property :start_time, String,
+  regex: [/^\d{2}:\d{2}$/]
+
+property :splay, [Integer, String],
+  coerce: proc { |x| Integer(x) },
+  callbacks: { 'should be a positive number' => proc { |v| v > 0 } },
+  default: 300
+
+property :run_on_battery, [true, false],
+  default: true
+
+property :config_directory, String,
+  default: 'C:/chef'
+
+property :log_directory, String,
+  default: lazy { |r| "#{r.config_directory}/log" }
+
+property :log_file_name, String,
+  default: 'client.log'
+
+property :chef_binary_path, String,
+  default: 'C:/opscode/chef/bin/chef-client'
+
+property :daemon_options, Array,
+  default: lazy { [] }
 
 action :add do
   # create a directory in case the log directory does not exist
@@ -78,9 +108,6 @@ end
 action_class do
   #
   # The full command to run in the scheduled task
-  #
-  # Between Chef Client 13.7 and 14.3 we required the command to be surrounded in single quotes
-  # due to parsing problems with windows_task. Since 14.4 resolved we require double quotes around the command.
   #
   # @return [String]
   #
