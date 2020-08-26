@@ -43,11 +43,13 @@ property :chef_binary_path, String, default: 'C:/opscode/chef/bin/chef-client'
 property :daemon_options, Array, default: []
 
 action :add do
-  # create a directory in case the log director does not exist
-  directory new_resource.log_directory do
-    inherits true
-    recursive true
-    action :create
+  # create a directory in case the log directory does not exist
+  unless Dir.exist?(new_resource.log_directory)
+    directory new_resource.log_directory do
+      inherits true
+      recursive true
+      action :create
+    end
   end
 
   # According to https://docs.microsoft.com/en-us/windows/desktop/taskschd/schtasks,
