@@ -46,6 +46,10 @@ property :chef_binary_path, String, default: '/opt/chef/bin/chef-client'
 property :daemon_options, Array, default: []
 property :environment, Hash, default: lazy { {} }
 
+property :nice, [Integer, String],
+coerce: proc { |x| Integer(x) },
+callbacks: { 'should be an Integer between -20 and 19' => proc { |v| v >= -20 && v <= 19 } }
+
 action :add do
   unless ::Dir.exist?(new_resource.log_directory)
     directory new_resource.log_directory do
@@ -84,6 +88,7 @@ action_class do
   def cron_command
     cmd = ''
     cmd << "/bin/sleep #{splay_sleep_time(new_resource.splay)}; "
+    cmd << "#{which('nice')} -n #{new_resource.nice} " if new_resource.nice
     cmd << "#{new_resource.chef_binary_path} "
     cmd << "#{new_resource.daemon_options.join(' ')} " unless new_resource.daemon_options.empty?
     cmd << "-c #{::File.join(new_resource.config_directory, 'client.rb')} "
@@ -106,6 +111,13 @@ action_class do
     end
   end
 
+  #
+  # The type of cron resource to run. Linux systems all support the /etc/cron.d directory
+  # and can use the cron_d resource, but Solaris / AIX / FreeBSD need to use the crontab
+  # via the legacy cron resource.
+  #
+  # @return [Symbol]
+  #
   def cron_resource_type
     node['os'] == 'linux' ? :cron_d : :cron
   end
