@@ -5,6 +5,8 @@
 # Copyright:: Chef Software, Inc.
 #
 
+chef_version_for_provides '< 16.5' if respond_to?(:chef_version_for_provides)
+
 resource_name :chef_client_launchd
 provides :chef_client_launchd
 
