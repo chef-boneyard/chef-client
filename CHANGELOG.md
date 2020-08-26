@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 12.2.0 (2020-08-26)
+
+- chef_client_cron: Add nice property to control nice level of the chef-client process - [@tas50](https://github.com/tas50)
+- chef_client_cron: Fix the log dir mode to be 750 not 640 - [@tas50](https://github.com/tas50)
+- chef_client_cron: Fix cron vs. crond_d determination in the :remove action - [@tas50](https://github.com/tas50)
+
 ## 12.1.0 (2020-08-19)
 
 - Remove the `file_staging_uses_destdir` since this should not be set for most users - [@lamont-granquist](https://github.com/lamont-granquist)
