@@ -54,7 +54,7 @@ action :add do
   unless ::Dir.exist?(new_resource.log_directory)
     directory new_resource.log_directory do
       owner new_resource.user
-      mode '0640'
+      mode '0750'
       recursive true
     end
   end
