@@ -27,7 +27,7 @@ property :comment, String
 
 property :user, String, default: 'root'
 
-property :minute, [String, Integer], default: '0,30'
+property :minute, [Integer, String], default: '0,30'
 property :hour, [Integer, String], default: '*'
 property :day, [Integer, String], default: '*'
 property :month, [Integer, String], default: '*'
