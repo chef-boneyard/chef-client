@@ -80,7 +80,6 @@ end
 template "#{node['chef_client']['conf_dir']}/client.rb" do
   source 'client.rb.erb'
   owner d_owner
-  group node['root_group']
   mode '0644'
   variables(
     chef_config: node['chef_client']['config'],
