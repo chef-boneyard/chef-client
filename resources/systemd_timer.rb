@@ -27,7 +27,7 @@ property :description, String, default: 'Chef Infra Client periodic execution'
 
 property :user, String, default: 'root'
 
-property :delay_after_boot, String, default: '1min'
+property :delay_after_boot, String, default: '60sec'
 property :interval, String, default: '30min'
 property :splay, [Integer, String], default: 300,
                                     coerce: proc { |x| Integer(x) },

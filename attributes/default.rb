@@ -36,6 +36,7 @@ default['chef_client']['chef_license'] = nil
 default['chef_client']['log_file']    = 'client.log'
 default['chef_client']['interval']    = '1800'
 default['chef_client']['splay']       = '300'
+default['chef_client']['delay_after_boot'] = '60'
 default['chef_client']['conf_dir']    = '/etc/chef'
 default['chef_client']['bin']         = '/opt/chef/bin/chef-client'
 
