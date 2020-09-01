@@ -87,6 +87,7 @@ if node['chef_client']['cron']['use_cron_d']
     log_file_name     node['chef_client']['cron']['log_file']
     append_log_file   node['chef_client']['cron']['append_log']
     daemon_options    node['chef_client']['daemon_options']
+    environment       node['chef_client']['cron']['environment_variables'] if node['chef_client']['cron']['environment_variables']
   end
 else
   # Non-linux platforms don't support cron.d so we won't try to remove a cron_d resource.
