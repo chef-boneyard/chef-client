@@ -2,10 +2,15 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
-## Unreleased
+## 12.3.0 (2020-09-01)
 
-- Fix setting env vars using cron_d in the cron recipe (resolves #701)
-- Fix functionality of append_log_file parameter for Chef 15 and below
+- Eliminate some extra spaces in the client.rb template that led to odd trailing lines for many users
+- Simplify the launchd recipe to launchd resource directly for better logging - [@tas50](https://github.com/tas50)
+- Pull in the chef_client_launchd from Chef Infra Client 16.5. This includes greatly expanded functionality over the existing recipe including the ability to set a splay time and customize config/logging directories  - [@tas50](https://github.com/tas50)
+- chef_client_scheduled_task: Only create the log dir if it doesn't exist. Backport from Chef Infra Client - [@tas50](https://github.com/tas50)
+- chef_client_scheduled_task: cooerce splay and fix the frequency_modifier default. Backport from Chef Infra Client - [@tas50](https://github.com/tas50)
+- Fix setting env vars using cron_d in the cron recipe (resolves #701) - [@ramereth](https://github.com/ramereth)
+- Fix functionality of append_log_file parameter for Chef 15 and below - [@ramereth](https://github.com/ramereth)
 
 ## 12.2.0 (2020-08-26)
 
