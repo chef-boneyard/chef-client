@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## Unreleased
+
+- Fix functionality of append_log_file parameter for Chef 15 and below
+
 ## 12.2.0 (2020-08-26)
 
 - chef_client_cron: Add nice property to control nice level of the chef-client process - [@tas50](https://github.com/tas50)

@@ -105,7 +105,12 @@ action_class do
   #
   def log_command
     if new_resource.append_log_file
-      "-L #{::File.join(new_resource.log_directory, new_resource.log_file_name)}"
+      # Chef 15 and lower still sends output to stdout when -L is used
+      if Gem::Requirement.new('< 16.0.0').satisfied_by?(Gem::Version.new(Chef::VERSION))
+        ">> #{::File.join(new_resource.log_directory, new_resource.log_file_name)} 2>&1"
+      else
+        "-L #{::File.join(new_resource.log_directory, new_resource.log_file_name)}"
+      end
     else
       "> #{::File.join(new_resource.log_directory, new_resource.log_file_name)} 2>&1"
     end
