@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 12.3.1 (2020-09-01)
+
+- Fix an accidental rename of client.rb - [@tas50](https://github.com/tas50)
+
 ## 12.3.0 (2020-09-01)
 
 - Eliminate some extra spaces in the client.rb template that led to odd trailing lines for many users
