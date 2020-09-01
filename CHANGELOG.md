@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## Unreleased
+
+- Fix setting env vars using cron_d in the cron recipe (resolves #701)
+
 ## 12.2.0 (2020-08-26)
 
 - chef_client_cron: Add nice property to control nice level of the chef-client process - [@tas50](https://github.com/tas50)
