@@ -8,7 +8,6 @@
 end
 
 <% end -%>
-
 <% unless @chef_license.nil? -%>
 chef_license "<%= @chef_license %>"
 <% end -%>
@@ -34,7 +33,6 @@ node_name <%= @chef_config['node_name'].inspect %>
 <% else -%>
 # Using default node name (fqdn)
 <% end -%>
-
 <% unless node["chef_client"]["config"]["http_proxy"].nil? -%>
 # set the proxy env variable so rubygems works correctly
 http_proxy "<%= node["chef_client"]["config"]["http_proxy"] %>"
@@ -45,7 +43,6 @@ https_proxy "<%= node["chef_client"]["config"]["https_proxy"] %>"
 <% unless node["chef_client"]["config"]["no_proxy"].nil? -%>
 no_proxy "<%= node["chef_client"]["config"]["no_proxy"] %>"
 <% end -%>
-
 <% unless node["ohai"]["plugin_path"].nil? -%>
 ohai.plugin_path << "<%= node["ohai"]["plugin_path"] %>"
 <% end -%>
@@ -55,7 +52,6 @@ ohai.disabled_plugins = [<%= @ohai_disabled_plugins.map { |k| k.match(/:/) ? k.g
 <% unless @ohai_optional_plugins.empty? -%>
 ohai.optional_plugins = [<%= @ohai_optional_plugins.map { |k| k.match(/:/) ? k.gsub(/^:/, '').to_sym.inspect : k.inspect }.join(",") %>]
 <% end -%>
-
 <% if @start_handlers.is_a?(Array) && @start_handlers.any? -%>
   # Do not crash if a start handler is missing / not installed yet
   begin
@@ -66,7 +62,6 @@ ohai.optional_plugins = [<%= @ohai_optional_plugins.map { |k| k.match(/:/) ? k.g
     Chef::Log.error e
   end
 <% end -%>
-
 <% if @report_handlers.is_a?(Array) && @report_handlers.any? -%>
   # Do not crash if a report handler is missing / not installed yet
   begin
@@ -77,7 +72,6 @@ ohai.optional_plugins = [<%= @ohai_optional_plugins.map { |k| k.match(/:/) ? k.g
     Chef::Log.error e
   end
 <% end -%>
-
 <% if @exception_handlers.is_a?(Array) && @exception_handlers.any? -%>
   # Do not crash if an exception handler is missing / not installed yet
   begin

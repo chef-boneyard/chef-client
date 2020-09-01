@@ -10,6 +10,8 @@ chef_version_for_provides '< 16.5' if respond_to?(:chef_version_for_provides)
 resource_name :chef_client_launchd
 provides :chef_client_launchd
 
+unified_mode true if respond_to?(:unified_mode)
+
 property :user, String,
   default: 'root'
 
@@ -21,6 +23,10 @@ property :interval, [Integer, String],
   callbacks: { 'should be a positive number' => proc { |v| v > 0 } },
   default: 30
 
+property :splay, [Integer, String],
+  default: 300,
+  coerce: proc { |x| Integer(x) },
+  callbacks: { 'should be a positive number' => proc { |v| v > 0 } }
 property :accept_chef_license, [true, false],
   default: false
 
@@ -62,8 +68,7 @@ action :enable do
     username new_resource.user
     working_directory new_resource.working_directory
     start_interval new_resource.interval * 60
-    program new_resource.chef_binary_path
-    program_arguments all_daemon_options
+    program_arguments ['/bin/bash', '-c', client_command]
     environment_variables new_resource.environment unless new_resource.environment.empty?
     nice new_resource.nice
     low_priority_io true
@@ -80,14 +85,31 @@ end
 
 action_class do
   #
-  # Take daemon_options property and append extra daemon options from other properties
-  # to build the complete set of options we pass to the client
+  # Generate a uniformly distributed unique number to sleep from 0 to the splay time
   #
-  # @return [Array]
+  # @param [Integer] splay The number of seconds to splay
   #
-  def all_daemon_options
-    options = new_resource.daemon_options + ['-L', ::File.join(new_resource.log_directory, new_resource.log_file_name), '-c', ::File.join(new_resource.config_directory, 'client.rb')]
-    options.append('--chef-license', 'accept') if new_resource.accept_chef_license
-    options
+  # @return [Integer]
+  #
+  def splay_sleep_time(splay)
+    seed = node['shard_seed'] || Digest::MD5.hexdigest(node.name).to_s.hex
+    random = Random.new(seed.to_i)
+    random.rand(splay)
+  end
+
+  #
+  # random sleep time + chef-client + daemon option properties + license acceptance
+  #
+  # @return [String]
+  #
+  def client_command
+    cmd = ''
+    cmd << "/bin/sleep #{splay_sleep_time(new_resource.splay)};"
+    cmd << " #{new_resource.chef_binary_path}"
+    cmd << " #{new_resource.daemon_options.join(' ')}" unless new_resource.daemon_options.empty?
+    cmd << " -c #{::File.join(new_resource.config_directory, 'client.rb')}"
+    cmd << " -L #{::File.join(new_resource.log_directory, new_resource.log_file_name)}"
+    cmd << ' --chef-license accept' if new_resource.accept_chef_license
+    cmd
   end
 end

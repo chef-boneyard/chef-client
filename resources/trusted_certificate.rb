@@ -22,6 +22,8 @@ chef_version_for_provides '< 16.5' if respond_to?(:chef_version_for_provides)
 provides :chef_client_trusted_certificate
 resource_name :chef_client_trusted_certificate
 
+unified_mode true if respond_to?(:unified_mode)
+
 property :cert_name, String, name_property: true
 
 # this version check can go away once this is ported into chef itself
