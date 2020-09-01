@@ -5,6 +5,7 @@ This file is used to list changes made in each version of the chef-client cookbo
 ## Unreleased
 
 - Fix setting env vars using cron_d in the cron recipe (resolves #701)
+- Fix functionality of append_log_file parameter for Chef 15 and below
 
 ## 12.2.0 (2020-08-26)
 
