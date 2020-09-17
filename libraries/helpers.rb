@@ -27,7 +27,7 @@ module Opscode
       def wmi_property_from_query(wmi_property, wmi_query)
         @wmi = ::WIN32OLE.connect('winmgmts://')
         result = @wmi.ExecQuery(wmi_query)
-        return nil unless result.each.count > 0
+        return unless result.each.count > 0
         result.each.next.send(wmi_property)
       end
 
@@ -94,10 +94,10 @@ module Opscode
       # Guard against unwanted values, returning nil.
       # Returns the desired priority to use with /bin/nice.
       def process_priority
-        return nil unless prioritized?
+        return unless prioritized?
         if platform?('windows')
           Chef::Log.warn 'Cannot prioritize the chef-client process on Windows hosts.'
-          return nil
+          return
         end
 
         priority = node['chef_client']['cron']['priority']
@@ -106,14 +106,14 @@ module Opscode
         if priority.is_a?(String)
           unless /^-?\d+$/ =~ priority
             Chef::Log.warn "Process priority (#{priority}) is invalid. It must be an integer in the range -20 to 19, inclusize."
-            return nil
+            return
           end
           priority = priority.to_i
         end
 
         if priority < -20 || priority > 19
           Chef::Log.warn "Process priority (#{priority}) is invalid. It must be an integer in the range -20 to 19, inclusize."
-          return nil
+          return
         end
         priority
       end
