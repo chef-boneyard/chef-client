@@ -26,8 +26,6 @@ class ::Chef::Recipe
 end
 
 # libraries/helpers.rb method to DRY directory creation resources
-client_bin = find_chef_client
-node.default['chef_client']['bin'] = client_bin
 create_chef_directories
 
 # Stop any running chef-client services
@@ -56,7 +54,7 @@ when 'freebsd'
     source 'freebsd/chef-client.erb'
     owner 'root'
     group 'wheel'
-    variables client_bin: client_bin
+    variables client_bin: node['chef_client']['bin']
     mode '0755'
   end
 
@@ -81,7 +79,7 @@ if node['chef_client']['cron']['use_cron_d']
     minute            node['chef_client']['cron']['minute']
     hour              node['chef_client']['cron']['hour']
     weekday           node['chef_client']['cron']['weekday']
-    chef_binary_path  node['chef_client']['cron']['path'] if node['chef_client']['cron']['path']
+    chef_binary_path  node['chef_client']['bin'] if node['chef_client']['bin']
     mailto            node['chef_client']['cron']['mailto'] if node['chef_client']['cron']['mailto']
     splay             node['chef_client']['splay']
     log_file_name     node['chef_client']['cron']['log_file']
@@ -114,7 +112,7 @@ else
     cmd << "/bin/sleep #{sleep_time}; " if sleep_time
     cmd << "#{env_vars} " if env_vars?
     cmd << "#{node['chef_client']['cron']['nice_path']} -n #{process_priority} " if process_priority
-    cmd << "#{client_bin} #{daemon_options}#{append_log} #{log_file} 2>&1"
+    cmd << "#{node['chef_client']['bin']} #{daemon_options}#{append_log} #{log_file} 2>&1"
     cmd << ' || echo "Chef client execution failed"' if node['chef_client']['cron']['mailto']
     command cmd
   end
