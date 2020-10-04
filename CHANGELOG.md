@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 12.3.2 (2020-10-04)
+
+- Standardise files with files in chef-cookbooks/repo-management - [@xorimabot](https://github.com/xorimabot)
+- Cookstyle Bot Auto Corrections with Cookstyle 6.18.8 - [@cookstyle](https://github.com/cookstyle)
+- Simplify and correct chef-client path determination in cron recipe - [@tas50](https://github.com/tas50)
+
 ## 12.3.1 (2020-09-01)
 
 - Fix an accidental rename of client.rb - [@tas50](https://github.com/tas50)
