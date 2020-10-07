@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## UNRELEASED
+
+- Add support for service scheduling to systemd timer
+
 ## 12.3.2 (2020-10-04)
 
 - Standardise files with files in chef-cookbooks/repo-management - [@xorimabot](https://github.com/xorimabot)

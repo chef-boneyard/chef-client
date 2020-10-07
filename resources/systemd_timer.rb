@@ -42,6 +42,15 @@ property :chef_binary_path, String, default: '/opt/chef/bin/chef-client'
 property :daemon_options, Array, default: []
 property :environment, Hash, default: lazy { {} }
 
+property :nice, [Integer, String], coerce: proc { |x| Integer(x) },
+                                   callbacks: { 'should be an Integer between -20 and 19' => proc { |v| v >= -20 && v <= 19 } }
+property :cpu_scheduling_policy, String, equal_to: %w(other batch idle fifo rr)
+property :cpu_scheduling_priority, [Integer, String], coerce: proc { |x| Integer(x) },
+                                                      callbacks: { 'should be an Integer between 1 and 99' => proc { |v| v >= 1 && v <= 99 } }
+property :io_scheduling_class, String, equal_to: %w(none realtime best-effort idle)
+property :io_scheduling_priority, [Integer, String], coerce: proc { |x| Integer(x) },
+                                                    callbacks: { 'should be an Integer between 0 and 7' => proc { |v| v >= 0 && v <= 7 } }
+
 action :add do
   systemd_unit "#{new_resource.job_name}.service" do
     content service_content
@@ -116,6 +125,11 @@ action_class do
 
     unit['Service']['ConditionACPower'] = 'true' unless new_resource.run_on_battery
     unit['Service']['Environment'] = new_resource.environment.collect { |k, v| "\"#{k}=#{v}\"" } unless new_resource.environment.empty?
+    unit['Service']['Nice'] = new_resource.nice unless new_resource.nice.nil?
+    unit['Service']['CPUSchedulingPolicy'] = new_resource.cpu_scheduling_policy unless new_resource.cpu_scheduling_policy.nil?
+    unit['Service']['CPUSchedulingPriority'] = new_resource.cpu_scheduling_priority unless new_resource.cpu_scheduling_priority.nil?
+    unit['Service']['IOSchedulingClass'] = new_resource.io_scheduling_class unless new_resource.io_scheduling_class.nil?
+    unit['Service']['IOSchedulingPriority'] = new_resource.io_scheduling_priority unless new_resource.io_scheduling_priority.nil?
     unit
   end
 end
