@@ -43,6 +43,7 @@ start() {
 
 stop() {
     echo -n $"Stopping $prog: "
+    ps -ef |grep $exec |grep -v grep |awk '{print $2}' > $pidfile
     killproc -p $pidfile $exec
     retval=$?
     echo
