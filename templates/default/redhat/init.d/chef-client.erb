@@ -43,6 +43,8 @@ start() {
 
 stop() {
     echo -n $"Stopping $prog: "
+    # It will pick the process id directly from the running process and adding into $pidfile.
+    ps -ef |grep $exec |grep -v grep |awk '{print $2}' > $pidfile
     killproc -p $pidfile $exec
     retval=$?
     echo
