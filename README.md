@@ -56,7 +56,7 @@ The chef_client_scheduled_task resource setups up Chef Infra Client to run as a 
 - `start_date` - The start date for the task in `m:d:Y` format (ex: 12/17/2017). nil by default and isn't necessary if you're running a regular interval.
 - `splay` - A random number of seconds between 0 and X to add to interval. default: '300'
 - `config_directory` - The path to the Chef config directory. default: 'C:/chef'
-- `log_file_name` - The name of the log file. default: 'chef-client.log'
+- `log_file_name` - The name of the log file. default: 'client.log'
 - `log_directory` - The path to the Chef log directory. default: 'CONFIG_DIRECTORY/log'
 - `chef_binary_path` - The path to the chef-client binary. default: 'C:/opscode/chef/bin/chef-client'
 - `daemon_options` - An optional array of extra options to pass to the chef-client
@@ -85,7 +85,7 @@ The chef_client_cron resource sets up Chef Infra Client to run as a cron job usi
 - `splay` - A random number of seconds between 0 and X to add to interval. default: '300'
 - `environment` - A hash of environment variables to pass to chef-client's execution (e.g. `SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt chef-client`)
 - `config_directory` - The path to the Chef config directory. default: '/etc/chef/'
-- `log_file_name` - The name of the log file. default: 'chef-client.log'
+- `log_file_name` - The name of the log file. default: 'client.log'
 - `log_directory` - The path to the Chef log directory. default: '/var/log/chef' on *nix or '/Library/Logs/Chef' on macOS
 - `append_log_file` - Whether to append to the log. Default: `true` chef-client output.
 - `chef_binary_path` - The path to the chef-client binary. default: '/opt/chef/bin/chef-client'
