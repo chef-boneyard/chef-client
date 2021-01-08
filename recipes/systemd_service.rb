@@ -70,6 +70,16 @@ if node['chef_client']['systemd']['killmode']
     node['chef_client']['systemd']['killmode']
 end
 
+if node['chef_client']['systemd']['stdout']
+  service_unit_content['StandardOutput'] =
+    node['chef_client']['systemd']['stdout']
+end
+
+if node['chef_client']['systemd']['stderr']
+  service_unit_content['StandardError'] =
+    node['chef_client']['systemd']['stderr']
+end
+
 systemd_unit 'chef-client.service' do
   content service_unit_content
   action :create
