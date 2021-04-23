@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 12.3.4 (2021-04-24)
+
+- Allow nil for log_directory. - [@gholtiii](https://github.com/gholtiii)
+
 ## Unreleased
 
 - resolved cookstyle error: test/integration/cron/cron_spec.rb:5:35 convention: `Style/RegexpLiteral`
