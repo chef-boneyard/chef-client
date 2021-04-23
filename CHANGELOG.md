@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the chef-client cookbook.
 
+## 12.3.4 (2021-04-24)
+
+- Fixed logging to /dev/null. - [@gholtiii](https://github.com/gholtiii)
+
 ## 12.3.3 (2020-10-30)
 
 - Fixed stop init.d service stopping other process issue. - [@antima-gupta](https://github.com/antima-gupta)

@@ -51,7 +51,7 @@ coerce: proc { |x| Integer(x) },
 callbacks: { 'should be an Integer between -20 and 19' => proc { |v| v >= -20 && v <= 19 } }
 
 action :add do
-  unless ::Dir.exist?(new_resource.log_directory)
+  unless new_resource.log_directory.nil? || ::Dir.exist?(new_resource.log_directory)
     directory new_resource.log_directory do
       owner new_resource.user
       mode '0750'
@@ -107,13 +107,23 @@ action_class do
     if new_resource.append_log_file
       # Chef 15 and lower still sends output to stdout when -L is used
       if Gem::Requirement.new('< 16.0.0').satisfied_by?(Gem::Version.new(Chef::VERSION))
-        ">> #{::File.join(new_resource.log_directory, new_resource.log_file_name)} 2>&1"
+        ">> #{log_path} 2>&1"
       else
-        "-L #{::File.join(new_resource.log_directory, new_resource.log_file_name)}"
+        "-L #{log_path}"
       end
     else
-      "> #{::File.join(new_resource.log_directory, new_resource.log_file_name)} 2>&1"
+      "> #{log_path} 2>&1"
     end
+  end
+
+  #
+  # The absolute log path location
+  #
+  # @return [String]
+  #
+  def log_path
+    return new_resource.log_file_name if new_resource.log_directory.nil?
+    ::File.join(new_resource.log_directory, new_resource.log_file_name)
   end
 
   #
