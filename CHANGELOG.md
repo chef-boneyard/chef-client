@@ -4,6 +4,9 @@ This file is used to list changes made in each version of the chef-client cookbo
 
 ## Unreleased
 
+- resolved cookstyle error: resources/cron.rb:1:1 refactor: `Chef/Deprecations/ResourceWithoutUnifiedTrue`
+- resolved cookstyle error: resources/scheduled_task.rb:1:1 refactor: `Chef/Deprecations/ResourceWithoutUnifiedTrue`
+- resolved cookstyle error: resources/systemd_timer.rb:1:1 refactor: `Chef/Deprecations/ResourceWithoutUnifiedTrue`
 - resolved cookstyle error: test/integration/cron/cron_spec.rb:5:35 convention: `Style/RegexpLiteral`
 
 ## 12.3.4 (2021-04-24)
