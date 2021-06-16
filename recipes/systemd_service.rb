@@ -71,12 +71,12 @@ if node['chef_client']['systemd']['killmode']
 end
 
 if node['chef_client']['systemd']['stdout']
-  service_unit_content['StandardOutput'] =
+  service_unit_content['Service']['StandardOutput'] =
     node['chef_client']['systemd']['stdout']
 end
 
 if node['chef_client']['systemd']['stderr']
-  service_unit_content['StandardError'] =
+  service_unit_content['Service']['StandardError'] =
     node['chef_client']['systemd']['stderr']
 end
 
