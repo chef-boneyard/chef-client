@@ -36,9 +36,9 @@ jobs:
       - name: Check out cookbook code
         uses: actions/checkout@master
       - name: Install Chef Infra Client
-        uses: actionshub/chef-install@master
+        uses: actionshub/chef-install@main
       - name: Dokken
-        uses: actionshub/kitchen-dokken@master
+        uses: actionshub/kitchen-dokken@main
         env:
           CHEF_LICENSE: accept-no-persist
           KITCHEN_LOCAL_YAML: kitchen.dokken.yml

@@ -24,6 +24,20 @@ module Opscode
       include Chef::Mixin::Which
       require 'digest/md5'
 
+      #
+      # Snaps the start time of the scheduled task to the next start of the frequency cycle, where the frequency cycle begins
+      # at the top of the hour and increments by frequency_modifier in minutes
+      #
+      # @param [Integer] frequency_modifier - The frequency modifier in minutes
+      # @return [Time] The next snap-to time on the frequency cycle computed from top of the previous hour
+      #
+      def snap_time(frequency_modifier)
+        ref_time = Time.now
+        snap = Time.new(ref_time.year, ref_time.mon, ref_time.day, ref_time.hour, 0, 0)
+        minutes = (ref_time.min + frequency_modifier) - (ref_time.min % frequency_modifier)
+        snap + (minutes * 60)
+      end
+
       def wmi_property_from_query(wmi_property, wmi_query)
         @wmi = ::WIN32OLE.connect('winmgmts://')
         result = @wmi.ExecQuery(wmi_query)
