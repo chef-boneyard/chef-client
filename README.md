@@ -4,6 +4,28 @@
 
 This cookbook is used to configure a system to run the Chef Infra Client.
 
+## Deprecation
+
+This cookbook is no longer under active maintenance. The functionality previously provided here is now built into Chef Infra Client itself making it easier to configure Chef Infra Client without the need for external dependencies.
+
+See these built-in resources for managing client.rb configuration and setting up Chef Infra Client to run on a schedule:
+
+https://docs.chef.io/resources/chef_client_config/
+https://docs.chef.io/resources/chef_handler/
+https://docs.chef.io/resources/chef_client_trusted_certificate/
+https://docs.chef.io/resources/chef_client_cron/
+https://docs.chef.io/resources/chef_client_systemd_timer/
+https://docs.chef.io/resources/chef_client_scheduled_task/
+https://docs.chef.io/resources/chef_client_launchd/
+
+### What about older Chef Infra Client Releases
+
+If you're using an Infra Client release before the above resources shipped, you can keep using this cookbook without issue. Just keep in mind that at some point in the future changes to Chef Infra Client may cause this cookbook to stop working. We believe the built-in resoures offer a more powerful configuration options for users. The approach offered by these resources also align with our own best practices and we'd highly suggest moving towards those resources for configuring your Chef Infra Client.
+
+### The new resources are missing x, y, or z
+
+If there's af feature missing from the new resources please do let us know at https://github.com/chef/chef/issues. We will not be replicating all functionality of this cookbook, but we are interested in hearing what the community needs to manage their systems.
+
 ## Requirements
 
 ### Platforms
