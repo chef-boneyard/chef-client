@@ -76,13 +76,15 @@ The chef_client_scheduled_task resource setups up Chef Infra Client to run as a 
 - `frequency_modifier` Numeric value to go with the scheduled task frequency - default: '30'
 - `start_time` The start time for the task in HH:mm format (ex: 14:00). If the `frequency` is `minute` default start time will be `Time.now` plus the `frequency_modifier` number of minutes.
 - `start_date` - The start date for the task in `m:d:Y` format (ex: 12/17/2017). nil by default and isn't necessary if you're running a regular interval.
-- `splay` - A random number of seconds between 0 and X to add to interval. default: '300'
+- `splay` - A random number of seconds between 0 and X to add to interval. Note splay is applied differently when use_consistent_splay is set to true. default: '300'
 - `config_directory` - The path to the Chef config directory. default: 'C:/chef'
 - `log_file_name` - The name of the log file. default: 'client.log'
 - `log_directory` - The path to the Chef log directory. default: 'CONFIG_DIRECTORY/log'
 - `chef_binary_path` - The path to the chef-client binary. default: 'C:/opscode/chef/bin/chef-client'
 - `daemon_options` - An optional array of extra options to pass to the chef-client
 - `task_name` - The name of the scheduled task. This allows for multiple chef_client_scheduled_task resources when it is used directly like in a wrapper cookbook. default: 'chef-client'
+- `use_consistent_splay` - Indicates that the randomly computed splay should remain consistent for a given node, similar to how it functions in cron resource. default: false
+- `snap_time_to_frequency` - Indicates that the start day and time for the task should be snapped to start at the next frequency cycle after the previous top of the hour. For example if the current time is 14:07 and the frequency_modifier is 30, the next task start time should be 14:30. Only applicable when frequency = 'minute'.  default: false
 
 ### chef_client_cron
 
@@ -266,7 +268,7 @@ Use this recipe to run chef-client as a cron job rather than as a service. The c
 
 ### task
 
-Use this recipe to run chef-client on Windows nodes as a scheduled task. Without modifying attributes the scheduled task will run 30 minutes after the recipe runs, with each chef run rescheduling the run 30 minutes in the future. By default the job runs as the system user. The time period between runs can be modified with the `default['chef_client']['task']['frequency_modifier']` attribute and the user can be changed with the `default['chef_client']['task']['user']` and `default['chef_client']['task']['password']` attributes.
+Use this recipe to run chef-client on Windows nodes as a scheduled task. Without modifying attributes the scheduled task will run 30 minutes after the recipe runs, with each chef run rescheduling the run 30 minutes in the future. By default the job runs as the system user. The time period between runs can be modified with the `default['chef_client']['task']['frequency_modifier']` attribute and the user can be changed with the `default['chef_client']['task']['user']` and `default['chef_client']['task']['password']` attributes. For a scheduled task that behaves more like the chef-client cron job, the snap_time_to_frequency and use_consistent_splay properties can be set to true.
 
 ## Usage
 

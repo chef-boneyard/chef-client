@@ -53,8 +53,8 @@ default['chef_client']['cron'] = {
   'weekday' => '*',
   'path' => nil,
   'environment_variables' => nil,
-  'log_directory' => nil,
-  'log_file' => '/dev/null',
+  'log_directory' => '/dev',
+  'log_file' => 'null',
   'append_log' => false,
   'use_cron_d' => false,
   'mailto' => nil,
@@ -79,6 +79,8 @@ default['chef_client']['task']['password'] = nil # Password is only required for
 default['chef_client']['task']['start_time'] = nil
 default['chef_client']['task']['start_date'] = nil
 default['chef_client']['task']['name'] = 'chef-client'
+default['chef_client']['task']['use_consistent_splay'] = false
+default['chef_client']['task']['snap_time_to_frequency'] = false
 
 default['chef_client']['load_gems'] = {}
 

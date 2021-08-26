@@ -20,6 +20,7 @@
 chef_version_for_provides '< 16.0' if respond_to?(:chef_version_for_provides)
 
 provides :chef_client_cron
+unified_mode true
 resource_name :chef_client_cron
 
 property :job_name, String, default: 'chef-client'
@@ -122,6 +123,7 @@ action_class do
   # @return [String]
   #
   def log_path
+    puts "Log directory='#{new_resource.log_directory}'"
     return new_resource.log_file_name if new_resource.log_directory.nil?
     ::File.join(new_resource.log_directory, new_resource.log_file_name)
   end

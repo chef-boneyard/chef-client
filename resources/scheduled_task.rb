@@ -20,6 +20,7 @@
 chef_version_for_provides '< 16.0' if respond_to?(:chef_version_for_provides)
 
 provides :chef_client_scheduled_task
+unified_mode true
 resource_name :chef_client_scheduled_task
 
 property :task_name, String,
@@ -40,6 +41,9 @@ property :frequency_modifier, [Integer, String],
   callbacks: { 'should be a positive number' => proc { |v| v > 0 } },
   default: lazy { frequency == 'minute' ? 30 : 1 }
 
+property :snap_time_to_frequency, [true, false],
+  default: false
+
 property :accept_chef_license, [true, false],
   default: false
 
@@ -53,6 +57,9 @@ property :splay, [Integer, String],
   coerce: proc { |x| Integer(x) },
   callbacks: { 'should be a positive number' => proc { |v| v > 0 } },
   default: 300
+
+property :use_consistent_splay, [true, false],
+  default: false
 
 property :run_on_battery, [true, false],
   default: true
@@ -93,7 +100,7 @@ action :add do
     frequency_modifier             new_resource.frequency_modifier if frequency_supports_frequency_modifier?
     start_time                     start_time_value
     start_day                      new_resource.start_date unless new_resource.start_date.nil?
-    random_delay                   new_resource.splay if frequency_supports_random_delay?
+    random_delay                   new_resource.splay if frequency_supports_random_delay? && !new_resource.use_consistent_splay
     disallow_start_if_on_batteries new_resource.splay unless new_resource.run_on_battery || Gem::Requirement.new('< 14.4').satisfied_by?(Gem::Version.new(Chef::VERSION))
     action                         [ :create, :enable ]
   end
@@ -115,7 +122,17 @@ action_class do
     # Fetch path of cmd.exe through environment variable comspec
     cmd_path = ENV['COMSPEC']
 
-    "#{cmd_path} /c \"#{client_cmd}\""
+    "#{cmd_path} /c \"#{consistent_splay_command}#{client_cmd}\""
+  end
+
+  #
+  # The consistent splay sleep time when use_consistent_splay is true
+  #
+  # @return [NilClass,String] The prepended sleep command to run prior to executing the full command.
+  #
+  def consistent_splay_command
+    return unless new_resource.use_consistent_splay
+    "C:/windows/system32/windowspowershell/v1.0/powershell.exe Start-Sleep -s #{splay_sleep_time(new_resource.splay)} && "
   end
 
   #
@@ -157,6 +174,10 @@ action_class do
   def start_time_value
     if new_resource.start_time
       new_resource.start_time
+    elsif new_resource.snap_time_to_frequency && new_resource.frequency == 'minute'
+      snap_time = snap_time(new_resource.frequency_modifier)
+      new_resource.start_date = snap_time.strftime('%m/%d/%Y')
+      snap_time.strftime('%H:%M')
     elsif Gem::Requirement.new('< 13.7.0').satisfied_by?(Gem::Version.new(Chef::VERSION))
       new_resource.frequency == 'minute' ? (Time.now + 60 * new_resource.frequency_modifier.to_f).strftime('%H:%M') : nil
     end
