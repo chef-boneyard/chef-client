@@ -10,13 +10,13 @@ This cookbook is no longer under active maintenance. The functionality previousl
 
 See these built-in resources for managing client.rb configuration and setting up Chef Infra Client to run on a schedule:
 
-https://docs.chef.io/resources/chef_client_config/
-https://docs.chef.io/resources/chef_handler/
-https://docs.chef.io/resources/chef_client_trusted_certificate/
-https://docs.chef.io/resources/chef_client_cron/
-https://docs.chef.io/resources/chef_client_systemd_timer/
-https://docs.chef.io/resources/chef_client_scheduled_task/
-https://docs.chef.io/resources/chef_client_launchd/
+- [chef_client_config](https://docs.chef.io/resources/chef_client_config/)
+- [chef_handler](https://docs.chef.io/resources/chef_handler/)
+- [chef_client_trusted_certificate](https://docs.chef.io/resources/chef_client_trusted_certificate/)
+- [chef_client_cron](https://docs.chef.io/resources/chef_client_cron/)
+- [chef_client_systemd_timer](https://docs.chef.io/resources/chef_client_systemd_timer/)
+- [chef_client_scheduled_task](https://docs.chef.io/resources/chef_client_scheduled_task/)
+- [chef_client_launchd](https://docs.chef.io/resources/chef_client_launchd/)
 
 ### What about older Chef Infra Client Releases
 
