@@ -10,7 +10,7 @@ version           '12.3.4'
 end
 
 depends 'cron', '>= 4.2.0'
-depends 'logrotate', '>= 1.9.0', '<= 3.0.0'
+depends 'logrotate', '>= 1.9.0', '< 3.0.0'
 
 source_url 'https://github.com/chef-cookbooks/chef-client'
 issues_url 'https://github.com/chef-cookbooks/chef-client/issues'
